@@ -100,9 +100,7 @@
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/marked@14.1.4/marked.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/marked-gfm-heading-id@4.1.1/lib/index.umd.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/highlight.js@11.10.0/lib/core.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/highlight.js@11.10.0/lib/common.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.10.0/highlight.min.js"></script>
 <script>
 (function () {
   'use strict';
@@ -130,18 +128,8 @@
     return;
   }
 
-  // Configure marked
-  marked.use(markedGfmHeadingId.gfmHeadingId());
-  marked.setOptions({
-    gfm: true,
-    breaks: false,
-    highlight: function (code, lang) {
-      try {
-        if (lang && hljs.getLanguage(lang)) return hljs.highlight(code, { language: lang }).value;
-        return hljs.highlightAuto(code).value;
-      } catch (e) { return code; }
-    }
-  });
+  // Configure marked (gfm is on by default in v14)
+  marked.setOptions({ gfm: true, breaks: false });
 
   // Build breadcrumb
   const parts = filePath.split('/');
@@ -184,9 +172,16 @@
     });
     $article.innerHTML = html;
 
-    // Highlight any code blocks marked.js skipped
-    $article.querySelectorAll('pre code').forEach(block => {
-      if (!block.classList.contains('hljs')) hljs.highlightElement(block);
+    // Highlight code blocks (skip silently if hljs failed to load)
+    if (typeof hljs !== 'undefined') {
+      $article.querySelectorAll('pre code').forEach(block => {
+        try { hljs.highlightElement(block); } catch (e) {}
+      });
+    }
+
+    // Auto-add ids to headings for TOC anchoring
+    $article.querySelectorAll('h1, h2, h3, h4, h5, h6').forEach(h => {
+      if (!h.id) h.id = slugify(h.textContent);
     });
 
     buildToc();
