@@ -166,25 +166,22 @@
     .catch(err => showError(err.message));
 
   function render(md) {
-    // Resolve relative links/images against the markdown file's directory
+    // Resolve relative links/images against the markdown file's directory.
+    // Use walkTokens to rewrite hrefs in-place — avoids overriding the renderer,
+    // which breaks `this.parser.parseInline` binding in marked v14.
     const baseDir = filePath.includes('/') ? filePath.substring(0, filePath.lastIndexOf('/') + 1) : '';
-    const renderer = new marked.Renderer();
-    const origLink = renderer.link.bind(renderer);
-    const origImage = renderer.image.bind(renderer);
-    renderer.link = function ({ href, title, tokens }) {
-      const resolved = resolveRelative(href, baseDir);
-      // Auto-route .md links through the viewer
-      const newHref = /\.md(#.*)?$/i.test(resolved) && !/^[a-z]+:/i.test(resolved)
-        ? `?f=${encodeURIComponent(resolved.replace(/#.*$/, ''))}${(resolved.match(/#.*$/) || [''])[0]}`
-        : resolved;
-      return origLink({ href: newHref, title, tokens });
-    };
-    renderer.image = function ({ href, title, text }) {
-      return origImage({ href: resolveRelative(href, baseDir), title, text });
-    };
-    marked.use({ renderer });
-
-    const html = marked.parse(md);
+    const html = marked.parse(md, {
+      walkTokens: (token) => {
+        if (token.type === 'link') {
+          const resolved = resolveRelative(token.href, baseDir);
+          token.href = /\.md(#.*)?$/i.test(resolved) && !/^[a-z]+:/i.test(resolved)
+            ? `?f=${encodeURIComponent(resolved.replace(/#.*$/, ''))}${(resolved.match(/#.*$/) || [''])[0]}`
+            : resolved;
+        } else if (token.type === 'image') {
+          token.href = resolveRelative(token.href, baseDir);
+        }
+      }
+    });
     $article.innerHTML = html;
 
     // Highlight any code blocks marked.js skipped
