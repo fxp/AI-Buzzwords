@@ -7,22 +7,77 @@
 <style>
   :root { color-scheme: light dark; }
   body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Inter Tight", system-ui, sans-serif;
-         max-width: 720px; margin: 6rem auto; padding: 0 1.25rem; line-height: 1.6; }
-  h1 { font-weight: 600; letter-spacing: -0.01em; }
-  ul { padding-left: 1.25rem; }
-  li { margin: 0.4rem 0; }
+         max-width: 760px; margin: 4.5rem auto; padding: 0 1.25rem; line-height: 1.65; }
+  h1 { font-weight: 600; letter-spacing: -0.01em; margin-bottom: 0.25rem; }
+  h2 { font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.1em;
+       color: #888; font-weight: 600; margin: 2.5rem 0 0.75rem; }
+  ul { padding-left: 1.25rem; margin: 0; }
+  li { margin: 0.55rem 0; }
+  li .title { font-weight: 500; }
+  li .blurb { display: block; font-size: 0.88rem; opacity: 0.7; margin-top: 0.1rem; }
   a { color: inherit; text-underline-offset: 3px; }
-  .muted { opacity: 0.65; font-size: 0.9rem; }
+  .muted { opacity: 0.6; font-size: 0.85rem; }
+  .lede { color: #888; margin-top: 0; }
 </style>
 </head>
 <body>
   <h1>AI Buzzwords · DeepDive</h1>
-  <p class="muted">研究笔记与可视化页面归档。</p>
+  <p class="lede muted">AI 行业关键事件与趋势的研究笔记归档。所有 markdown 通过 <a href="viewer.html">viewer</a> 渲染。</p>
 
-  <h2>NEO LAB</h2>
+  <h2>NEO LAB / 实验室深度</h2>
   <ul>
-    <li><a href="deepdive/neolab/">№ 01 / ANDON LABS · 自主组织的前夜</a> <span class="muted">— 可视化页面 · <a href="viewer.html?f=deepdive/neolab/report.md">深度报告</a></span></li>
-    <li><a href="deepdive/neolab/project-deal.html">№ 01 · Appendix A / PROJECT DEAL · 看不见的不平等</a> <span class="muted">— 可视化页面 · <a href="viewer.html?f=deepdive/neolab/neo-lab-01-appendix-project-deal-report.md">深度报告</a></span></li>
+    <li>
+      <a class="title" href="deepdive/neolab/">№ 01 · ANDON LABS · 自主组织的前夜</a>
+      <span class="blurb">把 AI 评测搬到真实世界，从售货机到 SF 实体店的硬核小实验室 —— <a href="viewer.html?f=deepdive/neolab/report.md">深度报告</a></span>
+    </li>
+    <li>
+      <a class="title" href="deepdive/neolab/project-deal.html">№ 01 · Appendix A · PROJECT DEAL</a>
+      <span class="blurb">看不见的不平等：AI 代议人时代的第一份证据 —— <a href="viewer.html?f=deepdive/neolab/neo-lab-01-appendix-project-deal-report.md">深度报告</a></span>
+    </li>
   </ul>
+
+  <h2>AGENT / Coding Agent 生态</h2>
+  <ul>
+    <li>
+      <a class="title" href="viewer.html?f=deepdive/claude-code-leak/claude-code-leak-blog.md">当代码不再是秘密：Claude Code 泄露事件的十个真相</a>
+      <span class="blurb">51 万行 TypeScript 撕开 AI 工具的能力边界、伦理悖论与法律真空</span>
+    </li>
+  </ul>
+
+  <h2>GOV / AI 治理与武器化</h2>
+  <ul>
+    <li>
+      <a class="title" href="viewer.html?f=deepdive/ai-military/ai-military-iran-blog.md">被你禁止的工具，正在你的战场上运行：Claude 与伊朗战争</a>
+      <span class="blurb">伦理框架在高强度现实压力下系统性崩溃的三种机制</span>
+    </li>
+  </ul>
+
+  <h2>ENTERPRISE / ToB AI</h2>
+  <ul>
+    <li>
+      <a class="title" href="viewer.html?f=deepdive/palantir-aip/palantir-aip-blog.md">Context Layer 才是 ToB AI 的终极护城河：拆解 Palantir 的反直觉胜利</a>
+      <span class="blurb">四层架构 + FDSE 模式 + 先纵后横，146% 客户留存率背后的战略纵深</span>
+    </li>
+  </ul>
+
+  <h2>MODELS / 模型内部</h2>
+  <ul>
+    <li>
+      <a class="title" href="viewer.html?f=deepdive/emotion-vectors/emotion-vectors-blog.md">情感向量与行为解耦：打开 AI 黑盒的第一批发现</a>
+      <span class="blurb">171 个情感向量、自我保护偏见、RLHF 迎合 —— 三项研究在同一周汇聚</span>
+    </li>
+  </ul>
+
+  <h2>TRENDS / 长线观察</h2>
+  <ul>
+    <li>
+      <a class="title" href="viewer.html?f=deepdive/cybertonia/cybertonia-blog.md">控制论的第三次降临：从苏联 Cybertonia 到 AI Agent 治理</a>
+      <span class="blurb">Glushkov 失败的不是技术，是政治 —— Agent 工程师正在面对同一面镜子</span>
+    </li>
+  </ul>
+
+  <p class="muted" style="margin-top:3rem;font-size:0.78rem">
+    Source: <a href="https://github.com/fxp/AI-Buzzwords">github.com/fxp/AI-Buzzwords</a>
+  </p>
 </body>
 </html>
