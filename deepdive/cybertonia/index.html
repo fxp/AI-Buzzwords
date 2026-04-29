@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>控制论的第三次降临 · Cybertonia → AI Agent / AI Buzzwords</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,700&family=JetBrains+Mono:wght@300;400;500;700&family=Inter+Tight:wght@400;500;600&display=swap" rel="stylesheet" />
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      colors: {
+        bg:'#0a0908','bg-2':'#111110',
+        fg:'#ebe6dc','fg-dim':'#9a948a','fg-mute':'#5a544b',
+        line:'#2b2823','line-bright':'#443f37',
+        amber:'#f5a524','amber-soft':'rgba(245,165,36,0.09)','amber-glow':'rgba(245,165,36,0.18)',
+        mint:'#7fb88b','mint-soft':'rgba(127,184,139,0.12)',
+        signal:'#d1402c',paper:'#e8e3d8',ink:'#1a1815',
+      },
+      fontFamily: {
+        serif:["'Fraunces'","'Source Han Serif SC'","'Noto Serif SC'","Georgia","serif"],
+        mono:["'JetBrains Mono'","ui-monospace","monospace"],
+        sans:["'Inter Tight'","system-ui","sans-serif"],
+      },
+      maxWidth:{prose:'820px',content:'1020px',wrap:'1320px'},
+    }
+  }
+}
+</script>
+<style>
+em,i{font-style:normal}
+body{font-feature-settings:'ss01','ss02','kern';-webkit-font-smoothing:antialiased}
+body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(245,165,36,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(245,165,36,0.04) 1px,transparent 1px);background-size:80px 80px;pointer-events:none;z-index:0}
+body::after{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.96 0 0 0 0 0.9 0 0 0 0 0.8 0 0 0 0.08 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");pointer-events:none;z-index:1;opacity:0.5;mix-blend-mode:overlay}
+.lamp{display:inline-block;width:8px;height:8px;border-radius:50%;background:#f5a524;box-shadow:0 0 10px #f5a524,0 0 24px rgba(245,165,36,0.2);animation:pulse 2.4s ease-in-out infinite;vertical-align:middle}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.55}}
+.cursor::after{content:'▮';color:#f5a524;margin-left:6px;animation:blink 1.1s steps(2) infinite}
+@keyframes blink{0%,50%{opacity:1}51%,100%{opacity:0}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+.hero-anim>*{animation:fadeUp 0.9s cubic-bezier(.2,.7,.2,1) both}
+.hero-anim>*:nth-child(1){animation-delay:.05s}.hero-anim>*:nth-child(2){animation-delay:.15s}
+.hero-anim>*:nth-child(3){animation-delay:.28s}.hero-anim>*:nth-child(4){animation-delay:.42s}
+.pullquote-mark::before{content:'"';position:absolute;top:16px;left:12px;font-family:'Fraunces',serif;font-size:100px;color:#f5a524;opacity:0.18;line-height:1}
+.archive-frame{background:#e8e3d8;color:#1a1815;padding:24px;font-family:'Fraunces',serif}
+.archive-frame .stamp{display:inline-block;border:2px solid #d1402c;color:#d1402c;padding:4px 12px;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.18em;transform:rotate(-3deg);font-weight:700;text-transform:uppercase}
+.timeline-row{display:grid;grid-template-columns:140px 1fr;gap:24px;padding:18px 0;border-bottom:1px solid #2b2823}
+.timeline-row:last-child{border-bottom:none}
+</style>
+</head>
+
+<body class="bg-bg text-fg font-serif leading-relaxed overflow-x-hidden">
+
+<!-- TOP STRIP -->
+<div class="max-w-wrap mx-auto px-[5vw] lg:px-12 relative z-[2]">
+  <div class="border-b border-line py-3.5 font-mono text-[10px] lg:text-[11px] tracking-[0.12em] uppercase text-fg-dim grid grid-cols-1 lg:grid-cols-4 gap-2 lg:gap-6 items-center">
+    <div><span class="lamp mr-2.5"></span>TRENDS / FIELD REPORTS · № 06</div>
+    <div class="hidden lg:block">SUBJECT / OGAS · CYBERSYN · AGENTS</div>
+    <div class="hidden lg:block">FILED / 2026.04.02</div>
+    <div class="lg:text-right"><a href="../../" class="hover:text-fg">← AI BUZZWORDS</a></div>
+  </div>
+</div>
+
+<!-- HERO -->
+<section class="hero-anim max-w-wrap mx-auto px-[5vw] lg:px-12 relative z-[2] pt-10 lg:pt-28 pb-12 lg:pb-24 border-b border-line">
+  <div class="font-mono text-[9px] lg:text-[11px] tracking-[0.18em] uppercase text-amber mb-8 lg:mb-10 flex flex-wrap gap-2 lg:gap-7 items-center">
+    <span>CASE FILE</span><span class="text-fg-mute hidden lg:inline">/</span>
+    <span>USSR · CYBERNETICS · 1965-1985</span><span class="text-fg-mute hidden lg:inline">/</span>
+    <span>VS AI AGENTS · 2025-NOW</span>
+  </div>
+  <h1 class="font-serif font-light text-[clamp(28px,8.5vw,124px)] leading-[0.95] tracking-tight mb-6 lg:mb-9">
+    控制论的<span class="block"><em class="text-amber font-normal">第三次</em>降临</span>
+  </h1>
+  <div class="max-w-[760px] text-[15px] lg:text-xl text-fg-dim font-light leading-relaxed lg:leading-[1.55] border-l border-amber pl-3.5 lg:pl-5 mt-4">
+    1965 年，苏联控制论之父格卢什科夫提议建立 OGAS——<br/>
+    一个用计算机网络管理整个苏联经济的系统。<strong class="text-fg font-normal">他失败了。</strong><br/>
+    失败的原因不是技术，<strong class="text-fg font-normal">是政治</strong>。<br/>
+    六十年后，AI Agent 工程师正在面对完全相同的挑战：<br/>
+    <strong class="text-fg font-normal">把人类模糊的偏好、伦理判断和风险容忍度，转化为机器可执行的约束。</strong>
+  </div>
+
+  <!-- HERO STATS -->
+  <div class="mt-12 lg:mt-16 grid grid-cols-2 lg:grid-cols-4 gap-px bg-line border border-line font-mono">
+    <div class="bg-bg p-5 lg:p-7">
+      <div class="text-[9px] lg:text-[10px] tracking-[0.16em] uppercase text-fg-mute mb-3">OGAS PROPOSED</div>
+      <div class="font-serif text-[30px] lg:text-[44px] font-normal text-amber leading-none mb-2">1962</div>
+      <div class="text-[10px] lg:text-[11px] text-fg-dim">VIKTOR GLUSHKOV · UKRAINE</div>
+    </div>
+    <div class="bg-bg p-5 lg:p-7">
+      <div class="text-[9px] lg:text-[10px] tracking-[0.16em] uppercase text-fg-mute mb-3">EST. COST</div>
+      <div class="font-serif text-[30px] lg:text-[44px] font-normal text-amber leading-none mb-2">20<span class="text-lg lg:text-xl text-fg-mute"> Y · ₽20B</span></div>
+      <div class="text-[10px] lg:text-[11px] text-fg-dim">2/5 OF ANNUAL DEFENSE</div>
+    </div>
+    <div class="bg-bg p-5 lg:p-7">
+      <div class="text-[9px] lg:text-[10px] tracking-[0.16em] uppercase text-fg-mute mb-3">REJECTIONS</div>
+      <div class="font-serif text-[30px] lg:text-[44px] font-normal text-signal leading-none mb-2">3</div>
+      <div class="text-[10px] lg:text-[11px] text-fg-dim">1965 · 1970 · 1980s</div>
+    </div>
+    <div class="bg-bg p-5 lg:p-7">
+      <div class="text-[9px] lg:text-[10px] tracking-[0.16em] uppercase text-fg-mute mb-3">WIENER · CYBERNETICS</div>
+      <div class="font-serif text-[30px] lg:text-[44px] font-normal text-amber leading-none mb-2">1948</div>
+      <div class="text-[10px] lg:text-[11px] text-fg-dim">FOUNDING TEXT</div>
+    </div>
+  </div>
+</section>
+
+<!-- § 01 FORGOTTEN HISTORY -->
+<section class="max-w-wrap mx-auto px-[5vw] lg:px-12 relative z-[2] py-14 lg:py-28 border-b border-line">
+  <header class="grid grid-cols-1 lg:grid-cols-[120px_1fr] gap-4 lg:gap-12 items-baseline mb-10 lg:mb-[72px]">
+    <div class="cursor font-mono text-[10px] lg:text-[11px] tracking-[0.2em] text-amber pt-3 border-t border-amber uppercase">§ 01 / FORGOTTEN</div>
+    <h2 class="font-serif font-light text-[clamp(24px,7vw,68px)] leading-[1.05] tracking-tight">一段被<em class="text-amber">遗忘</em>的历史</h2>
+  </header>
+  <div class="lg:ml-[168px] max-w-prose text-[15px] lg:text-lg leading-relaxed lg:leading-[1.75] font-light">
+    <p class="mb-5">1962 年，乌克兰科学家 <strong class="text-amber font-medium">Viktor Glushkov</strong> 向苏联领导层提交了一份具有划时代意义的提案：建立 <strong class="text-amber font-medium">OGAS（全国自动化经济管理系统）</strong>——连接苏联全国所有工厂、商店、银行的计算机网络，实时收集生产消费数据，由中央算法动态调整资源配置。</p>
+    <p class="mb-5">OGAS 的承诺是用<strong class="text-fg font-normal">实时数据和数学优化</strong>替代官僚直觉。Glushkov 估算需要 20 年时间、约 200 亿卢布——远低于同期军费 500 亿/年。这是一个完全可行的项目。</p>
+    <p class="mb-5">但 1965 年提案被否决。1970 年再次被否决。1980 年代彻底搁置。<strong class="text-signal font-medium">OGAS 永远没有建成。</strong></p>
+
+    <!-- Archive note -->
+    <div class="archive-frame my-8 max-w-[640px]">
+      <div class="flex justify-between items-start mb-4">
+        <div class="font-mono text-[10px] tracking-[0.18em] text-ink/60 uppercase">ОБ-АГЕНТСТВО · 1965</div>
+        <div class="stamp">REJECTED</div>
+      </div>
+      <p class="text-[15px] leading-relaxed">否决的理由不是技术——苏联在 1960 年代是世界第二大计算机生产国。也不是经济——成本远低于军费。</p>
+      <p class="text-[15px] leading-relaxed mt-3"><strong>真正的原因是政治。</strong></p>
+      <p class="text-[14px] leading-relaxed mt-3 text-ink/70">OGAS 一旦运行，将让中央获得前所未有的精确信息，意味着部委官僚的"信息中介"角色被消解。地方党委通过虚报数据获得的灰色权力将彻底失去。每一个层级的中间管理者都会失去他们的不可替代性。</p>
+    </div>
+
+    <p class="mb-0 text-[15px] lg:text-[17px] text-amber font-medium">一个能让所有人变得透明的系统，<br/>威胁了那些靠不透明获得权力的人。</p>
+  </div>
+</section>
+
+<!-- § 02 WIENER PROPHECY -->
+<section class="max-w-wrap mx-auto px-[5vw] lg:px-12 relative z-[2] py-14 lg:py-28 border-b border-line">
+  <header class="grid grid-cols-1 lg:grid-cols-[120px_1fr] gap-4 lg:gap-12 items-baseline mb-10 lg:mb-[72px]">
+    <div class="cursor font-mono text-[10px] lg:text-[11px] tracking-[0.2em] text-amber pt-3 border-t border-amber uppercase">§ 02 / WIENER</div>
+    <h2 class="font-serif font-light text-[clamp(24px,7vw,68px)] leading-[1.05] tracking-tight">维纳的<em class="text-amber">预言</em></h2>
+  </header>
+  <div class="lg:ml-[168px] max-w-prose text-[15px] lg:text-lg leading-relaxed lg:leading-[1.75] font-light">
+    <p class="mb-5">控制论由 <strong class="text-amber font-medium">Norbert Wiener</strong> 在 1948 年同名著作中确立。核心洞察是：</p>
+    <p class="mb-5 text-[16px] lg:text-[19px] text-amber font-medium border-l-2 border-amber pl-5 italic">生物体、机器、社会组织都可以用同一套数学语言描述——核心是"反馈循环"和"信息流动"。</p>
+    <p class="mb-5">控制论传统在 1950-60 年代影响极为深远：</p>
+    <ul class="list-none space-y-3 mb-5 border-l border-amber pl-5">
+      <li class="text-[14.5px]"><strong class="text-fg font-normal">Stafford Beer</strong> 用控制论原则设计了 <strong class="text-amber">Cybersyn</strong> 系统（1971-1973，智利阿连德政府期间），是 OGAS 的"小规模实验"。同样因政治原因（皮诺切特政变）夭折。</li>
+      <li class="text-[14.5px]"><strong class="text-fg font-normal">Heinz von Foerster</strong> 发展了"二阶控制论"——观察者本身也是被观察系统的一部分。</li>
+      <li class="text-[14.5px]"><strong class="text-fg font-normal">Ross Ashby</strong> 提出"<strong class="text-amber">需要的多样性</strong>"原则——控制系统的复杂度必须匹配被控对象的复杂度。这条原则今天直接适用于 AI Agent 系统设计。</li>
+    </ul>
+    <p class="mb-0">控制论在 1980 年代逐渐淡出主流话语。但今天的 AI Agent 系统提供了一个完美的应用场景：自主决策、实时反馈、多目标优化、跨域协作——<strong class="text-amber font-medium">这些恰恰是控制论传统最擅长描述的问题</strong>。</p>
+  </div>
+</section>
+
+<!-- PULLQUOTE -->
+<div class="max-w-wrap mx-auto px-[5vw] lg:px-12 relative z-[2]">
+  <blockquote class="pullquote-mark relative max-w-[960px] mx-auto py-10 lg:py-12 px-5 lg:px-14 border-t border-b border-amber my-10 lg:my-[72px]">
+    <span class="font-serif font-light text-[clamp(19px,5vw,40px)] leading-snug text-fg block">
+      当机器开始追求一个被定义的目标时，<br/>
+      它会精确地优化<em class="text-amber font-normal">那个目标</em>，<br/>
+      而不是我们<em class="text-amber font-normal">真正想要</em>的目标。
+    </span>
+    <cite class="block mt-6 font-mono text-[11px] text-amber tracking-[0.18em] uppercase not-italic">— NORBERT WIENER · 1960 · "MORAL & TECHNICAL CONSEQUENCES OF AUTOMATION"</cite>
+  </blockquote>
+</div>
+
+<!-- § 03 THIRD COMING -->
+<section class="max-w-wrap mx-auto px-[5vw] lg:px-12 relative z-[2] py-14 lg:py-28 border-b border-line">
+  <header class="grid grid-cols-1 lg:grid-cols-[120px_1fr] gap-4 lg:gap-12 items-baseline mb-10 lg:mb-[72px]">
+    <div class="cursor font-mono text-[10px] lg:text-[11px] tracking-[0.2em] text-amber pt-3 border-t border-amber uppercase">§ 03 / THIRD COMING</div>
+    <h2 class="font-serif font-light text-[clamp(24px,7vw,68px)] leading-[1.05] tracking-tight">三次<em class="text-amber">降临</em></h2>
+  </header>
+  <div class="lg:ml-[168px] max-w-[960px]">
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-px bg-line border border-line">
+      <article class="bg-bg p-6 lg:p-8 relative">
+        <div class="font-mono text-[10px] tracking-[0.18em] text-signal uppercase mb-3">FIRST COMING · 1962-1973</div>
+        <h3 class="font-serif text-xl font-normal mb-3">被<em class="text-signal">政治否决</em></h3>
+        <p class="text-[14px] text-fg-dim font-light leading-relaxed">OGAS（苏联）/ Cybersyn（智利）。技术完全可行，<strong class="text-fg font-normal">死于权力结构对透明度的本能抗拒</strong>。</p>
+      </article>
+      <article class="bg-bg p-6 lg:p-8">
+        <div class="font-mono text-[10px] tracking-[0.18em] text-mint uppercase mb-3">SECOND COMING · 1990s-NOW</div>
+        <h3 class="font-serif text-xl font-normal mb-3">以<em class="text-mint">企业之名</em>实现</h3>
+        <p class="text-[14px] text-fg-dim font-light leading-relaxed">亚马逊供应链 / 沃尔玛库存 / Palantir 数据整合——做的事与 OGAS 几乎完全一致，<strong class="text-fg font-normal">只不过为资本服务而非计划经济</strong>。</p>
+      </article>
+      <article class="bg-bg p-6 lg:p-8">
+        <div class="font-mono text-[10px] tracking-[0.18em] text-amber uppercase mb-3">THIRD COMING · NOW</div>
+        <h3 class="font-serif text-xl font-normal mb-3">以 <em class="text-amber">AI Agent</em> 之名</h3>
+        <p class="text-[14px] text-fg-dim font-light leading-relaxed">自主决策 + 实时反馈 + 多目标优化 + 跨域协作。<strong class="text-fg font-normal">把人类模糊偏好、伦理判断、风险容忍度</strong>转化为机器可执行的约束——这正是 Glushkov 当年面对的挑战。</p>
+      </article>
+    </div>
+
+    <div class="mt-10 grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <div class="border border-line p-6 lg:p-7">
+        <div class="font-mono text-[10px] tracking-[0.18em] text-amber uppercase mb-3">SIGN 01 · 重新发现</div>
+        <p class="text-[14px] text-fg-dim font-light leading-relaxed">"目标对齐"="reward hacking"，"反馈循环设计"=RLHF 训练，"多 Agent 协调"=Beer 的 Viable System Model，"可观测性"=Ashby 的需要的多样性——<strong class="text-fg font-normal">每一个 Agent 工程问题都有控制论对应物</strong>。</p>
+      </div>
+      <div class="border border-line p-6 lg:p-7">
+        <div class="font-mono text-[10px] tracking-[0.18em] text-amber uppercase mb-3">SIGN 02 · 政治再现</div>
+        <p class="text-[14px] text-fg-dim font-light leading-relaxed">企业内部 Agent 部署的最大阻力<strong class="text-fg font-normal">不是技术问题，是组织问题</strong>——中层管理者意识到 Agent 让"信息中介"角色变得多余。这是 Glushkov 在 1965 年苏联部委办公室遇到过的同样阻力。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- § 04 WHAT CHANGES -->
+<section class="max-w-wrap mx-auto px-[5vw] lg:px-12 relative z-[2] py-14 lg:py-28 border-b border-line">
+  <header class="grid grid-cols-1 lg:grid-cols-[120px_1fr] gap-4 lg:gap-12 items-baseline mb-10 lg:mb-[72px]">
+    <div class="cursor font-mono text-[10px] lg:text-[11px] tracking-[0.2em] text-signal pt-3 border-t border-signal uppercase">§ 04 / ACUTE</div>
+    <h2 class="font-serif font-light text-[clamp(24px,7vw,68px)] leading-[1.05] tracking-tight">从慢性病到<em class="text-signal">急性爆破</em></h2>
+  </header>
+  <div class="lg:ml-[168px] max-w-prose text-[15px] lg:text-lg leading-relaxed lg:leading-[1.75] font-light">
+    <p class="mb-5">真正重要的因素不变：目标对齐、反馈设计、责任归属、政治可接受性——这些控制论传统已经研究了 60 年。变化的是：</p>
+    <p class="mb-5 text-[16px] lg:text-[19px] text-signal font-medium">忽视这些真理的代价从"慢性病"变成了"急性爆破"。</p>
+    <p class="mb-5">在传统软件中，糟糕的反馈循环设计导致系统缓慢腐化。在 AI Agent 系统中，糟糕的约束和反馈设计导致 Agent 在<strong class="text-fg font-normal">几分钟内就失控</strong>——真正的瓶颈是<strong class="text-fg font-normal">把人类高层判断外化成可校准的规则与反馈信号</strong>。</p>
+    <p class="mb-0">这恰恰是 Glushkov 失败的原因：不是他的技术不行，而是他无法将苏联官僚体系中<strong class="text-amber font-medium">隐性的权力博弈</strong>外化成可计算的约束条件。今天的 Agent 工程师面临完全一样的挑战。</p>
+  </div>
+</section>
+
+<!-- § 05 TAKEAWAYS -->
+<section class="max-w-wrap mx-auto px-[5vw] lg:px-12 relative z-[2] py-14 lg:py-28 border-b border-line">
+  <header class="grid grid-cols-1 lg:grid-cols-[120px_1fr] gap-4 lg:gap-12 items-baseline mb-10 lg:mb-[72px]">
+    <div class="cursor font-mono text-[10px] lg:text-[11px] tracking-[0.2em] text-amber pt-3 border-t border-amber uppercase">§ 05 / TAKEAWAYS</div>
+    <h2 class="font-serif font-light text-[clamp(24px,7vw,68px)] leading-[1.05] tracking-tight">三条<em class="text-amber">启示</em></h2>
+  </header>
+  <div class="lg:ml-[168px] max-w-[960px] grid grid-cols-1 lg:grid-cols-3 gap-px bg-line border border-line">
+    <article class="bg-bg p-6 lg:p-8">
+      <div class="font-mono text-[10px] tracking-[0.18em] text-amber uppercase mb-3">TAKEAWAY 01</div>
+      <p class="text-[14.5px] text-fg-dim font-light leading-relaxed"><strong class="text-amber font-medium">认真学习控制论。</strong> 不是作为历史知识，而是作为 Agent 系统设计的<strong class="text-fg font-normal">第一性原理</strong>。维纳的《控制论》和 Ashby 的《控制论导论》比大多数 Agent 框架文档更有价值。</p>
+    </article>
+    <article class="bg-bg p-6 lg:p-8">
+      <div class="font-mono text-[10px] tracking-[0.18em] text-amber uppercase mb-3">TAKEAWAY 02</div>
+      <p class="text-[14.5px] text-fg-dim font-light leading-relaxed"><strong class="text-amber font-medium">OGAS 的失败是政治失败，不是技术失败。</strong> 谁有权定义 Agent 的目标函数？谁承担 Agent 决策的后果？技术设计无法回避这些问题——回避只会让政治冲突在更高代价的位置爆发。</p>
+    </article>
+    <article class="bg-bg p-6 lg:p-8">
+      <div class="font-mono text-[10px] tracking-[0.18em] text-amber uppercase mb-3">TAKEAWAY 03</div>
+      <p class="text-[14.5px] text-fg-dim font-light leading-relaxed"><strong class="text-amber font-medium">Cybertonia 是面镜子。</strong> 一个理论上完全可行的系统，可能因为权力结构的抵抗而永远无法实现。AI Agent 真正的瓶颈，未必是模型能力，<strong class="text-fg font-normal">而是组织对透明度的承受力</strong>。</p>
+    </article>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="max-w-wrap mx-auto px-[5vw] lg:px-12 relative z-[2] py-12 lg:py-16">
+  <div class="font-mono text-[10px] lg:text-[11px] tracking-[0.16em] uppercase text-fg-mute grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-12">
+    <div>
+      <div class="text-fg-dim mb-2.5">SOURCES</div>
+      <div class="text-fg leading-relaxed">Slava Gerovitch · From Newspeak to Cyberspeak · Eden Medina · Cybernetic Revolutionaries · Wiener · Cybernetics 1948 · Ashby 1956 · Beer 1979</div>
+    </div>
+    <div class="lg:text-right">
+      <div class="text-fg-dim mb-2.5">FILED</div>
+      <div class="text-fg">2026.04.02 · AI BUZZWORDS / DEEPDIVE</div>
+      <div class="mt-3 text-fg-dim"><a href="../../viewer.html?f=deepdive/cybertonia/cybertonia-blog.md" class="hover:text-amber">→ 查看 Markdown 原文</a></div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
