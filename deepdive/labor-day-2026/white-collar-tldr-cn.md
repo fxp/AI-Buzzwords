@@ -1,4 +1,4 @@
-# 白领初级岗加速重构 · TL;DR · 婉转版
+# 白领初级岗加速重构 · TL;DR · 中文婉转版
 
 > Anthropic CEO Amodei 公开判断 "1-5 年内初级白领岗位将被 AI 重构"——但这不是结论，**是讨论的开始**。
 
@@ -26,10 +26,6 @@ Deutsche Bank 分析师提示：企业把因经济放缓、过度招聘等原因
 
 ---
 
-📖 婉转版全文：https://fxp.github.io/AI-Buzzwords/deepdive/labor-day-2026/white-collar-cn.html
-🌐 直率版全文（原版）：https://fxp.github.io/AI-Buzzwords/deepdive/labor-day-2026/white-collar.html
+📖 中文婉转版全文：https://fxp.github.io/AI-Buzzwords/deepdive/labor-day-2026/white-collar-cn.html
+🌐 原版全文：https://fxp.github.io/AI-Buzzwords/deepdive/labor-day-2026/white-collar.html
 🗺 维度地图（L3-1）：https://fxp.github.io/AI-Buzzwords/deepdive/labor-day-2026/dimension-map.html
-
----
-
-> **关于婉转版**：本版相比直率版做了多处措辞调整——E05 标题去除未经核实的具体数字、删除地缘对比表述、软化对在世人物动机的判断、用"判断/视角/异议"等中性词替代"警告/反驳"、用"重构/调整"替代"取代/消失"等情绪化词汇、明确引语的美国语境。核心论点与数据未做修改。
