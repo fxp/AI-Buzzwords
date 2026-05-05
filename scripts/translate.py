@@ -228,12 +228,16 @@ def needs_translation(meta: dict, target_lang: str) -> bool:
     return synced_v < meta["current_version"]
 
 
-def find_source_files(meta_path: Path):
-    """Given meta.json path, find source HTML + optional blog.md."""
-    slug = meta_path.stem.replace(".meta", "")  # white-collar.meta.json → white-collar
+def find_source_files(meta_path: Path, meta: dict = None):
+    """Given meta.json path, find source HTML + optional blog.md.
+    Honors meta.blog_filename override (e.g. for labor-day-2026 panorama
+    where slug=index but blog file is labor-day-blog.md)."""
+    slug = meta_path.stem.replace(".meta", "")
     topic_dir = meta_path.parent
-    html = topic_dir / f"{slug}.html"
-    blog_md = topic_dir / f"{slug}-blog.md"
+    html_name = (meta or {}).get("html_filename") or f"{slug}.html"
+    blog_name = (meta or {}).get("blog_filename") or f"{slug}-blog.md"
+    html = topic_dir / html_name
+    blog_md = topic_dir / blog_name
     return slug, topic_dir, html if html.exists() else None, blog_md if blog_md.exists() else None
 
 
@@ -248,7 +252,7 @@ def translate_one(meta_path: Path, target_lang: str, languages: dict, glossary: 
         return []
 
     source_lang = meta.get("primary_language", "zh")
-    slug, topic_dir, html_path, blog_path = find_source_files(meta_path)
+    slug, topic_dir, html_path, blog_path = find_source_files(meta_path, meta)
 
     target_lang_obj = next(
         (l for l in languages["languages"] if l["code"] == target_lang), None
@@ -261,7 +265,9 @@ def translate_one(meta_path: Path, target_lang: str, languages: dict, glossary: 
     print(f"[translate] {slug} → {target_lang}", file=sys.stderr)
 
     if html_path and html_path.exists():
-        out_html = topic_dir / f"{slug}{suffix}.html"
+        # Output filename: derive by inserting suffix before .html
+        out_html_name = html_path.stem + suffix + html_path.suffix
+        out_html = topic_dir / out_html_name
         translated = translate_html(
             html_path.read_text(encoding="utf-8"),
             source_lang,
@@ -274,7 +280,8 @@ def translate_one(meta_path: Path, target_lang: str, languages: dict, glossary: 
         written.append(str(out_html.relative_to(REPO_ROOT)))
 
     if blog_path and blog_path.exists():
-        out_md = topic_dir / f"{slug}-blog{suffix}.md"
+        out_md_name = blog_path.stem + suffix + blog_path.suffix
+        out_md = topic_dir / out_md_name
         translated = translate_markdown(
             blog_path.read_text(encoding="utf-8"),
             source_lang,
