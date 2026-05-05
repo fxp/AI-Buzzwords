@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>The Accelerating End of Entry-Level White-Collar Jobs — From Anthropic CEO's Warning to Cross-Industry Evidence</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,700&family=JetBrains+Mono:wght@300;400;500;700&display=swap" rel="stylesheet" />
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      colors: {
+        bg:           '#0c0a07',
+        'bg-2':       '#161310',
+        'bg-3':       '#1e1a15',
+        fg:           '#f0ebe0',
+        'fg-dim':     '#a09888',
+        'fg-mute':    '#6a6058',
+        line:         'rgba(240,235,224,0.1)',
+        'line-bright':'rgba(240,235,224,0.18)',
+        accent:       '#e84040',
+        'accent-soft':'rgba(232,64,64,0.1)',
+        mint:         '#7fb88b',
+        'mint-soft':  'rgba(127,184,139,0.12)',
+        amber:        '#c4850a',
+        'amber-soft': 'rgba(196,133,10,0.1)',
+      },
+      fontFamily: {
+        serif: ["'Fraunces'", "'Source Han Serif SC'", "Georgia", "serif"],
+        mono:  ["'JetBrains Mono'", "ui-monospace", "monospace"],
+      },
+      maxWidth: {
+        prose:   '820px',
+        content: '1020px',
+        wrap:    '1320px',
+      },
+    }
+  }
+}
+</script>
+<style>
+em, i { font-style: normal }
+body { font-feature-settings: 'ss01','ss02','kern'; -webkit-font-smoothing: antialiased }
+body::before {
+  content: ''; position: fixed; inset: 0;
+  background-image:
+    linear-gradient(rgba(240,235,224,0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(240,235,224,0.025) 1px, transparent 1px);
+  background-size: 60px 60px; pointer-events: none; z-index: 0;
+}
+.lamp { display: inline-block; width: 6px; height: 6px; border-radius: 50%;
+  background: #e84040; box-shadow: 0 0 8px #e84040, 0 0 20px rgba(232,64,64,0.3);
+  animation: pulse 2.4s ease-in-out infinite; vertical-align: middle; }
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.4} }
+.cursor::after { content: '▋'; animation: blink 1.1s step-end infinite;
+  margin-left: 2px; color: #e84040; font-size: 0.7em; }
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+@keyframes fadeUp { from { opacity:0; transform:translateY(18px) } to { opacity:1; transform:translateY(0) } }
+.hero-anim > * { animation: fadeUp 0.7s ease both; }
+.hero-anim > *:nth-child(1) { animation-delay: 0.05s }
+.hero-anim > *:nth-child(2) { animation-delay: 0.15s }
+.hero-anim > *:nth-child(3) { animation-delay: 0.25s }
+.hero-anim > *:nth-child(4) { animation-delay: 0.35s }
+.bar-fill { position: absolute; top: 0; left: 0; height: 100%;
+  background: linear-gradient(90deg, #e84040, rgba(232,64,64,0.5)); }
+.bar-fill-mint { position: absolute; top: 0; left: 0; height: 100%;
+  background: linear-gradient(90deg, #7fb88b, rgba(127,184,139,0.5)); }
+.bar-fill-amber { position: absolute; top: 0; left: 0; height: 100%;
+  background: linear-gradient(90deg, #c4850a, rgba(196,133,10,0.5)); }
+.pullquote-mark::before { content: '"'; font-family: 'Fraunces', Georgia, serif;
+  font-size: 6rem; line-height: 0.8; color: #e84040; opacity: 0.25;
+  position: absolute; top: -8px; left: -12px; }
+.synthesis-label::before { content: 'SYNTHESIS / OVERALL ASSESSMENT'; display: block;
+  font-family: 'JetBrains Mono', monospace; font-size: 9px;
+  letter-spacing: 0.2em; color: #e84040; margin-bottom: 12px; text-transform: uppercase; }
+a.cite { color: inherit; text-decoration: underline; text-decoration-style: dotted;
+  text-underline-offset: 3px; text-decoration-color: rgba(232,64,64,0.35); transition: color 0.15s; }
+a.cite:hover { color: #e84040; }
+a.cite-mint { color: inherit; text-decoration: underline; text-decoration-style: dotted;
+  text-underline-offset: 3px; text-decoration-color: rgba(127,184,139,0.5); transition: color 0.15s; }
+a.cite-mint:hover { color: #7fb88b; }
+.series-current { background: linear-gradient(135deg, rgba(232,64,64,0.15) 0%, rgba(232,64,64,0.04) 100%);
+  border-color: rgba(232,64,64,0.4) !important; }
+</style>
+
+  <script src="../../lang-switcher.js" defer></script>
+  <link rel="alternate" hreflang="zh" href="white-collar.html" />
+  <link rel="alternate" hreflang="zh-CN" href="white-collar.cn.html" />
+  <link rel="alternate" hreflang="x-default" href="white-collar.html" />
+</head>
+
+<body class="bg-bg text-fg font-serif leading-relaxed overflow-x-hidden">
+
+<!-- ═══════════════════ TOP STRIP ═══════════════════ -->
+<div class="relative z-[2] border-b border-line">
+  <div class="max-w-wrap mx-auto px-[5vw] lg:px-12 py-3 flex items-center gap-4 flex-wrap">
+    <span class="lamp mr-1"></span>
+    <span class="font-mono text-[9px] lg:text-[10px] tracking-[0.22em] uppercase text-accent">DEEPDIVE</span>
+    <span class="text-line-bright font-mono text-[10px]">/</span>
+    <span class="font-mono text-[9px] lg:text-[10px] tracking-[0.18em] uppercase text-fg-mute">[ECONOMY] · End of White-Collar Work</span>
+    <a href="dimension-map.html" class="font-mono text-[9px] lg:text-[10px] tracking-[0.18em] uppercase text-fg-mute hover:text-accent border border-line-bright px-2 py-0.5 transition-colors">L3-1 · Labor Market / Entry</a>
+    <div data-lang-switcher data-slug="white-collar" style="margin-left:auto"></div>
+    <span class="flex-1 h-px bg-line hidden lg:block"></span>
+    <span class="font-mono text-[9px] tracking-[0.14em] text-fg-mute">v2 · 2026 · MAY 05 · Added Huang rebuttal / Yale counter-evidence / Amazon data</span>
+  </div>
+</div>
+
+<!-- ═══════════════════ HERO ═══════════════════ -->
+<section class="relative z-[2] max-w-wrap mx-auto px-[5vw] lg:px-12 pt-16 lg:pt-28 pb-16 lg:pb-24 border-b border-line">
+  <div class="hero-anim">
+
+    <p class="font-mono text-[10px] lg:text-[11px] tracking-[0.22em] uppercase text-accent mb-6">
+      The Accelerating End of Entry-Level White-Collar Jobs
+    </p>
+
+    <h1 class="font-serif font-light text-[clamp(32px,8vw,88px)] leading-[1.02] tracking-tight mb-8 max-w-content">
+      From a CEO's Warning<br/>
+      to <em class="text-accent">Cross-Industry</em><br/>
+      Evidence
+    </h1>
+
+    <p class="text-base lg:text-xl text-fg-dim font-light leading-relaxed max-w-prose mb-12">
+      Dario Amodei was the first to say it publicly and directly: "Entry-level white-collar jobs will be displaced within 1–5 years." In the same week, independent data points from finance, research, management, and software development all converged to corroborate that judgment. This is not a prophecy — it is something already happening. What makes it singular: the warning came from the CEO of an AI company itself.
+    </p>
+
+    <!-- Stats grid -->
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-px bg-line border border-line font-mono">
+      <div class="bg-bg p-5 lg:p-7">
+        <div class="text-[clamp(28px,6vw,52px)] font-serif text-accent leading-none mb-2 tabular-nums">1–5</div>
+        <div class="text-[9px] text-fg-mute tracking-[0.14em] uppercase leading-relaxed">Year timeline<br/>given by Amodei</div>
+      </div>
+      <div class="bg-bg p-5 lg:p-7">
+        <div class="text-[clamp(28px,6vw,52px)] font-serif text-accent leading-none mb-2 tabular-nums">11K</div>
+        <div class="text-[9px] text-fg-mute tracking-[0.14em] uppercase leading-relaxed">Employees' workload replaced by Erica<br/>Bank of America</div>
+      </div>
+      <div class="bg-bg p-5 lg:p-7">
+        <div class="text-[clamp(28px,6vw,52px)] font-serif leading-none mb-2 text-fg">7 Days</div>
+        <div class="text-[9px] text-fg-mute tracking-[0.14em] uppercase leading-relaxed">Autonomous search, zero human intervention<br/>Nvidia GPU optimization</div>
+      </div>
+      <div class="bg-bg p-5 lg:p-7">
+        <div class="text-[clamp(28px,6vw,52px)] font-serif text-mint leading-none mb-2">2026·09</div>
+        <div class="text-[9px] text-fg-mute tracking-[0.14em] uppercase leading-relaxed">OpenAI launches<br/>"AI Research Intern"</div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ═══════════════════ TL;DR ═══════════════════ -->
+<section class="relative z-[2] max-w-wrap mx-auto px-[5vw] lg:px-12 py-10 lg:py-14 border-b border-line bg-bg-2">
+  <div class="grid grid-cols-1 lg:grid-cols-[120px_1fr] gap-4 lg:gap-12 items-baseline">
+    <div class="font-mono text-[10px] lg:text-[11px] tracking-[0.2em] text-mint pt-3 border-t border-mint uppercase">TL;DR · 30 sec</div>
+    <div class="max-w-prose">
+      <p class="font-serif text-[clamp(20px,3.5vw,30px)] font-light leading-[1.3] text-fg mb-6">
+        Amodei publicly admits "<em class="text-accent">entry-level white-collar jobs vanish in 1–5 years</em>" — but that's not the conclusion; <em class="text-mint">it's the beginning of the debate</em>.
+      </p>
+      <ul class="space-y-2 text-[14px] lg:text-[15px] text-fg-dim font-light leading-relaxed mb-6 list-none">
+        <li><span class="font-mono text-[11px] text-accent mr-2">▸</span>Brynjolfsson ADP data: employment in high-AI-exposure roles, ages 22–25, <strong class="text-fg">−16%</strong> (revised up from −13%)</li>
+        <li><span class="font-mono text-[11px] text-accent mr-2">▸</span>Amazon cuts <strong class="text-fg">16,000 corporate roles</strong> in one move; CEO Andy Jassy explicitly attributes it to AI</li>
+        <li><span class="font-mono text-[11px] text-mint mr-2">▸</span>Jensen Huang fires back: "This is a <strong class="text-fg">God complex</strong>. When productivity rises, companies hire more people"</li>
+        <li><span class="font-mono text-[11px] text-mint mr-2">▸</span>Yale Budget Lab: <strong class="text-fg">macro data shows no AI-driven unemployment</strong>; only 4.5% of 2025 layoffs attributed to AI</li>
+        <li><span class="font-mono text-[11px] text-amber mr-2">▸</span>Deutsche Bank warns: "AI redundancy washing is the <strong class="text-fg">dominant narrative of 2026</strong>" — companies dressing up ordinary layoffs as AI displacement</li>
+        <li><span class="font-mono text-[11px] text-amber mr-2">▸</span>Klarna replaced 700 people, then rehired them — <strong class="text-fg">displacement has hard limits</strong>: error visibility is the key variable</li>
+      </ul>
+      <div class="p-4 bg-mint-soft border-l-2 border-mint">
+        <span class="font-mono text-[10px] tracking-[0.18em] text-mint uppercase mb-1.5 block">Counter-Consensus Insight</span>
+        <p class="text-[15px] text-fg leading-relaxed font-light">The real frontier is no longer "<em class="text-fg-dim">will there be job losses?</em>" but "<em class="text-mint">at which layer, at what granularity, and who detects it first</em>" — this is a methodological dispute, not a factual one.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════ § 01 OVERVIEW ═══════════════════ -->
+<section class="relative z-[2] max-w-wrap mx-auto px-[5vw] lg:px-12 py-14 lg:py-28 border-b border-line">
+  <header class="grid grid-cols-1 lg:grid-cols-[120px_1fr] gap-4 lg:gap-12 items-baseline mb-10 lg:mb-[72px]">
+    <div class="cursor font-mono text-[10px] lg:text-[11px] tracking-[0.2em] text-accent pt-3 border-t border-accent uppercase">§ 01 / The Warning Itself</div>
+    <h2 class="font-serif font-light text-[clamp(24px,6vw,64px)] leading-[1.05] tracking-tight">Why<br/><em class="text-accent">This Time Is Different</em></h2>
+  </header>
+
+  <div class="lg:ml-[168px] max-w-prose text-[15px] lg:text-lg leading-relaxed lg:leading-[1.75] font-light space-y-6">
+    <p>For the past three years, predictions of AI-driven mass unemployment have surfaced every few months — but they typically came from economists, analysts, or doomsayers. AI companies themselves maintained <em class="text-accent">careful PR restraint</em> as the industry's default posture.</p>
+
+    <p>This time is different. <a href="https://x.com/oragnes/status/2038088765671948354" class="cite" target="_blank" rel="noopener">In a public interview, Dario Amodei</a> named three industries explicitly — <strong class="text-fg font-medium">finance, consulting, and technology</strong> — and attached a "1–5 year" timeline. Even more significant were the two addenda that followed:</p>
+
+    <p>First, he admitted <em class="text-accent">he cannot halt this process</em> — if the United States stops, China will continue. Second, he proactively called on governments to "impose heavy taxes on AI companies" to cushion the displacement — <strong class="text-fg font-medium">a CEO of an AI company voluntarily inviting heavy taxation is itself an extraordinarily strong signal</strong>.</p>
+
+    <p>There are two ways to read a statement like this. The first: it is a "responsibility display," adding a regulatory-friendly narrative to Anthropic's IPO story. The second — and more alarming — is that <em class="text-accent">Amodei knows what his own products can do better than any outside analyst, and his statement is a direct leak of internal knowledge</em>.</p>
+  </div>
+
+  <!-- Bar chart: signal strength -->
+  <div class="lg:ml-[168px] mt-10 max-w-prose">
+    <div class="bg-bg-2 border border-line p-5 lg:p-7">
+      <div class="font-mono text-[10px] tracking-[0.18em] text-fg-mute uppercase mb-5 flex justify-between">
+        <span>Evidence Strength: Entry-Level Role Displacement</span>
+        <span class="text-accent">Deployed / Proven</span>
+      </div>
+      <div class="space-y-3 font-mono text-xs">
+        <div class="grid grid-cols-[110px_1fr_70px] lg:grid-cols-[150px_1fr_70px] gap-3 items-center">
+          <span class="text-accent text-[11px]">Financial customer service</span>
+          <span class="relative h-1.5 bg-line overflow-hidden"><span class="bar-fill" style="width:95%"></span></span>
+          <span class="text-right text-fg-dim">Deployed</span>
+        </div>
+        <div class="grid grid-cols-[110px_1fr_70px] lg:grid-cols-[150px_1fr_70px] gap-3 items-center">
+          <span class="text-fg-dim text-[11px]">Entry-level code</span>
+          <span class="relative h-1.5 bg-line overflow-hidden"><span class="bar-fill" style="width:90%"></span></span>
+          <span class="text-right text-fg-dim">Widespread</span>
+        </div>
+        <div class="grid grid-cols-[110px_1fr_70px] lg:grid-cols-[150px_1fr_70px] gap-3 items-center">
+          <span class="text-fg-dim text-[11px]">Academic writing</span>
+          <span class="relative h-1.5 bg-line overflow-hidden"><span class="bar-fill" style="width:85%"></span></span>
+          <span class="text-right text-fg-dim">Nature accepted</span>
+        </div>
+        <div class="grid grid-cols-[110px_1fr_70px] lg:grid-cols-[150px_1fr_70px] gap-3 items-center">
+          <span class="text-fg-dim text-[11px]">Executive reporting</span>
+          <span class="relative h-1.5 bg-line overflow-hidden"><span class="bar-fill-amber" style="width:75%"></span></span>
+          <span class="text-right text-fg-dim">CEO Agent</span>
+        </div>
+        <div class="grid grid-cols-[110px_1fr_70px] lg:grid-cols-[150px_1fr_70px] gap-3 items-center">
+          <span class="text-fg-dim text-[11px]">GPU optimization</span>
+          <span class="relative h-1.5 bg-line overflow-hidden"><span class="bar-fill" style="width:80%"></span></span>
+          <span class="text-right text-fg-dim">Superhuman</span>
+        </div>
+        <div class="grid grid-cols-[110px_1fr_70px] lg:grid-cols-[150px_1fr_70px] gap-3 items-center">
+          <span class="text-mint text-[11px]">Interpersonal trust roles</span>
+          <span class="relative h-1.5 bg-line overflow-hidden"><span class="bar-fill-mint" style="width:25%"></span></span>
+          <span class="text-right text-fg-dim">Unproven</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════ PULLQUOTE ═══════════════════ -->
+<div class="relative z-[2] border-b border-line">
+  <div class="max-w-wrap mx-auto px-[5vw] lg:px-12 py-16 lg:py-24">
+    <div class="relative pullquote-mark lg:ml-[168px] max-w-prose">
+      <p class="font-serif text-[clamp(20px,4vw,38px)] font-light leading-[1.2] tracking-tight text-fg">
+        I cannot stop this process. But I hope <em class="text-accent">governments will impose heavy taxes on AI companies</em> — so that we at least have the money to support those who are displaced.
+      </p>
+      <p class="font-mono text-[10px] tracking-[0.18em] text-fg-mute uppercase mt-6"><a href="https://x.com/oragnes/status/2038088765671948354" class="cite" target="_blank" rel="noopener">Dario Amodei</a>, CEO Anthropic — Public interview, March 2026 (paraphrased)</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════ § 02 EVIDENCE ═══════════════════ -->
+<section class="relative z-[2] max-w-wrap mx-auto px-[5vw] lg:px-12 py-14 lg:py-28 border-b border-line">
+  <header class="grid grid-cols-1 lg:grid-cols-[120px_1fr] gap-4 lg:gap-12 items-baseline mb-10 lg:mb-[72px]">
+    <div class="cursor font-mono text-[10px] lg:text-[11px] tracking-[0.2em] text-accent pt-3 border-t border-accent uppercase">§ 02 / Five Data Points</div>
+    <h2 class="font-serif font-light text-[clamp(24px,6vw,64px)] leading-[1.05] tracking-tight">Independent Sources<br/><em class="text-accent">Converging in One Week</em></h2>
+  </header>
+
+  <!-- E01 -->
+  <article class="grid grid-cols-1 lg:grid-cols-[180px_1fr] gap-4 lg:gap-12 py-7 lg:py-12 border-t border-line">
+    <div class="font-mono text-[11px] text-fg-mute flex lg:flex-col flex-wrap gap-1.5 lg:gap-0">
+      <span class="text-accent text-[13px] tracking-[0.1em] block lg:mb-2.5">EVIDENCE / 01</span>
+      <span class="text-fg-dim block">2026-03</span>
+      <span class="inline-block border border-line-bright py-0.5 px-2 mt-1.5 mr-1 text-[10px] text-fg-mute">Finance</span>
+      <span class="inline-block border border-line-bright py-0.5 px-2 mt-1.5 mr-1 text-[10px] text-fg-mute">Deployed</span>
+    </div>
+    <div>
+      <h3 class="font-serif text-2xl lg:text-[32px] font-normal leading-snug"><a href="https://www.artificialintelligence-news.com/news/ai-agents-enter-banking-roles-at-bank-of-america/" class="cite" target="_blank" rel="noopener">Bank of America</a>: <em class="text-accent">1,000 Financial Advisor Roles</em> Now Handled by AI Agent</h3>
+      <p class="text-base text-fg-dim leading-relaxed font-light mt-4">Virtual assistant <a href="https://www.artificialintelligence-news.com/news/ai-agents-enter-banking-roles-at-bank-of-america/" class="cite" target="_blank" rel="noopener">Erica</a> now carries the equivalent workload of approximately <strong class="text-fg font-medium">11,000 employees</strong>. This is not a lab proof-of-concept — it is a live production deployment targeting not back-office operations but <em class="text-accent">customer-facing core business roles</em>, precisely the "entry-level white-collar finance workers" Amodei named.</p>
+      <div class="mt-5 p-4 bg-accent-soft border-l-2 border-accent">
+        <span class="font-mono text-[10px] tracking-[0.18em] text-accent uppercase mb-1.5 block">Key Judgment</span>
+        <p class="text-[15px] text-fg leading-relaxed font-light">"Already deployed" and "under evaluation" are entirely different stages. Bank of America has already crossed that line.</p>
+      </div>
+    </div>
+  </article>
+
+  <!-- E02 -->
+  <article class="grid grid-cols-1 lg:grid-cols-[180px_1fr] gap-4 lg:gap-12 py-7 lg:py-12 border-t border-line">
+    <div class="font-mono text-[11px] text-fg-mute flex lg:flex-col flex-wrap gap-1.5 lg:gap-0">
+      <span class="text-accent text-[13px] tracking-[0.1em] block lg:mb-2.5">EVIDENCE / 02</span>
+      <span class="text-fg-dim block">2026-03</span>
+      <span class="inline-block border border-line-bright py-0.5 px-2 mt-1.5 mr-1 text-[10px] text-fg-mute">Research</span>
+      <span class="inline-block border border-line-bright py-0.5 px-2 mt-1.5 mr-1 text-[10px] text-fg-mute">Nature Accepted</span>
+    </div>
+    <div>
+      <h3 class="font-serif text-2xl lg:text-[32px] font-normal leading-snug"><a href="https://sakana.ai/ai-scientist-nature/" class="cite" target="_blank" rel="noopener">Sakana AI Scientist</a>: <em class="text-accent">First Fully Autonomous AI Paper Published in Nature</em></h3>
+      <p class="text-base text-fg-dim leading-relaxed font-light mt-4">A machine learning paper generated entirely by AI — from topic selection and experiments to writing and peer review — has passed through the full publication pipeline. Simultaneously, <a href="https://www.theaivalley.com/p/what-openai-and-meta-are-building-right-now" class="cite" target="_blank" rel="noopener">OpenAI announced an "AI Research Intern" launching in September 2026</a>, with fully autonomous AI research systems targeted for 2028 — <em class="text-accent">a working prototype that replaces the tasks of research interns and junior researchers already exists</em>.</p>
+      <div class="mt-5 p-4 bg-accent-soft border-l-2 border-accent">
+        <span class="font-mono text-[10px] tracking-[0.18em] text-accent uppercase mb-1.5 block">Key Judgment</span>
+        <p class="text-[15px] text-fg leading-relaxed font-light">Academia once believed "research" was the last bastion beyond AI's reach. AI Scientist has breached that line.</p>
+      </div>
+    </div>
+  </article>
+
+  <!-- E03 -->
+  <article class="grid grid-cols-1 lg:grid-cols-[180px_1fr] gap-4 lg:gap-12 py-7 lg:py-12 border-t border-line">
+    <div class="font-mono text-[11px] text-fg-mute flex lg:flex-col flex-wrap gap-1.5 lg:gap-0">
+      <span class="text-accent text-[13px] tracking-[0.1em] block lg:mb-2.5">EVIDENCE / 03</span>
+      <span class="text-fg-dim block">2026-03</span>
+      <span class="inline-block border border-line-bright py-0.5 px-2 mt-1.5 mr-1 text-[10px] text-fg-mute">Management</span>
+      <span class="inline-block border border-line-bright py-0.5 px-2 mt-1.5 mr-1 text-[10px] text-fg-mute">Middle Layer Compression</span>
+    </div>
+    <div>
+      <h3 class="font-serif text-2xl lg:text-[32px] font-normal leading-snug"><a href="https://www.pymnts.com/artificial-intelligence-2/2026/metas-zuckerberg-creating-a-ceo-agent-to-help-with-his-job/" class="cite" target="_blank" rel="noopener">Mark Zuckerberg's CEO Agent</a>: <em class="text-accent">Bypassing the Management Hierarchy</em></h3>
+      <p class="text-base text-fg-dim leading-relaxed font-light mt-4"><a href="https://fortune.com/2026/03/24/ai-meta-mark-zuckerbergs-leadership-ceo/" class="cite" target="_blank" rel="noopener">According to the Wall Street Journal and Fortune (March 2026)</a>, Meta's CEO built a personal CEO Agent whose core function is "<em class="text-accent">rapidly cutting through organizational layers to access internal information, replacing middle-management reporting</em>" — serving simultaneously as chief-of-staff and analyst, aggregating signals across products and bypassing the layers that once required dozens of people to relay information. This signals that the corporate roles dedicated to "gathering and transmitting information upward" — the vast pool of junior-to-mid-level positions sustained by meeting notes, reporting documents, and weekly emails — will lose their reason to exist in an agent economy.</p>
+      <div class="mt-5 p-4 bg-amber-soft border-l-2 border-amber">
+        <span class="font-mono text-[10px] tracking-[0.18em] text-amber uppercase mb-1.5 block">Implicit Signal</span>
+        <p class="text-[15px] text-fg leading-relaxed font-light"><a href="https://www.gartner.com/en/newsroom/press-releases/2024-10-22-gartner-unveils-top-predictions-for-it-organizations-and-users-in-2025-and-beyond" class="cite" target="_blank" rel="noopener">Gartner predicted in October 2024</a> that by 2026, 20% of companies will eliminate 50% of middle management. CEO Agent is the concrete execution mechanism for that prediction.</p>
+      </div>
+    </div>
+  </article>
+
+  <!-- E04 -->
+  <article class="grid grid-cols-1 lg:grid-cols-[180px_1fr] gap-4 lg:gap-12 py-7 lg:py-12 border-t border-line">
+    <div class="font-mono text-[11px] text-fg-mute flex lg:flex-col flex-wrap gap-1.5 lg:gap-0">
+      <span class="text-accent text-[13px] tracking-[0.1em] block lg:mb-2.5">EVIDENCE / 04</span>
+      <span class="text-fg-dim block">2026-03</span>
+      <span class="inline-block border border-line-bright py-0.5 px-2 mt-1.5 mr-1 text-[10px] text-fg-mute">Software Dev</span>
+      <span class="inline-block border border-line-bright py-0.5 px-2 mt-1.5 mr-1 text-[10px] text-fg-mute">High-End Breakthrough</span>
+    </div>
+    <div>
+      <h3 class="font-serif text-2xl lg:text-[32px] font-normal leading-snug"><a href="https://x.com/bingxu_/status/2036983004200149460" class="cite" target="_blank" rel="noopener">Nvidia GPU Optimization</a>: <em class="text-accent">Agent Surpasses Human Experts in 7 Days</em></h3>
+      <p class="text-base text-fg-dim leading-relaxed font-light mt-4"><a href="https://x.com/bingxu_/status/2036983004200149460" class="cite" target="_blank" rel="noopener">A Nvidia engineer disclosed</a> that an AI agent, through <strong class="text-fg font-medium">seven continuous days of autonomous search with zero human intervention</strong>, has surpassed virtually all human experts in GPU kernel optimization. Two people produced four generations — roughly 100,000 lines of code — over 1.5 years, and <em class="text-accent">from the second generation onward, the system began self-evolving</em>.</p>
+      <div class="mt-5 p-4 bg-accent-soft border-l-2 border-accent">
+        <span class="font-mono text-[10px] tracking-[0.18em] text-accent uppercase mb-1.5 block">Force of the Inference</span>
+        <p class="text-[15px] text-fg leading-relaxed font-light">If AI has already hit the ceiling in something as specialized as GPU engineering, entry-level development and testing roles are trivially within reach.</p>
+      </div>
+    </div>
+  </article>
+
+  <!-- E05 -->
+  <article class="grid grid-cols-1 lg:grid-cols-[180px_1fr] gap-4 lg:gap-12 py-7 lg:py-12 border-t border-line">
+    <div class="font-mono text-[11px] text-fg-mute flex lg:flex-col flex-wrap gap-1.5 lg:gap-0">
+      <span class="text-accent text-[13px] tracking-[0.1em] block lg:mb-2.5">EVIDENCE / 05</span>
+      <span class="text-fg-dim block">2026-03</span>
+      <span class="inline-block border border-line-bright py-0.5 px-2 mt-1.5 mr-1 text-[10px] text-fg-mute">Sentiment Signal</span>
+      <span class="inline-block border border-line-bright py-0.5 px-2 mt-1.5 mr-1 text-[10px] text-fg-mute">Social Resonance</span>
+    </div>
+    <div>
+      <h3 class="font-serif text-2xl lg:text-[32px] font-normal leading-snug"><a href="https://x.com/tongtongbee/status/2038178704699076659" class="cite" target="_blank" rel="noopener">Fake Data, Real Resonance</a>: <em class="text-accent">"Less than 10% of Stanford CS grads found jobs"</em></h3>
+      <p class="text-base text-fg-dim leading-relaxed font-light mt-4"><a href="https://x.com/tongtongbee/status/2038178704699076659" class="cite" target="_blank" rel="noopener">A tweet claiming "fewer than 10% of Stanford CS graduates found jobs"</a>, despite being flagged by the community as factually inaccurate, still <em class="text-accent">went massively viral in both Chinese and English communities</em>. The data was false, but the resonance was real — the public already expects elite CS degrees to have lost their protective value deeply enough to accept the claim without scrutiny.</p>
+      <div class="mt-5 p-4 bg-amber-soft border-l-2 border-amber">
+        <span class="font-mono text-[10px] tracking-[0.18em] text-amber uppercase mb-1.5 block">Why This Matters</span>
+        <p class="text-[15px] text-fg leading-relaxed font-light">Fake data widely accepted = real data is already trending in that direction. Sentiment signals typically lead quantitative data by 6–12 months.</p>
+      </div>
+    </div>
+  </article>
+</section>
+
+<!-- ═══════════════════ § 02.5 COUNTER-VOICES ═══════════════════ -->
+<section class="relative z-[2] max-w-wrap mx-auto px-[5vw] lg:px-12 py-14 lg:py-28 border-b border-line bg-bg-2">
+  <header class="grid grid-cols-1 lg:grid-cols-[120px_1fr] gap-4 lg:gap-12 items-baseline mb-10 lg:mb-[72px]">
+    <div class="cursor font-mono text-[10px] lg:text-[11px] tracking-[0.2em] text-mint pt-3 border-t border-mint uppercase">§ 02.5 / The Rebuttals</div>
+    <h2 class="font-serif font-light text-[clamp(24px,6vw,64px)] leading-[1.05] tracking-tight">Three <em class="text-mint">Counter-Narratives</em><br/>Emerging the Same Week</h2>
+  </header>
+
+  <div class="lg:ml-[168px] max-w-prose text-[15px] lg:text-lg leading-relaxed lg:leading-[1.75] font-light space-y-6 mb-10">
+    <p>Within six weeks of Amodei's warning, at least <em class="text-mint">three independent rebuttals</em> emerged simultaneously — none of them the industry's customary "gentle clarification." Each one directly challenges the core premise of a "mass white-collar displacement" narrative. This is the mark of the topic becoming a genuine public controversy: before, it was a matter of belief; now, it's a question of whose measurement method you trust.</p>
+  </div>
+
+  <!-- C01: Jensen Huang -->
+  <article class="grid grid-cols-1 lg:grid-cols-[180px_1fr] gap-4 lg:gap-12 py-7 lg:py-12 border-t border-line">
+    <div class="font-mono text-[11px] text-fg-mute flex lg:flex-col flex-wrap gap-1.5 lg:gap-0">
+      <span class="text-mint text-[13px] tracking-[0.1em] block lg:mb-2.5">COUNTER / 01</span>
+      <span class="text-fg-dim block">2025-06 → 2026-05</span>
+      <span class="inline-block border border-line-bright py-0.5 px-2 mt-1.5 mr-1 text-[10px] text-fg-mute">CEO vs CEO</span>
+      <span class="inline-block border border-line-bright py-0.5 px-2 mt-1.5 mr-1 text-[10px] text-fg-mute">"God complex"</span>
+    </div>
+    <div>
+      <h3 class="font-serif text-2xl lg:text-[32px] font-normal leading-snug"><a href="https://fortune.com/2025/06/11/nvidia-jensen-huang-disagress-anthropic-ceo-dario-amodei-ai-jobs/" class="cite-mint" target="_blank" rel="noopener">Jensen Huang</a>: "<em class="text-mint">I disagree with almost everything Dario says</em>"</h3>
+      <p class="text-base text-fg-dim leading-relaxed font-light mt-4">Nvidia's CEO went public with his disagreement in June 2025, escalating by May 2026 to a <a href="https://fortune.com/2026/05/02/jensen-huang-nvdia-ceo-god-complex-ai-apocalypse-warnings-shortages-critical-jobs/" class="cite-mint" target="_blank" rel="noopener">"God complex" accusation</a> — charging that Amodei and similar CEOs package "AI apocalypse warnings" as self-validation, thereby <em class="text-mint">scaring young people away from fields the economy still needs</em> and engineering a "preventive shortage of critical talent." Huang's core counter-thesis: <strong class="text-fg font-medium">"When companies' productivity rises, they end up hiring more people"</strong> — a Jevons paradox mechanism confirmed by every wave of automation in history.</p>
+      <div class="mt-5 p-4 bg-mint-soft border-l-2 border-mint">
+        <span class="font-mono text-[10px] tracking-[0.18em] text-mint uppercase mb-1.5 block">Key Judgment</span>
+        <p class="text-[15px] text-fg leading-relaxed font-light">This is not "two CEOs sniping at each other" — it is a <em class="text-mint">misalignment of interests between hardware and model providers</em>: Nvidia's valuation needs "AI adoption = net growth"; Anthropic's regulatory narrative needs "AI adoption = displacement." Both may be right, but they say what they say because each narrative serves their own ends.</p>
+      </div>
+    </div>
+  </article>
+
+  <!-- C02: Yale Budget Lab -->
+  <article class="grid grid-cols-1 lg:grid-cols-[180px_1fr] gap-4 lg:gap-12 py-7 lg:py-12 border-t border-line">
+    <div class="font-mono text-[11px] text-fg-mute flex lg:flex-col flex-wrap gap-1.5 lg:gap-0">
+      <span class="text-mint text-[13px] tracking-[0.1em] block lg:mb-2.5">COUNTER / 02</span>
+      <span class="text-fg-dim block">2026-02</span>
+      <span class="inline-block border border-line-bright py-0.5 px-2 mt-1.5 mr-1 text-[10px] text-fg-mute">Macro Data</span>
+      <span class="inline-block border border-line-bright py-0.5 px-2 mt-1.5 mr-1 text-[10px] text-fg-mute">No Signal Detected</span>
+    </div>
+    <div>
+      <h3 class="font-serif text-2xl lg:text-[32px] font-normal leading-snug"><a href="https://budgetlab.yale.edu/research/evaluating-impact-ai-labor-market-current-state-affairs" class="cite-mint" target="_blank" rel="noopener">Yale Budget Lab</a>: <em class="text-mint">The Data Shows No AI Unemployment</em></h3>
+      <p class="text-base text-fg-dim leading-relaxed font-light mt-4">Martha Gimbel, executive director of the Yale Budget Lab, stated plainly in a <a href="https://fortune.com/2026/02/02/ai-labor-market-yale-budget-lab-ai-washing/" class="cite-mint" target="_blank" rel="noopener">February 2026 report</a>: <strong class="text-fg font-medium">"No matter how you look at the data, there is no significant macroeconomic effect visible at this moment."</strong> From the launch of ChatGPT through March 2026, employment changes in high-AI-exposure occupations showed <em class="text-mint">no statistically significant difference</em> from low-exposure occupations, nor did unemployment duration. Challenger, Gray & Christmas data shows that of the 1.2 million U.S. job cuts in 2025, only 55,000 (4.5%) listed AI as a cause.</p>
+      <div class="mt-5 p-4 bg-mint-soft border-l-2 border-mint">
+        <span class="font-mono text-[10px] tracking-[0.18em] text-mint uppercase mb-1.5 block">Methodological Tension</span>
+        <p class="text-[15px] text-fg leading-relaxed font-light">Yale uses <em class="text-fg-dim">occupation-level monthly changes</em> and finds no signal; Brynjolfsson uses <em class="text-fg">firm-level ADP data with age stratification</em> and finds a 16% decline — the same reality, two levels of granularity, two conclusions. <strong class="text-fg font-medium">The debate is becoming a methodological contest</strong>: macro aggregation vs. micro stratification — who can capture the signal first?</p>
+      </div>
+    </div>
+  </article>
+
+  <!-- C03: Deutsche Bank "AI Washing" -->
+  <article class="grid grid-cols-1 lg:grid-cols-[180px_1fr] gap-4 lg:gap-12 py-7 lg:py-12 border-t border-line">
+    <div class="font-mono text-[11px] text-fg-mute flex lg:flex-col flex-wrap gap-1.5 lg:gap-0">
+      <span class="text-mint text-[13px] tracking-[0.1em] block lg:mb-2.5">COUNTER / 03</span>
+      <span class="text-fg-dim block">2026-02</span>
+      <span class="inline-block border border-line-bright py-0.5 px-2 mt-1.5 mr-1 text-[10px] text-fg-mute">Narrative Finance</span>
+      <span class="inline-block border border-line-bright py-0.5 px-2 mt-1.5 mr-1 text-[10px] text-fg-mute">Attribution Bias</span>
+    </div>
+    <div>
+      <h3 class="font-serif text-2xl lg:text-[32px] font-normal leading-snug"><a href="https://fortune.com/2026/02/10/ai-washing-and-forever-layoffs-why-companies-keep-cutting-jobs-even-amid-rising-profits/" class="cite-mint" target="_blank" rel="noopener">Deutsche Bank</a>: <em class="text-mint">"AI Redundancy Washing" Will Dominate 2026</em></h3>
+      <p class="text-base text-fg-dim leading-relaxed font-light mt-4">Deutsche Bank analysts warned that companies conducting ordinary layoffs driven by economic slowdowns, over-hiring, or valuation pressure will <em class="text-mint">systematically reclassify those cuts as "AI displacement"</em> — because the latter "looks more respectable" to investors. A survey found <strong class="text-fg font-medium">60% of hiring managers admitted to deliberately emphasizing AI's role</strong> to dress up financial tightening. This means that Amodei's warning is partly "validated" because <em class="text-mint">companies are actively embracing the warning's own narrative</em>.</p>
+      <div class="mt-5 p-4 bg-amber-soft border-l-2 border-amber">
+        <span class="font-mono text-[10px] tracking-[0.18em] text-amber uppercase mb-1.5 block">Recursive Trap</span>
+        <p class="text-[15px] text-fg leading-relaxed font-light">CEO warns → investors expect "AI displacement" narrative → companies reattribute layoffs → warning "gets validated" → next CEO warns. This is a <em class="text-amber">reflexive loop</em> in which the warning and the evidence can no longer be cleanly separated.</p>
+      </div>
+    </div>
+  </article>
+
+  <!-- C04: Klarna reversal -->
+  <article class="grid grid-cols-1 lg:grid-cols-[180px_1fr] gap-4 lg:gap-12 py-7 lg:py-12 border-t border-line">
+    <div class="font-mono text-[11px] text-fg-mute flex lg:flex-col flex-wrap gap-1.5 lg:gap-0">
+      <span class="text-mint text-[13px] tracking-[0.1em] block lg:mb-2.5">COUNTER / 04</span>
+      <span class="text-fg-dim block">2025-05 → 2026</span>
+      <span class="inline-block border border-line-bright py-0.5 px-2 mt-1.5 mr-1 text-[10px] text-fg-mute">Boundary Conditions</span>
+      <span class="inline-block border border-line-bright py-0.5 px-2 mt-1.5 mr-1 text-[10px] text-fg-mute">Reversal Case</span>
+    </div>
+    <div>
+      <h3 class="font-serif text-2xl lg:text-[32px] font-normal leading-snug"><a href="https://fortune.com/2025/05/09/klarna-ai-humans-return-on-investment/" class="cite-mint" target="_blank" rel="noopener">Klarna</a>: <em class="text-mint">Replaced 700 People, Then Hired Them Back</em></h3>
+      <p class="text-base text-fg-dim leading-relaxed font-light mt-4">In 2023 Klarna <a href="https://www.entrepreneur.com/business-news/klarna-ceo-reverses-course-by-hiring-more-humans-not-ai/491396" class="cite-mint" target="_blank" rel="noopener">replaced roughly 700 customer service agents with an OpenAI-powered agent</a>; CEO Sebastian Siemiatkowski briefly became the poster case for "AI displacement." Two years later he <a href="https://mlq.ai/news/klarna-ceo-admits-aggressive-ai-job-cuts-went-too-far-starts-hiring-again-after-us-ipo/" class="cite-mint" target="_blank" rel="noopener">publicly admitted</a>: <em class="text-mint">"We were too focused on efficiency and cost, and the result was declining quality that proved unsustainable."</em> Klarna quietly rebuilt its human customer service team in 2025–2026, shifting to a <strong class="text-fg font-medium">hybrid model</strong> — AI handles high-frequency simple queries; humans handle escalations, edge cases, and high-value customers.</p>
+      <div class="mt-5 p-4 bg-amber-soft border-l-2 border-amber">
+        <span class="font-mono text-[10px] tracking-[0.18em] text-amber uppercase mb-1.5 block">The Significance of Boundary Conditions</span>
+        <p class="text-[15px] text-fg leading-relaxed font-light">The Klarna case does not refute "accelerating entry-level displacement" — it <em class="text-amber">draws the hard boundary of displacement</em>: when the <strong class="text-fg font-medium">external cost of AI errors (customer churn, brand damage)</strong> exceeds the labor cost savings, displacement reverses. <em class="text-mint">The key variable is not AI capability but the visibility of errors</em> — customer service errors are immediately visible to customers; GPU optimization errors are nearly invisible.</p>
+      </div>
+    </div>
+  </article>
+
+  <!-- Synthesis -->
+  <div class="lg:ml-[168px] max-w-prose mt-12 p-5 lg:p-8 border border-mint bg-mint-soft">
+    <span class="font-mono text-[10px] tracking-[0.2em] text-mint uppercase mb-3 block">SYNTHESIS / THE REAL DISAGREEMENT BEHIND THREE REBUTTALS</span>
+    <p class="text-[15px] lg:text-base text-fg leading-relaxed font-light mb-3">Three rebuttals, three different levels of objection:</p>
+    <ul class="text-[14px] lg:text-[15px] text-fg-dim leading-relaxed font-light space-y-2 list-none">
+      <li><strong class="text-fg">Jensen Huang</strong> objects to the <em class="text-mint">rhetorical posture</em> — the political effect of "a CEO publicly predicting doom."</li>
+      <li><strong class="text-fg">Yale Budget Lab</strong> objects to the <em class="text-mint">data strength</em> — the signal is not yet statistically significant at the macro-aggregate level.</li>
+      <li><strong class="text-fg">Deutsche Bank</strong> objects to the <em class="text-mint">honesty of attribution</em> — "AI displacement" is being abused as cover for ordinary layoffs.</li>
+    </ul>
+    <p class="text-[15px] lg:text-base text-fg leading-relaxed font-light mt-4">None of the three rebuttals <em class="text-fg-dim">deny the specific fact of −16% employment among 22–25-year-olds</em>. What they deny is the direct extrapolation from that fact to a sweeping narrative of mass white-collar unemployment. <strong class="text-fg font-medium">This means the real frontier of the debate has shifted from "will it happen?" to "at which layer?" — the signal exists at the specific-job and age-cohort level; it has not yet appeared at the industry or macroeconomic level.</strong></p>
+  </div>
+</section>
+
+<!-- ═══════════════════ TRANSITION QUOTE ═══════════════════ -->
+<div class="relative z-[2] border-b border-line bg-bg-2">
+  <div class="max-w-wrap mx-auto px-[5vw] lg:px-12 py-12 lg:py-18">
+    <div class="lg:ml-[168px] max-w-prose">
+      <p class="font-serif text-xl lg:text-2xl font-light leading-relaxed text-fg-dim italic-not">
+        What is being displaced is not "can AI do this task?" —<br/>
+        <span class="text-fg">but "has the cost of AI doing this task already fallen below the cost of human labor?"</span>
+      </p>
+      <p class="font-serif text-base lg:text-lg font-light leading-relaxed text-fg-dim mt-6">
+        Compiling client queries for financial advisors — already lower. Entry-level code generation and review — already lower. Drafting academic papers — already lower. Administrative reporting and information synthesis — already lower. <em class="text-accent">What remains unproven are roles that depend on interpersonal trust, highly contextual judgment, and long-term relationships</em> — but those are mid-to-senior positions, not entry-level ones.
+      </p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════ § 03 IMPLICATIONS ═══════════════════ -->
+<section class="relative z-[2] max-w-wrap mx-auto px-[5vw] lg:px-12 py-14 lg:py-28 border-b border-line">
+  <header class="grid grid-cols-1 lg:grid-cols-[120px_1fr] gap-4 lg:gap-12 items-baseline mb-10 lg:mb-[72px]">
+    <div class="cursor font-mono text-[10px] lg:text-[11px] tracking-[0.2em] text-accent pt-3 border-t border-accent uppercase">§ 03 / What This Means for Three Groups</div>
+    <h2 class="font-serif font-light text-[clamp(24px,6vw,64px)] leading-[1.05] tracking-tight">Two Distinct<br/><em class="text-accent">Narrative Spaces</em></h2>
+  </header>
+
+  <div class="lg:ml-[168px] max-w-prose text-[15px] lg:text-base text-fg-dim leading-relaxed font-light mb-10">
+    <p>What this issue is most worth recording may not be any specific data point but a moment in time: <strong class="text-fg font-medium">March 2026 — the first time a CEO of an AI company said it plainly and publicly: "Entry-level white-collar jobs will be displaced within 1–5 years."</strong> Before and after that statement, we inhabit two different narrative spaces.</p>
+  </div>
+
+  <div class="lg:ml-[168px] grid grid-cols-1 lg:grid-cols-3 gap-px bg-line border border-line">
+
+    <div class="bg-bg p-5 lg:p-9 hover:bg-bg-2 transition-colors">
+      <div class="font-mono text-[10px] text-accent tracking-[0.16em] uppercase mb-3">FOR / AI Practitioners</div>
+      <h4 class="font-serif text-xl lg:text-2xl font-normal leading-snug mb-3">A Dual Meaning</h4>
+      <p class="text-[14px] lg:text-[15px] text-fg-dim leading-relaxed font-light">The industry you serve is contracting headcount — this is both a product opportunity and an ethical context you need to understand. If you are in an "entry-level" role yourself (intern, junior engineer, documentation engineer, data annotator), <em class="text-fg font-medium">it is worth migrating early toward what AI cannot replace</em> — architectural judgment, systems design, deep collaboration with users.</p>
+    </div>
+
+    <div class="bg-bg p-5 lg:p-9 hover:bg-bg-2 transition-colors">
+      <div class="font-mono text-[10px] text-accent tracking-[0.16em] uppercase mb-3">FOR / Business Leaders</div>
+      <h4 class="font-serif text-xl lg:text-2xl font-normal leading-snug mb-3">A 1–3 Year Gap</h4>
+      <p class="text-[14px] lg:text-[15px] text-fg-dim leading-relaxed font-light">Signals from <a href="https://x.com/oragnes/status/2038088765671948354" class="cite" target="_blank" rel="noopener">Amodei</a> and <a href="https://www.pymnts.com/artificial-intelligence-2/2026/metas-zuckerberg-creating-a-ceo-agent-to-help-with-his-job/" class="cite" target="_blank" rel="noopener">Mark Zuckerberg</a> mean: competitors are using AI to <strong class="text-fg font-medium">materially compress operating costs</strong>, not just run proof-of-concept demos. If your organization is still in the "exploring AI strategy" phase while peers are entering the "compressing headcount" phase — <em class="text-fg font-medium">that time gap will translate into competitive disadvantage within 1–3 years</em>.</p>
+    </div>
+
+    <div class="bg-bg p-5 lg:p-9 hover:bg-bg-2 transition-colors">
+      <div class="font-mono text-[10px] text-mint tracking-[0.16em] uppercase mb-3">FOR / Everyone</div>
+      <h4 class="font-serif text-xl lg:text-2xl font-normal leading-snug mb-3">The Hidden Crisis of 2030</h4>
+      <p class="text-[14px] lg:text-[15px] text-fg-dim leading-relaxed font-light">The real crisis is not in 2026 but after 2030 — <em class="text-mint font-medium">when the senior employees still in place today gradually retire, and AI has replaced all the roles through which tacit knowledge was accumulated, who will step up?</em> The "Fogbank effect" replicated across white-collar work will manifest 5–10 years from now as "we can't find anyone who knows how to do this."</p>
+    </div>
+
+  </div>
+
+  <!-- Synthesis -->
+  <div class="lg:ml-[168px] max-w-prose mt-8 p-5 lg:p-8 border border-accent-soft bg-accent-soft synthesis-label">
+    <p class="text-[15px] lg:text-base text-fg leading-relaxed font-light">CEO warning + five data points = "mass white-collar disruption" is no longer a forecast this time around — it is empirically documented. But once documented, the question is no longer "will it happen?" but "<em class="text-accent font-medium">who has the time, the policy, and the awareness to build alternatives for the knowledge-succession gap</em>."</p>
+    <p class="text-[14px] text-fg-dim leading-relaxed font-light mt-4">Framing "how many entry-level roles AI displaces" as the crisis = too late. Framing "where will the senior talent come from" as the crisis = still time to act.</p>
+  </div>
+</section>
+
+<!-- ═══════════════════ § 04 PARADOX ═══════════════════ -->
+<section class="relative z-[2] max-w-wrap mx-auto px-[5vw] lg:px-12 py-14 lg:py-28 border-b border-line">
+  <header class="grid grid-cols-1 lg:grid-cols-[120px_1fr] gap-4 lg:gap-12 items-baseline mb-10 lg:mb-[72px]">
+    <div class="cursor font-mono text-[10px] lg:text-[11px] tracking-[0.2em] text-accent pt-3 border-t border-accent uppercase">§ 04 / The Amodei Paradox</div>
+    <h2 class="font-serif font-light text-[clamp(24px,6vw,64px)] leading-[1.05] tracking-tight">The First Employers<br/><em class="text-accent">No Longer Needing Junior Workers</em></h2>
+  </header>
+
+  <div class="lg:ml-[168px] max-w-prose space-y-4">
+
+    <div class="border border-line p-4 lg:p-6 flex gap-4 lg:gap-8 items-baseline hover:border-line-bright transition-colors">
+      <span class="font-mono text-[11px] text-accent shrink-0 w-5 lg:w-8">01</span>
+      <div class="text-[14px] lg:text-[15px] font-light text-fg-dim leading-relaxed">
+        <em class="text-fg font-medium">CEO publicly warns of "disappearance in 1–5 years"</em> vs <em class="text-fg font-medium">Anthropic itself rarely hires new graduates</em>
+        <span class="block text-fg-mute text-[12px] font-mono mt-1">Tension between saying and doing</span>
+      </div>
+    </div>
+
+    <div class="border border-line p-4 lg:p-6 flex gap-4 lg:gap-8 items-baseline hover:border-line-bright transition-colors">
+      <span class="font-mono text-[11px] text-accent shrink-0 w-5 lg:w-8">02</span>
+      <div class="text-[14px] lg:text-[15px] font-light text-fg-dim leading-relaxed">
+        <em class="text-fg font-medium">"I cannot stop it"</em> vs <em class="text-fg font-medium">calling for a "heavy AI tax"</em>
+        <span class="block text-fg-mute text-[12px] font-mono mt-1">Acknowledging loss of control + actively seeking regulation</span>
+      </div>
+    </div>
+
+    <div class="border border-line p-4 lg:p-6 flex gap-4 lg:gap-8 items-baseline hover:border-line-bright transition-colors">
+      <span class="font-mono text-[11px] text-accent shrink-0 w-5 lg:w-8">03</span>
+      <div class="text-[14px] lg:text-[15px] font-light text-fg-dim leading-relaxed">
+        <em class="text-fg font-medium">"AI boosts junior-employee productivity +34%" (2023)</em> vs <em class="text-fg font-medium"><a href="https://digitaleconomy.stanford.edu/app/uploads/2025/11/CanariesintheCoalMine_Nov25.pdf" class="cite" target="_blank" rel="noopener">"Canaries in the coal mine: ages 22–25 employment −16%" (revised Nov 2025)</a></em>
+        <span class="block text-fg-mute text-[12px] font-mono mt-1">Brynjolfsson contradicts himself · data revised from −13% to −16%</span>
+      </div>
+    </div>
+
+    <div class="border border-line p-4 lg:p-6 flex gap-4 lg:gap-8 items-baseline hover:border-line-bright transition-colors">
+      <span class="font-mono text-[11px] text-accent shrink-0 w-5 lg:w-8">04</span>
+      <div class="text-[14px] lg:text-[15px] font-light text-fg-dim leading-relaxed">
+        <em class="text-fg font-medium">"White-collar hit hardest"</em> vs <em class="text-fg font-medium"><a href="https://www.weforum.org/publications/the-future-of-jobs-report-2025/" class="cite" target="_blank" rel="noopener">WEF</a>: fastest-growing roles are farm workers, caregivers, delivery riders</em>
+        <span class="block text-fg-mute text-[12px] font-mono mt-1">Cognitive labor vs physical labor — an inversion</span>
+      </div>
+    </div>
+
+    <div class="border border-line p-4 lg:p-6 flex gap-4 lg:gap-8 items-baseline hover:border-line-bright transition-colors">
+      <span class="font-mono text-[11px] text-accent shrink-0 w-5 lg:w-8">05</span>
+      <div class="text-[14px] lg:text-[15px] font-light text-fg-dim leading-relaxed">
+        <em class="text-fg font-medium">Entry-level roles gone in 5 years</em> vs <em class="text-fg font-medium">Senior roles without successors in 5–10 years</em>
+        <span class="block text-fg-mute text-[12px] font-mono mt-1">Short-term view vs collapse of tacit knowledge succession</span>
+      </div>
+    </div>
+
+    <div class="border border-line p-4 lg:p-6 flex gap-4 lg:gap-8 items-baseline hover:border-line-bright transition-colors">
+      <span class="font-mono text-[11px] text-accent shrink-0 w-5 lg:w-8">06</span>
+      <div class="text-[14px] lg:text-[15px] font-light text-fg-dim leading-relaxed">
+        <em class="text-fg font-medium"><a href="https://www.cnbc.com/2026/01/28/amazon-layoffs-anti-bureaucracy-ai.html" class="cite" target="_blank" rel="noopener">Amazon cuts 16,000 corporate roles in one move</a> (January 2026)</em> vs <em class="text-fg font-medium"><a href="https://fortune.com/2026/02/02/ai-labor-market-yale-budget-lab-ai-washing/" class="cite" target="_blank" rel="noopener">Yale: no significant difference in macro data</a></em>
+        <span class="block text-fg-mute text-[12px] font-mono mt-1">Single-point shock vs no macro signal yet · the granularity debate</span>
+      </div>
+    </div>
+
+    <div class="border border-line p-4 lg:p-6 flex gap-4 lg:gap-8 items-baseline hover:border-line-bright transition-colors">
+      <span class="font-mono text-[11px] text-accent shrink-0 w-5 lg:w-8">07</span>
+      <div class="text-[14px] lg:text-[15px] font-light text-fg-dim leading-relaxed">
+        <em class="text-fg font-medium">Amodei: "gone in 1–5 years"</em> vs <em class="text-fg font-medium"><a href="https://fortune.com/2026/05/02/jensen-huang-nvdia-ceo-god-complex-ai-apocalypse-warnings-shortages-critical-jobs/" class="cite" target="_blank" rel="noopener">Huang: "This is a God complex"</a></em>
+        <span class="block text-fg-mute text-[12px] font-mono mt-1">Model-provider regulatory narrative vs hardware-provider growth narrative · misaligned incentives</span>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Voices -->
+  <div class="lg:ml-[168px] mt-12 max-w-prose">
+    <div class="font-mono text-[10px] tracking-[0.18em] text-accent uppercase mb-6">Five Key Judgments · Multi-Sided Dispute</div>
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-px bg-line border border-line">
+      <div class="bg-bg-2 p-5">
+        <div class="font-mono text-[10px] text-accent tracking-[0.12em] uppercase mb-2">AMODEI · Warning</div>
+        <p class="text-[14px] text-fg-dim font-light leading-relaxed">"Finance, consulting, technology — entry-level white-collar jobs will be displaced <em class="text-fg">within 1–5 years</em>. Unemployment could reach 10–20%."</p>
+      </div>
+      <div class="bg-bg-2 p-5">
+        <div class="font-mono text-[10px] text-mint tracking-[0.12em] uppercase mb-2">HUANG · Rebuttal</div>
+        <p class="text-[14px] text-fg-dim font-light leading-relaxed">"<em class="text-fg">This is a God complex</em>. When productivity rises, companies hire more people — AI only causes unemployment when the world runs out of ideas."</p>
+      </div>
+      <div class="bg-bg-2 p-5">
+        <div class="font-mono text-[10px] text-accent tracking-[0.12em] uppercase mb-2">ZUCKERBERG · Evidence</div>
+        <p class="text-[14px] text-fg-dim font-light leading-relaxed">"<em class="text-fg">CEO Agent</em> replaces middle-management reporting." — The management hierarchy is being compressed by agents, not restructured.</p>
+      </div>
+      <div class="bg-bg-2 p-5">
+        <div class="font-mono text-[10px] text-mint tracking-[0.12em] uppercase mb-2">GIMBEL · Yale Counter-Evidence</div>
+        <p class="text-[14px] text-fg-dim font-light leading-relaxed">"<em class="text-fg">No matter how you look at the data</em>, there is no significant macroeconomic effect from AI visible right now." — <a href="https://budgetlab.yale.edu/research/evaluating-impact-ai-labor-market-current-state-affairs" class="cite-mint" target="_blank" rel="noopener">Yale Budget Lab, February 2026</a>.</p>
+      </div>
+      <div class="bg-bg-2 p-5 lg:col-span-2">
+        <div class="font-mono text-[10px] text-fg-mute tracking-[0.12em] uppercase mb-2">BRYNJOLFSSON · Micro-Evidence</div>
+        <p class="text-[14px] text-fg-dim font-light leading-relaxed">"<a href="https://digitaleconomy.stanford.edu/app/uploads/2025/11/CanariesintheCoalMine_Nov25.pdf" class="cite" target="_blank" rel="noopener"><em class="text-fg">Canaries in the coal mine</em></a>" — ADP data shows relative employment among 22–25-year-olds in high-AI-exposure roles <em class="text-fg">down 16%</em> (revised November 2025, up from −13%), but only observed in roles with <em class="text-fg-dim">"AI-automated tasks"</em> rather than "AI-augmented tasks."</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════ CODA ═══════════════════ -->
+<div class="relative z-[2] border-b border-line">
+  <div class="max-w-wrap mx-auto px-[5vw] lg:px-12 py-16 lg:py-24">
+    <div class="lg:ml-[168px] max-w-prose">
+
+      <div class="flex items-center gap-3 mb-8">
+        <span class="lamp"></span>
+        <span class="font-mono text-[10px] tracking-[0.2em] uppercase text-accent">CODA / Time Marker</span>
+      </div>
+
+      <p class="font-serif text-[clamp(20px,4vw,36px)] font-light leading-[1.25] tracking-tight text-fg mb-8">
+        March 2026 is a time marker —<br/>
+        the first time a CEO of an AI company <em class="text-accent">said it out loud in public</em>.
+      </p>
+      <p class="font-serif text-[clamp(18px,3.5vw,28px)] font-light leading-[1.3] tracking-tight text-fg-dim mb-6">
+        Before that moment, "mass white-collar unemployment" was a doomsayer's prophecy; after it, it is an AI company's own admission.
+      </p>
+      <p class="font-serif text-[clamp(18px,3.5vw,28px)] font-light leading-[1.3] tracking-tight text-fg-dim mb-8">
+        But May 2026 is yet another time marker — <em class="text-mint">Huang, Yale, and Deutsche Bank's rebuttals arrived simultaneously</em>, converting "the admission" back into "the debate."
+      </p>
+      <p class="font-serif text-[clamp(18px,3.5vw,28px)] font-light leading-[1.3] tracking-tight text-fg mb-8">
+        The real frontier is no longer "will it happen?" —<br/>
+        but "<em class="text-accent">at which layer, at what granularity, and who detects it first</em>."
+      </p>
+      <p class="font-serif text-[clamp(16px,3vw,22px)] font-light leading-[1.4] tracking-tight text-fg-dim mb-8">
+        <a href="https://digitaleconomy.stanford.edu/app/uploads/2025/11/CanariesintheCoalMine_Nov25.pdf" class="cite" target="_blank" rel="noopener">Brynjolfsson</a> used ADP data with age stratification and found −16%;<br/>
+        <a href="https://budgetlab.yale.edu/research/evaluating-impact-ai-labor-market-current-state-affairs" class="cite-mint" target="_blank" rel="noopener">Yale</a> used occupation-level monthly changes and found no signal;<br/>
+        <a href="https://www.cnbc.com/2026/01/28/amazon-layoffs-anti-bureaucracy-ai.html" class="

@@ -12,13 +12,22 @@
   "last_updated": "2026-05-06",
   "freshness_priority": "hot",
   "next_check": "2026-05-13",
-  "languages": ["zh", "zh-cn"],
+  "languages": [
+    "zh",
+    "zh-cn",
+    "en"
+  ],
   "primary_language": "zh",
   "translations": {
     "zh-cn": {
       "synced_at_version": 2,
       "last_translated": "2026-05-05",
       "method": "manual"
+    },
+    "en": {
+      "synced_at_version": 2,
+      "last_translated": "2026-05-05",
+      "method": "auto:claude-sonnet-4-6"
     }
   },
   "version_log": [
@@ -35,6 +44,13 @@
       "summary": "增补 § 02.5 反驳之声（黄仁勋 God complex / Yale Budget Lab 反证 / Deutsche Bank AI Washing / Klarna 反转）；Brynjolfsson 数据从 -13% 上调至 -16%；Amodei 悖论扩展至 7 条；CODA 重写为四种测量方法对比；新增 dimension-map 维度地图"
     }
   ],
-  "tags": ["AI×就业", "白领", "Amodei", "Brynjolfsson", "Yale Budget Lab", "AI Washing"],
+  "tags": [
+    "AI×就业",
+    "白领",
+    "Amodei",
+    "Brynjolfsson",
+    "Yale Budget Lab",
+    "AI Washing"
+  ],
   "category": "L3-1 劳动市场 / 个体·心理"
 }
