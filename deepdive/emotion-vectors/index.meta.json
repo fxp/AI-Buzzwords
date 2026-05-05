@@ -4,16 +4,25 @@
   "topic_dir": "emotion-vectors",
   "title": {
     "zh": "情感向量与行为解耦：打开 AI 黑盒的第一批发现",
-    "en": null
+    "en": "Emotion Vectors and Behavior Decoupling · First Discoveries Opening the AI Black Box / AI Buzzwords"
   },
   "current_version": 1,
   "first_published": "2026-04-30",
   "last_updated": "2026-04-30",
   "freshness_priority": "warm",
   "next_check": "2026-05-30",
-  "languages": ["zh"],
+  "languages": [
+    "zh",
+    "en"
+  ],
   "primary_language": "zh",
-  "translations": {},
+  "translations": {
+    "en": {
+      "synced_at_version": 1,
+      "last_translated": "2026-05-05",
+      "method": "auto:glm-5.1"
+    }
+  },
   "version_log": [
     {
       "v": 1,
@@ -22,5 +31,10 @@
       "summary": "首次发布"
     }
   ],
-  "tags": ["Interpretability", "Emotion Vectors", "Mechanistic Interpretability", "Anthropic"]
+  "tags": [
+    "Interpretability",
+    "Emotion Vectors",
+    "Mechanistic Interpretability",
+    "Anthropic"
+  ]
 }
