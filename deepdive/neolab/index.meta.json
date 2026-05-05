@@ -4,16 +4,25 @@
   "topic_dir": "neolab",
   "title": {
     "zh": "NEO LAB № 01 / ANDON LABS · 自主组织的前夜",
-    "en": null
+    "en": "NEO LAB № 01 / ANDON LABS · The Eve of Autonomous Organizations"
   },
   "current_version": 1,
   "first_published": "2026-04-28",
   "last_updated": "2026-04-28",
   "freshness_priority": "cold",
   "next_check": "2026-08-01",
-  "languages": ["zh"],
+  "languages": [
+    "zh",
+    "en"
+  ],
   "primary_language": "zh",
-  "translations": {},
+  "translations": {
+    "en": {
+      "synced_at_version": 1,
+      "last_translated": "2026-05-05",
+      "method": "auto:glm-5.1"
+    }
+  },
   "version_log": [
     {
       "v": 1,
@@ -22,5 +31,10 @@
       "summary": "首次发布：NEO LAB 系列首篇 / Andon Labs 案例研究"
     }
   ],
-  "tags": ["NEO LAB", "Andon Labs", "Autonomous Organization", "Case Study"]
+  "tags": [
+    "NEO LAB",
+    "Andon Labs",
+    "Autonomous Organization",
+    "Case Study"
+  ]
 }
