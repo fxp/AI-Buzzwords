@@ -1,0 +1,48 @@
+{
+  "$schema": "Configures multilingual support across the site",
+  "default_language": "zh",
+  "languages": [
+    {
+      "code": "zh",
+      "name": "中文",
+      "html_lang": "zh",
+      "filename_suffix": "",
+      "hreflang": "zh",
+      "default": true,
+      "translate_target": false
+    },
+    {
+      "code": "zh-cn",
+      "name": "中文婉转版",
+      "html_lang": "zh-CN",
+      "filename_suffix": ".cn",
+      "hreflang": "zh-CN",
+      "is_edition_of": "zh",
+      "tactful": true,
+      "translate_target": false,
+      "manual_only": true
+    },
+    {
+      "code": "en",
+      "name": "English",
+      "html_lang": "en",
+      "filename_suffix": ".en",
+      "hreflang": "en",
+      "translate_target": true,
+      "translate_source": "zh"
+    }
+  ],
+  "translation_models": {
+    "default": "glm-5.1",
+    "endpoint": "https://api.z.ai/api/paas/v4/chat/completions",
+    "endpoint_cn": "https://open.bigmodel.cn/api/paas/v4/chat/completions"
+  },
+  "update_agent_model": "claude-sonnet-4-6",
+  "_notes": [
+    "Adding a new language: append an object with translate_target=true and translate_source set to source language code. The translate Action picks it up on next run.",
+    "filename_suffix appears between slug and .html (e.g. 'white-collar' + '.en' + '.html'). Empty for default language.",
+    "hreflang values follow IETF BCP 47 (zh, zh-CN, en, en-US, ja, ko, ...).",
+    "manual_only=true means the translate Action skips this language (e.g. tactful editions need human authoring).",
+    "update_agent_model is overrideable via UPDATE_AGENT_MODEL env var in workflows."
+  ]
+}
