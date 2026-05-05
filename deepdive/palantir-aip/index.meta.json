@@ -4,16 +4,25 @@
   "topic_dir": "palantir-aip",
   "title": {
     "zh": "Context Layer 才是 ToB AI 的终极护城河 · Palantir AIP",
-    "en": null
+    "en": "Context Layer Is the Ultimate Moat for B2B AI · Palantir / AI Buzzwords"
   },
   "current_version": 1,
   "first_published": "2026-04-30",
   "last_updated": "2026-04-30",
   "freshness_priority": "warm",
   "next_check": "2026-05-30",
-  "languages": ["zh"],
+  "languages": [
+    "zh",
+    "en"
+  ],
   "primary_language": "zh",
-  "translations": {},
+  "translations": {
+    "en": {
+      "synced_at_version": 1,
+      "last_translated": "2026-05-05",
+      "method": "auto:glm-5.1"
+    }
+  },
   "version_log": [
     {
       "v": 1,
@@ -22,5 +31,11 @@
       "summary": "首次发布"
     }
   ],
-  "tags": ["Palantir", "AIP", "ToB AI", "Context Layer", "Enterprise AI"]
+  "tags": [
+    "Palantir",
+    "AIP",
+    "ToB AI",
+    "Context Layer",
+    "Enterprise AI"
+  ]
 }

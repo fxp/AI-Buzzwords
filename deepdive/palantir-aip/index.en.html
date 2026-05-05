@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Context Layer Is the Ultimate Moat for B2B AI · Palantir / AI Buzzwords</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,700&family=JetBrains+Mono:wght@300;400;500;700&family=Inter+Tight:wght@400;500;600&display=swap" rel="stylesheet" />
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      colors: {
+        bg:'#0a0908','bg-2':'#111110',
+        fg:'#ebe6dc','fg-dim':'#9a948a','fg-mute':'#5a544b',
+        line:'#2b2823','line-bright':'#443f37',
+        amber:'#f5a524','amber-soft':'rgba(245,165,36,0.09)',
+        mint:'#7fb88b','mint-soft':'rgba(127,184,139,0.12)',
+        signal:'#d1402c',paper:'#e8e3d8',ink:'#1a1815',
+      },
+      fontFamily: {
+        serif:["'Fraunces'","'Source Han Serif SC'","'Noto Serif SC'","Georgia","serif"],
+        mono:["'JetBrains Mono'","ui-monospace","monospace"],
+        sans:["'Inter Tight'","system-ui","sans-serif"],
+      },
+      maxWidth:{prose:'820px',content:'1020px',wrap:'1320px'},
+    }
+  }
+}
+</script>
+<style>
+em,i{font-style:normal}
+body{font-feature-settings:'ss01','ss02','kern';-webkit-font-smoothing:antialiased}
+body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(245,165,36,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(245,165,36,0.04) 1px,transparent 1px);background-size:80px 80px;pointer-events:none;z-index:0}
+body::after{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.96 0 0 0 0 0.9 0 0 0 0 0.8 0 0 0 0.08 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");pointer-events:none;z-index:1;opacity:0.45;mix-blend-mode:overlay}
+.lamp{display:inline-block;width:8px;height:8px;border-radius:50%;background:#f5a524;box-shadow:0 0 10px #f5a524,0 0 24px rgba(245,165,36,0.2);animation:pulse 2.4s ease-in-out infinite;vertical-align:middle}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.55}}
+.cursor::after{content:'▮';color:#f5a524;margin-left:6px;animation:blink 1.1s steps(2) infinite}
+@keyframes blink{0%,50%{opacity:1}51%,100%{opacity:0}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+.hero-anim>*{animation:fadeUp 0.9s cubic-bezier(.2,.7,.2,1) both}
+.hero-anim>*:nth-child(1){animation-delay:.05s}.hero-anim>*:nth-child(2){animation-delay:.15s}
+.hero-anim>*:nth-child(3){animation-delay:.28s}.hero-anim>*:nth-child(4){animation-delay:.42s}
+.pullquote-mark::before{content:'"';position:absolute;top:16px;left:12px;font-family:'Fraunces',serif;font-size:100px;color:#f5a524;opacity:0.18;line-height:1}
+.layers-label::before{content:'STACK / FOUR-LAYER ARCHITECTURE';position:absolute;top:-10px;left:28px;background:#0a0908;padding:0 12px;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.2em;color:#f5a524}
+.dual-label::before{content:'DUAL EDGE / DOUBLE-EDGED SWORD';position:absolute;top:-10px;left:28px;background:#0a0908;padding:0 12px;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.2em;color:#d1402c}
+</style>
+</head>
+
+<body class="bg-bg text-fg font-serif leading-relaxed overflow-x-hidden">
+
+<!-- TOP STRIP -->
+<div class="max-w-wrap mx-auto px-[5vw] lg:px-12 relative z-[2]">
+  <div class="border-b border-line py-3.5 font-mono text-[10px] lg:text-[11px] tracking-[0.12em] uppercase text-fg-dim grid grid-cols-1 lg:grid-cols-4 gap-2 lg:gap-6 items-center">
+    <div><span class="lamp mr-2.5"></span>ENTERPRISE / FIELD REPORTS · № 04</div>
+    <div class="hidden lg:block">SUBJECT / PALANTIR · CONTEXT LAYER</div>
+    <div class="hidden lg:block">FILED / 2026.04.02</div>
+    <div class="lg:text-right"><a href="../../" class="hover:text-fg">← AI BUZZWORDS</a></div>
+  </div>
+</div>
+
+<!-- HERO -->
+<section class="hero-anim max-w-wrap mx-auto px-[5vw] lg:px-12 relative z-[2] pt-10 lg:pt-28 pb-12 lg:pb-24 border-b border-line">
+  <div class="font-mono text-[9px] lg:text-[11px] tracking-[0.18em] uppercase text-amber mb-8 lg:mb-10 flex flex-wrap gap-2 lg:gap-7 items-center">
+    <span>CASE FILE</span><span class="text-fg-mute hidden lg:inline">/</span>
+    <span>GOTHAM · FOUNDRY · AIP · APOLLO</span><span class="text-fg-mute hidden lg:inline">/</span>
+    <span>$15 → $111 · 7×</span>
+  </div>
+  <h1 class="font-serif font-light text-[clamp(28px,8.5vw,124px)] leading-[0.95] tracking-tight mb-6 lg:mb-9">
+    <em class="text-amber font-normal">Context Layer</em>
+    <span class="block">Is the Ultimate</span>
+    <span class="block"><em class="text-amber font-normal">Moat</em> for B2B AI</span>
+  </h1>
+  <div class="max-w-[760px] text-[15px] lg:text-xl text-fg-dim font-light leading-relaxed lg:leading-[1.55] border-l border-amber pl-3.5 lg:pl-5 mt-4">
+    While everyone debates "which model is stronger,"<br/>
+    Palantir uses its <strong class="text-fg font-normal">Gotham/Foundry/AIP/Apollo four-layer architecture</strong> and <strong class="text-fg font-normal">146% customer retention rate</strong> to prove a counterintuitive proposition:<br/>
+    <strong class="text-fg font-normal">The moat of B2B AI is not at the model layer, but at the context layer.</strong>
+  </div>
+
+  <!-- HERO STATS -->
+  <div class="mt-12 lg:mt-16 grid grid-cols-2 lg:grid-cols-4 gap-px bg-line border border-line font-mono">
+    <div class="bg-bg p-5 lg:p-7">
+      <div class="text-[9px] lg:text-[10px] tracking-[0.16em] uppercase text-fg-mute mb-3">DOLLAR-BASED RETENTION</div>
+      <div class="font-serif text-[30px] lg:text-[44px] font-normal text-amber leading-none mb-2">146<span class="text-lg lg:text-xl text-fg-mute">%</span></div>
+      <div class="text-[10px] lg:text-[11px] text-fg-dim">EXPANSION REVENUE BUILT-IN</div>
+    </div>
+    <div class="bg-bg p-5 lg:p-7">
+      <div class="text-[9px] lg:text-[10px] tracking-[0.16em] uppercase text-fg-mute mb-3">STOCK · 24 MONTHS</div>
+      <div class="font-serif text-[30px] lg:text-[44px] font-normal text-amber leading-none mb-2">7×</div>
+      <div class="text-[10px] lg:text-[11px] text-fg-dim">$15 → $111</div>
+    </div>
+    <div class="bg-bg p-5 lg:p-7">
+      <div class="text-[9px] lg:text-[10px] tracking-[0.16em] uppercase text-fg-mute mb-3">POC CYCLE</div>
+      <div class="font-serif text-[30px] lg:text-[44px] font-normal text-mint leading-none mb-2">1 <span class="text-lg lg:text-xl text-fg-mute">MO</span></div>
+      <div class="text-[10px] lg:text-[11px] text-fg-dim">VS C3.AI ≈ 4-5 MO</div>
+    </div>
+    <div class="bg-bg p-5 lg:p-7">
+      <div class="text-[9px] lg:text-[10px] tracking-[0.16em] uppercase text-fg-mute mb-3">DEEPSEEK-WEEK Δ</div>
+      <div class="font-serif text-[30px] lg:text-[44px] font-normal text-mint leading-none mb-2">+40<span class="text-lg lg:text-xl text-fg-mute">%</span></div>
+      <div class="text-[10px] lg:text-[11px] text-fg-dim">WHILE FRONTIER MODELS BLED</div>
+    </div>
+  </div>
+</section>
+
+<!-- § 01 NOT A MODEL CO -->
+<section class="max-w-wrap mx-auto px-[5vw] lg:px-12 relative z-[2] py-14 lg:py-28 border-b border-line">
+  <header class="grid grid-cols-1 lg:grid-cols-[120px_1fr] gap-4 lg:gap-12 items-baseline mb-10 lg:mb-[72px]">
+    <div class="cursor font-mono text-[10px] lg:text-[11px] tracking-[0.2em] text-amber pt-3 border-t border-amber uppercase">§ 01 / WHAT IT IS</div>
+    <h2 class="font-serif font-light text-[clamp(24px,7vw,68px)] leading-[1.05] tracking-tight">Not a Model Company,<br/>but a <em class="text-amber">Context Infrastructure</em> Company</h2>
+  </header>
+  <div class="lg:ml-[168px] max-w-prose text-[15px] lg:text-lg leading-relaxed lg:leading-[1.75] font-light">
+    <p class="mb-5">The first step to understanding Palantir is to drop the question of "whether it's an AI company."</p>
+    <p class="mb-5">It is a company that <strong class="text-amber font-medium">builds context infrastructure</strong>—AI is just a new component on top of this infrastructure. The four-layer architecture constitutes its strategic depth:</p>
+
+    <div class="layers-label relative my-8 border border-amber p-6 lg:p-8 pt-10 lg:pt-12 grid grid-cols-1 lg:grid-cols-2 gap-4">
+      <div class="border-l-2 border-amber pl-4">
+        <div class="font-mono text-[11px] tracking-[0.16em] text-amber uppercase mb-2">L1 · GOTHAM</div>
+        <p class="text-[14px] text-fg-dim font-light leading-relaxed">Intelligence analysis platform. Originally served the CIA, NSA, and U.S. military counterterrorism. Core capability is <strong class="text-fg font-normal">connecting data scattered across different systems into comprehensible context</strong>.</p>
+      </div>
+      <div class="border-l-2 border-amber pl-4">
+        <div class="font-mono text-[11px] tracking-[0.16em] text-amber uppercase mb-2">L2 · FOUNDRY</div>
+        <p class="text-[14px] text-fg-dim font-light leading-relaxed">Enterprise data operating system. Democratizes Gotham's capabilities. The moat lies in <strong class="text-fg font-normal">deep API integration with customer business systems, industry Domain Models, and compliance knowledge bases</strong>.</p>
+      </div>
+      <div class="border-l-2 border-amber pl-4">
+        <div class="font-mono text-[11px] tracking-[0.16em] text-amber uppercase mb-2">L3 · AIP</div>
+        <p class="text-[14px] text-fg-dim font-light leading-relaxed">Launched in 2023. Lets LLMs run within Palantir's existing context layer—models see not raw data, <strong class="text-fg font-normal">but industry knowledge graphs refined over two decades</strong>.</p>
+      </div>
+      <div class="border-l-2 border-amber pl-4">
+        <div class="font-mono text-[11px] tracking-[0.16em] text-amber uppercase mb-2">L4 · APOLLO</div>
+        <p class="text-[14px] text-fg-dim font-light leading-relaxed">Continuous delivery platform. Solves the problem of <strong class="text-fg font-normal">continuous software updates</strong> in highly secure environments (military networks, air-gapped systems).</p>
+      </div>
+    </div>
+
+    <p class="mb-0 text-[16px] lg:text-[19px] text-amber font-medium">Models are replaceable (using Claude today, can switch to Gemini tomorrow),<br/>but the context layer is irreplaceable.</p>
+  </div>
+</section>
+
+<!-- PULLQUOTE -->
+<div class="max-w-wrap mx-auto px-[5vw] lg:px-12 relative z-[2]">
+  <blockquote class="pullquote-mark relative max-w-[960px] mx-auto py-10 lg:py-12 px-5 lg:px-14 border-t border-b border-amber my-10 lg:my-[72px]">
+    <span class="font-serif font-light text-[clamp(19px,5vw,40px)] leading-snug text-fg block">
+      Integrating LLMs and AI-based products is a<br/>
+      <em class="text-amber font-normal">perfect use case</em> for the role.
+    </span>
+    <cite class="block mt-6 font-mono text-[11px] text-amber tracking-[0.18em] uppercase not-italic">— PRAGMATIC ENGINEER · ON FORWARD DEPLOYED ENGINEERS</cite>
+  </blockquote>
+</div>
+
+<!-- § 02 FDSE -->
+<section class="max-w-wrap mx-auto px-[5vw] lg:px-12 relative z-[2] py-14 lg:py-28 border-b border-line">
+  <header class="grid grid-cols-1 lg:grid-cols-[120px_1fr] gap-4 lg:gap-12 items-baseline mb-10 lg:mb-[72px]">
+    <div class="cursor font-mono text-[10px] lg:text-[11px] tracking-[0.2em] text-mint pt-3 border-t border-mint uppercase">§ 02 / FDSE</div>
+    <h2 class="font-serif font-light text-[clamp(24px,7vw,68px)] leading-[1.05] tracking-tight">The Critical Bridge<br/>from Consulting to <em class="text-mint">Productization</em></h2>
+  </header>
+  <div class="lg:ml-[168px] max-w-prose text-[15px] lg:text-lg leading-relaxed lg:leading-[1.75] font-light">
+    <p class="mb-5">Traditional enterprise AI deployment has two extremes: pure product (standardized SaaS, no customization), or pure consulting (Accenture-style, every project from scratch). <strong class="text-fg font-normal">The former lacks depth of engagement; the latter has uncontrollable costs.</strong> Palantir's FDSE model takes a third path:</p>
+    <p class="mb-5">FDSEs are <strong class="text-mint font-medium">engineers embedded at customer sites</strong>, with both technical implementation skills and industry understanding. The key distinction: <strong class="text-fg font-normal">all customization work is based on Palantir's standard tool stack</strong>—FDSEs don't write new code; they assemble solutions customers need using standard components from Foundry/AIP.</p>
+    <p class="mb-0">This means: deliverables from every customer project accumulate as <strong class="text-mint font-medium">part of the platform's capabilities</strong>. A supply chain optimization solution built by an FDSE at an oil company can, after abstraction and productization, be reused for other energy customers. <strong class="text-fg font-normal">Internal tool productization, not external selling</strong>—this is the key to Palantir's POC cycle of just 1 month (vs. C3.ai's 4-5 months).</p>
+    <p class="mt-5">This model is being replicated across the industry. OpenAI has hired many FDSE roles, driven by its former Chief Research Officer Bob McGrew (who came from Palantir). Companies like Ramp and Commure are also following suit.</p>
+  </div>
+</section>
+
+<!-- § 03 EXPANSION PATH -->
+<section class="max-w-wrap mx-auto px-[5vw] lg:px-12 relative z-[2] py-14 lg:py-28 border-b border-line">
+  <header class="grid grid-cols-1 lg:grid-cols-[120px_1fr] gap-4 lg:gap-12 items-baseline mb-10 lg:mb-[72px]">
+    <div class="cursor font-mono text-[10px] lg:text-[11px] tracking-[0.2em] text-amber pt-3 border-t border-amber uppercase">§ 03 / GO-TO-MARKET</div>
+    <h2 class="font-serif font-light text-[clamp(24px,7vw,68px)] leading-[1.05] tracking-tight"><em class="text-amber">Vertical First, Then Horizontal</em><br/>From Military to Commerce</h2>
+  </header>
+  <div class="lg:ml-[168px] max-w-[960px]">
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-px bg-line border border-line">
+      <article class="bg-bg p-6 lg:p-8">
+        <div class="font-mono text-[10px] tracking-[0.18em] text-amber uppercase mb-3">PHASE 01 · 2003-2015</div>
+        <h3 class="font-serif text-xl font-normal mb-3">Military & Security</h3>
+        <p class="text-[14px] text-fg-dim font-light leading-relaxed">CIA · NSA · U.S. military counterterrorism intelligence analysis. Built <strong class="text-fg font-normal">irreplaceable intelligence analysis capabilities</strong>, and accumulated the foundational context layer through this vertical depth.</p>
+      </article>
+      <article class="bg-bg p-6 lg:p-8">
+        <div class="font-mono text-[10px] tracking-[0.18em] text-amber uppercase mb-3">PHASE 02 · 2015-2022</div>
+        <h3 class="font-serif text-xl font-normal mb-3">Energy & Manufacturing</h3>
+        <p class="text-[14px] text-fg-dim font-light leading-relaxed">Brought military-grade data integration into industrial supply chains. Energy companies use it to optimize supply chains; manufacturers use it to <strong class="text-fg font-normal">predict equipment failures</strong>.</p>
+      </article>
+      <article class="bg-bg p-6 lg:p-8">
+        <div class="font-mono text-[10px] tracking-[0.18em] text-amber uppercase mb-3">PHASE 03 · 2023-NOW</div>
+        <h3 class="font-serif text-xl font-normal mb-3">Commercial Acceleration</h3>
+        <p class="text-[14px] text-fg-dim font-light leading-relaxed">After AIP's launch, rapidly reached a broad range of commercial customers. Stock price surged from $15 to $111 (<strong class="text-amber font-medium">7×</strong>), and rose <strong class="text-amber font-medium">40% against the trend</strong> during the DeepSeek valuation shock.</p>
+      </article>
+    </div>
+    <p class="mt-8 text-[15px] lg:text-[17px] text-fg-dim font-light leading-relaxed">The strategy of "penetrate vertically, replicate horizontally" is mutually validated by C3.ai (energy → manufacturing/military → finance), and is <strong class="text-amber font-medium">the most worthy expansion paradigm for B2B AI companies to reference</strong>.</p>
+  </div>
+</section>
+
+<!-- § 04 DUAL EDGE -->
+<section class="max-w-wrap mx-auto px-[5vw] lg:px-12 relative z-[2] py-14 lg:py-28 border-b border-line">
+  <header class="grid grid-cols-1 lg:grid-cols-[120px_1fr] gap-4 lg:gap-12 items-baseline mb-10 lg:mb-[72px]">
+    <div class="cursor font-mono text-[10px] lg:text-[11px] tracking-[0.2em] text-signal pt-3 border-t border-signal uppercase">§ 04 / DUAL EDGE</div>
+    <h2 class="font-serif font-light text-[clamp(24px,7vw,68px)] leading-[1.05] tracking-tight">The <em class="text-signal">Other Side</em> of the Controversy</h2>
+  </header>
+  <div class="lg:ml-[168px] max-w-prose text-[15px] lg:text-lg leading-relaxed lg:leading-[1.75] font-light">
+    <p class="mb-5">In March 2026, Palantir made headlines again in a disturbing way: <strong class="text-signal font-medium">U.S. Central Command used Claude through Palantir's Maven Smart System to assist in identifying strike targets during military operations against Iran—over 1,000 targets in the first 24 hours</strong>.</p>
+    <p class="mb-5">Palantir's CEO publicly discussed this involvement, claiming to execute a "higher mission," backed by 430% annual growth and a $360 billion valuation. External commentary was sharp but accurate: <strong class="text-fg font-normal">the modern military-industrial complex builds algorithms, not tanks</strong>.</p>
+    <p class="mb-5">Meanwhile, New York hospitals dropped Palantir, and the UK raised privacy concerns about it—a reminder that:</p>
+    <div class="dual-label relative border border-signal p-6 lg:p-8 pt-10 lg:pt-12">
+      <p class="text-[15px] lg:text-[17px] text-fg font-normal leading-relaxed">The power of the Context Layer is a double-edged sword. The same data integration capability,<br/>applied to enterprise supply chains, is an <em class="text-mint">efficiency tool</em>;<br/>applied to military intelligence, is a <em class="text-signal">targeting system</em>;<br/>applied to law enforcement, is a <em class="text-signal">surveillance infrastructure</em>.</p>
+    </div>
+    <p class="mt-7 mb-0">The deeper the moat, the heavier the ethical responsibility. <strong class="text-fg font-normal">This is not a problem that can be solved with "usage policy documents."</strong></p>
+  </div>
+</section>
+
+<!-- § 05 TAKEAWAYS -->
+<section class="max-w-wrap mx-auto px-[5vw] lg:px-12 relative z-[2] py-14 lg:py-28 border-b border-line">
+  <header class="grid grid-cols-1 lg:grid-cols-[120px_1fr] gap-4 lg:gap-12 items-baseline mb-10 lg:mb-[72px]">
+    <div class="cursor font-mono text-[10px] lg:text-[11px] tracking-[0.2em] text-amber pt-3 border-t border-amber uppercase">§ 05 / TAKEAWAYS</div>
+    <h2 class="font-serif font-light text-[clamp(24px,7vw,68px)] leading-[1.05] tracking-tight">Four <em class="text-amber">Takeaways</em></h2>
+  </header>
+  <div class="lg:ml-[168px] max-w-[960px] grid grid-cols-1 lg:grid-cols-2 gap-px bg-line border border-line">
+    <article class="bg-bg p-6 lg:p-8">
+      <div class="font-mono text-[10px] tracking-[0.18em] text-amber uppercase mb-3">TAKEAWAY 01</div>
+      <p class="text-[14.5px] text-fg-dim font-light leading-relaxed"><strong class="text-amber font-medium">Model capability is not the moat; the context layer is.</strong> Core investment should go toward accumulating industry Domain Models, API integrations, and compliance knowledge bases—not chasing the latest foundation models.</p>
+    </article>
+    <article class="bg-bg p-6 lg:p-8">
+      <div class="font-mono text-[10px] tracking-[0.18em] text-amber uppercase mb-3">TAKEAWAY 02</div>
+      <p class="text-[14.5px] text-fg-dim font-light leading-relaxed"><strong class="text-amber font-medium">The FDSE model is worth serious consideration.</strong> But all customization must be based on a <strong class="text-fg font-normal">standardized tool stack</strong>, otherwise you'll fall into the cost trap of pure consulting.</p>
+    </article>
+    <article class="bg-bg p-6 lg:p-8">
+      <div class="font-mono text-[10px] tracking-[0.18em] text-amber uppercase mb-3">TAKEAWAY 03</div>
+      <p class="text-[14.5px] text-fg-dim font-light leading-relaxed"><strong class="text-amber font-medium">"Vertical first, then horizontal" is a proven expansion path.</strong> Find a high-barrier vertical domain to penetrate, build an irreplaceable context layer, then replicate horizontally—rather than pursuing a general-purpose platform from the start.</p>
+    </article>
+    <article class="bg-bg p-6 lg:p-8">
+      <div class="font-mono text-[10px] tracking-[0.18em] text-signal uppercase mb-3">TAKEAWAY 04</div>
+      <p class="text-[14.5px] text-fg-dim font-light leading-relaxed"><strong class="text-signal font-medium">Ethical frameworks need to be thought through in advance.</strong> When your context layer is powerful enough, customers (including military and government) will find ways to use your capabilities, <strong class="text-fg font-normal">and the boundaries you can control are far narrower than you imagine</strong>.</p>
+    </article>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="max-w-wrap mx-auto px-[5vw] lg:px-12 relative z-[2] py-12 lg:py-16">
+  <div class="font-mono text-[10px] lg:text-[11px] tracking-[0.16em] uppercase text-fg-mute grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-12">
+    <div>
+      <div class="text-fg-dim mb-2.5">SOURCES</div>
+      <div class="text-fg leading-relaxed">Pragmatic Engineer · Palantir Public Financials · Vice on ICE/ELITE</div>
+    </div>
+    <div class="lg:text-right">
+      <div class="text-fg-dim mb-2.5">FILED</div>
+      <div class="text-fg">2026.04.02 · AI BUZZWORDS / DEEPDIVE</div>
+      <div class="mt-3 text-fg-dim"><a href="../../viewer.html?f=deepdive/palantir-aip/palantir-aip-blog.md" class="hover:text-amber">→ View Markdown source</a></div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
