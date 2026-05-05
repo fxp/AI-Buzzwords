@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="zh">
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -77,6 +77,11 @@ body::after { content:''; position:fixed; inset:0; background-image:url("data:im
 .series-inner-bg { background:linear-gradient(135deg,rgba(245,165,36,0.09) 0%,transparent 60%),#111110 }
 .related-bg { background:linear-gradient(135deg,rgba(127,184,139,0.08) 0%,transparent 60%),#111110 }
 </style>
+
+  <script src="../../lang-switcher.js" defer></script>
+  <link rel="alternate" hreflang="zh" href="index.html" />
+  <link rel="alternate" hreflang="en" href="index.en.html" />
+  <link rel="alternate" hreflang="x-default" href="index.html" />
 </head>
 
 <body class="bg-bg text-fg font-serif leading-relaxed overflow-x-hidden">
@@ -519,7 +524,8 @@ body::after { content:''; position:fixed; inset:0; background-image:url("data:im
   <div class="series-inner-bg max-w-[1100px] mx-auto border border-amber p-7 lg:p-14 relative">
     <div class="flex items-center gap-6 mb-9">
       <span class="font-mono text-[11px] tracking-[0.22em] text-amber uppercase">NEO LAB / 系列</span>
-      <span class="series-line-grad flex-1 h-px"></span>
+      <div data-lang-switcher data-slug="index" style="margin-left:auto"></div>
+    <span class="series-line-grad flex-1 h-px"></span>
     </div>
     <h3 class="font-serif font-light text-[clamp(20px,5vw,42px)] leading-snug tracking-tight mb-4">这是 <em class="text-amber font-normal">Neo Lab Field Reports</em> 系列的<br/>第 <span class="font-mono font-medium text-amber text-[0.9em]">01</span> 期</h3>
     <p class="max-w-[780px] text-sm lg:text-base text-fg-dim font-light leading-relaxed mb-10">Neo Lab 关注那些<strong class="text-fg font-medium">正在重新定义"AI 实验室是什么"的小型前沿团队</strong>。</p>

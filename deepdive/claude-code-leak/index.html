@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="zh">
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -51,9 +51,15 @@ body::after{content:'';position:fixed;inset:0;background-image:url("data:image/s
 .bar{position:relative;height:4px;background:#2b2823;overflow:hidden}
 .bar>i{position:absolute;top:0;left:0;height:100%;background:linear-gradient(90deg,#d1402c,#e85f4a);font-style:normal}
 </style>
+
+  <script src="../../lang-switcher.js" defer></script>
+  <link rel="alternate" hreflang="zh" href="index.html" />
+  <link rel="alternate" hreflang="en" href="index.en.html" />
+  <link rel="alternate" hreflang="x-default" href="index.html" />
 </head>
 
 <body class="bg-bg text-fg font-serif leading-relaxed overflow-x-hidden">
+<div data-lang-switcher data-slug="index" style="margin-left:auto"></div>
 
 <!-- TOP STRIP -->
 <div class="max-w-wrap mx-auto px-[5vw] lg:px-12 relative z-[2]">
