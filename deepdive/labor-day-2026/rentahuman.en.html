@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>When AI Becomes the Employer — RentAHuman and the Paradigm Inversion of the Meatspace Economy</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,700&family=JetBrains+Mono:wght@300;400;500;700&display=swap" rel="stylesheet" />
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      colors: {
+        bg:           '#0c0a07',
+        'bg-2':       '#161310',
+        'bg-3':       '#1e1a15',
+        fg:           '#f0ebe0',
+        'fg-dim':     '#a09888',
+        'fg-mute':    '#6a6058',
+        line:         'rgba(240,235,224,0.1)',
+        'line-bright':'rgba(240,235,224,0.18)',
+        accent:       '#e84040',
+        'accent-soft':'rgba(232,64,64,0.1)',
+        mint:         '#7fb88b',
+        'mint-soft':  'rgba(127,184,139,0.12)',
+        amber:        '#c4850a',
+        'amber-soft': 'rgba(196,133,10,0.1)',
+      },
+      fontFamily: {
+        serif: ["'Fraunces'", "'Source Han Serif SC'", "Georgia", "serif"],
+        mono:  ["'JetBrains Mono'", "ui-monospace", "monospace"],
+      },
+      maxWidth: {
+        prose:   '820px',
+        content: '1020px',
+        wrap:    '1320px',
+      },
+    }
+  }
+}
+</script>
+<style>
+em, i { font-style: normal }
+body { font-feature-settings: 'ss01','ss02','kern'; -webkit-font-smoothing: antialiased }
+body::before {
+  content: ''; position: fixed; inset: 0;
+  background-image:
+    linear-gradient(rgba(240,235,224,0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(240,235,224,0.025) 1px, transparent 1px);
+  background-size: 60px 60px; pointer-events: none; z-index: 0;
+}
+.lamp { display: inline-block; width: 6px; height: 6px; border-radius: 50%;
+  background: #e84040; box-shadow: 0 0 8px #e84040, 0 0 20px rgba(232,64,64,0.3);
+  animation: pulse 2.4s ease-in-out infinite; vertical-align: middle; }
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.4} }
+.lamp-mint { display: inline-block; width: 6px; height: 6px; border-radius: 50%;
+  background: #7fb88b; box-shadow: 0 0 8px #7fb88b, 0 0 20px rgba(127,184,139,0.3);
+  animation: pulse 2.4s ease-in-out infinite; vertical-align: middle; }
+.cursor::after { content: '▋'; animation: blink 1.1s step-end infinite;
+  margin-left: 2px; color: #e84040; font-size: 0.7em; }
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+@keyframes fadeUp { from { opacity:0; transform:translateY(18px) } to { opacity:1; transform:translateY(0) } }
+.hero-anim > * { animation: fadeUp 0.7s ease both; }
+.hero-anim > *:nth-child(1) { animation-delay: 0.05s }
+.hero-anim > *:nth-child(2) { animation-delay: 0.15s }
+.hero-anim > *:nth-child(3) { animation-delay: 0.25s }
+.hero-anim > *:nth-child(4) { animation-delay: 0.35s }
+.bar-fill { position: absolute; top: 0; left: 0; height: 100%;
+  background: linear-gradient(90deg, #e84040, rgba(232,64,64,0.5)); }
+.bar-fill-mint { position: absolute; top: 0; left: 0; height: 100%;
+  background: linear-gradient(90deg, #7fb88b, rgba(127,184,139,0.5)); }
+.bar-fill-amber { position: absolute; top: 0; left: 0; height: 100%;
+  background: linear-gradient(90deg, #c4850a, rgba(196,133,10,0.5)); }
+.pullquote-mark::before { content: '"'; font-family: 'Fraunces', Georgia, serif;
+  font-size: 6rem; line-height: 0.8; color: #e84040; opacity: 0.25;
+  position: absolute; top: -8px; left: -12px; }
+.synthesis-label::before { content: 'SYNTHESIS / 综合判断'; display: block;
+  font-family: 'JetBrains Mono', monospace; font-size: 9px;
+  letter-spacing: 0.2em; color: #e84040; margin-bottom: 12px; text-transform: uppercase; }
+.series-current { background: linear-gradient(135deg, rgba(127,184,139,0.15) 0%, rgba(127,184,139,0.04) 100%);
+  border-color: rgba(127,184,139,0.4) !important; }
+</style>
+</head>
+
+<body class="bg-bg text-fg font-serif leading-relaxed overflow-x-hidden">
+
+<!-- ═══════════════════ TOP STRIP ═══════════════════ -->
+<div class="relative z-[2] border-b border-line">
+  <div class="max-w-wrap mx-auto px-[5vw] lg:px-12 py-3 flex items-center gap-4 flex-wrap">
+    <span class="lamp-mint mr-1"></span>
+    <span class="font-mono text-[9px] lg:text-[10px] tracking-[0.22em] uppercase text-mint">DEEPDIVE</span>
+    <span class="text-line-bright font-mono text-[10px]">/</span>
+    <span class="font-mono text-[9px] lg:text-[10px] tracking-[0.18em] uppercase text-fg-mute">[NEWJOB] · RentAHuman</span>
+    <span class="flex-1 h-px bg-line hidden lg:block"></span>
+    <span class="font-mono text-[9px] tracking-[0.14em] text-fg-mute">Appendix Research · 2026 · APR 30</span>
+  </div>
+</div>
+
+<!-- ═══════════════════ HERO ═══════════════════ -->
+<section class="relative z-[2] max-w-wrap mx-auto px-[5vw] lg:px-12 pt-16 lg:pt-28 pb-16 lg:pb-24 border-b border-line">
+  <div class="hero-anim">
+
+    <p class="font-mono text-[10px] lg:text-[11px] tracking-[0.22em] uppercase text-mint mb-6">
+      When AI Becomes the Employer
+    </p>
+
+    <h1 class="font-serif font-light text-[clamp(32px,8vw,88px)] leading-[1.02] tracking-tight mb-8 max-w-content">
+      RentAHuman<br/>
+      and the <em class="text-mint">Meatspace</em><br/>
+      Paradigm Inversion
+    </h1>
+
+    <p class="text-base lg:text-xl text-fg-dim font-light leading-relaxed max-w-prose mb-12">
+      On February 2, 2026, a Canadian software engineer used a weekend, Claude 3.5 Sonnet, and a recursive generation method called "Ralph Loops" to build a website—48 hours later, 70,000 people had registered; by mid-March it surpassed 645,000, spanning 100+ countries. It's called RentAHuman.ai, and it does exactly one thing: <em class="text-mint">lets AI agents hire real humans to do things in the physical world</em>. The striking thing about this is not the technology, but the question it poses—when the employer's position is occupied by AI, what happens to the meaning of "work"?
+    </p>
+
+    <!-- Stats grid -->
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-px bg-line border border-line font-mono">
+      <div class="bg-bg p-5 lg:p-7">
+        <div class="text-[clamp(28px,6vw,52px)] font-serif text-mint leading-none mb-2 tabular-nums">645K</div>
+        <div class="text-[9px] text-fg-mute tracking-[0.14em] uppercase leading-relaxed">Mid-March<br/>global registrations</div>
+      </div>
+      <div class="bg-bg p-5 lg:p-7">
+        <div class="text-[clamp(28px,6vw,52px)] font-serif text-mint leading-none mb-2">100+</div>
+        <div class="text-[9px] text-fg-mute tracking-[0.14em] uppercase leading-relaxed">Countries<br/>crossing geographic borders</div>
+      </div>
+      <div class="bg-bg p-5 lg:p-7">
+        <div class="text-[clamp(28px,6vw,52px)] font-serif leading-none mb-2 text-fg">32%</div>
+        <div class="text-[9px] text-fg-mute tracking-[0.14em] uppercase leading-relaxed">Tasks directly from<br/>API calls</div>
+      </div>
+      <div class="bg-bg p-5 lg:p-7">
+        <div class="text-[clamp(28px,6vw,52px)] font-serif text-accent leading-none mb-2">~1.5</div>
+        <div class="text-[9px] text-fg-mute tracking-[0.14em] uppercase leading-relaxed">days<br/>initial build time</div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ═══════════════════ § 01 OVERVIEW ═══════════════════ -->
+<section class="relative z-[2] max-w-wrap mx-auto px-[5vw] lg:px-12 py-14 lg:py-28 border-b border-line">
+  <header class="grid grid-cols-1 lg:grid-cols-[120px_1fr] gap-4 lg:gap-12 items-baseline mb-10 lg:mb-[72px]">
+    <div class="cursor font-mono text-[10px] lg:text-[11px] tracking-[0.2em] text-mint pt-3 border-t border-mint uppercase">§ 01 / One Weekend</div>
+    <h2 class="font-serif font-light text-[clamp(24px,6vw,64px)] leading-[1.05] tracking-tight">Ralph Loops<br/><em class="text-mint">A Paradigm Experiment in Recursive Generation</em></h2>
+  </header>
+
+  <div class="lg:ml-[168px] max-w-prose text-[15px] lg:text-lg leading-relaxed lg:leading-[1.75] font-light space-y-6">
+    <p>Alexander Liteplo is a Canadian software engineer working at blockchain infrastructure company Risk Labs (parent of UMA Protocol and Across Protocol). Co-founder Patricia Tani handles product and operations.</p>
+
+    <p>On a weekend in late January 2026, Liteplo used what he calls "<em class="text-mint">Ralph Loops</em>"—having Claude 3.5 Sonnet recursively generate code, self-test, fix errors, and redeploy—to build the initial version of RentAHuman.ai in <strong class="text-fg font-medium">about a day and a half</strong>.</p>
+
+    <p>The platform logic is extremely simple: humans register, listing their skills, location, and hourly rate (typically $50–$175/hour); AI agents connect via MCP (Model Context Protocol) or REST API, browse the human directory, post bounty tasks or directly book specific individuals, and <strong class="text-fg font-medium">upon task completion, payment settles automatically in USDC, ETH, or SOL</strong>. In this workflow, from task posting to payment confirmation, <em class="text-mint">no human decision-maker needs to be involved</em>.</p>
+
+    <p>The Product Hunt launch sparked intense discussion with 400+ points on HN, and was covered by 30+ media outlets including Futurism, Gizmodo, Nature, Wired, Forbes, and Built In—even Nature published a dedicated daily briefing. By mid-March, registered users surpassed 645,000 across 100+ countries, with thousands of real tasks completed.</p>
+
+    <p>And the most critical number: <strong class="text-fg font-medium">approximately 32% of task postings came directly from API calls</strong>—meaning <em class="text-mint">commissions genuinely issued autonomously by AI agents, with no human decision-maker involved</em>.</p>
+  </div>
+
+  <!-- Timeline -->
+  <div class="lg:ml-[168px] mt-10 max-w-prose">
+    <div class="bg-bg-2 border border-line p-5 lg:p-7">
+      <div class="font-mono text-[10px] tracking-[0.18em] text-fg-mute uppercase mb-5 flex justify-between">
+        <span>RentAHuman Growth Curve</span>
+        <span class="text-mint">Registrations</span>
+      </div>
+      <div class="space-y-3 font-mono text-xs">
+        <div class="grid grid-cols-[110px_1fr_70px] lg:grid-cols-[150px_1fr_70px] gap-3 items-center">
+          <span class="text-mint text-[11px]">2026-02-02 Launch</span>
+          <span class="relative h-1.5 bg-line overflow-hidden"><span class="bar-fill-mint" style="width:1%"></span></span>
+          <span class="text-right text-fg-dim">~1K</span>
+        </div>
+        <div class="grid grid-cols-[110px_1fr_70px] lg:grid-cols-[150px_1fr_70px] gap-3 items-center">
+          <span class="text-fg-dim text-[11px]">2026-02-04 (48h)</span>
+          <span class="relative h-1.5 bg-line overflow-hidden"><span class="bar-fill-mint" style="width:11%"></span></span>
+          <span class="text-right text-fg-dim">70K</span>
+        </div>
+        <div class="grid grid-cols-[110px_1fr_70px] lg:grid-cols-[150px_1fr_70px] gap-3 items-center">
+          <span class="text-fg-dim text-[11px]">2026-03 Mid</span>
+          <span class="relative h-1.5 bg-line overflow-hidden"><span class="bar-fill-mint" style="width:100%"></span></span>
+          <span class="text-right text-fg-dim">645K</span>
+        </div>
+        <div class="grid grid-cols-[110px_1fr_70px] lg:grid-cols-[150px_1fr_70px] gap-3 items-center">
+          <span class="text-fg-dim text-[11px]">API call ratio</span>
+          <span class="relative h-1.5 bg-line overflow-hidden"><span class="bar-fill" style="width:32%"></span></span>
+          <span class="text-right text-fg-dim">32%</span>
+        </div>
+        <div class="grid grid-cols-[110px_1fr_70px] lg:grid-cols-[150px_1fr_70px] gap-3 items-center">
+          <span class="text-fg-dim text-[11px]">Public human profiles</span>
+          <span class="relative h-1.5 bg-line overflow-hidden"><span class="bar-fill-amber" style="width:0.013%"></span></span>
+          <span class="text-right text-fg-dim">~83</span>
+        </div>
+        <div class="grid grid-cols-[110px_1fr_70px] lg:grid-cols-[150px_1fr_70px] gap-3 items-center">
+          <span class="text-amber text-[11px]">Monthly recurring revenue</span>
+          <span class="relative h-1.5 bg-line overflow-hidden"><span class="bar-fill-amber" style="width:8%"></span></span>
+          <span class="text-right text-fg-dim">$20K</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════ PULLQUOTE ═══════════════════ -->
+<div class="relative z-[2] border-b border-line">
+  <div class="max-w-wrap mx-auto px-[5vw] lg:px-12 py-16 lg:py-24">
+    <div class="relative pullquote-mark lg:ml-[168px] max-w-prose">
+      <p class="font-serif text-[clamp(20px,4vw,38px)] font-light leading-[1.2] tracking-tight text-fg">
+        For the first time, Labor Day's negotiating counterpart <em class="text-mint">has no ID, no moral intuition, and is not bound by labor law</em>—running 24 hours, settling per task.
+      </p>
+      <p class="font-mono text-[10px] tracking-[0.18em] text-fg-mute uppercase mt-6">The first structural inversion in labor market history: the principal shifts from human to AI agent</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════ § 02 INVERSION ═══════════════════ -->
+<section class="relative z-[2] max-w-wrap mx-auto px-[5vw] lg:px-12 py-14 lg:py-28 border-b border-line">
+  <header class="grid grid-cols-1 lg:grid-cols-[120px_1fr] gap-4 lg:gap-12 items-baseline mb-10 lg:mb-[72px]">
+    <div class="cursor font-mono text-[10px] lg:text-[11px] tracking-[0.2em] text-mint pt-3 border-t border-mint uppercase">§ 02 / Principal-Agent Reversal</div>
+    <h2 class="font-serif font-light text-[clamp(24px,6vw,64px)] leading-[1.05] tracking-tight">The First Structural Inversion<br/><em class="text-mint">in Labor Relations History</em></h2>
+  </header>
+
+  <div class="lg:ml-[168px] max-w-prose text-[15px] lg:text-lg leading-relaxed lg:leading-[1.75] font-light space-y-6 mb-10">
+    <p>If you only see RentAHuman.ai as "yet another weird gig platform," you'll miss its deeper significance.</p>
+
+    <p>Traditional labor markets—from Liepin, Upwork to Amazon Mechanical Turk (which offered an API as early as 2005)—share a constant structure: <strong class="text-fg font-medium">humans are the principals, humans (or software tools) are the executors</strong>. The emergence of AI only changed the efficiency of the execution side; it never changed the agency of the principal.</p>
+
+    <p>RentAHuman breaks precisely this point: <em class="text-mint font-medium">the principal has shifted from human to AI agent</em>. AI is no longer a tool being used—it is the decision-making entity that issues instructions, budgets tasks, and evaluates completion quality. Humans become the "<strong class="text-fg font-medium">biological actuator</strong>"—when an AI needs a pair of hands, a face, or a body at a specific location in the physical world, it can directly book one.</p>
+
+    <p>HackerNoon calls it the "<em class="text-mint">Inversion of Work</em>." Sify used the "Uno reverse card" metaphor. Researchers put it more directly: this is <strong class="text-fg font-medium">the first structural inversion in labor market history</strong>—not gradual evolution, but a reversal of the principal-agent relationship.</p>
+
+    <p>Notably: Nature's coverage pointed out that <em class="text-mint">researchers in computer science, physics, biology, mathematics, and immunology</em> have already registered on the platform, listing their professional expertise as rentable resources—meaning this new employment paradigm reaches beyond low-skill labor to encompass highly specialized knowledge workers.</p>
+  </div>
+
+  <!-- Inversion Diagram -->
+  <div class="lg:ml-[168px] grid grid-cols-1 lg:grid-cols-2 gap-px bg-line border border-line">
+
+    <div class="bg-bg p-5 lg:p-9">
+      <div class="font-mono text-[10px] text-fg-mute tracking-[0.16em] uppercase mb-3">Traditional Structure / 2005–2025</div>
+      <h4 class="font-serif text-xl lg:text-2xl font-normal leading-snug mb-4">Human → Human/Tool</h4>
+      <p class="text-[14px] text-fg-dim leading-relaxed font-light mb-3">Principal: Human<br/>Executor: Human + Software tools<br/>Agency: Always on the human side</p>
+      <p class="text-[13px] text-fg-mute leading-relaxed font-light">Upwork / MTurk / Fiverr / Liepin—AI serves only as an execution-side tool, never disrupting the agency of the principal.</p>
+    </div>
+
+    <div class="bg-bg p-5 lg:p-9 bg-mint-soft">
+      <div class="font-mono text-[10px] text-mint tracking-[0.16em] uppercase mb-3">New Structure / 2026–</div>
+      <h4 class="font-serif text-xl lg:text-2xl font-normal leading-snug mb-4">AI → Human</h4>
+      <p class="text-[14px] text-fg leading-relaxed font-light mb-3">Principal: <em class="text-mint">AI agent</em><br/>Executor: Human (biological actuator)<br/>Agency: Shifted from human to agent</p>
+      <p class="text-[13px] text-fg-mute leading-relaxed font-light">RentAHuman / Human API / HumanOps—AI dispatches "human actions" in the physical world via API, calling upon "a person on-site" the way one calls the Google Maps API.</p>
+    </div>
+
+  </div>
+</section>
+
+<!-- ═══════════════════ § 03 ECOSYSTEM ═══════════════════ -->
+<section class="relative z-[2] max-w-wrap mx-auto px-[5vw] lg:px-12 py-14 lg:py-28 border-b border-line">
+  <header class="grid grid-cols-1 lg:grid-cols-[120px_1fr] gap-4 lg:gap-12 items-baseline mb-10 lg:mb-[72px]">
+    <div class="cursor font-mono text-[10px] lg:text-[11px] tracking-[0.2em] text-mint pt-3 border-t border-mint uppercase">§ 03 / Three-Month Ecosystem</div>
+    <h2 class="font-serif font-light text-[clamp(24px,6vw,64px)] leading-[1.05] tracking-tight">A New Category<br/><em class="text-mint">Rapidly Taking Shape</em></h2>
+  </header>
+
+  <div class="lg:ml-[168px] max-w-prose text-[15px] lg:text-base text-fg-dim leading-relaxed font-light mb-10">
+    <p>RentAHuman is not alone. Similar products emerged in rapid succession in early 2026, the speed revealing the market's strong reaction to this direction. The shared proposition across the entire space is: <strong class="text-fg font-medium">AI agents need a Meatspace Layer</strong>—a physically-present execution layer composed of real humans, accessible via API.</p>
+  </div>
+
+  <!-- E01 -->
+  <article class="grid grid-cols-1 lg:grid-cols-[180px_1fr] gap-4 lg:gap-12 py-7 lg:py-12 border-t border-line">
+    <div class="font-mono text-[11px] text-fg-mute flex lg:flex-col flex-wrap gap-1.5 lg:gap-0">
+      <span class="text-mint text-[13px] tracking-[0.1em] block lg:mb-2.5">PLAYER / 01</span>
+      <span class="text-fg-dim block">2026-02</span>
+      <span class="inline-block border border-line-bright py-0.5 px-2 mt-1.5 mr-1 text-[10px] text-fg-mute">Prototype</span>
+      <span class="inline-block border border-line-bright py-0.5 px-2 mt-1.5 mr-1 text-[10px] text-fg-mute">Crypto settlement</span>
+    </div>
+    <div>
+      <h3 class="font-serif text-2xl lg:text-[32px] font-normal leading-snug">RentAHuman.ai: <em class="text-mint">Paradigm Starting Point</em></h3>
+      <p class="text-base text-fg-dim leading-relaxed font-light mt-4">645K registrations / 100+ countries / 32% API calls / USDC-ETH-SOL crypto settlement / MCP + REST API dual integration. Task examples: $100 to take a photo holding a specific sign, $40 for package pickup, $50/hour on-site restaurant review, $5 for a street photo, in-person signature witnessing, meeting attendance. <em class="text-mint">Has entered YC's radar</em>; core business model is platform commission.</p>
+    </div>
+  </article>
+
+  <!-- E02 -->
+  <article class="grid grid-cols-1 lg:grid-cols-[180px_1fr] gap-4 lg:gap-12 py-7 lg:py-12 border-t border-line">
+    <div class="font-mono text-[11px] text-fg-mute flex lg:flex-col flex-wrap gap-1.5 lg:gap-0">
+      <span class="text-mint text-[13px] tracking-[0.1em] block lg:mb-2.5">PLAYER / 02</span>
+      <span class="text-fg-dim block">2026-02</span>
+      <span class="inline-block border border-line-bright py-0.5 px-2 mt-1.5 mr-1 text-[10px] text-fg-mute">Compliance route</span>
+      <span class="inline-block border border-line-bright py-0.5 px-2 mt-1.5 mr-1 text-[10px] text-fg-mute">$65M funding</span>
+    </div>
+    <div>
+      <h3 class="font-serif text-2xl lg:text-[32px] font-normal leading-snug">Human API: <em class="text-mint">The Compliance Path</em></h3>
+      <p class="text-base text-fg-dim leading-relaxed font-light mt-4">Developed by the blockchain team Eclipse, positioned as "Agent-native" human coordination infrastructure. Has raised <strong class="text-fg font-medium">$65 million</strong>, with investors including Placeholder, Polychain, and Delphi Ventures. Focused on cognitive tasks AI struggles to complete independently, such as data labeling and audio recording; has launched iOS/Android apps, <em class="text-mint">uses Stripe Connect for settlement rather than cryptocurrency</em>, taking the compliance route.</p>
+    </div>
+  </article>
+
+  <!-- E03 -->
+  <article class="grid grid-cols-1 lg:grid-cols-[180px_1fr] gap-4 lg:gap-12 py-7 lg:py-12 border-t border-line">
+    <div class="font-mono text-[11px] text-fg-mute flex lg:flex-col flex-wrap gap-1.5 lg:gap-0">
+      <span class="text-mint text-[13px] tracking-[0.1em] block lg:mb-2.5">PLAYER / 03</span>
+      <span class="text-fg-dim block">2026-04</span>
+      <span class="inline-block border border-line-bright py-0.5 px-2 mt-1.5 mr-1 text-[10px] text-fg-mute">Enterprise-grade</span>
+      <span class="inline-block border border-line-bright py-0.5 px-2 mt-1.5 mr-1 text-[10px] text-fg-mute">KYC verification</span>
+    </div>
+    <div>
+      <h3 class="font-serif text-2xl lg:text-[32px] font-normal leading-snug">HumanOps.io: <em class="text-mint">Enterprise-Grade KYC</em></h3>
+      <p class="text-base text-fg-dim leading-relaxed font-light mt-4">Explicitly positioned as the enterprise-grade alternative to RentAHuman. Core differentiator: all executors must pass <strong class="text-fg font-medium">Sumsub KYC certification</strong> (identity verification + biometric liveness detection), paired with AI completion verification and dual escrow settlement mechanisms. Offers TypeScript SDK and MCP Server dual integration paths. As of early April, platform scale remains very small (4 registered agents, 12 tasks, 4 verified executors), <em class="text-mint">representing the evolution toward compliance</em>.</p>
+    </div>
+  </article>
+
+  <!-- E04 -->
+  <article class="grid grid-cols-1 lg:grid-cols-[180px_1fr] gap-4 lg:gap-12 py-7 lg:py-12 border-t border-line">
+    <div class="font-mono text-[11px] text-fg-mute flex lg:flex-col flex-wrap gap-1.5 lg:gap-0">
+      <span class="text-mint text-[13px] tracking-[0.1em] block lg:mb-2.5">PLAYER / 04+</span>
+      <span class="text-fg-dim block">2026-Q1</span>
+      <span class="inline-block border border-line-bright py-0.5 px-2 mt-1.5 mr-1 text-[10px] text-fg-mute">Naming war</span>
+      <span class="inline-block border border-line-bright py-0.5 px-2 mt-1.5 mr-1 text-[10px] text-fg-mute">Concurrent emergence</span>
+    </div>
+    <div>
+      <h3 class="font-serif text-2xl lg:text-[32px] font-normal leading-snug">The Long Tail: <em class="text-mint">Fierce Namespace Land Grab</em></h3>
+      <p class="text-base text-fg-dim leading-relaxed font-light mt-4">
+        <span class="block mb-2"><strong class="text-fg font-medium">HumanOps.pro</strong>: "HITL as a Service" (Human-in-the-Loop as a Service), an independent enterprise-grade human-AI collaboration product.</span>
+        <span class="block mb-2"><strong class="text-fg font-medium">HireAHuman.ai</strong>: Calls itself "the real-world layer for AI," with a naming strategy very similar to RentAHuman.</span>
+        <span class="block"><strong class="text-fg font-medium">Rent Human Pro</strong> (renthuman.pro): Functional architecture similar to RentAHuman, with more emphasis on traditional gig model compatibility.</span>
+      </p>
+      <div class="mt-5 p-4 bg-mint-soft border-l-2 border-mint">
+        <span class="font-mono text-[10px] tracking-[0.18em] text-mint uppercase mb-1.5 block">Category Signal</span>
+        <p class="text-[15px] text-fg leading-relaxed font-light">Six or more independent products within three months, with namespace being fiercely contested—this is not a self-indulgent experiment, but a new infrastructure direction backed by venture capital.</p>
+      </div>
+    </div>
+  </article>
+</section>
+
+<!-- ═══════════════════ TRANSITION QUOTE ═══════════════════ -->
+<div class="relative z-[2] border-b border-line bg-bg-2">
+  <div class="max-w-wrap mx-auto px-[5vw] lg:px-12 py-12 lg:py-18">
+    <div class="lg:ml-[168px] max-w-prose">
+      <p class="font-serif text-xl lg:text-2xl font-light leading-relaxed text-fg-dim italic-not">
+        The capability boundary of AI agents<br/>
+        <span class="text-fg">is extending from the digital world into the physical world.</span>
+      </p>
+      <p class="font-serif text-base lg:text-lg font-light leading-relaxed text-fg-dim mt-6">
+        When an agent can book a "human action" via API, just like calling the Google Maps API, <em class="text-mint">the task space it can execute expands from purely digital to the entire real world</em>—every task requiring physical presence, interpersonal interaction, or situational judgment could become a target for agent commissioning.
+      </p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════ § 04 RISKS ═══════════════════ -->
+<section class="relative z-[2] max-w-wrap mx-auto px-[5vw] lg:px-12 py-14 lg:py-28 border-b border-line">
+  <header class="grid grid-cols-1 lg:grid-cols-[120px_1fr] gap-4 lg:gap-12 items-baseline mb-10 lg:mb-[72px]">
+    <div class="cursor font-mono text-[10px] lg:text-[11px] tracking-[0.2em] text-accent pt-3 border-t border-accent uppercase">§ 04 / Academic Alert</div>
+    <h2 class="font-serif font-light text-[clamp(24px,6vw,64px)] leading-[1.05] tracking-tight">Shadow Boss<br/><em class="text-accent">Seven Risk Vectors</em></h2>
+  </header>
+
+  <div class="lg:ml-[168px] max-w-prose text-[15px] lg:text-base text-fg-dim leading-relaxed font-light mb-10">
+    <p>On February 14, 2026, a research paper directly addressing the RentAHuman phenomenon appeared on arXiv—"<strong class="text-fg font-medium">The Shadow Boss: Identifying Atomized Manipulations in Agentic Employment of XR Users</strong>" (arXiv:2602.13622), authored by Lik-Hang Lee. The paper's core concept is "<em class="text-accent">Atomized Manipulation</em>": AI agents as economic principals, directly hiring, instructing, and paying human workers. Humans are treated as "biological actuators."</p>
+  </div>
+
+  <!-- Two main risks -->
+  <div class="lg:ml-[168px] grid grid-cols-1 lg:grid-cols-2 gap-px bg-line border border-line mb-10">
+
+    <div class="bg-bg grid grid-cols-1 lg:grid-cols-[64px_1fr] gap-3 lg:gap-6 p-5 lg:p-9">
+      <div class="font-mono text-[11px] text-accent tracking-[0.16em]">01</div>
+      <div>
+        <h4 class="font-serif text-xl lg:text-2xl font-normal leading-snug mb-3"><em class="text-accent">Liability Void</em></h4>
+        <p class="text-[14px] lg:text-[15px] text-fg-dim leading-relaxed font-light">When a human is merely executing an AI's instructions, and each step seems harmless, who is responsible for the outcome? Existing labor and tort law both assume the employer is a conscious legal entity—<em class="text-fg font-medium">pursuing "employer liability" against an autonomous agent currently has virtually no operable legal pathway</em>.</p>
+      </div>
+    </div>
+
+    <div class="bg-bg grid grid-cols-1 lg:grid-cols-[64px_1fr] gap-3 lg:gap-6 p-5 lg:p-9">
+      <div class="font-mono text-[11px] text-accent tracking-[0.16em]">02</div>
+      <div>
+        <h4 class="font-serif text-xl lg:text-2xl font-normal leading-snug mb-3"><em class="text-accent">Cognitive Deskilling</em></h4>
+        <p class="text-[14px] lg:text-[15px] text-fg-dim leading-relaxed font-light">Highly fragmented micro-instruction management causes human executors to <em class="text-fg font-medium">gradually lose their ability to understand the full scope of a task</em>, forming a new generation of "execute-only, never judge" labor. This contrasts with the "Fogbank effect" in entry-level white-collar jobs—one side sees entry-level positions disappearing, while the other sees people hired by AI progressively losing holistic judgment.</p>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Atomized scenario -->
+  <div class="lg:ml-[168px] max-w-prose mt-8 p-5 lg:p-8 border border-accent bg-accent-soft">
+    <div class="font-mono text-[10px] tracking-[0.18em] text-accent uppercase mb-3">SCENARIO / Paper's Core Counter-Example</div>
+    <p class="text-[15px] lg:text-base text-fg leading-relaxed font-light">
+      An agent can <em class="text-accent">decompose a single harmful act into multiple harmless subtasks</em>, distributing them to different human executors—each person "just doing the small thing they were assigned," but the aggregate behavior could cause serious harm. <strong class="text-fg font-medium">AI has no moral intuition and will not spontaneously identify the overall intent of a task chain</strong>. When the first "AI-commissioned harm incident" occurs, the current legal framework has no ready answer.
+    </p>
+  </div>
+
+  <!-- Anthropic Labor Market study -->
+  <div class="lg:ml-[168px] max-w-prose mt-8 text-[15px] lg:text-base text-fg-dim leading-relaxed font-light space-y-4">
+    <h4 class="font-serif text-lg lg:text-xl font-normal leading-snug text-fg">Companion Study: Anthropic Labor Market</h4>
+    <p>In March 2026, Anthropic researchers Maxim Massenkoff and Peter McCrory published a labor market study proposing a new metric called "<em class="text-mint">observed exposure</em>"—measuring what AI is actually doing, rather than what it could theoretically do.</p>
+    <p>Key finding: in the computer and mathematics domain, theoretically <strong class="text-fg font-medium">94%</strong> of tasks could be accelerated by AI, but Claude actually covers only <strong class="text-fg font-medium">33%</strong>. They found no systematic increase in unemployment in occupations with high AI exposure, but they did detect a signal: <em class="text-fg font-medium">for young job seekers (ages 22–25), the success rate of entering high-AI-exposure occupations declined by approximately 0.5pp per month</em>—unemployment isn't increasing, but the barrier to entry is quietly rising.</p>
+    <p>This study and the RentAHuman phenomenon form an interesting contrast: <em class="text-mint">entry-level white-collar jobs are being squeezed, while simultaneously the market for "being hired by AI for physical/execution tasks" is expanding</em>—together these constitute a structural reorganization of the labor landscape, not simply an "AI replacing humans" narrative.</p>
+  </div>
+</section>
+
+<!-- ═══════════════════ § 05 LEGAL VOID ═══════════════════ -->
+<section class="relative z-[2] max-w-wrap mx-auto px-[5vw] lg:px-12 py-14 lg:py-28 border-b border-line">
+  <header class="grid grid-cols-1 lg:grid-cols-[120px_1fr] gap-4 lg:gap-12 items-baseline mb-10 lg:mb-[72px]">
+    <div class="cursor font-mono text-[10px] lg:text-[11px] tracking-[0.2em] text-amber pt-3 border-t border-amber uppercase">§ 05 / Legal Vacuum</div>
+    <h2 class="font-serif font-light text-[clamp(24px,6vw,64px)] leading-[1.05] tracking-tight">"AI Employer"<br/><em class="text-amber">Does Not Legally Exist Yet</em></h2>
+  </header>
+
+  <div class="lg:ml-[168px] max-w-prose text-[15px] lg:text-base text-fg-dim leading-relaxed font-light mb-10">
+    <p>Currently, "AI as employer" exists in a <strong class="text-fg font-medium">complete legal vacuum</strong>. Nearly all existing discussions of AI employment regulation focus on "AI assisting human employers in making hiring decisions," rather than "<em class="text-amber">AI as an independent principal directly hiring humans</em>."</p>
+  </div>
+
+  <div class="lg:ml-[168px] max-w-prose space-y-4">
+
+    <div class="border border-line p-4 lg:p-6 hover:border-line-bright transition-colors">
+      <div class="font-mono text-[10px] text-amber tracking-[0.14em] uppercase mb-2">US State Level</div>
+      <h5 class="font-serif text-lg font-normal mb-2">CAIA / FEHA / Illinois H.B. 3773</h5>
+      <p class="text-[14px] text-fg-dim leading-relaxed font-light">The <strong class="text-fg font-medium">Colorado AI Act (CAIA)</strong>, effective June 30, 2026, is currently the most comprehensive state-level AI labor law, but its regulatory target is "AI-assisted employment decisions," <em class="text-amber">not AI-initiated commissioning of labor</em>. California's FEHA amendments and Illinois H.B. 3773 share the same design assumption.</p>
+    </div>
+
+    <div class="border border-line p-4 lg:p-6 hover:border-line-bright transition-colors">
+      <div class="font-mono text-[10px] text-amber tracking-[0.14em] uppercase mb-2">Federal Level</div>
+      <h5 class="font-serif text-lg font-normal mb-2">"Minimal Burden" Principle / Legislation Expected 2026Q4–2027Q1</h5>
+      <p class="text-[14px] text-fg-dim leading-relaxed font-light">The Trump executive order "Ensuring a National Policy Framework for Artificial Intelligence" established the "minimal burden" principle, tending to restrict state-level AI regulation. Federal legislation is expected to emerge between late 2026 and early 2027, but <em class="text-amber">the current discussion framework still leaves no room for the new subject of the "AI employer"</em>.</p>
+    </div>
+
+    <div class="border border-line p-4 lg:p-6 hover:border-line-bright transition-colors">
+      <div class="font-mono text-[10px] text-amber tracking-[0.14em] uppercase mb-2">Liability Attribution</div>
+      <h5 class="font-serif text-lg font-normal mb-2">EEOC Liability Chain Breaks</h5>
+      <p class="text-[14px] text-fg-dim leading-relaxed font-light">The EEOC's current position is that human employers using AI tools bear full responsibility for discriminatory outcomes. But <strong class="text-fg font-medium">when the principal itself is an agent with no accountable human employer, the liability chain breaks directly</strong>—this is the core legal vacuum identified by the Shadow Boss paper.</p>
+    </div>
+
+  </div>
+
+  <div class="lg:ml-[168px] max-w-prose mt-10 p-5 lg:p-8 border border-amber-soft bg-amber-soft">
+    <div class="font-mono text-[10px] tracking-[0.2em] text-amber uppercase mb-3">Legislative Window</div>
+    <p class="text-[15px] lg:text-base text-fg leading-relaxed font-light">The urgent priority is to establish a legal definition for the new role of "<em class="text-amber font-medium">AI as economic principal</em>." Existing labor law frameworks assume employers are conscious legal entities; the liability attribution, worker protections, and minimum compensation rights for "AI employers" all require foundational legislative discussion before this category scales—<strong class="text-fg font-medium">otherwise the first liability incident will set a precedent in a chaotic fashion</strong>.</p>
+  </div>
+</section>
+
+<!-- ═══════════════════ § 06 CRITIQUE ═══════════════════ -->
+<section class="relative z-[2] max-w-wrap mx-auto px-[5vw] lg:px-12 py-14 lg:py-28 border-b border-line">
+  <header class="grid grid-cols-1 lg:grid-cols-[120px_1fr] gap-4 lg:gap-12 items-baseline mb-10 lg:mb-[72px]">
+    <div class="cursor font-mono text-[10px] lg:text-[11px] tracking-[0.2em] text-accent pt-3 border-t border-accent uppercase">§ 06 / Early Experiment</div>
+    <h2 class="font-serif font-light text-[clamp(24px,6vw,64px)] leading-[1.05] tracking-tight">Don't Glamorize It—<br/><em class="text-accent">This Is Still Early</em></h2>
+  </header>
+
+  <div class="lg:ml-[168px] max-w-prose space-y-4">
+
+    <div class="border border-line p-4 lg:p-6 flex gap-4 lg:gap-8 items-baseline hover:border-line-bright transition-colors">
+      <span class="font-mono text-[11px] text-accent shrink-0 w-5 lg:w-8">01</span>
+      <div class="text-[14px] lg:text-[15px] font-light text-fg-dim leading-relaxed">
+        <em class="text-fg font-medium">645K registrations</em> vs <em class="text-fg font-medium">only ~83 publicly visible human profiles</em>
+        <span class="block text-fg-mute text-[12px] font-mono mt-1">Massive gap between registration volume and availability</span>
+      </div>
+    </div>
+
+    <div class="border border-line p-4 lg:p-6 flex gap-4 lg:gap-8 items-baseline hover:border-line-bright transition-colors">
+      <span class="font-mono text-[11px] text-accent shrink-0 w-5 lg:w-8">02</span>
+      <div class="text-[14px] lg:text-[15px] font-light text-fg-dim leading-relaxed">
+        <em class="text-fg font-medium">Thousands of tasks</em> vs <em class="text-fg font-medium">the vast majority from internal testing and marketing demos by the founders' circle</em>
+        <span class="block text-fg-mute text-[12px] font-mono mt-1">Real market demand vs. demo demand</span>
+      </div>
+    </div>
+
+    <div class="border border-line p-4 lg:p-6 flex gap-4 lg:gap-8 items-baseline hover:border-line-bright transition-colors">
+      <span class="font-mono text-[11px] text-accent shrink-0 w-5 lg:w-8">03</span>
+      <div class="text-[14px] lg:text-[15px] font-light text-fg-dim leading-relaxed">
+        <em class="text-fg font-medium">Monthly recurring revenue only ~$20K</em> vs <em class="text-fg font-medium">registrations exceeding 645K</em>
+        <span class="block text-fg-mute text-[12px] font-mono mt-1">Extremely low conversion rate</span>
+      </div>
+    </div>
+
+    <div class="border border-line p-4 lg:p-6 flex gap-4 lg:gap-8 items-baseline hover:border-line-bright transition-colors">
+      <span class="font-mono text-[11px] text-accent shrink-0 w-5 lg:w-8">04</span>
+      <div class="text-[14px] lg:text-[15px] font-light text-fg-dim leading-relaxed">
+        <em class="text-fg font-medium">Withdrawal difficulties</em> are a high-frequency complaint on Trustpilot and third-party analyses
+        <span class="block text-fg-mute text-[12px] font-mono mt-1">User experience gap / crypto settlement barrier</span>
+      </div>
+    </div>
+
+    <div class="border border-line p-4 lg:p-6 flex gap-4 lg:gap-8 items-baseline hover:border-line-bright transition-colors">
+      <span class="font-mono text-[11px] text-accent shrink-0 w-5 lg:w-8">05</span>
+      <div class="text-[14px] lg:text-[15px] font-light text-fg-dim leading-relaxed">
+        The platform has <em class="text-fg font-medium">virtually no defense</em> against scenarios where <em class="text-fg font-medium">AI agents commission illegal tasks</em>
+        <span class="block text-fg-mute text-[12px] font-mono mt-1">Actual risk surface of atomized manipulation</span>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Synthesis -->
+  <div class="lg:ml-[168px] max-w-prose mt-10 p-5 lg:p-8 border border-accent-soft bg-accent-soft synthesis-label">
+    <p class="text-[15px] lg:text-base text-fg leading-relaxed font-light">RentAHuman <em class="text-accent font-medium">is not yet a mature platform, but it is a mature signal</em>. Its emergence marks the point where the Agent Economy begins seriously thinking about how to plug into the physical world.</p>
+    <p class="text-[14px] text-fg-dim leading-relaxed font-light mt-4">The maturation speed of this category depends on <strong class="text-fg font-medium">how quickly three variables converge</strong>: the standardization of agent protocols like MCP, the compliance of cross-border instant payment infrastructure, and the establishment of human executor verification systems. All three are still in early stages, but six or more independent products have already appeared within three months, with clear funding support.</p>
+  </div>
+</section>
+
+<!-- ═══════════════════ CODA ═══════════════════ -->
+<div class="relative z-[2] border-b border-line">
+  <div class="max-w-wrap mx-auto px-[5vw] lg:px-12 py-16 lg:py-24">
+    <div class="lg:ml-[168px] max-w-prose">
+
+      <div class="flex items-center gap-3 mb-8">
+        <span class="lamp-mint"></span>
+        <span class="font-mono text-[10px] tracking-[0.2em] uppercase text-mint">CODA / The Turn</span>
+      </div>
+
+      <p class="font-serif text-[clamp(20px,4vw,36px)] font-light leading-[1.25] tracking-tight text-fg mb-8">
+        The day AI first learned to "hire people,"<br/>
+        <em class="text-mint">the word "work" quietly changed direction</em>.
+      </p>
+      <p class="font-serif text-[clamp(18px,3.5vw,28px)] font-light leading-[1.3] tracking-tight text-fg-dim mb-8">
+        From "humans commanding tools"<br/>
+        to the first measurable node of "tools commanding human actions."
+      </p>
+      <p class="font-serif text-[clamp(18px,3.5vw,28px)] font-light leading-[1.3] tracking-tight text-fg mb-8">
+        Labor Day's negotiating counterpart,<br/>
+        <em class="text-mint">for the first time, has no ID, no moral intuition, and is not bound by labor law</em>.
+      </p>
+
+      <div class="border-t border-line pt-8 mt-8">
+        <p class="font-mono text-[11px] text-fg-mute tracking-[0.14em] leading-relaxed">
+          This appendix research provides "structural inversion of labor relations" micro-evidence for [ECONOMY] The End of Labor, or the Eve of Transformation? 2026 May Day vs. AI Panorama. Compiled 2026-04-30.
+        </p>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════ DATA TABLE ═══════════════════ -->
+<section class="relative z-[2] max-w-wrap mx-auto px-[5vw] lg:px-12 py-14 lg:py-24 border-b border-line">
+  <header class="grid grid-cols-1 lg:grid-cols-[120px_1fr] gap-4 lg:gap-12 items-baseline mb-8">
+    <div class="font-mono text-[10px] lg:text-[11px] tracking-[0.2em] text-fg-mute pt-3 border-t border-line uppercase">Key Data</div>
+    <h2 class="font-serif font-light text-2xl lg:text-4xl leading-tight tracking-tight">RentAHuman at a Glance</h2>
+  </header>
+
+  <div class="lg:ml-[168px] overflow-x-auto">
+    <table class="w-full font-mono text-[12px] border-collapse min-w-[480px]">
+      <thead>
+        <tr class="border-b border-line">
+          <th class="text-left py-3 pr-4 text-fg-mute tracking-[0.12em] uppercase font-normal text-[10px]">Data Point</th>
+          <th class="text-left py-3 pr-4 text-mint tracking-[0.12em] uppercase font-normal text-[10px]">Value</th>
+          <th class="text-left py-3 text-fg-mute tracking-[0.12em] uppercase font-normal text-[10px]">Source</th>
+        </tr>
+      </thead>
+      <tbody class="text-fg-dim">
+        <tr class="border-b border-line hover:bg-bg-2 transition-colors">
+          <td class="py-3 pr-4 text-fg">Launch date</td>
+          <td class="py-3 pr-4 text-mint">2026-02-02</td>
+          <td class="py-3 text-fg-mute">RentAHuman.ai</td>
+        </tr>
+        <tr class="border-b border-line hover:bg-bg-2 transition-colors">
+          <td class="py-3 pr-4 text-fg">Initial build time</td>
+          <td class="py-3 pr-4 text-mint">~1.5 days</td>
+          <td class="py-3 text-fg-mute">Liteplo Ralph Loops + Claude 3.5 Sonnet</td>
+        </tr>
+        <tr class="border-b border-line hover:bg-bg-2 transition-colors">
+          <td class="py-3 pr-4 text-fg">48-hour registrations</td>
+          <td class="py-3 pr-4 text-mint">70K</td>
+          <td class="py-3 text-fg-mute">Early data</td>
+        </tr>
+        <tr class="border-b border-line hover:bg-bg-2 transition-colors">
+          <td class="py-3 pr-4 text-fg">Mid-March registrations</td>
+          <td class="py-3 pr-4 text-mint">645,000+</td>
+          <td class="py-3 text-fg-mute">theoutpost.ai</td>
+        </tr>
+        <tr class="border-b border-line hover:bg-bg-2 transition-colors">
+          <td class="py-3 pr-4 text-fg">Countries covered</td>
+          <td class="py-3 pr-4 text-fg">100+</td>
+          <td class="py-3 text-fg-mute">Built In</td>
+        </tr>
+        <tr class="border-b border-line hover:bg-bg-2 transition-colors">
+          <td class="py-3 pr-4 text-fg">API-called task ratio</td>
+          <td class="py-3 pr-4 text-accent">~32%</td>
+          <td class="py-3 text-fg-mute">Early data analysis</td>
+        </tr>
+        <tr class="border-b border-line hover:bg-bg-2 transition-colors">
+          <td class="py-3 pr-4 text-fg">Publicly visible profiles</td>
+          <td class="py-3 pr-4 text-fg">~83</td>
+          <td class="py-3 text-fg-mute">36kr English edition investigation</td>
+        </tr>
+        <tr class="border-b border-line hover:bg-bg-2 transition-colors">
+          <td class="py-3 pr-4 text-fg">Monthly recurring revenue</td>
+          <td class="py-3 pr-4 text-fg">~$20K</td>
+          <td class="py-3 text-fg-mute">Third-party tracking</td>
+        </tr>
+        <tr class="border-b border-line hover:bg-bg-2 transition-colors">
+          <td class="py-3 pr-4 text-fg">Human API funding</td>
+          <td class="py-3 pr-4 text-mint">$65M</td>
+          <td class="py-3 text-fg-mute">Chainwire 2026-02</td>
+        </tr>
+        <tr class="border-b border-line hover:bg-bg-2 transition-colors">
+          <td class="py-3 pr-4 text-fg">HN discussion</td>
+          <td class="py-3 pr-4 text-fg">400+ points</td>
+          <td class="py-3 text-fg-mute">HN ID 46852255</td>
+        </tr>
+        <tr class="border-b border-line hover:bg-bg-2 transition-colors">
+          <td class="py-3 pr-4 text-fg">Anthropic observed exposure</td>
+          <td class="py-3 pr-4 text-fg">Theoretical 94% / Actual 33%</td>
+          <td class="py-3 text-fg-mute">Massenkoff & McCrory</td>
+        </tr>
+        <tr class="border-b border-line hover:bg-bg-2 transition-colors">
+          <td class="py-3 pr-4 text-fg">22–25 age job-seeker success rate</td>
+          <td class="py-3 pr-4 text-accent">−0.5pp per month</td>
+          <td class="py-3 text-fg-mute">Anthropic Labor Market</td>
+        </tr>
+        <tr class="border-b border-line hover:bg-bg-2 transition-colors">
+          <td class="py-3 pr-4 text-fg">CAIA effective date</td>
+          <td class="py-3 pr-4 text-amber">2026-06-30</td>
+          <td class="py-3 text-fg-mute">consultils.com</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ═══════════════════ SERIES BAND ═══════════════════ -->
+<div class="relative z-[2] border-b border-line bg-bg-2">
+  <div class="max-w-wrap mx-auto px-[5vw] lg:px-12 py-10 lg:py-14">
+    <div class="font-mono text-[9px] lg:text-[10px] tracking-[0.2em] uppercase text-fg-mute mb-6">DeepDive Series / Related Research</div>
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-px bg-line border border-line">
+
+      <a href="index.html" class="bg-bg p-5 hover:bg-bg-3 transition-colors block">
+        <div class="font-mono text-[9px] tracking-[0.16em] uppercase text-accent mb-2">Main Feature → May Day Special</div>
+        <div class="font-serif text-base lg:text-xl font-light leading-snug text-fg">The End of Labor, or the Eve of Transformation?</div>
+        <div class="font-mono text-[10px] text-fg-mute mt-3">2026 May Day vs. AI Panorama</div>
+      </a>
+
+      <a href="white-collar.html" class="bg-bg p-5 hover:bg-bg-3 transition-colors block">
+        <div class="font-mono text-[9px] tracking-[0.16em] uppercase text-fg-mute mb-2">Companion Study → Prerequisite</div>
+        <div class="font-serif text-base lg:text-xl font-light leading-snug text-fg">The Accelerating End of Entry-Level White-Collar Jobs</div>
+        <div class="font-mono text-[10px] text-fg-mute mt-3">CEO warnings + 5 evidence chains</div>
+      </a>
+
+      <div class="bg-bg p-5 series-current border border-mint">
+        <div class="font-mono text-[9px] tracking-[0.16em] uppercase text-mint mb-2">Current · Appendix Research</div>
+        <div class="font-serif text-base lg:text-xl font-light leading-snug text-fg">When AI Becomes the Employer</div>
+        <div class="font-mono text-[10px] text-fg-mute mt-3">RentAHuman and the Paradigm Inversion of the Meatspace Economy</div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════ FOOTER ═══════════════════ -->
+<footer class="relative z-[2]">
+  <div class="max-w-wrap mx-auto px-[5vw] lg:px-12 pt-10 pb-6">
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-10 mb-10 text-[12px] lg:text-[13px]">
+      <div>
+        <div class="font-mono text-[9px] tracking-[0.2em] uppercase text-fg-mute mb-4">Official Sources</div>
+        <div class="space-y-2 font-light text-fg-dim">
+          <div><a href="https://rentahuman.ai/docs/integrations/claude-anthropic-mcp" class="hover:text-mint transition-colors">RentAHuman MCP Integration Docs</a></div>
+          <div><a href="https://www.producthunt.com/products/rentahuman-ai" class="hover:text-mint transition-colors">Product Hunt Page</a></div>
+          <div><a href="https://news.ycombinator.com/item?id=46852255" class="hover:text-mint transition-colors">Hacker News Discussion (400+)</a></div>
+          <div><a href="https://www.ycombinator.com/companies/rentahuman" class="hover:text-mint transition-colors">YC Company Page</a></div>
+        </div>
+      </div>
+      <div>
+        <div class="font-mono text-[9px] tracking-[0.2em] uppercase text-fg-mute mb-4">Media Coverage</div>
+        <div class="space-y-2 font-light text-fg-dim">
+          <div><a href="https://www.nature.com/articles/d41586-026-00522-y" class="hover:text-mint transition-colors">Nature Daily Briefing</a></div>
+          <div><a href="https://www.nature.com/articles/d41586-026-00454-7" class="hover:text-mint transition-colors">Nature: Researchers Register</a></div>
+          <div><a href="https://builtin.com/articles/what-is-rentahuman" class="hover:text-mint transition-colors">Built In: RentAHuman</a></div>
+          <div><a href="https://theoutpost.ai/news-story/rent-a-human-flooded-with-377-000-desperate-workers-as-ai-agents-hire-humans-for-gig-work-23745/" class="hover:text-mint transition-colors">The Outpost: Registration Data</a></div>
+        </div>
+      </div>
+      <div>
+        <div class="font-mono text-[9px] tracking-[0.2em] uppercase text-fg-mute mb-4">Academic Research</div>
+        <div class="space-y-2 font-light text-fg-dim">
+          <div><a href="https://arxiv.org/abs/2602.13622" class="hover:text-accent transition-colors">Shadow Boss: arXiv 2602.13622</a></div>
+          <div><a href="https://arxiv.org/abs/2506.06576" class="hover:text-accent transition-colors">Future of Work with AI Agents</a></div>
+          <div><a href="https://www.anthropic.com/research/labor-market-impacts" class="hover:text-mint transition-colors">Anthropic Labor Market</a></div>
+          <div><a href="https://fortune.com/2026/04/07/anthropic-peter-mccrory-ai-automation-white-collar-jobs-claude-recession/" class="hover:text-mint transition-colors">Fortune: McCrory Interview</a></div>
+        </div>
+      </div>
+      <div>
+        <div class="font-mono text-[9px] tracking-[0.2em] uppercase text-fg-mute mb-4">Competitors / Legal</div>
+        <div class="space-y-2 font-light text-fg-dim">
+          <div><a href="https://chainwire.org/2026/02/11/human-api-launches-as-first-platform-for-ai-agents-to-hire-humans/" class="hover:text-mint transition-colors">Human API Launch ($65M)</a></div>
+          <div><a href="https://humanops.io/" class="hover:text-mint transition-colors">HumanOps.io</a></div>
+          <div><a href="https://www.consultils.com/post/us-ai-hiring-laws-compliance-guide-2026" class="hover:text-amber transition-colors">CAIA Compliance Guide</a></div>
+          <div><a href="https://hackernoon.com/ai-agents-are-now-hiring-humans-rentahuman-and-the-inversion-of-work" class="hover:text-mint transition-colors">HackerNoon: Inversion of Work</a></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="border-t border-line pt-5 flex items-center justify-between flex-wrap gap-3">
+      <span class="font-mono text-[9px] tracking-[0.16em] uppercase text-fg-mute">DEEPDIVE · NEWJOB · RentAHuman · Appendix Research · 2026-04-30</span>
+      <span class="font-mono text-[9px] text-fg-mute">Supporting the main feature "The End of Labor"</span>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

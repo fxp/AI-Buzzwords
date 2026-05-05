@@ -11,9 +11,18 @@
   "last_updated": "2026-05-01",
   "freshness_priority": "warm",
   "next_check": "2026-06-01",
-  "languages": ["zh"],
+  "languages": [
+    "zh",
+    "en"
+  ],
   "primary_language": "zh",
-  "translations": {},
+  "translations": {
+    "en": {
+      "synced_at_version": 1,
+      "last_translated": "2026-05-05",
+      "method": "auto:glm-5.1"
+    }
+  },
   "version_log": [
     {
       "v": 1,
@@ -22,6 +31,14 @@
       "summary": "首次发布：645K 注册 / 32% API 调用 / 劳动关系史首次结构反转"
     }
   ],
-  "related": ["white-collar", "labor-day-2026"],
-  "tags": ["RentAHuman", "Meatspace", "AI Employer", "Gig Economy"]
+  "related": [
+    "white-collar",
+    "labor-day-2026"
+  ],
+  "tags": [
+    "RentAHuman",
+    "Meatspace",
+    "AI Employer",
+    "Gig Economy"
+  ]
 }
