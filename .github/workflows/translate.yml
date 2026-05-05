@@ -16,6 +16,14 @@ on:
         description: 'Optional: only translate this slug (e.g. white-collar). Empty = all stale.'
         required: false
         type: string
+      provider:
+        description: 'LLM provider for translation (default bigmodel/glm-5.1). Use "anthropic" for content-filter-blocked or oversized articles.'
+        required: false
+        type: choice
+        default: 'bigmodel'
+        options:
+          - bigmodel
+          - anthropic
 
 permissions:
   contents: write
@@ -41,9 +49,11 @@ jobs:
       - name: Run translation
         id: translate
         env:
+          TRANSLATE_PROVIDER: ${{ inputs.provider || 'bigmodel' }}
           BIGMODEL_API_KEY: ${{ secrets.BIGMODEL_API_KEY }}
           BIGMODEL_API_ENDPOINT: 'https://api.z.ai/api/paas/v4/chat/completions'
           BIGMODEL_MODEL: 'glm-5.1'
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           TRANSLATE_FORCE_SLUG: ${{ inputs.slug || '' }}
         run: |
           set -e

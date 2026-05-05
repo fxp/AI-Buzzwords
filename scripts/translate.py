@@ -44,14 +44,25 @@ REPO_ROOT = Path(__file__).resolve().parent.parent
 CONFIG_DIR = REPO_ROOT / "config"
 DEEPDIVE_DIR = REPO_ROOT / "deepdive"
 
-API_KEY = os.environ.get("BIGMODEL_API_KEY", "")
-API_ENDPOINT = os.environ.get(
-    "BIGMODEL_API_ENDPOINT",
-    "https://api.z.ai/api/paas/v4/chat/completions",
-)
-MODEL = os.environ.get("BIGMODEL_MODEL", "glm-5.1")
+PROVIDER = os.environ.get("TRANSLATE_PROVIDER", "bigmodel").lower()
 DRY_RUN = os.environ.get("TRANSLATE_DRY_RUN", "").lower() == "true"
 FORCE_SLUG = os.environ.get("TRANSLATE_FORCE_SLUG", "")
+
+# Provider-specific config
+if PROVIDER == "anthropic":
+    API_KEY = os.environ.get("ANTHROPIC_API_KEY", "")
+    API_ENDPOINT = os.environ.get(
+        "ANTHROPIC_API_ENDPOINT", "https://api.anthropic.com/v1/messages"
+    )
+    MODEL = os.environ.get("TRANSLATE_MODEL", "claude-sonnet-4-6")
+else:
+    # bigmodel (GLM) — default
+    API_KEY = os.environ.get("BIGMODEL_API_KEY", "")
+    API_ENDPOINT = os.environ.get(
+        "BIGMODEL_API_ENDPOINT",
+        "https://api.z.ai/api/paas/v4/chat/completions",
+    )
+    MODEL = os.environ.get("TRANSLATE_MODEL") or os.environ.get("BIGMODEL_MODEL", "glm-5.1")
 
 
 def load_json(path: Path):
@@ -66,23 +77,44 @@ def save_json(path: Path, data):
 
 
 def call_glm(messages, max_retries=2, max_tokens=16000):
-    """Call BigModel GLM-5.1 chat completions. Returns content string."""
+    """Call configured LLM provider (BigModel GLM or Anthropic Claude)."""
     if DRY_RUN:
         return "[DRY RUN — no API call]"
     if not API_KEY:
-        raise RuntimeError("BIGMODEL_API_KEY not set")
+        raise RuntimeError(f"API key for provider '{PROVIDER}' not set")
 
-    payload = {
-        "model": MODEL,
-        "messages": messages,
-        "temperature": 0.2,
-        "max_tokens": max_tokens,
-    }
+    if PROVIDER == "anthropic":
+        # Anthropic Messages API: separate system from messages, different headers
+        system_content = ""
+        user_messages = []
+        for m in messages:
+            if m["role"] == "system":
+                system_content = m["content"]
+            else:
+                user_messages.append(m)
+        payload = {
+            "model": MODEL,
+            "max_tokens": max_tokens,
+            "system": system_content,
+            "messages": user_messages,
+        }
+        headers = {
+            "x-api-key": API_KEY,
+            "anthropic-version": "2023-06-01",
+            "Content-Type": "application/json",
+        }
+    else:
+        payload = {
+            "model": MODEL,
+            "messages": messages,
+            "temperature": 0.2,
+            "max_tokens": max_tokens,
+        }
+        headers = {
+            "Authorization": f"Bearer {API_KEY}",
+            "Content-Type": "application/json",
+        }
     body = json.dumps(payload).encode("utf-8")
-    headers = {
-        "Authorization": f"Bearer {API_KEY}",
-        "Content-Type": "application/json",
-    }
 
     last_err = None
     for attempt in range(max_retries):
@@ -94,18 +126,24 @@ def call_glm(messages, max_retries=2, max_tokens=16000):
             with urllib.request.urlopen(req, timeout=900) as resp:
                 data = json.loads(resp.read().decode("utf-8"))
             elapsed = time.time() - t0
-            print(f"[glm]  ok in {elapsed:.1f}s ({MODEL})", file=sys.stderr)
+            print(f"[llm/{PROVIDER}]  ok in {elapsed:.1f}s ({MODEL})", file=sys.stderr)
+            if PROVIDER == "anthropic":
+                # content is a list of blocks; first text block is the answer
+                for block in data.get("content", []):
+                    if block.get("type") == "text":
+                        return block.get("text", "")
+                return ""
             return data["choices"][0]["message"]["content"]
         except urllib.error.HTTPError as e:
             err_body = e.read().decode("utf-8", errors="ignore")[:500]
             last_err = f"HTTP {e.code}: {err_body}"
-            print(f"[glm]  attempt {attempt+1} HTTP {e.code}: {err_body[:200]}", file=sys.stderr)
+            print(f"[llm/{PROVIDER}] attempt {attempt+1} HTTP {e.code}: {err_body[:200]}", file=sys.stderr)
             time.sleep(2 ** attempt)
         except Exception as e:
             last_err = str(e)
-            print(f"[glm]  attempt {attempt+1} error: {last_err[:200]}", file=sys.stderr)
+            print(f"[llm/{PROVIDER}] attempt {attempt+1} error: {last_err[:200]}", file=sys.stderr)
             time.sleep(2 ** attempt)
-    raise RuntimeError(f"GLM call failed after {max_retries}: {last_err}")
+    raise RuntimeError(f"LLM call failed after {max_retries}: {last_err}")
 
 
 def build_glossary_block(glossary: dict, target_lang: str, source_lang: str) -> str:
@@ -349,6 +387,7 @@ def main():
         "translated_files": all_written,
         "skipped_count": skipped_count,
         "errors": errors,
+        "provider": PROVIDER,
         "model": MODEL,
         "dry_run": DRY_RUN,
     }
