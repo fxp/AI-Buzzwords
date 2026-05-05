@@ -13,9 +13,18 @@
   "last_updated": "2026-05-01",
   "freshness_priority": "warm",
   "next_check": "2026-06-01",
-  "languages": ["zh"],
+  "languages": [
+    "zh",
+    "en"
+  ],
   "primary_language": "zh",
-  "translations": {},
+  "translations": {
+    "en": {
+      "synced_at_version": 1,
+      "last_translated": "2026-05-05",
+      "method": "auto:claude-sonnet-4-6"
+    }
+  },
   "version_log": [
     {
       "v": 1,
@@ -24,6 +33,15 @@
       "summary": "首次发布：跨维度全景报告（78,557 人裁员数据 + Klarna 重招 + RentAHuman + 有效进步主义四命题）"
     }
   ],
-  "related": ["white-collar", "rentahuman"],
-  "tags": ["Labor", "AI Employment", "Panorama", "Acemoglu", "UBI"]
+  "related": [
+    "white-collar",
+    "rentahuman"
+  ],
+  "tags": [
+    "Labor",
+    "AI Employment",
+    "Panorama",
+    "Acemoglu",
+    "UBI"
+  ]
 }
