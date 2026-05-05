@@ -1,0 +1,28 @@
+{
+  "$schema": "../../config/meta.schema.json",
+  "slug": "labor-day-2026",
+  "topic_dir": "labor-day-2026",
+  "title": {
+    "zh": "劳动的终局，还是转型的前夜？2026 五一劳动 vs AI 全景",
+    "en": null
+  },
+  "is_panorama": true,
+  "current_version": 1,
+  "first_published": "2026-05-01",
+  "last_updated": "2026-05-01",
+  "freshness_priority": "warm",
+  "next_check": "2026-06-01",
+  "languages": ["zh"],
+  "primary_language": "zh",
+  "translations": {},
+  "version_log": [
+    {
+      "v": 1,
+      "date": "2026-05-01",
+      "git": "c793dc9",
+      "summary": "首次发布：跨维度全景报告（78,557 人裁员数据 + Klarna 重招 + RentAHuman + 有效进步主义四命题）"
+    }
+  ],
+  "related": ["white-collar", "rentahuman"],
+  "tags": ["Labor", "AI Employment", "Panorama", "Acemoglu", "UBI"]
+}

@@ -1,0 +1,26 @@
+{
+  "$schema": "../../config/meta.schema.json",
+  "slug": "palantir-aip",
+  "topic_dir": "palantir-aip",
+  "title": {
+    "zh": "Context Layer 才是 ToB AI 的终极护城河 · Palantir AIP",
+    "en": null
+  },
+  "current_version": 1,
+  "first_published": "2026-04-30",
+  "last_updated": "2026-04-30",
+  "freshness_priority": "warm",
+  "next_check": "2026-05-30",
+  "languages": ["zh"],
+  "primary_language": "zh",
+  "translations": {},
+  "version_log": [
+    {
+      "v": 1,
+      "date": "2026-04-30",
+      "git": "fdf2f09",
+      "summary": "首次发布"
+    }
+  ],
+  "tags": ["Palantir", "AIP", "ToB AI", "Context Layer", "Enterprise AI"]
+}

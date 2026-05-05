@@ -1,0 +1,26 @@
+{
+  "$schema": "../../config/meta.schema.json",
+  "slug": "emotion-vectors",
+  "topic_dir": "emotion-vectors",
+  "title": {
+    "zh": "情感向量与行为解耦：打开 AI 黑盒的第一批发现",
+    "en": null
+  },
+  "current_version": 1,
+  "first_published": "2026-04-30",
+  "last_updated": "2026-04-30",
+  "freshness_priority": "warm",
+  "next_check": "2026-05-30",
+  "languages": ["zh"],
+  "primary_language": "zh",
+  "translations": {},
+  "version_log": [
+    {
+      "v": 1,
+      "date": "2026-04-30",
+      "git": "fdf2f09",
+      "summary": "首次发布"
+    }
+  ],
+  "tags": ["Interpretability", "Emotion Vectors", "Mechanistic Interpretability", "Anthropic"]
+}

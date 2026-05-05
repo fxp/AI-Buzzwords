@@ -1,0 +1,27 @@
+{
+  "$schema": "../../config/meta.schema.json",
+  "slug": "ai-military",
+  "topic_dir": "ai-military",
+  "title": {
+    "zh": "被你禁止的工具，正在你的战场上运行：Claude 与伊朗战争",
+    "en": null
+  },
+  "current_version": 1,
+  "first_published": "2026-04-30",
+  "last_updated": "2026-04-30",
+  "freshness_priority": "warm",
+  "next_check": "2026-05-30",
+  "languages": ["zh"],
+  "primary_language": "zh",
+  "translations": {},
+  "version_log": [
+    {
+      "v": 1,
+      "date": "2026-04-30",
+      "git": "fdf2f09",
+      "summary": "首次发布"
+    }
+  ],
+  "tags": ["AI Military", "Claude", "Iran", "Geopolitics"],
+  "sensitivity": "high"
+}

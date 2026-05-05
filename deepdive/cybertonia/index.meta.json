@@ -1,0 +1,26 @@
+{
+  "$schema": "../../config/meta.schema.json",
+  "slug": "cybertonia",
+  "topic_dir": "cybertonia",
+  "title": {
+    "zh": "控制论的第三次降临：从苏联 Cybertonia 到 AI Agent 治理",
+    "en": null
+  },
+  "current_version": 1,
+  "first_published": "2026-04-30",
+  "last_updated": "2026-04-30",
+  "freshness_priority": "cold",
+  "next_check": "2026-08-01",
+  "languages": ["zh"],
+  "primary_language": "zh",
+  "translations": {},
+  "version_log": [
+    {
+      "v": 1,
+      "date": "2026-04-30",
+      "git": "fdf2f09",
+      "summary": "首次发布"
+    }
+  ],
+  "tags": ["Cybernetics", "Glushkov", "AI Agents", "History", "Soviet"]
+}

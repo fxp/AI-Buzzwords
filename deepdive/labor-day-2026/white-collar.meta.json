@@ -1,0 +1,40 @@
+{
+  "$schema": "../../config/meta.schema.json",
+  "slug": "white-collar",
+  "topic_dir": "labor-day-2026",
+  "title": {
+    "zh": "白领初级岗的终局加速：从 CEO 警告到全行业的实证",
+    "zh-cn": "AI 与初级白领岗位：行业内部的几种声音",
+    "en": null
+  },
+  "current_version": 2,
+  "first_published": "2026-05-01",
+  "last_updated": "2026-05-06",
+  "freshness_priority": "hot",
+  "next_check": "2026-05-13",
+  "languages": ["zh", "zh-cn"],
+  "primary_language": "zh",
+  "translations": {
+    "zh-cn": {
+      "synced_at_version": 2,
+      "last_translated": "2026-05-05",
+      "method": "manual"
+    }
+  },
+  "version_log": [
+    {
+      "v": 1,
+      "date": "2026-05-01",
+      "git": "c793dc9",
+      "summary": "首次发布：Amodei 1-5 年警告 + Bank of America / Sakana / 扎克伯格 / NVIDIA / CS 谣言五条独立证据"
+    },
+    {
+      "v": 2,
+      "date": "2026-05-05",
+      "git": "d5e5eda",
+      "summary": "增补 § 02.5 反驳之声（黄仁勋 God complex / Yale Budget Lab 反证 / Deutsche Bank AI Washing / Klarna 反转）；Brynjolfsson 数据从 -13% 上调至 -16%；Amodei 悖论扩展至 7 条；CODA 重写为四种测量方法对比；新增 dimension-map 维度地图"
+    }
+  ],
+  "tags": ["AI×就业", "白领", "Amodei", "Brynjolfsson", "Yale Budget Lab", "AI Washing"],
+  "category": "L3-1 劳动市场 / 个体·心理"
+}
