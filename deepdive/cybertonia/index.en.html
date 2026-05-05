@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>The Third Coming of Cybernetics · Cybertonia → AI Agent / AI Buzzwords</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,700&family=JetBrains+Mono:wght@300;400;500;700&family=Inter+Tight:wght@400;500;600&display=swap" rel="stylesheet" />
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      colors: {
+        bg:'#0a0908','bg-2':'#111110',
+        fg:'#ebe6dc','fg-dim':'#9a948a','fg-mute':'#5a544b',
+        line:'#2b2823','line-bright':'#443f37',
+        amber:'#f5a524','amber-soft':'rgba(245,165,36,0.09)','amber-glow':'rgba(245,165,36,0.18)',
+        mint:'#7fb88b','mint-soft':'rgba(127,184,139,0.12)',
+        signal:'#d1402c',paper:'#e8e3d8',ink:'#1a1815',
+      },
+      fontFamily: {
+        serif:["'Fraunces'","'Source Han Serif SC'","'Noto Serif SC'","Georgia","serif"],
+        mono:["'JetBrains Mono'","ui-monospace","monospace"],
+        sans:["'Inter Tight'","system-ui","sans-serif"],
+      },
+      maxWidth:{prose:'820px',content:'1020px',wrap:'1320px'},
+    }
+  }
+}
+</script>
+<style>
+em,i{font-style:normal}
+body{font-feature-settings:'ss01','ss02','kern';-webkit-font-smoothing:antialiased}
+body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(245,165,36,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(245,165,36,0.04) 1px,transparent 1px);background-size:80px 80px;pointer-events:none;z-index:0}
+body::after{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.96 0 0 0 0 0.9 0 0 0 0 0.8 0 0 0 0.08 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");pointer-events:none;z-index:1;opacity:0.5;mix-blend-mode:overlay}
+.lamp{display:inline-block;width:8px;height:8px;border-radius:50%;background:#f5a524;box-shadow:0 0 10px #f5a524,0 0 24px rgba(245,165,36,0.2);animation:pulse 2.4s ease-in-out infinite;vertical-align:middle}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.55}}
+.cursor::after{content:'▮';color:#f5a524;margin-left:6px;animation:blink 1.1s steps(2) infinite}
+@keyframes blink{0%,50%{opacity:1}51%,100%{opacity:0}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+.hero-anim>*{animation:fadeUp 0.9s cubic-bezier(.2,.7,.2,1) both}
+.hero-anim>*:nth-child(1){animation-delay:.05s}.hero-anim>*:nth-child(2){animation-delay:.15s}
+.hero-anim>*:nth-child(3){animation-delay:.28s}.hero-anim>*:nth-child(4){animation-delay:.42s}
+.pullquote-mark::before{content:'"';position:absolute;top:16px;left:12px;font-family:'Fraunces',serif;font-size:100px;color:#f5a524;opacity:0.18;line-height:1}
+.archive-frame{background:#e8e3d8;color:#1a1815;padding:24px;font-family:'Fraunces',serif}
+.archive-frame .stamp{display:inline-block;border:2px solid #d1402c;color:#d1402c;padding:4px 12px;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.18em;transform:rotate(-3deg);font-weight:700;text-transform:uppercase}
+.timeline-row{display:grid;grid-template-columns:140px 1fr;gap:24px;padding:18px 0;border-bottom:1px solid #2b2823}
+.timeline-row:last-child{border-bottom:none}
+</style>
+</head>
+
+<body class="bg-bg text-fg font-serif leading-relaxed overflow-x-hidden">
+
+<!-- TOP STRIP -->
+<div class="max-w-wrap mx-auto px-[5vw] lg:px-12 relative z-[2]">
+  <div class="border-b border-line py-3.5 font-mono text-[10px] lg:text-[11px] tracking-[0.12em] uppercase text-fg-dim grid grid-cols-1 lg:grid-cols-4 gap-2 lg:gap-6 items-center">
+    <div><span class="lamp mr-2.5"></span>TRENDS / FIELD REPORTS · № 06</div>
+    <div class="hidden lg:block">SUBJECT / OGAS · CYBERSYN · AGENTS</div>
+    <div class="hidden lg:block">FILED / 2026.04.02</div>
+    <div class="lg:text-right"><a href="../../" class="hover:text-fg">← AI BUZZWORDS</a></div>
+  </div>
+</div>
+
+<!-- HERO -->
+<section class="hero-anim max-w-wrap mx-auto px-[5vw] lg:px-12 relative z-[2] pt-10 lg:pt-28 pb-12 lg:pb-24 border-b border-line">
+  <div class="font-mono text-[9px] lg:text-[11px] tracking-[0.18em] uppercase text-amber mb-8 lg:mb-10 flex flex-wrap gap-2 lg:gap-7 items-center">
+    <span>CASE FILE</span><span class="text-fg-mute hidden lg:inline">/</span>
+    <span>USSR · CYBERNETICS · 1965-1985</span><span class="text-fg-mute hidden lg:inline">/</span>
+    <span>VS AI AGENTS · 2025-NOW</span>
+  </div>
+  <h1 class="font-serif font-light text-[clamp(28px,8.5vw,124px)] leading-[0.95] tracking-tight mb-6 lg:mb-9">
+    The <span class="block"><em class="text-amber font-normal">Third</em> Coming of Cybernetics</span>
+  </h1>
+  <div class="max-w-[760px] text-[15px] lg:text-xl text-fg-dim font-light leading-relaxed lg:leading-[1.55] border-l border-amber pl-3.5 lg:pl-5 mt-4">
+    In 1965, Viktor Glushkov, the father of Soviet cybernetics, proposed OGAS—<br/>
+    a system to manage the entire Soviet economy via computer networks. <strong class="text-fg font-normal">He failed.</strong><br/>
+    The reason for failure was not technology, <strong class="text-fg font-normal">it was politics</strong>.<br/>
+    Sixty years later, AI agent engineers face the exact same challenge:<br/>
+    <strong class="text-fg font-normal">translating human fuzzy preferences, ethical judgments, and risk tolerance into machine-executable constraints.</strong>
+  </div>
+
+  <!-- HERO STATS -->
+  <div class="mt-12 lg:mt-16 grid grid-cols-2 lg:grid-cols-4 gap-px bg-line border border-line font-mono">
+    <div class="bg-bg p-5 lg:p-7">
+      <div class="text-[9px] lg:text-[10px] tracking-[0.16em] uppercase text-fg-mute mb-3">OGAS PROPOSED</div>
+      <div class="font-serif text-[30px] lg:text-[44px] font-normal text-amber leading-none mb-2">1962</div>
+      <div class="text-[10px] lg:text-[11px] text-fg-dim">VIKTOR GLUSHKOV · UKRAINE</div>
+    </div>
+    <div class="bg-bg p-5 lg:p-7">
+      <div class="text-[9px] lg:text-[10px] tracking-[0.16em] uppercase text-fg-mute mb-3">EST. COST</div>
+      <div class="font-serif text-[30px] lg:text-[44px] font-normal text-amber leading-none mb-2">20<span class="text-lg lg:text-xl text-fg-mute"> Y · ₽20B</span></div>
+      <div class="text-[10px] lg:text-[11px] text-fg-dim">2/5 OF ANNUAL DEFENSE</div>
+    </div>
+    <div class="bg-bg p-5 lg:p-7">
+      <div class="text-[9px] lg:text-[10px] tracking-[0.16em] uppercase text-fg-mute mb-3">REJECTIONS</div>
+      <div class="font-serif text-[30px] lg:text-[44px] font-normal text-signal leading-none mb-2">3</div>
+      <div class="text-[10px] lg:text-[11px] text-fg-dim">1965 · 1970 · 1980s</div>
+    </div>
+    <div class="bg-bg p-5 lg:p-7">
+      <div class="text-[9px] lg:text-[10px] tracking-[0.16em] uppercase text-fg-mute mb-3">WIENER · CYBERNETICS</div>
+      <div class="font-serif text-[30px] lg:text-[44px] font-normal text-amber leading-none mb-2">1948</div>
+      <div class="text-[10px] lg:text-[11px] text-fg-dim">FOUNDING TEXT</div>
+    </div>
+  </div>
+</section>
+
+<!-- § 01 FORGOTTEN HISTORY -->
+<section class="max-w-wrap mx-auto px-[5vw] lg:px-12 relative z-[2] py-14 lg:py-28 border-b border-line">
+  <header class="grid grid-cols-1 lg:grid-cols-[120px_1fr] gap-4 lg:gap-12 items-baseline mb-10 lg:mb-[72px]">
+    <div class="cursor font-mono text-[10px] lg:text-[11px] tracking-[0.2em] text-amber pt-3 border-t border-amber uppercase">§ 01 / FORGOTTEN</div>
+    <h2 class="font-serif font-light text-[clamp(24px,7vw,68px)] leading-[1.05] tracking-tight">A <em class="text-amber">Forgotten</em> History</h2>
+  </header>
+  <div class="lg:ml-[168px] max-w-prose text-[15px] lg:text-lg leading-relaxed lg:leading-[1.75] font-light">
+    <p class="mb-5">In 1962, Ukrainian scientist <strong class="text-amber font-medium">Viktor Glushkov</strong> submitted a groundbreaking proposal to Soviet leadership: to build <strong class="text-amber font-medium">OGAS (National Automated Economic Management System)</strong>—a computer network connecting all factories, stores, and banks across the Soviet Union, collecting production and consumption data in real time, with central algorithms dynamically adjusting resource allocation.</p>
+    <p class="mb-5">OGAS promised to replace bureaucratic intuition with <strong class="text-fg font-normal">real-time data and mathematical optimization</strong>. Glushkov estimated it would take 20 years and approximately 20 billion rubles—far less than the 50 billion rubles per year in military spending at the time. This was an entirely feasible project.</p>
+    <p class="mb-5">But the proposal was rejected in 1965. Rejected again in 1970. Shelved entirely in the 1980s. <strong class="text-signal font-medium">OGAS was never built.</strong></p>
+
+    <!-- Archive note -->
+    <div class="archive-frame my-8 max-w-[640px]">
+      <div class="flex justify-between items-start mb-4">
+        <div class="font-mono text-[10px] tracking-[0.18em] text-ink/60 uppercase">ОБ-АГЕНТСТВО · 1965</div>
+        <div class="stamp">REJECTED</div>
+      </div>
+      <p class="text-[15px] leading-relaxed">The reason for rejection was not technology—the Soviet Union was the world's second-largest computer producer in the 1960s. Nor was it economics—the cost was far lower than military spending.</p>
+      <p class="text-[15px] leading-relaxed mt-3"><strong>The real reason was politics.</strong></p>
+      <p class="text-[14px] leading-relaxed mt-3 text-ink/70">Once OGAS was operational, it would give the center unprecedented precise information, meaning the "information intermediary" role of ministry bureaucrats would be dissolved. The gray power that local party committees gained through falsifying data would be completely lost. Middle managers at every level would lose their irreplaceability.</p>
+    </div>
+
+    <p class="mb-0 text-[15px] lg:text-[17px] text-amber font-medium">A system that could make everyone transparent<br/>threatened those who derived their power from opacity.</p>
+  </div>
+</section>
+
+<!-- § 02 WIENER PROPHECY -->
+<section class="max-w-wrap mx-auto px-[5vw] lg:px-12 relative z-[2] py-14 lg:py-28 border-b border-line">
+  <header class="grid grid-cols-1 lg:grid-cols-[120px_1fr] gap-4 lg:gap-12 items-baseline mb-10 lg:mb-[72px]">
+    <div class="cursor font-mono text-[10px] lg:text-[11px] tracking-[0.2em] text-amber pt-3 border-t border-amber uppercase">§ 02 / WIENER</div>
+    <h2 class="font-serif font-light text-[clamp(24px,7vw,68px)] leading-[1.05] tracking-tight">Wiener's <em class="text-amber">Prophecy</em></h2>
+  </header>
+  <div class="lg:ml-[168px] max-w-prose text-[15px] lg:text-lg leading-relaxed lg:leading-[1.75] font-light">
+    <p class="mb-5">Cybernetics was established by <strong class="text-amber font-medium">Norbert Wiener</strong> in his 1948 book of the same name. The core insight was:</p>
+    <p class="mb-5 text-[16px] lg:text-[19px] text-amber font-medium border-l-2 border-amber pl-5 italic">Organisms, machines, and social organizations can all be described using the same mathematical language—the core being "feedback loops" and "information flows."</p>
+    <p class="mb-5">The cybernetics tradition was profoundly influential in the 1950s–60s:</p>
+    <ul class="list-none space-y-3 mb-5 border-l border-amber pl-5">
+      <li class="text-[14.5px]"><strong class="text-fg font-normal">Stafford Beer</strong> used cybernetic principles to design the <strong class="text-amber">Cybersyn</strong> system (1971–1973, during Chile's Allende government), a "small-scale experiment" of OGAS. It too was aborted for political reasons (Pinochet's coup).</li>
+      <li class="text-[14.5px]"><strong class="text-fg font-normal">Heinz von Foerster</strong> developed "second-order cybernetics"—the observer is also part of the observed system.</li>
+      <li class="text-[14.5px]"><strong class="text-fg font-normal">Ross Ashby</strong> proposed the principle of "<strong class="text-amber">requisite variety</strong>"—the complexity of a control system must match the complexity of the system being controlled. This principle applies directly to AI agent system design today.</li>
+    </ul>
+    <p class="mb-0">Cybernetics gradually faded from mainstream discourse in the 1980s. But today's AI agent systems provide a perfect application scenario: autonomous decision-making, real-time feedback, multi-objective optimization, cross-domain collaboration—<strong class="text-amber font-medium">these are precisely the problems the cybernetics tradition is best at describing</strong>.</p>
+  </div>
+</section>
+
+<!-- PULLQUOTE -->
+<div class="max-w-wrap mx-auto px-[5vw] lg:px-12 relative z-[2]">
+  <blockquote class="pullquote-mark relative max-w-[960px] mx-auto py-10 lg:py-12 px-5 lg:px-14 border-t border-b border-amber my-10 lg:my-[72px]">
+    <span class="font-serif font-light text-[clamp(19px,5vw,40px)] leading-snug text-fg block">
+      When a machine begins to pursue a defined objective,<br/>
+      it will precisely optimize <em class="text-amber font-normal">that objective</em>,<br/>
+      not the one we <em class="text-amber font-normal">truly want</em>.
+    </span>
+    <cite class="block mt-6 font-mono text-[11px] text-amber tracking-[0.18em] uppercase not-italic">— NORBERT WIENER · 1960 · "MORAL & TECHNICAL CONSEQUENCES OF AUTOMATION"</cite>
+  </blockquote>
+</div>
+
+<!-- § 03 THIRD COMING -->
+<section class="max-w-wrap mx-auto px-[5vw] lg:px-12 relative z-[2] py-14 lg:py-28 border-b border-line">
+  <header class="grid grid-cols-1 lg:grid-cols-[120px_1fr] gap-4 lg:gap-12 items-baseline mb-10 lg:mb-[72px]">
+    <div class="cursor font-mono text-[10px] lg:text-[11px] tracking-[0.2em] text-amber pt-3 border-t border-amber uppercase">§ 03 / THIRD COMING</div>
+    <h2 class="font-serif font-light text-[clamp(24px,7vw,68px)] leading-[1.05] tracking-tight">Three <em class="text-amber">Comings</em></h2>
+  </header>
+  <div class="lg:ml-[168px] max-w-[960px]">
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-px bg-line border border-line">
+      <article class="bg-bg p-6 lg:p-8 relative">
+        <div class="font-mono text-[10px] tracking-[0.18em] text-signal uppercase mb-3">FIRST COMING · 1962-1973</div>
+        <h3 class="font-serif text-xl font-normal mb-3">Vetoed by <em class="text-signal">Politics</em></h3>
+        <p class="text-[14px] text-fg-dim font-light leading-relaxed">OGAS (USSR) / Cybersyn (Chile). Technically entirely feasible, <strong class="text-fg font-normal">it died from power structures' instinctive resistance to transparency</strong>.</p>
+      </article>
+      <article class="bg-bg p-6 lg:p-8">
+        <div class="font-mono text-[10px] tracking-[0.18em] text-mint uppercase mb-3">SECOND COMING · 1990s-NOW</div>
+        <h3 class="font-serif text-xl font-normal mb-3">Realized in the <em class="text-mint">Name of Enterprise</em></h3>
+        <p class="text-[14px] text-fg-dim font-light leading-relaxed">Amazon supply chains / Walmart inventory / Palantir data integration—doing almost exactly the same thing as OGAS, <strong class="text-fg font-normal">only serving capital rather than a planned economy</strong>.</p>
+      </article>
+      <article class="bg-bg p-6 lg:p-8">
+        <div class="font-mono text-[10px] tracking-[0.18em] text-amber uppercase mb-3">THIRD COMING · NOW</div>
+        <h3 class="font-serif text-xl font-normal mb-3">In the Name of <em class="text-amber">AI Agents</em></h3>
+        <p class="text-[14px] text-fg-dim font-light leading-relaxed">Autonomous decision-making + real-time feedback + multi-objective optimization + cross-domain collaboration. <strong class="text-fg font-normal">Translating human fuzzy preferences, ethical judgments, and risk tolerance</strong> into machine-executable constraints—this is exactly the challenge Glushkov faced back then.</p>
+      </article>
+    </div>
+
+    <div class="mt-10 grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <div class="border border-line p-6 lg:p-7">
+        <div class="font-mono text-[10px] tracking-[0.18em] text-amber uppercase mb-3">SIGN 01 · REDISCOVERY</div>
+        <p class="text-[14px] text-fg-dim font-light leading-relaxed">"Goal alignment" = "reward hacking," "feedback loop design" = RLHF training, "multi-agent coordination" = Beer's Viable System Model, "observability" = Ashby's requisite variety—<strong class="text-fg font-normal">every agent engineering problem has a cybernetic counterpart</strong>.</p>
+      </div>
+      <div class="border border-line p-6 lg:p-7">
+        <div class="font-mono text-[10px] tracking-[0.18em] text-amber uppercase mb-3">SIGN 02 · POLITICAL RECURRENCE</div>
+        <p class="text-[14px] text-fg-dim font-light leading-relaxed">The biggest resistance to deploying agents within enterprises <strong class="text-fg font-normal">is not technical but organizational</strong>—middle managers realize that agents make the "information intermediary" role redundant. This is the same resistance Glushkov encountered in Soviet ministry offices in 1965.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- § 04 WHAT CHANGES -->
+<section class="max-w-wrap mx-auto px-[5vw] lg:px-12 relative z-[2] py-14 lg:py-28 border-b border-line">
+  <header class="grid grid-cols-1 lg:grid-cols-[120px_1fr] gap-4 lg:gap-12 items-baseline mb-10 lg:mb-[72px]">
+    <div class="cursor font-mono text-[10px] lg:text-[11px] tracking-[0.2em] text-signal pt-3 border-t border-signal uppercase">§ 04 / ACUTE</div>
+    <h2 class="font-serif font-light text-[clamp(24px,7vw,68px)] leading-[1.05] tracking-tight">From Chronic Disease to <em class="text-signal">Acute Explosion</em></h2>
+  </header>
+  <div class="lg:ml-[168px] max-w-prose text-[15px] lg:text-lg leading-relaxed lg:leading-[1.75] font-light">
+    <p class="mb-5">The truly important factors remain unchanged: goal alignment, feedback design, accountability, political acceptability—these have been studied by the cybernetics tradition for 60 years. What has changed is:</p>
+    <p class="mb-5 text-[16px] lg:text-[19px] text-signal font-medium">The cost of ignoring these truths has shifted from a "chronic disease" to an "acute explosion."</p>
+    <p class="mb-5">In traditional software, poor feedback loop design causes systems to slowly decay. In AI agent systems, poor constraint and feedback design causes agents to <strong class="text-fg font-normal">go out of control within minutes</strong>—the real bottleneck is <strong class="text-fg font-normal">externalizing human high-level judgment into calibratable rules and feedback signals</strong>.</p>
+    <p class="mb-0">This is precisely why Glushkov failed: not because his technology was inadequate, but because he could not externalize the <strong class="text-amber font-medium">implicit power dynamics</strong> of the Soviet bureaucratic system into computable constraint conditions. Today's agent engineers face the exact same challenge.</p>
+  </div>
+</section>
+
+<!-- § 05 TAKEAWAYS -->
+<section class="max-w-wrap mx-auto px-[5vw] lg:px-12 relative z-[2] py-14 lg:py-28 border-b border-line">
+  <header class="grid grid-cols-1 lg:grid-cols-[120px_1fr] gap-4 lg:gap-12 items-baseline mb-10 lg:mb-[72px]">
+    <div class="cursor font-mono text-[10px] lg:text-[11px] tracking-[0.2em] text-amber pt-3 border-t border-amber uppercase">§ 05 / TAKEAWAYS</div>
+    <h2 class="font-serif font-light text-[clamp(24px,7vw,68px)] leading-[1.05] tracking-tight">Three <em class="text-amber">Takeaways</em></h2>
+  </header>
+  <div class="lg:ml-[168px] max-w-[960px] grid grid-cols-1 lg:grid-cols-3 gap-px bg-line border border-line">
+    <article class="bg-bg p-6 lg:p-8">
+      <div class="font-mono text-[10px] tracking-[0.18em] text-amber uppercase mb-3">TAKEAWAY 01</div>
+      <p class="text-[14.5px] text-fg-dim font-light leading-relaxed"><strong class="text-amber font-medium">Study cybernetics seriously.</strong> Not as historical knowledge, but as <strong class="text-fg font-normal">first principles</strong> for agent system design. Wiener's <em>Cybernetics</em> and Ashby's <em>An Introduction to Cybernetics</em> are more valuable than most agent framework documentation.</p>
+    </article>
+    <article class="bg-bg p-6 lg:p-8">
+      <div class="font-mono text-[10px] tracking-[0.18em] text-amber uppercase mb-3">TAKEAWAY 02</div>
+      <p class="text-[14.5px] text-fg-dim font-light leading-relaxed"><strong class="text-amber font-medium">OGAS's failure was a political failure, not a technical one.</strong> Who has the right to define an agent's objective function? Who bears the consequences of an agent's decisions? Technical design cannot avoid these questions—avoiding them only causes political conflicts to erupt at a higher-cost position.</p>
+    </article>
+    <article class="bg-bg p-6 lg:p-8">
+      <div class="font-mono text-[10px] tracking-[0.18em] text-amber uppercase mb-3">TAKEAWAY 03</div>
+      <p class="text-[14.5px] text-fg-dim font-light leading-relaxed"><strong class="text-amber font-medium">Cybertonia is a mirror.</strong> A system that is theoretically entirely feasible may never be realized due to resistance from power structures. The real bottleneck for AI agents may not be model capability, <strong class="text-fg font-normal">but organizational tolerance for transparency</strong>.</p>
+    </article>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="max-w-wrap mx-auto px-[5vw] lg:px-12 relative z-[2] py-12 lg:py-16">
+  <div class="font-mono text-[10px] lg:text-[11px] tracking-[0.16em] uppercase text-fg-mute grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-12">
+    <div>
+      <div class="text-fg-dim mb-2.5">SOURCES</div>
+      <div class="text-fg leading-relaxed">Slava Gerovitch · From Newspeak to Cyberspeak · Eden Medina · Cybernetic Revolutionaries · Wiener · Cybernetics 1948 · Ashby 1956 · Beer 1979</div>
+    </div>
+    <div class="lg:text-right">
+      <div class="text-fg-dim mb-2.5">FILED</div>
+      <div class="text-fg">2026.04.02 · AI BUZZWORDS / DEEPDIVE</div>
+      <div class="mt-3 text-fg-dim"><a href="../../viewer.html?f=deepdive/cybertonia/cybertonia-blog.md" class="hover:text-amber">→ View Markdown source</a></div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
