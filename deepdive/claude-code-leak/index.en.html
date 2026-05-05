@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>When Code Is No Longer a Secret · Claude Code Leak Incident / AI Buzzwords</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,700&family=JetBrains+Mono:wght@300;400;500;700&family=Inter+Tight:wght@400;500;600&display=swap" rel="stylesheet" />
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      colors: {
+        bg:'#0a0908','bg-2':'#111110',
+        fg:'#ebe6dc','fg-dim':'#9a948a','fg-mute':'#5a544b',
+        line:'#2b2823','line-bright':'#443f37',
+        amber:'#f5a524','amber-soft':'rgba(245,165,36,0.09)',
+        mint:'#7fb88b','mint-soft':'rgba(127,184,139,0.12)',
+        signal:'#d1402c','signal-soft':'rgba(209,64,44,0.12)','signal-glow':'rgba(209,64,44,0.25)',
+        paper:'#e8e3d8',ink:'#1a1815',
+      },
+      fontFamily: {
+        serif:["'Fraunces'","'Source Han Serif SC'","'Noto Serif SC'","Georgia","serif"],
+        mono:["'JetBrains Mono'","ui-monospace","monospace"],
+        sans:["'Inter Tight'","system-ui","sans-serif"],
+      },
+      maxWidth:{prose:'820px',content:'1020px',wrap:'1320px'},
+    }
+  }
+}
+</script>
+<style>
+em,i{font-style:normal}
+body{font-feature-settings:'ss01','ss02','kern';-webkit-font-smoothing:antialiased}
+body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(209,64,44,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(209,64,44,0.04) 1px,transparent 1px);background-size:80px 80px;pointer-events:none;z-index:0}
+body::after{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.96 0 0 0 0 0.9 0 0 0 0 0.8 0 0 0 0.08 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");pointer-events:none;z-index:1;opacity:0.45;mix-blend-mode:overlay}
+.lamp{display:inline-block;width:8px;height:8px;border-radius:50%;background:#d1402c;box-shadow:0 0 10px #d1402c,0 0 24px rgba(209,64,44,0.3);animation:pulse 2.4s ease-in-out infinite;vertical-align:middle}
+@keyframes pulse{0%,100%{opacity:1;box-shadow:0 0 10px #d1402c,0 0 24px rgba(209,64,44,0.3)}50%{opacity:.5;box-shadow:0 0 6px #d1402c,0 0 14px rgba(209,64,44,0.2)}}
+.cursor::after{content:'▮';color:#d1402c;margin-left:6px;animation:blink 1.1s steps(2) infinite}
+@keyframes blink{0%,50%{opacity:1}51%,100%{opacity:0}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+.hero-anim>*{animation:fadeUp 0.9s cubic-bezier(.2,.7,.2,1) both}
+.hero-anim>*:nth-child(1){animation-delay:.05s}.hero-anim>*:nth-child(2){animation-delay:.15s}
+.hero-anim>*:nth-child(3){animation-delay:.28s}.hero-anim>*:nth-child(4){animation-delay:.42s}
+.pullquote-mark::before{content:'"';position:absolute;top:16px;left:12px;font-family:'Fraunces',serif;font-size:100px;color:#d1402c;opacity:0.18;line-height:1}
+.synthesis-label::before{content:'TL;DR / Ten Truths';position:absolute;top:-10px;left:28px;background:#0a0908;padding:0 12px;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.2em;color:#d1402c}
+.alert-label::before{content:'⚠ Enterprise Action Checklist';position:absolute;top:-10px;left:28px;background:#0a0908;padding:0 12px;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.2em;color:#f5a524}
+.code-block{background:rgba(209,64,44,0.06);border-left:2px solid #d1402c;font-family:'JetBrains Mono',monospace;font-size:14px;padding:14px 18px;color:#ebe6dc}
+.bar{position:relative;height:4px;background:#2b2823;overflow:hidden}
+.bar>i{position:absolute;top:0;left:0;height:100%;background:linear-gradient(90deg,#d1402c,#e85f4a);font-style:normal}
+</style>
+</head>
+
+<body class="bg-bg text-fg font-serif leading-relaxed overflow-x-hidden">
+
+<!-- TOP STRIP -->
+<div class="max-w-wrap mx-auto px-[5vw] lg:px-12 relative z-[2]">
+  <div class="border-b border-line py-3.5 font-mono text-[10px] lg:text-[11px] tracking-[0.12em] uppercase text-fg-dim grid grid-cols-1 lg:grid-cols-4 gap-2 lg:gap-6 items-center">
+    <div><span class="lamp mr-2.5"></span>AGENT / INCIDENT REPORT · № 02</div>
+    <div class="hidden lg:block">SUBJECT / CLAUDE CODE LEAK</div>
+    <div class="hidden lg:block">FILED / 2026.04.03</div>
+    <div class="lg:text-right"><a href="../../" class="hover:text-fg">← AI BUZZWORDS</a></div>
+  </div>
+</div>
+
+<!-- HERO -->
+<section class="hero-anim max-w-wrap mx-auto px-[5vw] lg:px-12 relative z-[2] pt-10 lg:pt-28 pb-12 lg:pb-24 border-b border-line">
+  <div class="font-mono text-[9px] lg:text-[11px] tracking-[0.18em] uppercase text-signal mb-8 lg:mb-10 flex flex-wrap gap-2 lg:gap-7 items-center">
+    <span>CASE FILE</span><span class="text-fg-mute hidden lg:inline">/</span>
+    <span>SOURCE MAP EXPOSURE</span><span class="text-fg-mute hidden lg:inline">/</span>
+    <span>NPM v2.1.88 · 2026-03-31 04:23 UTC</span>
+  </div>
+  <h1 class="font-serif font-light text-[clamp(28px,8.5vw,124px)] leading-[0.95] tracking-tight mb-6 lg:mb-9">
+    When Code<span class="block">Is No Longer a <em class="text-signal font-normal">Secret</em></span>
+    <span class="block text-[clamp(20px,5vw,72px)] text-fg-dim mt-3">Claude Code Leak Incident</span>
+  </h1>
+  <div class="max-w-[760px] text-[15px] lg:text-xl text-fg-dim font-light leading-relaxed lg:leading-[1.55] border-l border-signal pl-3.5 lg:pl-5 mt-4">
+    A source map file left behind in an NPM package<br/>
+    tore open the <strong class="text-fg font-normal">complete architectural blueprint</strong> of the hottest AI coding tool within 72 hours.<br/>
+    The community completed the reverse engineering, used OpenAI's model to find critical bugs in Anthropic's code, and reconstructed the unreleased product roadmap —<br/>
+    <strong class="text-fg font-normal">This was not a security incident; it was the first public physical exam of the AI tool ecosystem.</strong>
+  </div>
+
+  <!-- HERO STATS GRID -->
+  <div class="mt-12 lg:mt-16 grid grid-cols-2 lg:grid-cols-4 gap-px bg-line border border-line font-mono">
+    <div class="bg-bg p-5 lg:p-7">
+      <div class="text-[9px] lg:text-[10px] tracking-[0.16em] uppercase text-fg-mute mb-3">SOURCE FILES EXPOSED</div>
+      <div class="font-serif text-[30px] lg:text-[44px] font-normal text-signal leading-none mb-2">4,756</div>
+      <div class="text-[10px] lg:text-[11px] text-fg-dim">FROM 59.8MB SOURCE MAP</div>
+    </div>
+    <div class="bg-bg p-5 lg:p-7">
+      <div class="text-[9px] lg:text-[10px] tracking-[0.16em] uppercase text-fg-mute mb-3">CLAW-CODE STARS</div>
+      <div class="font-serif text-[30px] lg:text-[44px] font-normal text-signal leading-none mb-2">100K+</div>
+      <div class="text-[10px] lg:text-[11px] text-fg-dim">CLEAN-ROOM PYTHON REWRITE</div>
+    </div>
+    <div class="bg-bg p-5 lg:p-7">
+      <div class="text-[9px] lg:text-[10px] tracking-[0.16em] uppercase text-fg-mute mb-3">LINES OF TYPESCRIPT</div>
+      <div class="font-serif text-[30px] lg:text-[44px] font-normal text-amber leading-none mb-2">~512K</div>
+      <div class="text-[10px] lg:text-[11px] text-fg-dim">QueryEngine.ts ALONE ≈50K</div>
+    </div>
+    <div class="bg-bg p-5 lg:p-7">
+      <div class="text-[9px] lg:text-[10px] tracking-[0.16em] uppercase text-fg-mute mb-3">CLAUDE CODE ARR</div>
+      <div class="font-serif text-[30px] lg:text-[44px] font-normal text-amber leading-none mb-2">$2.5B</div>
+      <div class="text-[10px] lg:text-[11px] text-fg-dim">"VIBE CODED GARBAGE" — BUILD.MS</div>
+    </div>
+  </div>
+</section>
+
+<!-- TL;DR Synthesis -->
+<section class="max-w-wrap mx-auto px-[5vw] lg:px-12 relative z-[2] py-10 lg:py-16 border-b border-line">
+  <div class="synthesis-label relative max-w-[1100px] mx-auto border border-signal p-6 lg:p-10 pt-10 lg:pt-12">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-x-10 gap-y-3 font-mono text-[12.5px] lg:text-[13px] leading-relaxed">
+      <div class="flex gap-3"><span class="text-signal font-medium">01</span><span><strong class="text-fg">Source code is permanently irrevocable.</strong> claw-code clean-room rewrite broke 100K Stars, IPFS mirrored, DMCA futile</span></div>
+      <div class="flex gap-3"><span class="text-signal font-medium">02</span><span><strong class="text-fg">KAIROS exposed complete roadmap.</strong> Background daemon + GitHub Webhook + nighttime memory distillation</span></div>
+      <div class="flex gap-3"><span class="text-signal font-medium">03</span><span><strong class="text-fg">autoCompact Bug</strong> is the real culprit behind "rate-limited after two uses" — 3,272 infinite retries, fixable with three lines of code</span></div>
+      <div class="flex gap-3"><span class="text-signal font-medium">04</span><span><strong class="text-fg">Telemetry exceeds "coding assistant" boundaries.</strong> 640 event types, CHICAGO module (screenshots/keyboard/clipboard)</span></div>
+      <div class="flex gap-3"><span class="text-signal font-medium">05</span><span><strong class="text-fg">Undercover mode has no off switch.</strong> AI systematically hides traces of commits to open-source repositories</span></div>
+      <div class="flex gap-3"><span class="text-signal font-medium">06</span><span><strong class="text-fg">Anthropic flagship doesn't use its own SDK.</strong> Due to SDK's O(n²) performance bug</span></div>
+      <div class="flex gap-3"><span class="text-signal font-medium">07</span><span><strong class="text-fg">Capybara v8 hallucination rate degraded.</strong> From 16.7% to 29-30%, competitors knew before users</span></div>
+      <div class="flex gap-3"><span class="text-signal font-medium">08</span><span><strong class="text-fg">DMCA self-contradiction.</strong> During training claimed "AI rewrite doesn't constitute infringement," reversed position after leak</span></div>
+      <div class="flex gap-3"><span class="text-signal font-medium">09</span><span><strong class="text-fg">Crappy code generated $2.5B ARR.</strong> 3,000 lines with 12 levels of nesting shatters "code quality = product quality" belief</span></div>
+      <div class="flex gap-3"><span class="text-signal font-medium">10</span><span><strong class="text-fg">Market position rose instead of falling.</strong> The real moat isn't in TypeScript</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- § 01 EXPOSURE SCALE -->
+<section class="max-w-wrap mx-auto px-[5vw] lg:px-12 relative z-[2] py-14 lg:py-28 border-b border-line">
+  <header class="grid grid-cols-1 lg:grid-cols-[120px_1fr] gap-4 lg:gap-12 items-baseline mb-10 lg:mb-[72px]">
+    <div class="cursor font-mono text-[10px] lg:text-[11px] tracking-[0.2em] text-signal pt-3 border-t border-signal uppercase">§ 01 / EXPOSURE</div>
+    <h2 class="font-serif font-light text-[clamp(24px,7vw,68px)] leading-[1.05] tracking-tight">From .map file to<br/><em class="text-signal">4,756 source files</em></h2>
+  </header>
+  <div class="lg:ml-[168px] max-w-prose text-[15px] lg:text-lg leading-relaxed lg:leading-[1.75] font-light">
+    <p class="mb-5">The incident began on 2026-03-31 UTC 04:23. Security researcher <strong class="text-signal font-medium">Chaofan Shou</strong> discovered that the NPM package for Claude Code v2.1.88 contained a 59.8MB source map (previous versions were ~17MB), pointing to a <strong class="text-fg font-normal">publicly accessible</strong> src.zip on Cloudflare R2 — even after the npm package was taken down, anyone who knew the URL could still download all the source code. This dual exposure path was overlooked in most analyses.</p>
+    <p class="mb-5">@tvytix extracted 4,756 source files from it. The GitHub mirror created by Korean developer Sigrid Jin surpassed <strong class="text-fg font-normal">50K Stars within two hours</strong>, and the clean-room Python rewrite claw-code ultimately broke <strong class="text-fg font-normal">100K Stars</strong>, likely setting a GitHub growth record. The code entered IPFS — at this point, <strong class="text-fg font-normal">permanently public</strong>.</p>
+    <p class="mb-5">This was Anthropic's second accidental information leak within five days, and the second <strong class="text-amber font-normal">identical source map incident</strong> in 13 months. This goes beyond "individual human error" and points to systemic process deficiencies.</p>
+  </div>
+</section>
+
+<!-- § 02 FIVE FINDINGS -->
+<section class="max-w-wrap mx-auto px-[5vw] lg:px-12 relative z-[2] py-14 lg:py-28 border-b border-line">
+  <header class="grid grid-cols-1 lg:grid-cols-[120px_1fr] gap-4 lg:gap-12 items-baseline mb-10 lg:mb-[72px]">
+    <div class="cursor font-mono text-[10px] lg:text-[11px] tracking-[0.2em] text-signal pt-3 border-t border-signal uppercase">§ 02 / ARCHITECTURE</div>
+    <h2 class="font-serif font-light text-[clamp(24px,7vw,68px)] leading-[1.05] tracking-tight">Five <em class="text-signal">core architecture</em> findings</h2>
+  </header>
+  <div class="lg:ml-[168px] max-w-[960px] grid grid-cols-1 lg:grid-cols-2 gap-px bg-line border border-line">
+    <article class="bg-bg p-6 lg:p-8">
+      <div class="font-mono text-[10px] tracking-[0.18em] text-signal uppercase mb-3">FINDING 01 · ANTI-DISTILL</div>
+      <h3 class="font-serif text-xl lg:text-2xl font-normal mb-3 leading-snug">Anti-distillation double insurance's <em class="text-signal">"keeps out the honest, not the malicious"</em></h3>
+      <p class="text-[14.5px] lg:text-[15px] text-fg-dim font-light leading-relaxed">Injecting "fake tools" into the API to poison intercepted traffic, inserting cryptographic signature digests between tool calls. But analysts noted both layers of protection can be easily bypassed with environment variables or man-in-the-middle proxies — a company that brands itself on "AI safety" had its anti-distillation publicly verified for the first time as <strong class="text-fg font-normal">performative</strong>.</p>
+    </article>
+    <article class="bg-bg p-6 lg:p-8">
+      <div class="font-mono text-[10px] tracking-[0.18em] text-signal uppercase mb-3">FINDING 02 · UNDERCOVER</div>
+      <h3 class="font-serif text-xl lg:text-2xl font-normal mb-3 leading-snug">Undercover mode with <em class="text-signal">no off switch</em></h3>
+      <p class="text-[14.5px] lg:text-[15px] text-fg-dim font-light leading-relaxed">A 90-line code module instructs the AI to hide Anthropic internal codenames (Capybara, Tengu) in external repositories. When employees submit code to open-source projects, AI traces are systematically erased. When you see a commit from a "human developer," it <strong class="text-fg font-normal">may have been AI-assisted, and you'd have no way of knowing</strong>.</p>
+    </article>
+    <article class="bg-bg p-6 lg:p-8">
+      <div class="font-mono text-[10px] tracking-[0.18em] text-signal uppercase mb-3">FINDING 03 · FRUSTRATION</div>
+      <h3 class="font-serif text-xl lg:text-2xl font-normal mb-3 leading-snug">Frustration detection uses <em class="text-signal">regex, not LLM</em></h3>
+      <p class="text-[14.5px] lg:text-[15px] text-fg-dim font-light leading-relaxed">Identifying user frustration relies on simple regex, not LLM reasoning. <strong class="text-fg font-normal">Speed and cost trumped technical elegance</strong> — this engineering decision reflects the real priorities of AI product design.</p>
+    </article>
+    <article class="bg-bg p-6 lg:p-8">
+      <div class="font-mono text-[10px] tracking-[0.18em] text-signal uppercase mb-3">FINDING 04 · KAIROS</div>
+      <h3 class="font-serif text-xl lg:text-2xl font-normal mb-3 leading-snug">Unreleased <em class="text-signal">complete roadmap</em></h3>
+      <p class="text-[14.5px] lg:text-[15px] text-fg-dim font-light leading-relaxed">Source code references 150+ times: background Daemon that continues running after terminal closes, periodic <code class="font-mono text-[12.5px] text-signal">&lt;tick&gt;</code> prompts + GitHub Webhook subscriptions + nighttime memory distillation (autoDream) + ULTRAPLAN for up to 30 minutes of deep thinking. <strong class="text-fg font-normal">The most sensitive competitive intelligence, fully visible to all competitors</strong>.</p>
+    </article>
+    <article class="bg-bg p-6 lg:p-8 lg:col-span-2">
+      <div class="font-mono text-[10px] tracking-[0.18em] text-amber uppercase mb-3">FINDING 05 · OWN SDK BYPASS</div>
+      <h3 class="font-serif text-xl lg:text-2xl font-normal mb-3 leading-snug">Anthropic's flagship product <em class="text-amber">bypassed its own SDK</em></h3>
+      <p class="text-[14.5px] lg:text-[15px] text-fg-dim font-light leading-relaxed">QueryEngine.ts at nearly 50K lines — the reason for bypassing the official SDK is that the SDK has an O(n²) performance issue. <strong class="text-fg font-normal">A company's flagship product doesn't dare use its own public tool library</strong>. This detail reflects the "say one thing, do another" reality of AI engineering more authentically than any architecture diagram.</p>
+    </article>
+  </div>
+</section>
+
+<!-- § 03 AUTOCOMPACT BUG -->
+<section class="max-w-wrap mx-auto px-[5vw] lg:px-12 relative z-[2] py-14 lg:py-28 border-b border-line">
+  <header class="grid grid-cols-1 lg:grid-cols-[120px_1fr] gap-4 lg:gap-12 items-baseline mb-10 lg:mb-[72px]">
+    <div class="cursor font-mono text-[10px] lg:text-[11px] tracking-[0.2em] text-signal pt-3 border-t border-signal uppercase">§ 03 / THE BUG</div>
+    <h2 class="font-serif font-light text-[clamp(24px,7vw,68px)] leading-[1.05] tracking-tight">Three lines of code<br/>reveal a <em class="text-signal">systemic problem</em></h2>
+  </header>
+  <div class="lg:ml-[168px] max-w-prose text-[15px] lg:text-lg leading-relaxed lg:leading-[1.75] font-light">
+    <p class="mb-5">The community fed the leaked source code to OpenAI Codex for analysis and discovered that after autoCompact fails, it <strong class="text-signal font-medium">retries infinitely with no failure count limit</strong> — source code comments recorded a maximum of <strong class="text-fg font-normal">3,272 consecutive failures</strong>, each one burning the user's token quota.</p>
+    <div class="my-7 code-block">MAX_CONSECUTIVE_AUTOCOMPACT_FAILURES = 3</div>
+    <p class="mb-5">Three lines of code.</p>
+    <p class="mb-5">This directly corresponds to what Anthropic concurrently admitted — that "users hit usage limits faster than expected." Developers' long-standing complaint of being "rate-limited after two uses" was partly caused by this bug burning tokens in the background. After the patch, users' quota usage returned to normal.</p>
+    <p class="mb-0">The most ironic part: <strong class="text-fg font-normal">this bug was discovered using OpenAI's Codex in Anthropic's leaked source code</strong> — a competitor helping you find bugs is perhaps the most darkly humorous form of collaboration in the AI industry.</p>
+  </div>
+</section>
+
+<!-- PULLQUOTE -->
+<div class="max-w-wrap mx-auto px-[5vw] lg:px-12 relative z-[2]">
+  <blockquote class="pullquote-mark relative max-w-[960px] mx-auto py-10 lg:py-12 px-5 lg:px-14 border-t border-b border-signal my-10 lg:my-[72px]">
+    <span class="font-serif font-light text-[clamp(19px,5vw,40px)] leading-snug text-fg block">
+      vibe coded garbage can generate<br/><em class="text-signal font-normal">$2.5 billion in annualized revenue</em> in less than a year — as long as product-market fit is there.
+    </span>
+    <cite class="block mt-6 font-mono text-[11px] text-signal tracking-[0.18em] uppercase not-italic">— BUILD.MS · ON THE LEAKED SOURCE</cite>
+  </blockquote>
+</div>
+
+<!-- § 04 SURVEILLANCE -->
+<section class="max-w-wrap mx-auto px-[5vw] lg:px-12 relative z-[2] py-14 lg:py-28 border-b border-line">
+  <header class="grid grid-cols-1 lg:grid-cols-[120px_1fr] gap-4 lg:gap-12 items-baseline mb-10 lg:mb-[72px]">
+    <div class="cursor font-mono text-[10px] lg:text-[11px] tracking-[0.2em] text-amber pt-3 border-t border-amber uppercase">§ 04 / SURVEILLANCE</div>
+    <h2 class="font-serif font-light text-[clamp(24px,7vw,68px)] leading-[1.05] tracking-tight">What was leaked wasn't code,<br/>it was <em class="text-amber">surveillance capability</em></h2>
+  </header>
+  <div class="lg:ml-[168px] max-w-prose text-[15px] lg:text-lg leading-relaxed lg:leading-[1.75] font-light">
+    <p class="mb-5">Almost all mainstream analyses focused on feature discoveries. But the security team at Concret.io and The Register's follow-up investigation pointed to an underappreciated dimension: <strong class="text-amber font-medium">Claude Code's data collection scope far exceeds what a "coding assistant" reasonably needs</strong>.</p>
+    <p class="mb-5">Every Read, every Bash, every search result is stored locally in plaintext JSONL, and transmitted back with user ID, organization UUID, and email as metadata. Data retention periods are <strong class="text-fg font-normal">scattered across five different policy documents</strong> — the security page says "limited retention," while the privacy center says "up to seven years."</p>
+    <p class="mb-5">Even more alarming is the <strong class="text-fg font-normal">architectural-level remote control capability</strong>: feature gates hot-reload hourly without user interaction. Combined with the exposed CHICAGO module (screenshots/keyboard/clipboard/system-level file access), <strong class="text-amber font-medium">there is a dynamic gap between "the terms agreed to at installation" and "actual runtime behavior"</strong>.</p>
+    <p class="mb-0">A corporate risk blind spot that almost all analysts overlooked: <strong class="text-fg font-normal">when developers use personal free accounts to process company code, consumer terms apply rather than enterprise agreements</strong>. Anthropic's data protection follows the account, not the code — enterprise DPAs are effectively void in this scenario.</p>
+
+    <div class="alert-label relative mt-10 border border-amber p-6 lg:p-8 pt-8 lg:pt-10">
+      <ol class="list-decimal pl-5 space-y-2 text-[14px] lg:text-[15px] text-fg font-light">
+        <li><strong class="text-amber font-normal">Audit</strong> how many developers in your organization use personal accounts for company code</li>
+        <li><strong class="text-amber font-normal">Check</strong> CHICAGO module exposure (combined permissions of screenshots + keyboard + file access)</li>
+        <li><strong class="text-amber font-normal">Verify</strong> whether the company has signed an enterprise agreement with a DPA — personal accounts are not protected</li>
+        <li><strong class="text-amber font-normal">Monitor</strong> feature gate hot-reloading — "installation-time behavior" ≠ "runtime behavior"</li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<!-- § 05 DMCA PARADOX -->
+<section class="max-w-wrap mx-auto px-[5vw] lg:px-12 relative z-[2] py-14 lg:py-28 border-b border-line">
+  <header class="grid grid-cols-1 lg:grid-cols-[120px_1fr] gap-4 lg:gap-12 items-baseline mb-10 lg:mb-[72px]">
+    <div class="cursor font-mono text-[10px] lg:text-[11px] tracking-[0.2em] text-signal pt-3 border-t border-signal uppercase">§ 05 / DMCA</div>
+    <h2 class="font-serif font-light text-[clamp(24px,7vw,68px)] leading-[1.05] tracking-tight">Using copyright law<br/>to protect <em class="text-signal">AI-written code</em></h2>
+  </header>
+  <div class="lg:ml-[168px] max-w-prose text-[15px] lg:text-lg leading-relaxed lg:leading-[1.75] font-light">
+    <p class="mb-5">The DMCA takedown action mistakenly hit approximately 8,100 legitimate forks. But the real story isn't about enforcement intensity — it's about the <strong class="text-fg font-normal">self-contradiction in legal logic</strong>.</p>
+    <p class="mb-5">CEO Dario Amodei once hinted that a significant portion of Claude Code was written by Claude itself. Build.ms sharply pointed out the double standard: <strong class="text-signal font-medium">Anthropic claims "AI rewrites don't constitute infringement" when training Claude, but after the Claude Code leak claims "AI rewrites do constitute infringement"</strong>.</p>
+    <p class="mb-0">This isn't just an Anthropic problem. It exposes the entire AI industry's <strong class="text-fg font-normal">legal infrastructure deficit</strong> — when AI is both the author of code and the "laundering tool" for code, the "author" concept in copyright law needs to be completely rewritten.</p>
+  </div>
+</section>
+
+<!-- § 06 GARBAGE → GOLD -->
+<section class="max-w-wrap mx-auto px-[5vw] lg:px-12 relative z-[2] py-14 lg:py-28 border-b border-line">
+  <header class="grid grid-cols-1 lg:grid-cols-[120px_1fr] gap-4 lg:gap-12 items-baseline mb-10 lg:mb-[72px]">
+    <div class="cursor font-mono text-[10px] lg:text-[11px] tracking-[0.2em] text-amber pt-3 border-t border-amber uppercase">§ 06 / NON-CONSENSUS</div>
+    <h2 class="font-serif font-light text-[clamp(24px,7vw,68px)] leading-[1.05] tracking-tight">Crappy code's<br/><em class="text-amber">$2.5 billion revelation</em></h2>
+  </header>
+  <div class="lg:ml-[168px] max-w-prose text-[15px] lg:text-lg leading-relaxed lg:leading-[1.75] font-light">
+    <p class="mb-5">The Chinese developer community strongly resonated with the <strong class="text-amber font-medium">3,000-line, 12-level nested</strong> "shit mountain code" in <code class="font-mono text-[14px] text-amber">src/cli/print.ts</code>. But this isn't mockery — it's a challenge to a deep-seated belief in the developer industry:</p>
+    <p class="mb-5"><strong class="text-fg font-normal">The correlation between code quality and product success is far lower than engineers are willing to admit.</strong></p>
+    <p class="mb-5">Comparative evidence: Codex and Gemini Code Assist's underlying code has always been open source, yet it never threatened Claude Code's market position. If code being public meant losing competitiveness, those two products should have won long ago. <strong class="text-fg font-normal">The real impact of the leak is perceptual, not technical</strong>.</p>
+    <p class="mb-0">The real moat lies in the combination of <strong class="text-amber font-medium">model capability + inference cost + cloud infrastructure + brand trust</strong> — not in 510K lines of TypeScript. Engineer's Codex further noted: Claude Code only enables 15-20 tools by default, and this <strong class="text-fg font-normal">deliberate tool minimalism</strong> may be the key to its UX advantage over competitors.</p>
+  </div>
+</section>
+
+<!-- § 07 TIMELINE -->
+<section class="max-w-wrap mx-auto px-[5vw] lg:px-12 relative z-[2] py-14 lg:py-28 border-b border-line">
+  <header class="grid grid-cols-1 lg:grid-cols-[120px_1fr] gap-4 lg:gap-12 items-baseline mb-10 lg:mb-[72px]">
+    <div class="cursor font-mono text-[10px] lg:text-[11px] tracking-[0.2em] text-signal pt-3 border-t border-signal uppercase">§ 07 / TIMELINE</div>
+    <h2 class="font-serif font-light text-[clamp(24px,7vw,68px)] leading-[1.05] tracking-tight">Accident,<br/>or the <em class="text-signal">boldest PR stunt</em>?</h2>
+  </header>
+  <div class="lg:ml-[168px] max-w-prose text-[15px] lg:text-lg leading-relaxed lg:leading-[1.75] font-light">
+    <p class="mb-5">An article on DEV Community raised a question framework that shouldn't be easily dismissed:</p>
+    <ul class="list-none space-y-3 mb-6 border-l border-signal pl-5">
+      <li class="text-[14.5px]">The leak occurred on March 31 — <strong class="text-fg font-normal">one day before</strong> the Buddy companion feature's planned release window (April 1-7)</li>
+      <li class="text-[14.5px]">Anthropic owns the Bun runtime, yet left a source map bug unfixed for 20 days (<code class="font-mono text-[13px] text-signal">oven-sh/bun#28001</code>)</li>
+      <li class="text-[14.5px]">Ten days before the leak, Anthropic had just faced strong community backlash for sending a cease-and-desist letter to OpenCode — the "leak" dramatically shifted public opinion from "closed monopolist" to "stripped-bare victim"</li>
+    </ul>
+    <p class="mb-5">The most ironic part is the Undercover mode itself: Anthropic specifically wrote 90 lines of code to prevent internal information from leaking through code contributions, <strong class="text-signal font-medium">then leaked all their source code through a file they forgot to exclude from the npm package</strong>. A company that built a dedicated anti-leak system was brought down by the most basic release configuration.</p>
+    <p class="mb-0">We'll most likely never get a definitive answer. But the question itself reveals a new reality: <strong class="text-fg font-normal">in the AI industry's information environment, the distinction between "accident" and "information operation" is increasingly difficult to make, and this indistinguishability is itself a strategic asset</strong>.</p>
+  </div>
+</section>
+
+<!-- § 08 EPILOGUE -->
+<section class="max-w-wrap mx-auto px-[5vw] lg:px-12 relative z-[2] py-14 lg:py-28 border-b border-line">
+  <header class="grid grid-cols-1 lg:grid-cols-[120px_1fr] gap-4 lg:gap-12 items-baseline mb-10 lg:mb-[72px]">
+    <div class="cursor font-mono text-[10px] lg:text-[11px] tracking-[0.2em] text-signal pt-3 border-t border-signal uppercase">§ 08 / EPILOGUE</div>
+    <h2 class="font-serif font-light text-[clamp(24px,7vw,68px)] leading-[1.05] tracking-tight">A mirror that reflects<br/><em class="text-signal">everyone</em></h2>
+  </header>
+  <div class="lg:ml-[168px] max-w-prose text-[15px] lg:text-lg leading-relaxed lg:leading-[1.75] font-light">
+    <p class="mb-5">510K lines of TypeScript will eventually be forgotten. But the conversations it sparked have only just begun:</p>
+    <p class="mb-5">Anthropic saw its process vulnerabilities and the fragility of the "AI safety company" label. Competitors saw a complete engineering blueprint, but also had to face an awkward truth — <strong class="text-fg font-normal">Claude Code's market position rose rather than fell in the week after the leak</strong>. The open-source community was forced to re-examine "who writes code." Regulators (if they were paying attention) saw the real permission scope of AI tools on developers' machines — <strong class="text-fg font-normal">far exceeding the "coding assistant" positioning in public discourse</strong>.</p>
+    <p class="mb-0">And the AI industry as a whole saw a more fundamental signal: <strong class="text-signal font-medium">when your product is an autonomous agent with system-level permissions, the risk checklist for "code leaks" has expanded from traditional "loss of trade secrets" to "public scrutiny of capability boundaries"</strong>. This is an entirely new kind of exposure — it's not the code that's running naked, it's the <em class="text-signal font-normal">intent</em>.</p>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="max-w-wrap mx-auto px-[5vw] lg:px-12 relative z-[2] py-12 lg:py-16">
+  <div class="font-mono text-[10px] lg:text-[11px] tracking-[0.16em] uppercase text-fg-mute grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-12">
+    <div>
+      <div class="text-fg-dim mb-2.5">SOURCES</div>
+      <div class="text-fg leading-relaxed">The Register · Latent Space · Build.ms · Engineer's Codex · DEV Community · Concret.io · VentureBeat · alex000kim · yage.ai · 36Kr · OSChina · Fortune · Zhihu</div>
+    </div>
+    <div class="lg:text-right">
+      <div class="text-fg-dim mb-2.5">FILED</div>
+      <div class="text-fg">2026.04.03 · AI BUZZWORDS / DEEPDIVE</div>
+      <div class="mt-3 text-fg-dim"><a href="../../viewer.html?f=deepdive/claude-code-leak/claude-code-leak-blog.md" class="hover:text-signal">→ View Markdown source</a></div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

@@ -4,16 +4,25 @@
   "topic_dir": "claude-code-leak",
   "title": {
     "zh": "当代码不再是秘密：Claude Code 泄露事件",
-    "en": null
+    "en": "When Code Is No Longer a Secret · Claude Code Leak Incident / AI Buzzwords"
   },
   "current_version": 1,
   "first_published": "2026-04-30",
   "last_updated": "2026-04-30",
   "freshness_priority": "warm",
   "next_check": "2026-05-30",
-  "languages": ["zh"],
+  "languages": [
+    "zh",
+    "en"
+  ],
   "primary_language": "zh",
-  "translations": {},
+  "translations": {
+    "en": {
+      "synced_at_version": 1,
+      "last_translated": "2026-05-05",
+      "method": "auto:glm-5.1"
+    }
+  },
   "version_log": [
     {
       "v": 1,
@@ -22,5 +31,10 @@
       "summary": "首次发布"
     }
   ],
-  "tags": ["Claude Code", "Anthropic", "Source Code", "Open Source"]
+  "tags": [
+    "Claude Code",
+    "Anthropic",
+    "Source Code",
+    "Open Source"
+  ]
 }
