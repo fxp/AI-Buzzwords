@@ -1,0 +1,7 @@
+name = "ai-buzzwords-router"
+main = "worker.js"
+compatibility_date = "2025-01-01"
+
+routes = [
+  { pattern = "xiaopingfeng.com/blog/ai-buzzwords*", zone_name = "xiaopingfeng.com" }
+]
