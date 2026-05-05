@@ -91,7 +91,7 @@ def call_glm(messages, max_retries=2, max_tokens=16000):
             req = urllib.request.Request(
                 API_ENDPOINT, data=body, headers=headers, method="POST"
             )
-            with urllib.request.urlopen(req, timeout=240) as resp:
+            with urllib.request.urlopen(req, timeout=900) as resp:
                 data = json.loads(resp.read().decode("utf-8"))
             elapsed = time.time() - t0
             print(f"[glm]  ok in {elapsed:.1f}s ({MODEL})", file=sys.stderr)

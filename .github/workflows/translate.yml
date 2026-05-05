@@ -58,8 +58,9 @@ jobs:
           set -e
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          if [[ -z $(git status --porcelain) ]]; then
-            echo "No translation changes."
+          # Only consider changes in deepdive/ — ignore summary.json / translate.log
+          if [[ -z $(git status --porcelain deepdive/) ]]; then
+            echo "No deepdive translation changes."
             echo "committed=false" >> $GITHUB_OUTPUT
             exit 0
           fi
