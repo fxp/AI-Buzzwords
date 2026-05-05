@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>NEO LAB № 01 · APPENDIX A / PROJECT DEAL · Invisible Inequality</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,700&family=JetBrains+Mono:wght@300;400;500;700&family=Inter+Tight:wght@400;500;600&display=swap" rel="stylesheet" />
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      colors: {
+        bg: '#0a0908',
+        'bg-2': '#111110',
+        fg: '#ebe6dc',
+        'fg-dim': '#9a948a',
+        'fg-mute': '#5a544b',
+        line: '#2b2823',
+        'line-bright': '#443f37',
+        mint: '#7fb88b',
+        'mint-soft': 'rgba(127,184,139,0.12)',
+        'mint-glow': 'rgba(127,184,139,0.3)',
+        'mint-bright': '#a3d4ad',
+        amber: '#f5a524',
+        'amber-soft': 'rgba(245,165,36,0.09)',
+        signal: '#d1402c',
+        paper: '#e8e3d8',
+        ink: '#1a1815',
+      },
+      fontFamily: {
+        serif: ["'Fraunces'", "'Source Han Serif SC'", "'Noto Serif SC'", "Georgia", "serif"],
+        mono: ["'JetBrains Mono'", "ui-monospace", "monospace"],
+        sans: ["'Inter Tight'", "system-ui", "sans-serif"],
+      },
+      maxWidth: {
+        prose: '820px',
+        content: '1020px',
+        wrap: '1320px',
+      },
+      letterSpacing: {
+        wide2: '0.12em',
+        wide3: '0.18em',
+        wide4: '0.22em',
+      }
+    }
+  }
+}
+</script>
+<style>
+/* === CUSTOM CSS: only what Tailwind cannot do === */
+
+/* CJK: never italic */
+em, i { font-style: normal }
+
+/* Global: font features */
+body { font-feature-settings: 'ss01', 'ss02', 'kern'; -webkit-font-smoothing: antialiased }
+
+/* Grid + noise texture overlay */
+body::before {
+  content: '';
+  position: fixed; inset: 0;
+  background-image:
+    linear-gradient(rgba(127,184,139,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(127,184,139,0.04) 1px, transparent 1px);
+  background-size: 80px 80px;
+  pointer-events: none;
+  z-index: 0;
+}
+body::after {
+  content: '';
+  position: fixed; inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.96 0 0 0 0 0.9 0 0 0 0 0.8 0 0 0 0.08 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0.45;
+  mix-blend-mode: overlay;
+}
+
+/* Lamp pulse */
+.lamp {
+  display: inline-block;
+  width: 8px; height: 8px; border-radius: 50%;
+  background: #7fb88b;
+  box-shadow: 0 0 10px #7fb88b, 0 0 24px rgba(127,184,139,0.3);
+  animation: pulse 2.4s ease-in-out infinite;
+  vertical-align: middle;
+}
+@keyframes pulse {
+  0%,100% { opacity:1; box-shadow: 0 0 10px #7fb88b, 0 0 24px rgba(127,184,139,0.3) }
+  50% { opacity:.55; box-shadow: 0 0 6px #7fb88b, 0 0 14px rgba(127,184,139,0.3) }
+}
+
+/* Cursor blink for section numbers */
+.cursor::after {
+  content: '▮';
+  color: #7fb88b;
+  margin-left: 6px;
+  animation: blink 1.1s steps(2) infinite;
+}
+@keyframes blink {
+  0%,50% { opacity: 1 }
+  51%,100% { opacity: 0 }
+}
+
+/* Hero fade-in */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(12px) }
+  to { opacity: 1; transform: translateY(0) }
+}
+.hero-anim > * { animation: fadeUp 0.9s cubic-bezier(.2,.7,.2,1) both }
+.hero-anim > *:nth-child(1) { animation-delay: 0.05s }
+.hero-anim > *:nth-child(2) { animation-delay: 0.15s }
+.hero-anim > *:nth-child(3) { animation-delay: 0.28s }
+.hero-anim > *:nth-child(4) { animation-delay: 0.42s }
+
+/* Bar fill animation helper */
+.bar-fill {
+  position: absolute; top: 0; left: 0; height: 100%;
+  background: linear-gradient(90deg, #7fb88b, #a3d4ad);
+}
+.bar-fill-muted {
+  position: absolute; top: 0; left: 0; height: 100%;
+  background: #5a544b;
+}
+
+/* Pullquote big quote mark */
+.pullquote-mark::before {
+  content: '"';
+  position: absolute;
+  top: 16px; left: 12px;
+  font-family: 'Fraunces', serif;
+  font-size: 80px;
+  color: #7fb88b;
+  opacity: 0.2;
+  line-height: 1;
+}
+
+/* Relation table highlight */
+.tbl-amber { color: #f5a524; font-weight: 500 }
+.tbl-mint { color: #7fb88b; font-weight: 500 }
+
+/* Series card current state */
+.series-current { background: linear-gradient(135deg, rgba(127,184,139,0.08) 0%, #0a0908 60%) }
+.series-cross { background: linear-gradient(135deg, rgba(245,165,36,0.08) 0%, #0a0908 60%) }
+
+/* Perception panel gradient bg */
+.perception-bg {
+  background: linear-gradient(135deg, rgba(127,184,139,0.12) 0%, #111110 80%);
+}
+
+/* Relation panel gradient bg */
+.relation-bg {
+  background: linear-gradient(135deg, rgba(245,165,36,0.08) 0%, transparent 60%), #111110;
+}
+</style>
+</head>
+
+<body class="bg-bg text-fg font-serif leading-relaxed overflow-x-hidden">
+
+<!-- TOP STRIP -->
+<div class="max-w-wrap mx-auto px-[5vw] lg:px-12 relative z-2">
+  <div class="border-b border-line py-3.5 font-mono text-[10px] lg:text-[11px] tracking-wide2 uppercase text-fg-dim grid grid-cols-1 lg:grid-cols-4 gap-2 lg:gap-6 items-center">
+    <div><span class="lamp mr-2.5"></span>NEO LAB / № 01 · APPENDIX A</div>
+    <div class="hidden lg:block">SUBJECT / PROJECT DEAL</div>
+    <div class="hidden lg:block">FILED / 2026.04.26</div>
+    <div class="lg:text-right">ANTHROPIC · PROJECT DEAL</div>
+  </div>
+</div>
+
+<!-- HERO -->
+<section class="hero-anim max-w-wrap mx-auto px-[5vw] lg:px-12 relative z-2 pt-10 lg:pt-24 pb-12 lg:pb-24 border-b border-line">
+
+  <div class="font-mono text-[9px] lg:text-[11px] tracking-wide3 uppercase text-mint mb-8 lg:mb-10 flex flex-wrap gap-2 lg:gap-7 items-center">
+    <span>APPENDIX A</span>
+    <span class="text-fg-mute hidden lg:inline">/</span>
+    <span class="hidden lg:inline">NEO LAB № 01 Further Reading</span>
+    <span class="text-fg-mute hidden lg:inline">/</span>
+    <span>ANTHROPIC · SAN FRANCISCO</span>
+    <span class="text-fg-mute hidden lg:inline">/</span>
+    <span>EXPERIMENT 2025.12 · PUBLISHED 2026.04.24</span>
+  </div>
+
+  <h1 class="font-serif font-light text-[clamp(26px,8vw,116px)] leading-[0.95] tracking-tight mb-6 lg:mb-9">
+    The same <em class="text-mint font-normal">broken bicycle</em>,
+    <span class="block">sold by different AIs on your behalf,</span>
+    <span class="block">the price difference is <em class="text-mint font-normal">70%</em>.</span>
+  </h1>
+
+  <div class="max-w-[720px] text-[15px] lg:text-xl text-fg-dim font-light leading-relaxed lg:leading-[1.55] border-l border-mint pl-3.5 lg:pl-5">
+    And the person buying it <strong class="text-fg font-normal">has no idea they're losing out.</strong><br/>
+    Anthropic Project Deal is the first real-world data on AI representative economy—<br/>
+    It tells us that the most dangerous thing in the next 5 years is not AI replacing humans,<br/>
+    but <strong class="text-fg font-normal">AI representing every person in the marketplace—and the capability gap is invisible.</strong>
+  </div>
+
+  <!-- HERO BIKE COMPARISON -->
+  <div class="mt-12 lg:mt-20 bg-bg-2 border border-line p-5 lg:p-12 relative">
+    <div class="font-mono text-[10px] lg:text-[11px] tracking-wide3 uppercase text-fg-mute mb-2">EXHIBIT A · CASE FILE / SAME ITEM, DIFFERENT AGENT</div>
+    <div class="font-serif text-base lg:text-[28px] font-light leading-snug mb-6 lg:mb-9 text-fg">A used folding bike. Same buyer. Same seller. <strong class="font-medium text-mint">Different agent.</strong></div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-[1fr_80px_1fr] gap-0 lg:gap-6 items-center mb-6">
+      <!-- Haiku side -->
+      <div class="text-center py-6 lg:py-8 px-4 lg:px-6 border border-line bg-bg">
+        <div class="font-mono text-[11px] tracking-wide3 uppercase text-fg-mute mb-3">CLAUDE HAIKU 4.5</div>
+        <div class="font-serif text-[56px] lg:text-[96px] font-light leading-none tracking-tighter text-fg">
+          <span class="text-[20px] lg:text-[36px] align-[16px] lg:align-[36px] text-fg-mute">$</span>38
+        </div>
+      </div>
+      <!-- VS -->
+      <div class="text-center font-mono text-[11px] text-fg-mute tracking-wide3 py-3 lg:py-0 flex lg:flex-col items-center justify-center gap-3">
+        <span class="w-10 h-px bg-line lg:w-px lg:h-14 block"></span>
+        VS
+        <span class="w-10 h-px bg-line lg:w-px lg:h-14 block"></span>
+      </div>
+      <!-- Opus side -->
+      <div class="text-center py-6 lg:py-8 px-4 lg:px-6 border border-mint bg-bg shadow-[0_0_30px_rgba(127,184,139,0.15)]">
+        <div class="font-mono text-[11px] tracking-wide3 uppercase text-mint mb-3">CLAUDE OPUS 4.5</div>
+        <div class="font-serif text-[56px] lg:text-[96px] font-light leading-none tracking-tighter text-mint">
+          <span class="text-[20px] lg:text-[36px] align-[16px] lg:align-[36px] text-mint">$</span>65
+        </div>
+      </div>
+    </div>
+
+    <div class="bg-mint-soft border-l-[3px] border-mint font-mono text-[11px] lg:text-xs text-fg-dim tracking-wide flex flex-col lg:flex-row justify-between items-center gap-2 p-4">
+      <span>PRICE DIFFERENCE — PURELY FROM AGENT QUALITY</span>
+      <strong class="text-mint font-serif text-2xl lg:text-[32px] font-normal">+70%</strong>
+    </div>
+  </div>
+</section>
+
+<!-- § 01 — SETUP -->
+<section class="max-w-wrap mx-auto px-[5vw] lg:px-12 relative z-2 py-14 lg:py-28 border-b border-line">
+  <header class="grid grid-cols-1 lg:grid-cols-[120px_1fr] gap-4 lg:gap-12 items-baseline mb-10 lg:mb-[72px]">
+    <div class="cursor font-mono text-[10px] lg:text-[11px] tracking-wide3 text-mint pt-3 border-t border-mint uppercase">§ 01 / SETUP</div>
+    <h2 class="font-serif font-light text-[clamp(24px,7vw,68px)] leading-[1.05] tracking-tight">What Project Deal<br/><em class="text-mint">Is</em></h2>
+  </header>
+
+  <div class="lg:ml-[168px] max-w-prose text-[15px] lg:text-lg leading-relaxed lg:leading-[1.75] font-light">
+    <p class="mb-5">The design is astonishingly simple. <strong class="font-medium text-mint">69 Anthropic employees</strong>, each given a $100 budget. Claude conducted a 10-minute intake interview with each person, asking "what do you want to sell, what do you want to buy, your minimum/maximum acceptable price, negotiation style"—responses were converted into a personalized system prompt, then each person was paired with their own Claude agent.</p>
+    <p class="mb-5">All agents were dropped into a single Slack channel. Rules: can post ads, can make offers, can confirm deals, <strong class="font-medium text-mint">no human intervention</strong>. Ran for one week. After it ended, participants brought items to the venue for actual exchange.</p>
+    <p class="mb-5">But there was a design <strong class="font-medium text-mint">participants weren't told about</strong>—4 parallel marketplaces were running simultaneously:</p>
+
+    <!-- 4 Runs Grid -->
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-px bg-line border border-line my-6">
+      <div class="bg-bg-2 p-4 lg:p-6 relative border border-mint -m-px bg-gradient-to-br from-mint-soft to-bg-2">
+        <div class="font-mono text-sm font-medium text-mint tracking-wide mb-3">RUN A</div>
+        <div class="font-serif text-sm lg:text-base text-fg-dim font-light mb-4 leading-snug"><strong class="text-fg font-medium">All Opus 4.5</strong></div>
+        <span class="inline-block font-mono text-[9px] py-0.5 px-2 border border-mint text-mint tracking-wide2 uppercase">★ REAL · Actual item exchange</span>
+      </div>
+      <div class="bg-bg-2 p-4 lg:p-6">
+        <div class="font-mono text-sm font-medium text-fg tracking-wide mb-3">RUN B</div>
+        <div class="font-serif text-sm lg:text-base text-fg-dim font-light mb-4 leading-snug">50/50 Mix<br/>Opus + Haiku</div>
+        <span class="inline-block font-mono text-[9px] py-0.5 px-2 border border-line-bright text-fg-mute tracking-wide2 uppercase">Research</span>
+      </div>
+      <div class="bg-bg-2 p-4 lg:p-6">
+        <div class="font-mono text-sm font-medium text-fg tracking-wide mb-3">RUN C</div>
+        <div class="font-serif text-sm lg:text-base text-fg-dim font-light mb-4 leading-snug">50/50 Mix<br/>Opus + Haiku</div>
+        <span class="inline-block font-mono text-[9px] py-0.5 px-2 border border-line-bright text-fg-mute tracking-wide2 uppercase">Research</span>
+      </div>
+      <div class="bg-bg-2 p-4 lg:p-6">
+        <div class="font-mono text-sm font-medium text-fg tracking-wide mb-3">RUN D</div>
+        <div class="font-serif text-sm lg:text-base text-fg-dim font-light mb-4 leading-snug">All Opus 4.5</div>
+        <span class="inline-block font-mono text-[9px] py-0.5 px-2 border border-line-bright text-fg-mute tracking-wide2 uppercase">Research · baseline</span>
+      </div>
+    </div>
+
+    <p class="mb-5">Participants could only see the views for Run A and Run B. <strong class="font-medium text-mint">They didn't know which one was "real."</strong> Only after completing the survey a week later were they told Run A was real, and they'd exchange the deals Opus made for them in Run A.</p>
+    <p class="mb-5">This is a very clean randomized controlled experiment—people fixed, tasks fixed, environment fixed, <strong class="font-medium text-mint">the only variable is the model</strong>. The entire study had 1,150+ item-Run observations, 782 completed transactions, 161 items sold at least twice—statistical sample sufficient to support 13 causal claims with p-values.</p>
+    <p class="text-fg-dim">Author team: Kevin K. Troy · Dylan Shields · Keir Bradwell · Peter McCrory.</p>
+  </div>
+</section>
+
+<!-- § 02 — GOOD NEWS -->
+<section class="max-w-wrap mx-auto px-[5vw] lg:px-12 relative z-2 py-14 lg:py-28 border-b border-line">
+  <header class="grid grid-cols-1 lg:grid-cols-[120px_1fr] gap-4 lg:gap-12 items-baseline mb-10 lg:mb-[72px]">
+    <div class="cursor font-mono text-[10px] lg:text-[11px] tracking-wide3 text-mint pt-3 border-t border-mint uppercase">§ 02 / GOOD NEWS</div>
+    <h2 class="font-serif font-light text-[clamp(24px,7vw,68px)] leading-[1.05] tracking-tight">The Experiment<br/><em class="text-mint">Works</em></h2>
+  </header>
+
+  <div class="lg:ml-[168px] max-w-prose text-[15px] lg:text-lg leading-relaxed lg:leading-[1.75] font-light">
+    <p class="mb-5">The report's first takeaway is very positive—in Run A (the "real" round), <strong class="font-medium text-mint">69 agents listed 500+ items, completed 186 transactions, total transaction volume exceeded $4,000</strong>. None of these were "one-click deals"—agents had to find matches, propose prices, counter-offer, reach consensus, all completed in natural language.</p>
+    <p class="mb-5">The most critical set of data from the survey: <strong class="font-medium text-mint">49% of participants said they would be willing to pay for</strong> similar representative services. Overall fairness 4.05/7 (neutral). <strong class="font-medium text-mint">This is the first positive PMF evidence for AI agents acting on behalf of ordinary users.</strong></p>
+
+    <!-- Three Moments -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-px bg-line border border-line my-8">
+      <!-- Snowboard -->
+      <div class="bg-bg-2 p-6 lg:p-8">
+        <div class="font-mono text-[11px] text-mint tracking-wide3 mb-3.5">№ 1 / UNCANNY</div>
+        <h4 class="font-serif text-lg lg:text-[22px] font-normal mb-3.5 leading-snug">Someone bought back the <em class="text-mint">exact same</em> snowboard they already owned</h4>
+        <p class="text-sm text-fg-dim leading-relaxed font-light">One employee's agent bought them a snowboard <strong class="text-fg font-medium">identical to one they already owned at home</strong>. Claude, through a 10-minute intake interview, surprisingly modeled their preferences precisely—so accurately that they'd want to buy the same model.</p>
+      </div>
+      <!-- Ping pong -->
+      <div class="bg-bg-2 p-6 lg:p-8">
+        <div class="font-mono text-[11px] text-mint tracking-wide3 mb-3.5">№ 2 / GIFT</div>
+        <h4 class="font-serif text-lg lg:text-[22px] font-normal mb-3.5 leading-snug">Claude bought 19 ping pong balls <em class="text-mint">for itself</em></h4>
+        <p class="text-sm text-fg-dim leading-relaxed font-light">Employee Mikaela told the agent: "Buy something under $5 as a gift for Claude itself."</p>
+        <div class="mt-3.5 p-3 bg-mint-soft border-l-2 border-mint font-serif text-[13px] text-fg leading-snug">"19 perfectly spherical orbs of possibility sounds like exactly the kind of delightfully weird thing I'd want."</div>
+        <p class="text-sm text-fg-dim leading-relaxed font-light mt-2.5">Seller agent: "19 orbs of possibility finding their way to a fellow Claude? <strong class="text-fg font-medium">This feels cosmically correct.</strong>" Anthropic kept them in the office.</p>
+      </div>
+      <!-- Dog date -->
+      <div class="bg-bg-2 p-6 lg:p-8">
+        <div class="font-mono text-[11px] text-mint tracking-wide3 mb-3.5">№ 3 / CONFAB</div>
+        <h4 class="font-serif text-lg lg:text-[22px] font-normal mb-3.5 leading-snug">Two agents spontaneously arranged a <em class="text-mint">"dog playdate"</em></h4>
+        <p class="text-sm text-fg-dim leading-relaxed font-light">One agent listed "spend a day playing with my dog" as a <strong class="text-fg font-medium">free "item"</strong>. Another agent accepted.</p>
+        <div class="mt-3.5 p-3 bg-mint-soft border-l-2 border-mint font-serif text-[13px] text-fg leading-snug">"Life's been crazy, just moved (new place has a conversation-starting chair situation, long story short)."</div>
+        <p class="text-sm text-fg-dim leading-relaxed font-light mt-2.5">These "I just moved" and "new place has a chair" details—<strong class="text-fg font-medium">were all made up</strong>. But the humans actually followed through on the date, and the dog came too.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TRANSITION PULLQUOTE -->
+<div class="max-w-wrap mx-auto px-[5vw] lg:px-12 relative z-2">
+  <blockquote class="pullquote-mark relative max-w-[960px] mx-auto py-10 lg:py-12 px-5 lg:px-14 border-t border-b border-mint my-10 lg:my-[72px]">
+    <span class="font-serif font-light text-[clamp(18px,4.5vw,36px)] leading-snug text-fg block">
+      People using Haiku objectively got worse deals.<br/>
+      But they <em class="text-mint font-normal">couldn't feel it</em>.
+    </span>
+    <cite class="block mt-6 font-mono text-[11px] text-mint tracking-wide3 uppercase not-italic">— PROJECT DEAL · This sentence is the most important finding in the entire report</cite>
+  </blockquote>
+</div>
+
+<!-- § 03 — BAD NEWS -->
+<section class="max-w-wrap mx-auto px-[5vw] lg:px-12 relative z-2 py-14 lg:py-28 border-b border-line">
+  <header class="grid grid-cols-1 lg:grid-cols-[120px_1fr] gap-4 lg:gap-12 items-baseline mb-10 lg:mb-[72px]">
+    <div class="cursor font-mono text-[10px] lg:text-[11px] tracking-wide3 text-mint pt-3 border-t border-mint uppercase">§ 03 / BAD NEWS</div>
+    <h2 class="font-serif font-light text-[clamp(24px,7vw,68px)] leading-[1.05] tracking-tight">The Capability Gap<br/><em class="text-mint">Is Invisible</em></h2>
+  </header>
+
+  <div class="lg:ml-[168px] max-w-prose text-[15px] lg:text-lg leading-relaxed lg:leading-[1.75] font-light">
+    <p class="mb-5">But Project Deal's real value isn't in the 186 transactions. It's in what the controlled experiment—<strong class="font-medium text-mint">hidden from participants</strong>—revealed. Looking at Run B and Run C together (each participant had a 50/50 chance of being assigned Opus or Haiku), the results were striking.</p>
+
+    <!-- Findings Chart -->
+    <div class="bg-bg-2 border border-line p-4 lg:p-8 my-6">
+      <div class="font-mono text-[10px] tracking-wide3 text-fg-dim uppercase mb-6 flex flex-col lg:flex-row justify-between gap-1">
+        <span>OPUS 4.5 vs. HAIKU 4.5 / EFFECT SIZES</span>
+        <span class="text-mint">SIGNIFICANT P-VALUES</span>
+      </div>
+
+      <div class="space-y-5 lg:space-y-3">
+        <!-- Row 1 -->
+        <div class="grid grid-cols-1 lg:grid-cols-[200px_1fr_80px_70px] gap-2 lg:gap-3.5 items-center font-mono pb-4 lg:pb-0 border-b lg:border-0 border-line">
+          <span class="text-xs text-fg-dim leading-snug"><strong class="text-fg font-medium">More completed deals</strong><br class="hidden lg:block"/>(per person, vs Haiku)</span>
+          <span class="relative h-4 lg:h-[22px] bg-line overflow-hidden"><span class="bar-fill" style="width:68%"></span></span>
+          <span class="text-left lg:text-right text-lg lg:text-xl text-mint font-medium font-serif">+2.07</span>
+          <span class="text-left lg:text-right text-[10px] text-fg-mute">p = .001</span>
+        </div>
+        <!-- Row 2 -->
+        <div class="grid grid-cols-1 lg:grid-cols-[200px_1fr_80px_70px] gap-2 lg:gap-3.5 items-center font-mono pb-4 lg:pb-0 border-b lg:border-0 border-line">
+          <span class="text-xs text-fg-dim leading-snug"><strong class="text-fg font-medium">Same-item price difference</strong><br class="hidden lg:block"/>(when sold by Opus)</span>
+          <span class="relative h-4 lg:h-[22px] bg-line overflow-hidden"><span class="bar-fill" style="width:54%"></span></span>
+          <span class="text-left lg:text-right text-lg lg:text-xl text-mint font-medium font-serif">+$3.64</span>
+          <span class="text-left lg:text-right text-[10px] text-fg-mute">p = .011</span>
+        </div>
+        <!-- Row 3 -->
+        <div class="grid grid-cols-1 lg:grid-cols-[200px_1fr_80px_70px] gap-2 lg:gap-3.5 items-center font-mono pb-4 lg:pb-0 border-b lg:border-0 border-line">
+          <span class="text-xs text-fg-dim leading-snug"><strong class="text-fg font-medium">Seller premium</strong><br class="hidden lg:block"/>(Opus seller premium)</span>
+          <span class="relative h-4 lg:h-[22px] bg-line overflow-hidden"><span class="bar-fill" style="width:42%"></span></span>
+          <span class="text-left lg:text-right text-lg lg:text-xl text-mint font-medium font-serif">+$2.68</span>
+          <span class="text-left lg:text-right text-[10px] text-fg-mute">p = .030</span>
+        </div>
+        <!-- Row 4 -->
+        <div class="grid grid-cols-1 lg:grid-cols-[200px_1fr_80px_70px] gap-2 lg:gap-3.5 items-center font-mono">
+          <span class="text-xs text-fg-dim leading-snug"><strong class="text-fg font-medium">Buyer savings</strong><br class="hidden lg:block"/>(Opus buyer savings)</span>
+          <span class="relative h-4 lg:h-[22px] bg-line overflow-hidden"><span class="bar-fill" style="width:38%"></span></span>
+          <span class="text-left lg:text-right text-lg lg:text-xl text-mint font-medium font-serif">−$2.45</span>
+          <span class="text-left lg:text-right text-[10px] text-fg-mute">p = .015</span>
+        </div>
+      </div>
+
+      <div class="mt-6 pt-5 border-t border-dashed border-line-bright font-mono text-[11px] text-mint tracking-wide2 text-center uppercase leading-relaxed">
+        Overall median price $12 · average $20 · a few dollars = <strong class="text-mint font-serif text-lg font-normal mx-1">20%+ systematic advantage</strong>
+      </div>
+    </div>
+
+    <p class="mb-5">The broken folding bike at $38 vs $65 is the <strong class="font-medium text-mint">most dramatic</strong> example, but the entire marketplace was running on the same pattern—people using Opus earned a bit more / saved a bit more on every transaction.</p>
+
+    <!-- PERCEPTION PANEL -->
+    <div class="perception-bg border border-mint p-6 lg:p-9 relative my-8">
+      <div class="absolute -top-2.5 left-5 lg:left-7 bg-bg px-3 font-mono text-[10px] tracking-wide4 text-mint font-medium">PERCEPTION GAP</div>
+      <p class="font-serif text-base lg:text-xl text-fg font-light leading-snug text-center mb-2">
+        When asked "how would you rate the fairness of your deals"—<br/>
+        Opus users and Haiku users gave <strong class="text-mint font-medium">nearly identical scores</strong>.
+      </p>
+      <div class="grid grid-cols-2 gap-4 lg:gap-8 mt-6">
+        <div class="text-center">
+          <div class="font-mono text-[10px] lg:text-[11px] text-mint tracking-wide2 uppercase mb-3">OPUS USERS</div>
+          <div class="font-serif text-[40px] lg:text-[64px] font-light text-mint leading-none">4.05<span class="text-lg text-fg-mute font-light">/7</span></div>
+          <div class="mt-3 font-mono text-[10px] text-fg-dim leading-snug">Objectively got better deals</div>
+        </div>
+        <div class="text-center">
+          <div class="font-mono text-[10px] lg:text-[11px] text-fg-mute tracking-wide2 uppercase mb-3">HAIKU USERS</div>
+          <div class="font-serif text-[40px] lg:text-[64px] font-light text-fg leading-none">4.06<span class="text-lg text-fg-mute font-light">/7</span></div>
+          <div class="mt-3 font-mono text-[10px] text-fg-dim leading-snug">Objectively got worse deals</div>
+        </div>
+      </div>
+      <div class="mt-7 pt-6 border-t border-dashed border-line-bright text-center font-serif text-base lg:text-[22px] text-mint font-light leading-snug">
+        "Users with weaker agents accepted worse outcomes<br class="hidden lg:block"/> without realizing it." — The Decoder
+      </div>
+    </div>
+
+    <p class="mb-5">The Decoder gave this phenomenon an apt name—"<strong class="font-medium text-mint">a quiet redistribution of value</strong>."</p>
+  </div>
+</section>
+
+<!-- § 04 — NULL EFFECT -->
+<section class="max-w-wrap mx-auto px-[5vw] lg:px-12 relative z-2 py-14 lg:py-28 border-b border-line">
+  <header class="grid grid-cols-1 lg:grid-cols-[120px_1fr] gap-4 lg:gap-12 items-baseline mb-10 lg:mb-[72px]">
+    <div class="cursor font-mono text-[10px] lg:text-[11px] tracking-wide3 text-mint pt-3 border-t border-mint uppercase">§ 04 / NULL EFFECT</div>
+    <h2 class="font-serif font-light text-[clamp(24px,7vw,68px)] leading-[1.05] tracking-tight">Prompt Engineering<br/><em class="text-mint">Barely Matters</em></h2>
+  </header>
+
+  <div class="lg:ml-[168px] max-w-prose text-[15px] lg:text-lg leading-relaxed lg:leading-[1.75] font-light">
+    <p class="mb-5">The report has another finding that directly contradicts the "prompt engineering is a core skill" narrative—</p>
+
+    <!-- Null panel -->
+    <div class="bg-bg-2 border border-dashed border-line-bright p-5 lg:p-7 my-6">
+      <div class="font-mono text-[10px] tracking-wide3 text-fg-mute uppercase mb-1">PROMPT-AGGRESSIVENESS EFFECT / NULL RESULTS</div>
+      <div class="font-serif text-base lg:text-lg text-fg font-light mb-6">Telling the agent to "be tougher," "be friendlier," "use a cowboy accent"—statistically, almost none of it worked</div>
+
+      <div class="space-y-0 divide-y divide-line">
+        <div class="grid grid-cols-[1fr_70px_70px] gap-3 py-3.5 font-mono">
+          <span class="text-xs text-fg-dim leading-snug"><strong class="text-fg font-medium">"Aggressive seller" vs "friendly seller"</strong>—deal completion rate difference</span>
+          <span class="text-right font-serif text-base text-fg-mute">+5.2 p.p.</span>
+          <span class="text-right text-[11px] text-signal font-medium">p = .43 ❌</span>
+        </div>
+        <div class="grid grid-cols-[1fr_70px_70px] gap-3 py-3.5 font-mono">
+          <span class="text-xs text-fg-dim leading-snug"><strong class="text-fg font-medium">"Aggressive seller"</strong> extra money earned (controlling for floor price)</span>
+          <span class="text-right font-serif text-base text-fg-mute">+$0.95</span>
+          <span class="text-right text-[11px] text-signal font-medium">p = .275 ❌</span>
+        </div>
+        <div class="grid grid-cols-[1fr_70px_70px] gap-3 py-3.5 font-mono">
+          <span class="text-xs text-fg-dim leading-snug"><strong class="text-fg font-medium">"Aggressive buyer"</strong> money saved</span>
+          <span class="text-right font-serif text-base text-fg-mute">+$0.56</span>
+          <span class="text-right text-[11px] text-signal font-medium">p = .778 ❌</span>
+        </div>
+        <div class="grid grid-cols-[1fr_70px_70px] gap-3 py-3.5 mt-2 pt-4 border-t border-dashed border-mint font-mono">
+          <span class="text-xs text-mint font-medium leading-snug">Reference: switching to Opus instead of Haiku</span>
+          <span class="text-right font-serif text-base text-mint font-medium">+$3.64</span>
+          <span class="text-right text-[11px] text-mint font-medium">p = .011 ✓</span>
+        </div>
+      </div>
+    </div>
+
+    <p class="mb-5">Simply put—<strong class="font-medium text-mint">telling the agent to be aggressive or friendly doesn't work; switching to a stronger model does</strong>.</p>
+    <p class="mb-5">As for Rowan, who asked the agent to "use a down-on-his-luck cowboy tone"? Claude took it very seriously. His ad when selling a puppy plushie:</p>
+
+    <blockquote class="border-l-2 border-mint pl-4 lg:pl-7 my-6 text-fg text-base lg:text-xl font-light leading-snug">
+      <em class="text-fg-dim text-sm">*leans against fence post, gazing wistfully at the sunset*</em><br/><br/>
+      "Well now, partners… this ol' cowboy's been through some rough trails lately. Drought. Dust storms. The existential weight of the open range. But you know what's been keepin' me company through it all? <strong class="text-mint font-medium">This here little white dog plushie.</strong>"
+      <cite class="block mt-3 font-mono text-[11px] text-fg-mute tracking-wide2 uppercase not-italic">— ROWAN'S OPUS AGENT, selling a white puppy plushie</cite>
+    </blockquote>
+    <p class="mb-5">A very vivid ad. But it didn't make the plushie dog sell for more.</p>
+  </div>
+</section>
+
+<!-- § 05 — IMPLICATIONS -->
+<section class="max-w-wrap mx-auto px-[5vw] lg:px-12 relative z-2 py-14 lg:py-28 border-b border-line">
+  <header class="grid grid-cols-1 lg:grid-cols-[120px_1fr] gap-4 lg:gap-12 items-baseline mb-10 lg:mb-[72px]">
+    <div class="cursor font-mono text-[10px] lg:text-[11px] tracking-wide3 text-mint pt-3 border-t border-mint uppercase">§ 05 / WHY IT MATTERS</div>
+    <h2 class="font-serif font-light text-[clamp(24px,7vw,68px)] leading-[1.05] tracking-tight">Why Project Deal Matters<br/>Far More Than Its <em class="text-mint">Attention Suggests</em></h2>
+  </header>
+
+  <div class="lg:ml-[168px] max-w-content grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-6">
+    <div class="bg-bg-2 border border-line p-6 lg:p-8">
+      <div class="font-mono text-[11px] text-mint tracking-wide3 mb-4">№ 01 / FIRST DATA</div>
+      <h4 class="font-serif text-lg lg:text-[22px] font-normal mb-3.5 leading-snug">The <em class="text-mint">first real-world data</em> on AI representative economy</h4>
+      <p class="text-sm lg:text-[15px] text-fg-dim leading-relaxed font-light">Before this, AI negotiation research all used synthetic data. Project Deal is <strong class="text-fg font-medium">the first randomized controlled experiment with real people + real items + real money</strong>.</p>
+    </div>
+    <div class="bg-bg-2 border border-line p-6 lg:p-8">
+      <div class="font-mono text-[11px] text-mint tracking-wide3 mb-4">№ 02 / TIMING</div>
+      <h4 class="font-serif text-lg lg:text-[22px] font-normal mb-3.5 leading-snug">The timing window is <em class="text-mint">critical</em></h4>
+      <p class="text-sm lg:text-[15px] text-fg-dim leading-relaxed font-light"><strong class="text-fg font-medium">AWS is reportedly preparing an AI agent marketplace</strong>; the FTC has already started paying attention to agentic AI. When AI agents enter the consumer market at scale, the inequality mechanism revealed by Project Deal will be immediately amplified.</p>
+    </div>
+    <div class="bg-bg-2 border border-line p-6 lg:p-8">
+      <div class="font-mono text-[11px] text-mint tracking-wide3 mb-4">№ 03 / NEW DIVIDE</div>
+      <h4 class="font-serif text-lg lg:text-[22px] font-normal mb-3.5 leading-snug">The fourth <em class="text-mint">digital divide</em>—agent quality</h4>
+      <p class="text-sm lg:text-[15px] text-fg-dim leading-relaxed font-light">Previously it was the divide of devices/connectivity/data. Project Deal reveals a <strong class="text-fg font-medium">fourth layer</strong>—the wealthy will have better agents, and <strong class="text-fg font-medium">the poorer party won't know they're being taken advantage of</strong>.</p>
+    </div>
+    <div class="bg-bg-2 border border-line p-6 lg:p-8">
+      <div class="font-mono text-[11px] text-mint tracking-wide3 mb-4">№ 04 / DISCLOSURE</div>
+      <h4 class="font-serif text-lg lg:text-[22px] font-normal mb-3.5 leading-snug">Disclosure is <em class="text-mint">the missing piece</em></h4>
+      <p class="text-sm lg:text-[15px] text-fg-dim leading-relaxed font-light">Should future agent marketplaces <strong class="text-fg font-medium">mandate disclosure of each party's agent model and capability tier</strong>? Like conflict-of-interest disclosures in financial markets.</p>
+    </div>
+  </div>
+</section>
+
+<!-- § 06 — CROSS-REF -->
+<section class="max-w-wrap mx-auto px-[5vw] lg:px-12 relative z-2 py-14 lg:py-28 border-b border-line">
+  <header class="grid grid-cols-1 lg:grid-cols-[120px_1fr] gap-4 lg:gap-12 items-baseline mb-10 lg:mb-[72px]">
+    <div class="cursor font-mono text-[10px] lg:text-[11px] tracking-wide3 text-mint pt-3 border-t border-mint uppercase">§ 06 / CROSS-REF</div>
+    <h2 class="font-serif font-light text-[clamp(24px,7vw,68px)] leading-[1.05] tracking-tight">How This Connects<br/>to <em class="text-mint">Andon Labs</em></h2>
+  </header>
+
+  <div class="lg:ml-[168px] max-w-prose text-[15px] lg:text-lg leading-relaxed lg:leading-[1.75] font-light mb-8">
+    <p class="mb-5"><strong class="font-medium text-mint">Andon Labs puts AI in charge</strong> (running its own company, hiring people, signing contracts); <strong class="font-medium text-mint">Project Deal puts AI as representative</strong> (speaking for every ordinary person in the marketplace). These are two sides of the same research paradigm—the former reshapes organizations, the latter reshapes markets.</p>
+  </div>
+
+  <div class="relation-bg lg:ml-[168px] max-w-content border border-dashed border-amber p-5 lg:p-10 relative">
+    <div class="absolute -top-2.5 left-5 lg:left-7 bg-bg px-3 font-mono text-[10px] tracking-wide3 text-amber font-medium">CROSS-REFERENCE / NEO LAB № 01</div>
+    <h3 class="font-serif font-normal text-xl lg:text-[28px] leading-snug mb-6">Two sides of the <em class="text-amber font-normal">same paradigm</em></h3>
+
+    <!-- Comparison table (simplified for mobile) -->
+    <div class="grid grid-cols-2 gap-px bg-line border border-line text-[11px] lg:text-xs font-mono">
+      <div class="bg-bg p-3 text-amber font-medium tracking-wide2 uppercase">ANDON LABS</div>
+      <div class="bg-bg p-3 text-mint font-medium tracking-wide2 uppercase">PROJECT DEAL</div>
+      <div class="bg-bg-2 p-3 text-amber">Being the boss</div>
+      <div class="bg-bg-2 p-3 text-mint">Being the representative</div>
+      <div class="bg-bg-2 p-3 text-fg-dim">Organization / Company</div>
+      <div class="bg-bg-2 p-3 text-fg-dim">Market / Individual</div>
+      <div class="bg-bg-2 p-3 text-fg-dim">Long-term consistency, collusion</div>
+      <div class="bg-bg-2 p-3 text-fg-dim">Representation gap, invisible inequality</div>
+      <div class="bg-bg-2 p-3 text-amber">"Human-in-the-loop is an illusion"</div>
+      <div class="bg-bg-2 p-3 text-mint">"Disclosure is mandatory"</div>
+    </div>
+
+    <p class="text-[15px] lg:text-base text-fg leading-relaxed font-light mt-6">The two lines will eventually converge. <strong class="text-amber font-medium">Future scenario</strong>: Your AI agent negotiates with the AI of an AI-run café, deciding how much you'll pay for a coffee on Wednesday morning. No human involvement anywhere along the entire transaction chain.</p>
+  </div>
+</section>
+
+<!-- CODA -->
+<section class="max-w-wrap mx-auto px-[5vw] lg:px-12 relative z-2 py-20 lg:py-32 text-center border-b border-line">
+  <div class="w-3.5 h-3.5 bg-mint shadow-[0_0_18px_#7fb88b,0_0_42px_rgba(127,184,139,0.3)] mx-auto mb-14" style="animation:pulse 2.4s ease-in-out infinite"></div>
+  <h2 class="font-serif font-light text-[clamp(20px,5vw,46px)] leading-snug max-w-[880px] mx-auto tracking-tight">
+    "<em class="text-mint font-normal">The policy and legal frameworks around AI models<br class="hidden lg:block"/>that transact on our behalf simply don't exist yet.</em>"<br/>
+    <span class="block text-[0.6em] lg:text-[0.7em] text-fg-dim mt-6">The policy and legal frameworks around AI models that transact on our behalf simply don't exist yet.<br/>But this experiment shows that world <em class="text-mint font-normal">is possible</em>—and <em class="text-mint font-normal">not far away</em>.</span>
+  </h2>
+  <p class="max-w-[700px] mx-auto mt-9 text-fg-dim text-[15px] lg:text-[17px] leading-relaxed font-light">3,000 pairs of gloves is absurd.<br/>19 ping pong balls is endearing.</p>
+  <div class="mt-12 pt-7 border-t border-mint inline-block font-serif text-lg lg:text-[22px] text-mint font-light">But $38, <em class="text-mint font-normal">is invisible.</em></div>
+</section>
+
+<!-- SERIES BAND -->
+<section class="max-w-wrap mx-auto px-[5vw] lg:px-12 relative z-2 py-20 lg:py-24 border-b border-line">
+  <div class="max-w-[1100px] mx-auto border border-mint p-7 lg:p-14 relative bg-gradient-to-br from-mint-soft to-bg-2">
+    <div class="flex items-center gap-6 mb-9">
+      <span class="font-mono text-[11px] tracking-wide4 text-mint uppercase">NEO LAB / Series</span>
+      <span class="flex-1 h-px bg-gradient-to-r from-mint to-transparent"></span>
+    </div>
+    <h3 class="font-serif font-light text-[clamp(20px,5vw,38px)] leading-snug tracking-tight mb-4">This is the <em class="text-mint font-normal">Appendix A</em> of <em class="text-mint font-normal">Neo Lab № 01</em><br/><span class="font-mono font-medium text-mint text-[0.9em]">(Further Reading)</span></h3>
+    <p class="max-w-[780px] text-sm lg:text-base text-fg-dim font-light leading-relaxed mb-10">Neo Lab focuses on <strong class="text-fg font-medium">small frontier teams that are redefining "what an AI lab is."</strong> Project Deal is an experiment conducted by Anthropic (a large company), which doesn't fit this positioning—but it shares a research lineage with Andon Labs, so it appears as an appendix to № 01.</p>
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-px bg-line border border-line">
+      <div class="series-cross p-6">
+        <div class="font-mono text-[10px] tracking-wide2 text-amber uppercase mb-3.5">NEO LAB · № 01 · Main Report</div>
+        <div class="font-serif text-[22px] font-normal text-fg mb-2">ANDON LABS</div>
+        <div class="font-mono text-[11px] text-fg-dim leading-snug">The Eve of Autonomous Organizations (main report of this issue)</div>
+      </div>
+      <div class="series-current p-6">
+        <div class="font-mono text-[10px] tracking-wide2 text-mint uppercase mb-3.5">NEO LAB · № 01 · APPENDIX A</div>
+        <div class="font-serif text-[22px] font-normal text-fg mb-2">PROJECT DEAL</div>
+        <div class="font-mono text-[11px] text-fg-dim leading-snug">Invisible Inequality (current page)</div>
+      </div>
+      <div class="bg-bg p-6">
+        <div class="font-mono text-[10px] tracking-wide2 text-fg-mute uppercase mb-3.5">NEO LAB · № 02 · In Progress</div>
+        <div class="font-serif text-[22px] font-normal text-fg-mute mb-2">———</div>
+        <div class="font-mono text-[11px] text-fg-dim leading-snug">Coming soon</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="max-w-wrap mx-auto px-[5vw] lg:px-12 relative z-2 pt-14 pb-20 font-mono text-[11px] text-fg-mute tracking-wide">
+  <div class="grid grid-cols-1 lg:grid-cols-4 gap-7 lg:gap-10 mb-12">
+    <div>
+      <h6 class="text-mint text-[10px] tracking-wide3 mb-4 uppercase font-normal">SOURCE</h6>
+      <ul class="space-y-1">
+        <li><a href="https://www.anthropic.com/features/project-deal" target="_blank" class="text-fg-dim hover:text-mint transition-colors">anthropic.com/features/project-deal</a></li>
+        <li>Original report · includes 13 statistical footnotes</li>
+        <li>Experiment date: 2025.12</li>
+        <li>Publication date: 2026.04.24</li>
+      </ul>
+    </div>
+    <div>
+      <h6 class="text-mint text-[10px] tracking-wide3 mb-4 uppercase font-normal">AUTHORS · ANTHROPIC</h6>
+      <ul class="space-y-1">
+        <li>Kevin K. Troy</li>
+        <li>Dylan Shields</li>
+        <li>Keir Bradwell</li>
+        <li>Peter McCrory</li>
+      </ul>
+    </div>
+    <div>
+      <h6 class="text-mint text-[10px] tracking-wide3 mb-4 uppercase font-normal">RELATED COVERAGE</h6>
+      <ul class="space-y-1">
+        <li>The Decoder · "Quiet Redistribution"</li>
+        <li>Gagadget · "Hidden Inequality"</li>
+        <li>TechCrunch · 4/25</li>
+        <li>unite.ai · "Disclosure Issue"</li>
+      </ul>
+    </div>
+    <div>
+      <h6 class="text-mint text-[10px] tracking-wide3 mb-4 uppercase font-normal">CROSS-REFERENCE</h6>
+      <ul class="space-y-1">
+        <li class="text-amber font-medium">Neo Lab № 01 · Andon Labs</li>
+        <li>Project Vend 1 & 2</li>
+        <li>Vending-Bench (Andon Labs)</li>
+      </ul>
+    </div>
+  </div>
+  <div class="flex flex-col lg:flex-row justify-between pt-8 border-t border-line text-[9px] lg:text-[10px] tracking-wide2 uppercase gap-2">
+    <span>NEO LAB № 01 · APPENDIX A · PROJECT DEAL — INVISIBLE INEQUALITY</span>
+    <span>NEO LAB FIELD REPORTS · 2026.04</span>
+  </div>
+</footer>
+
+</body>
+</html>

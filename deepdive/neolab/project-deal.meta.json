@@ -4,16 +4,25 @@
   "topic_dir": "neolab",
   "title": {
     "zh": "NEO LAB № 01 · APPENDIX A / PROJECT DEAL · 看不见的不平等",
-    "en": null
+    "en": "NEO LAB № 01 · APPENDIX A / PROJECT DEAL · Invisible Inequality"
   },
   "current_version": 1,
   "first_published": "2026-04-28",
   "last_updated": "2026-04-28",
   "freshness_priority": "cold",
   "next_check": "2026-08-01",
-  "languages": ["zh"],
+  "languages": [
+    "zh",
+    "en"
+  ],
   "primary_language": "zh",
-  "translations": {},
+  "translations": {
+    "en": {
+      "synced_at_version": 1,
+      "last_translated": "2026-05-05",
+      "method": "auto:glm-5.1"
+    }
+  },
   "version_log": [
     {
       "v": 1,
@@ -22,6 +31,13 @@
       "summary": "首次发布：Project DEAL 附录"
     }
   ],
-  "related": ["neolab"],
-  "tags": ["NEO LAB", "Project DEAL", "Inequality", "Appendix"]
+  "related": [
+    "neolab"
+  ],
+  "tags": [
+    "NEO LAB",
+    "Project DEAL",
+    "Inequality",
+    "Appendix"
+  ]
 }
