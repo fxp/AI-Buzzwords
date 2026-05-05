@@ -65,7 +65,7 @@ def save_json(path: Path, data):
     )
 
 
-def call_glm(messages, max_retries=3):
+def call_glm(messages, max_retries=2, max_tokens=16000):
     """Call BigModel GLM-5.1 chat completions. Returns content string."""
     if DRY_RUN:
         return "[DRY RUN — no API call]"
@@ -76,7 +76,7 @@ def call_glm(messages, max_retries=3):
         "model": MODEL,
         "messages": messages,
         "temperature": 0.2,
-        "max_tokens": 32000,
+        "max_tokens": max_tokens,
     }
     body = json.dumps(payload).encode("utf-8")
     headers = {
@@ -86,18 +86,24 @@ def call_glm(messages, max_retries=3):
 
     last_err = None
     for attempt in range(max_retries):
+        t0 = time.time()
         try:
             req = urllib.request.Request(
                 API_ENDPOINT, data=body, headers=headers, method="POST"
             )
-            with urllib.request.urlopen(req, timeout=600) as resp:
+            with urllib.request.urlopen(req, timeout=240) as resp:
                 data = json.loads(resp.read().decode("utf-8"))
+            elapsed = time.time() - t0
+            print(f"[glm]  ok in {elapsed:.1f}s ({MODEL})", file=sys.stderr)
             return data["choices"][0]["message"]["content"]
         except urllib.error.HTTPError as e:
-            last_err = f"HTTP {e.code}: {e.read().decode('utf-8', errors='ignore')[:500]}"
+            err_body = e.read().decode("utf-8", errors="ignore")[:500]
+            last_err = f"HTTP {e.code}: {err_body}"
+            print(f"[glm]  attempt {attempt+1} HTTP {e.code}: {err_body[:200]}", file=sys.stderr)
             time.sleep(2 ** attempt)
         except Exception as e:
             last_err = str(e)
+            print(f"[glm]  attempt {attempt+1} error: {last_err[:200]}", file=sys.stderr)
             time.sleep(2 ** attempt)
     raise RuntimeError(f"GLM call failed after {max_retries}: {last_err}")
 
@@ -144,10 +150,27 @@ GLOSSARY (apply when relevant):
 
     user_prompt = f"Translate this {source_lang} HTML to {target_lang}:\n\n{html}"
 
-    return call_glm([
-        {"role": "system", "content": system_prompt},
-        {"role": "user", "content": user_prompt},
-    ])
+    raw = call_glm(
+        [
+            {"role": "system", "content": system_prompt},
+            {"role": "user", "content": user_prompt},
+        ],
+        max_tokens=20000,
+    )
+    return clean_html_output(raw)
+
+
+def clean_html_output(s: str) -> str:
+    """Strip markdown code fences if GLM wrapped output."""
+    s = s.strip()
+    # Strip leading ```html or ```
+    if s.startswith("```"):
+        first_nl = s.find("\n")
+        if first_nl != -1:
+            s = s[first_nl + 1:]
+    if s.endswith("```"):
+        s = s[:-3].rstrip()
+    return s
 
 
 def translate_markdown(md: str, source_lang: str, target_lang: str, glossary: dict) -> str:
@@ -167,10 +190,33 @@ RULES:
 GLOSSARY:
 {glossary_block}
 """
-    return call_glm([
-        {"role": "system", "content": system_prompt},
-        {"role": "user", "content": f"Translate this {source_lang} markdown to {target_lang}:\n\n{md}"},
-    ])
+    raw = call_glm(
+        [
+            {"role": "system", "content": system_prompt},
+            {"role": "user", "content": f"Translate this {source_lang} markdown to {target_lang}:\n\n{md}"},
+        ],
+        max_tokens=8000,
+    )
+    return clean_markdown_output(raw)
+
+
+def clean_markdown_output(s: str) -> str:
+    """Markdown is the natural format — but GLM might wrap with ```markdown."""
+    s = s.strip()
+    if s.startswith("```markdown"):
+        s = s[len("```markdown"):].lstrip("\n")
+        if s.endswith("```"):
+            s = s[:-3].rstrip()
+    elif s.startswith("```"):
+        first_nl = s.find("\n")
+        if first_nl != -1:
+            head = s[:first_nl].strip()
+            # Only strip if it's actually a fence (no spaces)
+            if head == "```" or head.startswith("```"):
+                s = s[first_nl + 1:]
+                if s.endswith("```"):
+                    s = s[:-3].rstrip()
+    return s
 
 
 def needs_translation(meta: dict, target_lang: str) -> bool:
@@ -271,27 +317,38 @@ def main():
     targets = [l for l in languages["languages"] if l.get("translate_target")]
 
     all_written = []
+    errors = []
     skipped_count = 0
 
     meta_files = sorted(DEEPDIVE_DIR.rglob("*.meta.json"))
+    print(f"[main] Found {len(meta_files)} articles, {len(targets)} target languages", file=sys.stderr)
+
     for meta_path in meta_files:
         for target in targets:
-            written = translate_one(meta_path, target["code"], languages, glossary)
-            if written:
-                all_written.extend(written)
-            else:
-                skipped_count += 1
+            try:
+                written = translate_one(meta_path, target["code"], languages, glossary)
+                if written:
+                    all_written.extend(written)
+                else:
+                    skipped_count += 1
+            except Exception as e:
+                slug = meta_path.stem.replace(".meta", "")
+                err_msg = f"{slug} → {target['code']}: {str(e)[:300]}"
+                errors.append(err_msg)
+                print(f"[main] ERROR {err_msg}", file=sys.stderr)
+                # Continue with next article — one failure doesn't kill the batch
 
     summary = {
         "translated_files": all_written,
         "skipped_count": skipped_count,
+        "errors": errors,
         "model": MODEL,
         "dry_run": DRY_RUN,
     }
-    # Last line is JSON summary for downstream consumers
     print("---SUMMARY---")
     print(json.dumps(summary, ensure_ascii=False))
-    return 0 if all_written or DRY_RUN else 0  # Always 0; absence of work isn't an error
+    # Exit non-zero only if EVERYTHING failed
+    return 0 if all_written or DRY_RUN or skipped_count > 0 else 1
 
 
 if __name__ == "__main__":
