@@ -1,0 +1,149 @@
+name: Freshness Check
+
+on:
+  schedule:
+    # Every Monday 09:00 UTC (= 17:00 Beijing) — articles whose next_check ≤ today get scanned
+    - cron: '0 9 * * 1'
+  workflow_dispatch:
+    inputs:
+      force_all:
+        description: 'Force check all articles regardless of next_check'
+        required: false
+        type: boolean
+        default: false
+      slug:
+        description: 'Optional: only check this slug'
+        required: false
+        type: string
+      provider:
+        description: 'LLM provider for staleness check (overrides UPDATE_AGENT_PROVIDER)'
+        required: false
+        type: choice
+        default: 'anthropic'
+        options:
+          - anthropic
+          - bigmodel
+          - openai
+
+permissions:
+  contents: write
+  issues: write
+
+concurrency:
+  group: freshness-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Run freshness check
+        id: check
+        env:
+          UPDATE_AGENT_PROVIDER: ${{ inputs.provider || 'anthropic' }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          BIGMODEL_API_KEY: ${{ secrets.BIGMODEL_API_KEY }}
+          CHECK_FORCE_ALL: ${{ inputs.force_all || 'false' }}
+          CHECK_FORCE_SLUG: ${{ inputs.slug || '' }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+        run: |
+          set -e
+          python scripts/freshness_check.py | tee freshness.log
+          tail -n 1 freshness.log > summary.json
+
+      - name: Commit reports + meta updates
+        id: commit
+        run: |
+          set -e
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          if [[ -z $(git status --porcelain) ]]; then
+            echo "No freshness changes."
+            echo "committed=false" >> $GITHUB_OUTPUT
+            exit 0
+          fi
+          git add _freshness/ deepdive/
+          git commit -m "[freshness] Weekly content review · $(date -u +%Y-%m-%d)"
+          git push
+          echo "committed=true" >> $GITHUB_OUTPUT
+
+      - name: Notify Slack
+        if: always()
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+          STATUS: ${{ job.status }}
+          COMMITTED: ${{ steps.commit.outputs.committed }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          python <<'PY' | python scripts/notify_slack.py
+          import json, os, pathlib
+
+          status = os.environ.get("STATUS", "")
+          run_url = os.environ.get("RUN_URL", "")
+
+          summary_path = pathlib.Path("summary.json")
+          summary = {}
+          if summary_path.exists():
+              try:
+                  summary = json.loads(summary_path.read_text())
+              except Exception:
+                  pass
+
+          checked = summary.get("checked", [])
+          skipped = summary.get("skipped", [])
+          reports = summary.get("reports_written", [])
+          issues = summary.get("issues_opened", [])
+
+          if status != "success":
+              color = "danger"
+              title = "❌ Freshness check 失败"
+              text = "查看 workflow 日志定位问题。"
+          elif checked:
+              color = "warning" if reports else "good"
+              title = f"🔄 Freshness · 已检查 {len(checked)} 篇文章"
+              text = f"生成 {len(reports)} 份报告 · 开 {len(issues)} 个 Issue · 跳过 {len(skipped)} 篇（未到期）"
+          else:
+              color = "#888888"
+              title = "📅 Freshness · 本次无文章到期"
+              text = f"跳过 {len(skipped)} 篇（next_check 未到）"
+
+          fields = []
+          if checked:
+              fields.append({
+                  "title": "已检查",
+                  "value": "\n".join(f"• {s}" for s in checked[:10]),
+                  "short": False,
+              })
+          if issues:
+              fields.append({
+                  "title": "新开 Issues",
+                  "value": "\n".join(f"<{u}|查看>" for u in issues[:10]),
+                  "short": False,
+              })
+          fields.append({
+              "title": "Workflow",
+              "value": f"<{run_url}|查看运行日志>",
+              "short": True,
+          })
+
+          print(json.dumps({
+              "text": title,
+              "attachments": [{
+                  "color": color,
+                  "title": title,
+                  "text": text,
+                  "fields": fields,
+                  "mrkdwn_in": ["text", "fields"],
+              }],
+          }, ensure_ascii=False))
+          PY
