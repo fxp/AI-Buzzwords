@@ -76,6 +76,12 @@ body::before {
 .synthesis-label::before { content: 'SYNTHESIS / 综合判断'; display: block;
   font-family: 'JetBrains Mono', monospace; font-size: 9px;
   letter-spacing: 0.2em; color: #e84040; margin-bottom: 12px; text-transform: uppercase; }
+a.cite { color: inherit; text-decoration: underline; text-decoration-style: dotted;
+  text-underline-offset: 3px; text-decoration-color: rgba(232,64,64,0.35); transition: color 0.15s; }
+a.cite:hover { color: #e84040; }
+a.cite-mint { color: inherit; text-decoration: underline; text-decoration-style: dotted;
+  text-underline-offset: 3px; text-decoration-color: rgba(127,184,139,0.5); transition: color 0.15s; }
+a.cite-mint:hover { color: #7fb88b; }
 .series-current { background: linear-gradient(135deg, rgba(232,64,64,0.15) 0%, rgba(232,64,64,0.04) 100%);
   border-color: rgba(232,64,64,0.4) !important; }
 </style>
@@ -89,9 +95,10 @@ body::before {
     <span class="lamp mr-1"></span>
     <span class="font-mono text-[9px] lg:text-[10px] tracking-[0.22em] uppercase text-accent">DEEPDIVE</span>
     <span class="text-line-bright font-mono text-[10px]">/</span>
-    <span class="font-mono text-[9px] lg:text-[10px] tracking-[0.18em] uppercase text-fg-mute">[TRENDS] · 白领工作终局</span>
+    <span class="font-mono text-[9px] lg:text-[10px] tracking-[0.18em] uppercase text-fg-mute">[ECONOMY] · 白领工作终局</span>
+    <a href="dimension-map.html" class="font-mono text-[9px] lg:text-[10px] tracking-[0.18em] uppercase text-fg-mute hover:text-accent border border-line-bright px-2 py-0.5 transition-colors">L3-1 · 劳动市场 / 入口</a>
     <span class="flex-1 h-px bg-line hidden lg:block"></span>
-    <span class="font-mono text-[9px] tracking-[0.14em] text-fg-mute">前置研究 · 2026 · MAR 31</span>
+    <span class="font-mono text-[9px] tracking-[0.14em] text-fg-mute">v2 · 2026 · MAY 05 · 增补 Huang 反驳 / Yale 反证 / Amazon 实证</span>
   </div>
 </div>
 
@@ -146,7 +153,7 @@ body::before {
   <div class="lg:ml-[168px] max-w-prose text-[15px] lg:text-lg leading-relaxed lg:leading-[1.75] font-light space-y-6">
     <p>过去三年，每隔几个月就有人预测 AI 会导致大规模失业，但这些预测通常来自经济学家、分析师或悲观主义者。AI 公司本身保持着<em class="text-accent">谨慎的公关克制</em>——这是行业默认姿态。</p>
 
-    <p>这次不同。Dario Amodei 在公开采访中明确点名了三个行业——<strong class="text-fg font-medium">金融、咨询、科技</strong>——并给出了"1-5 年"的时间线。更重要的是他随后的两个补充：</p>
+    <p>这次不同。<a href="https://x.com/oragnes/status/2038088765671948354" class="cite" target="_blank" rel="noopener">Dario Amodei 在公开采访中</a>明确点名了三个行业——<strong class="text-fg font-medium">金融、咨询、科技</strong>——并给出了"1-5 年"的时间线。更重要的是他随后的两个补充：</p>
 
     <p>第一，他坦言<em class="text-accent">无法叫停这个进程</em>，因为即使美国停下来，中国也会继续。第二，他主动呼吁政府"对 AI 企业征收重税"来缓解失业——<strong class="text-fg font-medium">一个 AI 公司的掌门人主动要求被重税，这本身就是极强的信号</strong>。</p>
 
@@ -203,7 +210,7 @@ body::before {
       <p class="font-serif text-[clamp(20px,4vw,38px)] font-light leading-[1.2] tracking-tight text-fg">
         我无法叫停这个进程。但我希望<em class="text-accent">政府对 AI 企业征收重税</em>——这样我们至少有钱，去支付那些被取代的人。
       </p>
-      <p class="font-mono text-[10px] tracking-[0.18em] text-fg-mute uppercase mt-6">Dario Amodei, CEO Anthropic — 2026 年 3 月公开采访（释义）</p>
+      <p class="font-mono text-[10px] tracking-[0.18em] text-fg-mute uppercase mt-6"><a href="https://x.com/oragnes/status/2038088765671948354" class="cite" target="_blank" rel="noopener">Dario Amodei</a>, CEO Anthropic — 2026 年 3 月公开采访（释义）</p>
     </div>
   </div>
 </div>
@@ -224,8 +231,8 @@ body::before {
       <span class="inline-block border border-line-bright py-0.5 px-2 mt-1.5 mr-1 text-[10px] text-fg-mute">已部署</span>
     </div>
     <div>
-      <h3 class="font-serif text-2xl lg:text-[32px] font-normal leading-snug">Bank of America：<em class="text-accent">1000 个理财顾问岗</em>已上 AI Agent</h3>
-      <p class="text-base text-fg-dim leading-relaxed font-light mt-4">虚拟助手 Erica 已承担相当于约 <strong class="text-fg font-medium">1.1 万名员工</strong>的工作量。这不是实验室 PoC，是正式落地的生产部署，且对象不是后台运营，而是<em class="text-accent">直面客户的核心业务岗位</em>——正好对应 Amodei 点名的"金融领域初级白领"。</p>
+      <h3 class="font-serif text-2xl lg:text-[32px] font-normal leading-snug"><a href="https://www.artificialintelligence-news.com/news/ai-agents-enter-banking-roles-at-bank-of-america/" class="cite" target="_blank" rel="noopener">Bank of America</a>：<em class="text-accent">1000 个理财顾问岗</em>已上 AI Agent</h3>
+      <p class="text-base text-fg-dim leading-relaxed font-light mt-4">虚拟助手 <a href="https://www.artificialintelligence-news.com/news/ai-agents-enter-banking-roles-at-bank-of-america/" class="cite" target="_blank" rel="noopener">Erica</a> 已承担相当于约 <strong class="text-fg font-medium">1.1 万名员工</strong>的工作量。这不是实验室 PoC，是正式落地的生产部署，且对象不是后台运营，而是<em class="text-accent">直面客户的核心业务岗位</em>——正好对应 Amodei 点名的"金融领域初级白领"。</p>
       <div class="mt-5 p-4 bg-accent-soft border-l-2 border-accent">
         <span class="font-mono text-[10px] tracking-[0.18em] text-accent uppercase mb-1.5 block">关键判断</span>
         <p class="text-[15px] text-fg leading-relaxed font-light">"已部署"和"在评估"是两个完全不同的阶段。Bank of America 已经跨过了这条线。</p>
@@ -242,8 +249,8 @@ body::before {
       <span class="inline-block border border-line-bright py-0.5 px-2 mt-1.5 mr-1 text-[10px] text-fg-mute">Nature 已收</span>
     </div>
     <div>
-      <h3 class="font-serif text-2xl lg:text-[32px] font-normal leading-snug">Sakana AI Scientist：<em class="text-accent">第一篇 AI 自主论文登 Nature</em></h3>
-      <p class="text-base text-fg-dim leading-relaxed font-light mt-4">完全由 AI 生成并通过同行评审的机器学习论文，从选题、实验、撰写到同行评审全流程 AI 化。同期 OpenAI 宣布 2026 年 9 月推出"AI 研究实习生"，2028 年实现全自主 AI 研究系统——<em class="text-accent">科研实习生和初级研究员的工作内容已经有了可运行的替代原型</em>。</p>
+      <h3 class="font-serif text-2xl lg:text-[32px] font-normal leading-snug"><a href="https://sakana.ai/ai-scientist-nature/" class="cite" target="_blank" rel="noopener">Sakana AI Scientist</a>：<em class="text-accent">第一篇 AI 自主论文登 Nature</em></h3>
+      <p class="text-base text-fg-dim leading-relaxed font-light mt-4">完全由 AI 生成并通过同行评审的机器学习论文，从选题、实验、撰写到同行评审全流程 AI 化。同期 <a href="https://www.theaivalley.com/p/what-openai-and-meta-are-building-right-now" class="cite" target="_blank" rel="noopener">OpenAI 宣布 2026 年 9 月推出"AI 研究实习生"</a>，2028 年实现全自主 AI 研究系统——<em class="text-accent">科研实习生和初级研究员的工作内容已经有了可运行的替代原型</em>。</p>
       <div class="mt-5 p-4 bg-accent-soft border-l-2 border-accent">
         <span class="font-mono text-[10px] tracking-[0.18em] text-accent uppercase mb-1.5 block">关键判断</span>
         <p class="text-[15px] text-fg leading-relaxed font-light">学术界曾认为"研究"是 AI 难以触及的最后堡垒——AI Scientist 把这道防线击穿。</p>
@@ -260,11 +267,11 @@ body::before {
       <span class="inline-block border border-line-bright py-0.5 px-2 mt-1.5 mr-1 text-[10px] text-fg-mute">中层压缩</span>
     </div>
     <div>
-      <h3 class="font-serif text-2xl lg:text-[32px] font-normal leading-snug">扎克伯格 CEO Agent：<em class="text-accent">绕过中层汇报</em></h3>
-      <p class="text-base text-fg-dim leading-relaxed font-light mt-4">Meta CEO 为自己构建的 CEO 专属 Agent，核心功能之一是"<em class="text-accent">快速穿透层级获取内部信息、代替中层汇报</em>"。这意味着企业里那些负责"整理信息向上传递"的中间层——大量依赖于会议记录、汇报文档、周报邮件的初级/中级岗位——在 Agent 经济中将失去存在的必要性。</p>
+      <h3 class="font-serif text-2xl lg:text-[32px] font-normal leading-snug"><a href="https://www.pymnts.com/artificial-intelligence-2/2026/metas-zuckerberg-creating-a-ceo-agent-to-help-with-his-job/" class="cite" target="_blank" rel="noopener">扎克伯格 CEO Agent</a>：<em class="text-accent">绕过中层汇报</em></h3>
+      <p class="text-base text-fg-dim leading-relaxed font-light mt-4"><a href="https://fortune.com/2026/03/24/ai-meta-mark-zuckerbergs-leadership-ceo/" class="cite" target="_blank" rel="noopener">据 WSJ 与 Fortune 报道（2026-03）</a>，Meta CEO 为自己构建的 CEO 专属 Agent，核心功能之一是"<em class="text-accent">快速穿透层级获取内部信息、代替中层汇报</em>"——既是 chief-of-staff 又是 analyst，跨产品聚合信号、绕开往常需要数十人传递的层级。这意味着企业里那些负责"整理信息向上传递"的中间层——大量依赖于会议记录、汇报文档、周报邮件的初级/中级岗位——在 Agent 经济中将失去存在的必要性。</p>
       <div class="mt-5 p-4 bg-amber-soft border-l-2 border-amber">
         <span class="font-mono text-[10px] tracking-[0.18em] text-amber uppercase mb-1.5 block">隐含信号</span>
-        <p class="text-[15px] text-fg leading-relaxed font-light">Gartner 已预测：2026 年 20% 的公司将消除 50% 中层管理。CEO Agent 是该预测的具体执行机制。</p>
+        <p class="text-[15px] text-fg leading-relaxed font-light"><a href="https://www.gartner.com/en/newsroom/press-releases/2024-10-22-gartner-unveils-top-predictions-for-it-organizations-and-users-in-2025-and-beyond" class="cite" target="_blank" rel="noopener">Gartner 2024-10 已预测</a>：2026 年 20% 的公司将消除 50% 中层管理。CEO Agent 是该预测的具体执行机制。</p>
       </div>
     </div>
   </article>
@@ -278,8 +285,8 @@ body::before {
       <span class="inline-block border border-line-bright py-0.5 px-2 mt-1.5 mr-1 text-[10px] text-fg-mute">高端突破</span>
     </div>
     <div>
-      <h3 class="font-serif text-2xl lg:text-[32px] font-normal leading-snug">NVIDIA GPU 优化：<em class="text-accent">Agent 7 天超越人类专家</em></h3>
-      <p class="text-base text-fg-dim leading-relaxed font-light mt-4">NVIDIA 工程师披露，AI Agent 通过<strong class="text-fg font-medium">连续 7 天无人干预的自主搜索</strong>，在 GPU 内核优化上已超越几乎所有人类专家。两人 1.5 年生成了 4 代共约 10 万行代码的系统，且<em class="text-accent">从第二代起开始自我进化</em>。</p>
+      <h3 class="font-serif text-2xl lg:text-[32px] font-normal leading-snug"><a href="https://x.com/bingxu_/status/2036983004200149460" class="cite" target="_blank" rel="noopener">NVIDIA GPU 优化</a>：<em class="text-accent">Agent 7 天超越人类专家</em></h3>
+      <p class="text-base text-fg-dim leading-relaxed font-light mt-4"><a href="https://x.com/bingxu_/status/2036983004200149460" class="cite" target="_blank" rel="noopener">NVIDIA 工程师披露</a>，AI Agent 通过<strong class="text-fg font-medium">连续 7 天无人干预的自主搜索</strong>，在 GPU 内核优化上已超越几乎所有人类专家。两人 1.5 年生成了 4 代共约 10 万行代码的系统，且<em class="text-accent">从第二代起开始自我进化</em>。</p>
       <div class="mt-5 p-4 bg-accent-soft border-l-2 border-accent">
         <span class="font-mono text-[10px] tracking-[0.18em] text-accent uppercase mb-1.5 block">推论的力度</span>
         <p class="text-[15px] text-fg leading-relaxed font-light">如果 GPU 专家这个级别的技术岗位都已经被 AI 触顶，入门级的开发/测试岗更不在话下。</p>
@@ -296,14 +303,110 @@ body::before {
       <span class="inline-block border border-line-bright py-0.5 px-2 mt-1.5 mr-1 text-[10px] text-fg-mute">社交共鸣</span>
     </div>
     <div>
-      <h3 class="font-serif text-2xl lg:text-[32px] font-normal leading-snug">假数据，真共鸣：<em class="text-accent">"斯坦福 CS 不到 10% 找到工作"</em></h3>
-      <p class="text-base text-fg-dim leading-relaxed font-light mt-4">一条声称"斯坦福 CS 应届生不到 10% 找到工作"的推文，虽被社区标注为"数据不实"，却依然在中英文社区<em class="text-accent">引发大规模转发</em>。数据是假的，但共鸣是真的——公众对"名校 CS 学位失去庇护价值"已经有了足够深的预期。</p>
+      <h3 class="font-serif text-2xl lg:text-[32px] font-normal leading-snug"><a href="https://x.com/tongtongbee/status/2038178704699076659" class="cite" target="_blank" rel="noopener">假数据，真共鸣</a>：<em class="text-accent">"斯坦福 CS 不到 10% 找到工作"</em></h3>
+      <p class="text-base text-fg-dim leading-relaxed font-light mt-4"><a href="https://x.com/tongtongbee/status/2038178704699076659" class="cite" target="_blank" rel="noopener">一条声称"斯坦福 CS 应届生不到 10% 找到工作"的推文</a>，虽被社区标注为"数据不实"，却依然在中英文社区<em class="text-accent">引发大规模转发</em>。数据是假的，但共鸣是真的——公众对"名校 CS 学位失去庇护价值"已经有了足够深的预期。</p>
       <div class="mt-5 p-4 bg-amber-soft border-l-2 border-amber">
         <span class="font-mono text-[10px] tracking-[0.18em] text-amber uppercase mb-1.5 block">为什么重要</span>
         <p class="text-[15px] text-fg leading-relaxed font-light">假数据被广泛接受 = 真实数据已经接近这个方向。情绪信号往往领先量化数据 6-12 个月。</p>
       </div>
     </div>
   </article>
+</section>
+
+<!-- ═══════════════════ § 02.5 COUNTER-VOICES ═══════════════════ -->
+<section class="relative z-[2] max-w-wrap mx-auto px-[5vw] lg:px-12 py-14 lg:py-28 border-b border-line bg-bg-2">
+  <header class="grid grid-cols-1 lg:grid-cols-[120px_1fr] gap-4 lg:gap-12 items-baseline mb-10 lg:mb-[72px]">
+    <div class="cursor font-mono text-[10px] lg:text-[11px] tracking-[0.2em] text-mint pt-3 border-t border-mint uppercase">§ 02.5 / 反驳之声</div>
+    <h2 class="font-serif font-light text-[clamp(24px,6vw,64px)] leading-[1.05] tracking-tight">三种<em class="text-mint">反向叙事</em><br/>同周对冲</h2>
+  </header>
+
+  <div class="lg:ml-[168px] max-w-prose text-[15px] lg:text-lg leading-relaxed lg:leading-[1.75] font-light space-y-6 mb-10">
+    <p>Amodei 警告之后的六周内，至少有<em class="text-mint">三个独立的反驳来源</em>同步出现——没有一种是 AI 行业惯用的"温和澄清"，每一个都直接挑战"白领大规模失业"叙事的核心前提。这是本议题真正成为公共争议的标志：之前是"信不信"，现在是"用谁的方法测量"。</p>
+  </div>
+
+  <!-- C01: Jensen Huang -->
+  <article class="grid grid-cols-1 lg:grid-cols-[180px_1fr] gap-4 lg:gap-12 py-7 lg:py-12 border-t border-line">
+    <div class="font-mono text-[11px] text-fg-mute flex lg:flex-col flex-wrap gap-1.5 lg:gap-0">
+      <span class="text-mint text-[13px] tracking-[0.1em] block lg:mb-2.5">COUNTER / 01</span>
+      <span class="text-fg-dim block">2025-06 → 2026-05</span>
+      <span class="inline-block border border-line-bright py-0.5 px-2 mt-1.5 mr-1 text-[10px] text-fg-mute">CEO 对 CEO</span>
+      <span class="inline-block border border-line-bright py-0.5 px-2 mt-1.5 mr-1 text-[10px] text-fg-mute">"上帝情结"</span>
+    </div>
+    <div>
+      <h3 class="font-serif text-2xl lg:text-[32px] font-normal leading-snug"><a href="https://fortune.com/2025/06/11/nvidia-jensen-huang-disagress-anthropic-ceo-dario-amodei-ai-jobs/" class="cite-mint" target="_blank" rel="noopener">黄仁勋</a>："<em class="text-mint">几乎不同意 Dario 说的所有话</em>"</h3>
+      <p class="text-base text-fg-dim leading-relaxed font-light mt-4">Nvidia CEO 在 2025 年 6 月公开发难，到 2026 年 5 月升级为<a href="https://fortune.com/2026/05/02/jensen-huang-nvdia-ceo-god-complex-ai-apocalypse-warnings-shortages-critical-jobs/" class="cite-mint" target="_blank" rel="noopener">"God complex"指控</a>——指责 Amodei 等 CEO 把"AI 末日警告"包装成自我证明，结果是<em class="text-mint">把年轻人吓离经济仍需要的领域</em>，制造"关键岗位的预防性短缺"。黄仁勋的核心反命题：<strong class="text-fg font-medium">"公司生产率提高时反而招更多人"</strong>——历史上每一次自动化浪潮都印证这个 Jevons 反弹机制。</p>
+      <div class="mt-5 p-4 bg-mint-soft border-l-2 border-mint">
+        <span class="font-mono text-[10px] tracking-[0.18em] text-mint uppercase mb-1.5 block">关键判断</span>
+        <p class="text-[15px] text-fg leading-relaxed font-light">这不是"两个 CEO 互喷"，而是<em class="text-mint">硬件方 vs 模型方的利益错位</em>：Nvidia 的估值需要"AI 普及 = 增量"，Anthropic 的监管叙事需要"AI 普及 = 替代"。两人说的可能都对，但他们之所以这么说，因为这两种叙事各自有用。</p>
+      </div>
+    </div>
+  </article>
+
+  <!-- C02: Yale Budget Lab -->
+  <article class="grid grid-cols-1 lg:grid-cols-[180px_1fr] gap-4 lg:gap-12 py-7 lg:py-12 border-t border-line">
+    <div class="font-mono text-[11px] text-fg-mute flex lg:flex-col flex-wrap gap-1.5 lg:gap-0">
+      <span class="text-mint text-[13px] tracking-[0.1em] block lg:mb-2.5">COUNTER / 02</span>
+      <span class="text-fg-dim block">2026-02</span>
+      <span class="inline-block border border-line-bright py-0.5 px-2 mt-1.5 mr-1 text-[10px] text-fg-mute">宏观数据</span>
+      <span class="inline-block border border-line-bright py-0.5 px-2 mt-1.5 mr-1 text-[10px] text-fg-mute">未观测到</span>
+    </div>
+    <div>
+      <h3 class="font-serif text-2xl lg:text-[32px] font-normal leading-snug"><a href="https://budgetlab.yale.edu/research/evaluating-impact-ai-labor-market-current-state-affairs" class="cite-mint" target="_blank" rel="noopener">Yale Budget Lab</a>：<em class="text-mint">数据看不到 AI 失业</em></h3>
+      <p class="text-base text-fg-dim leading-relaxed font-light mt-4">Yale 预算实验室执行总监 Martha Gimbel 在<a href="https://fortune.com/2026/02/02/ai-labor-market-yale-budget-lab-ai-washing/" class="cite-mint" target="_blank" rel="noopener">2026 年 2 月报告</a>中明确表态：<strong class="text-fg font-medium">"无论怎么看数据，此刻都看不到显著的宏观经济效应。"</strong>从 ChatGPT 发布到 2026 年 3 月，AI 高暴露职业的就业变化率与低暴露职业<em class="text-mint">没有显著差异</em>，失业时长也没有显著差异。Challenger Gray 数据显示：2025 年美国 120 万岗位削减中，AI 被列为原因的仅 5.5 万（4.5%）。</p>
+      <div class="mt-5 p-4 bg-mint-soft border-l-2 border-mint">
+        <span class="font-mono text-[10px] tracking-[0.18em] text-mint uppercase mb-1.5 block">方法论张力</span>
+        <p class="text-[15px] text-fg leading-relaxed font-light">Yale 用<em class="text-fg-dim">职业级月度变动</em>看不到信号，Brynjolfsson 用<em class="text-fg">公司级 ADP 数据 + 年龄分层</em>看到了 16% 下降——同样的现实，两个粒度，两个结论。<strong class="text-fg font-medium">议题正在转化为方法论之争</strong>：宏观聚合 vs 微观分层，谁能率先抓住信号？</p>
+      </div>
+    </div>
+  </article>
+
+  <!-- C03: Deutsche Bank "AI Washing" -->
+  <article class="grid grid-cols-1 lg:grid-cols-[180px_1fr] gap-4 lg:gap-12 py-7 lg:py-12 border-t border-line">
+    <div class="font-mono text-[11px] text-fg-mute flex lg:flex-col flex-wrap gap-1.5 lg:gap-0">
+      <span class="text-mint text-[13px] tracking-[0.1em] block lg:mb-2.5">COUNTER / 03</span>
+      <span class="text-fg-dim block">2026-02</span>
+      <span class="inline-block border border-line-bright py-0.5 px-2 mt-1.5 mr-1 text-[10px] text-fg-mute">叙事金融</span>
+      <span class="inline-block border border-line-bright py-0.5 px-2 mt-1.5 mr-1 text-[10px] text-fg-mute">归因偏差</span>
+    </div>
+    <div>
+      <h3 class="font-serif text-2xl lg:text-[32px] font-normal leading-snug"><a href="https://fortune.com/2026/02/10/ai-washing-and-forever-layoffs-why-companies-keep-cutting-jobs-even-amid-rising-profits/" class="cite-mint" target="_blank" rel="noopener">Deutsche Bank</a>：<em class="text-mint">"AI Redundancy Washing"将是 2026 主流</em></h3>
+      <p class="text-base text-fg-dim leading-relaxed font-light mt-4">德意志银行分析师警告：公司将因经济放缓、过度招聘、估值压力而进行的常规裁员，<em class="text-mint">系统性地重新归因为"AI 替代"</em>——因为后者在投资者眼中"看起来更体面"。一项调查显示<strong class="text-fg font-medium">60% 的招聘经理承认刻意强调 AI 的角色</strong>来粉饰财务紧缩。这意味着 Amodei 警告之所以"被实证"，部分原因可能是<em class="text-mint">公司在主动迎合警告本身的叙事</em>。</p>
+      <div class="mt-5 p-4 bg-amber-soft border-l-2 border-amber">
+        <span class="font-mono text-[10px] tracking-[0.18em] text-amber uppercase mb-1.5 block">递归陷阱</span>
+        <p class="text-[15px] text-fg leading-relaxed font-light">CEO 警告 → 投资人期待"AI 替代叙事" → 公司归因切换 → 警告"得到验证" → 下一个 CEO 警告。这是一个<em class="text-amber">反身性循环</em>，警告与实证无法被严格分离。</p>
+      </div>
+    </div>
+  </article>
+
+  <!-- C04: Klarna 反转 -->
+  <article class="grid grid-cols-1 lg:grid-cols-[180px_1fr] gap-4 lg:gap-12 py-7 lg:py-12 border-t border-line">
+    <div class="font-mono text-[11px] text-fg-mute flex lg:flex-col flex-wrap gap-1.5 lg:gap-0">
+      <span class="text-mint text-[13px] tracking-[0.1em] block lg:mb-2.5">COUNTER / 04</span>
+      <span class="text-fg-dim block">2025-05 → 2026</span>
+      <span class="inline-block border border-line-bright py-0.5 px-2 mt-1.5 mr-1 text-[10px] text-fg-mute">边界条件</span>
+      <span class="inline-block border border-line-bright py-0.5 px-2 mt-1.5 mr-1 text-[10px] text-fg-mute">反向案例</span>
+    </div>
+    <div>
+      <h3 class="font-serif text-2xl lg:text-[32px] font-normal leading-snug"><a href="https://fortune.com/2025/05/09/klarna-ai-humans-return-on-investment/" class="cite-mint" target="_blank" rel="noopener">Klarna</a>：<em class="text-mint">替代了 700 人，又把人请回来</em></h3>
+      <p class="text-base text-fg-dim leading-relaxed font-light mt-4">2023 年 Klarna <a href="https://www.entrepreneur.com/business-news/klarna-ceo-reverses-course-by-hiring-more-humans-not-ai/491396" class="cite-mint" target="_blank" rel="noopener">用 OpenAI 客服 Agent 替代约 700 名客服</a>，CEO Siemiatkowski 一度成为"AI 替代"叙事的样板。两年后他<a href="https://mlq.ai/news/klarna-ceo-admits-aggressive-ai-job-cuts-went-too-far-starts-hiring-again-after-us-ipo/" class="cite-mint" target="_blank" rel="noopener">公开承认</a>：<em class="text-mint">"我们过度专注于效率与成本，结果是质量下降，且不可持续。"</em>Klarna 在 2025-2026 年悄悄重建了人类客服团队，转向<strong class="text-fg font-medium">混合模式</strong>——AI 处理高频简单咨询，人类处理升级、边界案例、高价值客户。</p>
+      <div class="mt-5 p-4 bg-amber-soft border-l-2 border-amber">
+        <span class="font-mono text-[10px] tracking-[0.18em] text-amber uppercase mb-1.5 block">边界条件的意义</span>
+        <p class="text-[15px] text-fg leading-relaxed font-light">Klarna 案例不否定"初级岗替代加速"，而是<em class="text-amber">划出了替代的硬边界</em>：当 AI 失误的<strong class="text-fg font-medium">外部成本（客户流失、品牌损害）</strong>超过节省的人力成本时，替代就会反向。<em class="text-mint">关键变量不是 AI 能力，而是错误的可见性</em>——客服面对客户，错误立刻可见；GPU 优化几乎不可见。</p>
+      </div>
+    </div>
+  </article>
+
+  <!-- 综合判断 -->
+  <div class="lg:ml-[168px] max-w-prose mt-12 p-5 lg:p-8 border border-mint bg-mint-soft">
+    <span class="font-mono text-[10px] tracking-[0.2em] text-mint uppercase mb-3 block">SYNTHESIS / 三种反驳的真正分歧</span>
+    <p class="text-[15px] lg:text-base text-fg leading-relaxed font-light mb-3">三个反驳，三个不同的层次：</p>
+    <ul class="text-[14px] lg:text-[15px] text-fg-dim leading-relaxed font-light space-y-2 list-none">
+      <li><strong class="text-fg">黄仁勋</strong> 反对的是<em class="text-mint">叙事姿态</em>——"CEO 公开预测末日"本身的政治效应。</li>
+      <li><strong class="text-fg">Yale Budget Lab</strong> 反对的是<em class="text-mint">数据强度</em>——宏观聚合层面信号尚未显著。</li>
+      <li><strong class="text-fg">Deutsche Bank</strong> 反对的是<em class="text-mint">归因诚实度</em>——"AI 替代"被滥用为掩盖普通裁员的话术。</li>
+    </ul>
+    <p class="text-[15px] lg:text-base text-fg leading-relaxed font-light mt-4">三种反驳<em class="text-fg-dim">都不否认 22-25 岁就业 -16% 这一个具体事实</em>。它们否认的是把这个事实直接外推到"白领大规模失业"的总体叙事。<strong class="text-fg font-medium">这意味着辩论的真正前线已经从"会不会"转移到"在哪一层"——具体岗位级、年龄分层级有；行业级、宏观经济级未现。</strong></p>
+  </div>
 </section>
 
 <!-- ═══════════════════ TRANSITION QUOTE ═══════════════════ -->
@@ -343,7 +446,7 @@ body::before {
     <div class="bg-bg p-5 lg:p-9 hover:bg-bg-2 transition-colors">
       <div class="font-mono text-[10px] text-accent tracking-[0.16em] uppercase mb-3">FOR / 企业管理者</div>
       <h4 class="font-serif text-xl lg:text-2xl font-normal leading-snug mb-3">1-3 年的时间差</h4>
-      <p class="text-[14px] lg:text-[15px] text-fg-dim leading-relaxed font-light">来自 Amodei 和扎克伯格的信号意味着：竞争对手正在使用 AI <strong class="text-fg font-medium">实质性地压缩运营成本</strong>，而不只是 PoC 演示。如果你的企业还在"探索 AI 战略"阶段，同行正在进入"压缩岗位规模"阶段——<em class="text-fg font-medium">这个时间差将在 1-3 年内转化为竞争劣势</em>。</p>
+      <p class="text-[14px] lg:text-[15px] text-fg-dim leading-relaxed font-light">来自 <a href="https://x.com/oragnes/status/2038088765671948354" class="cite" target="_blank" rel="noopener">Amodei</a> 和 <a href="https://www.pymnts.com/artificial-intelligence-2/2026/metas-zuckerberg-creating-a-ceo-agent-to-help-with-his-job/" class="cite" target="_blank" rel="noopener">扎克伯格</a> 的信号意味着：竞争对手正在使用 AI <strong class="text-fg font-medium">实质性地压缩运营成本</strong>，而不只是 PoC 演示。如果你的企业还在"探索 AI 战略"阶段，同行正在进入"压缩岗位规模"阶段——<em class="text-fg font-medium">这个时间差将在 1-3 年内转化为竞争劣势</em>。</p>
     </div>
 
     <div class="bg-bg p-5 lg:p-9 hover:bg-bg-2 transition-colors">
@@ -389,15 +492,15 @@ body::before {
     <div class="border border-line p-4 lg:p-6 flex gap-4 lg:gap-8 items-baseline hover:border-line-bright transition-colors">
       <span class="font-mono text-[11px] text-accent shrink-0 w-5 lg:w-8">03</span>
       <div class="text-[14px] lg:text-[15px] font-light text-fg-dim leading-relaxed">
-        <em class="text-fg font-medium">"AI 让初级员工生产率 +34%"（2023）</em> vs <em class="text-fg font-medium">"煤矿里的金丝雀：22-25 岁就业 −13%"（2025）</em>
-        <span class="block text-fg-mute text-[12px] font-mono mt-1">Brynjolfsson 自我修订</span>
+        <em class="text-fg font-medium">"AI 让初级员工生产率 +34%"（2023）</em> vs <em class="text-fg font-medium"><a href="https://digitaleconomy.stanford.edu/app/uploads/2025/11/CanariesintheCoalMine_Nov25.pdf" class="cite" target="_blank" rel="noopener">"煤矿里的金丝雀：22-25 岁就业 −16%"（2025-11 修订版）</a></em>
+        <span class="block text-fg-mute text-[12px] font-mono mt-1">Brynjolfsson 自我打脸 · 数据从 -13% 升至 -16%</span>
       </div>
     </div>
 
     <div class="border border-line p-4 lg:p-6 flex gap-4 lg:gap-8 items-baseline hover:border-line-bright transition-colors">
       <span class="font-mono text-[11px] text-accent shrink-0 w-5 lg:w-8">04</span>
       <div class="text-[14px] lg:text-[15px] font-light text-fg-dim leading-relaxed">
-        <em class="text-fg font-medium">"白领冲击最猛烈"</em> vs <em class="text-fg font-medium">WEF：增长最快的是农场工/护理工/外卖骑手</em>
+        <em class="text-fg font-medium">"白领冲击最猛烈"</em> vs <em class="text-fg font-medium"><a href="https://www.weforum.org/publications/the-future-of-jobs-report-2025/" class="cite" target="_blank" rel="noopener">WEF</a>：增长最快的是农场工/护理工/外卖骑手</em>
         <span class="block text-fg-mute text-[12px] font-mono mt-1">认知劳动 vs 体力劳动的反转</span>
       </div>
     </div>
@@ -410,23 +513,47 @@ body::before {
       </div>
     </div>
 
+    <div class="border border-line p-4 lg:p-6 flex gap-4 lg:gap-8 items-baseline hover:border-line-bright transition-colors">
+      <span class="font-mono text-[11px] text-accent shrink-0 w-5 lg:w-8">06</span>
+      <div class="text-[14px] lg:text-[15px] font-light text-fg-dim leading-relaxed">
+        <em class="text-fg font-medium"><a href="https://www.cnbc.com/2026/01/28/amazon-layoffs-anti-bureaucracy-ai.html" class="cite" target="_blank" rel="noopener">Amazon 一次性裁 1.6 万企业岗</a>（2026-01）</em> vs <em class="text-fg font-medium"><a href="https://fortune.com/2026/02/02/ai-labor-market-yale-budget-lab-ai-washing/" class="cite" target="_blank" rel="noopener">Yale：宏观数据没有显著差异</a></em>
+        <span class="block text-fg-mute text-[12px] font-mono mt-1">单点重击 vs 总体未现 · 信号粒度之争</span>
+      </div>
+    </div>
+
+    <div class="border border-line p-4 lg:p-6 flex gap-4 lg:gap-8 items-baseline hover:border-line-bright transition-colors">
+      <span class="font-mono text-[11px] text-accent shrink-0 w-5 lg:w-8">07</span>
+      <div class="text-[14px] lg:text-[15px] font-light text-fg-dim leading-relaxed">
+        <em class="text-fg font-medium">Amodei："1-5 年消失"</em> vs <em class="text-fg font-medium"><a href="https://fortune.com/2026/05/02/jensen-huang-nvdia-ceo-god-complex-ai-apocalypse-warnings-shortages-critical-jobs/" class="cite" target="_blank" rel="noopener">Huang："这是 God complex"</a></em>
+        <span class="block text-fg-mute text-[12px] font-mono mt-1">模型方监管叙事 vs 硬件方增量叙事 · 利益错位</span>
+      </div>
+    </div>
+
   </div>
 
   <!-- Voices -->
   <div class="lg:ml-[168px] mt-12 max-w-prose">
-    <div class="font-mono text-[10px] tracking-[0.18em] text-accent uppercase mb-6">三句关键判断</div>
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-px bg-line border border-line">
+    <div class="font-mono text-[10px] tracking-[0.18em] text-accent uppercase mb-6">五句关键判断 · 多边争议</div>
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-px bg-line border border-line">
       <div class="bg-bg-2 p-5">
-        <div class="font-mono text-[10px] text-accent tracking-[0.12em] uppercase mb-2">AMODEI</div>
-        <p class="text-[14px] text-fg-dim font-light leading-relaxed">"金融、咨询、科技——<em class="text-fg">1-5 年内</em>初级白领工作将被取代。"</p>
+        <div class="font-mono text-[10px] text-accent tracking-[0.12em] uppercase mb-2">AMODEI · 警告</div>
+        <p class="text-[14px] text-fg-dim font-light leading-relaxed">"金融、咨询、科技——<em class="text-fg">1-5 年内</em>初级白领工作将被取代。失业率可能 10-20%。"</p>
       </div>
       <div class="bg-bg-2 p-5">
-        <div class="font-mono text-[10px] text-accent tracking-[0.12em] uppercase mb-2">扎克伯格</div>
+        <div class="font-mono text-[10px] text-mint tracking-[0.12em] uppercase mb-2">HUANG · 反驳</div>
+        <p class="text-[14px] text-fg-dim font-light leading-relaxed">"<em class="text-fg">这是 God complex</em>。生产率提高时，公司反而招更多人——只有当世界用完点子时，AI 才会导致失业。"</p>
+      </div>
+      <div class="bg-bg-2 p-5">
+        <div class="font-mono text-[10px] text-accent tracking-[0.12em] uppercase mb-2">扎克伯格 · 实证</div>
         <p class="text-[14px] text-fg-dim font-light leading-relaxed">"<em class="text-fg">CEO Agent</em> 替代中层汇报。"——管理层级被 Agent 压缩，不是被精简。</p>
       </div>
       <div class="bg-bg-2 p-5">
-        <div class="font-mono text-[10px] text-fg-mute tracking-[0.12em] uppercase mb-2">BRYNJOLFSSON</div>
-        <p class="text-[14px] text-fg-dim font-light leading-relaxed">"<em class="text-fg">煤矿里的金丝雀</em>"——年轻求职者进入高 AI 暴露职业的成功率每月下降约 0.5pp。</p>
+        <div class="font-mono text-[10px] text-mint tracking-[0.12em] uppercase mb-2">GIMBEL · Yale 反证</div>
+        <p class="text-[14px] text-fg-dim font-light leading-relaxed">"<em class="text-fg">无论怎么看数据</em>，此刻都看不到 AI 造成的显著宏观经济效应。"——<a href="https://budgetlab.yale.edu/research/evaluating-impact-ai-labor-market-current-state-affairs" class="cite-mint" target="_blank" rel="noopener">Yale Budget Lab 2026-02 报告</a>。</p>
+      </div>
+      <div class="bg-bg-2 p-5 lg:col-span-2">
+        <div class="font-mono text-[10px] text-fg-mute tracking-[0.12em] uppercase mb-2">BRYNJOLFSSON · 微观证据</div>
+        <p class="text-[14px] text-fg-dim font-light leading-relaxed">"<a href="https://digitaleconomy.stanford.edu/app/uploads/2025/11/CanariesintheCoalMine_Nov25.pdf" class="cite" target="_blank" rel="noopener"><em class="text-fg">煤矿里的金丝雀</em></a>"——ADP 数据显示 22-25 岁高 AI 暴露岗位<em class="text-fg">就业相对下降 16%</em>（2025-11 修订版，从 -13% 上调），但仅在<em class="text-fg-dim">"AI 自动化任务"</em>而非"AI 增强任务"的岗位上观察到。</p>
       </div>
     </div>
   </div>
@@ -446,17 +573,29 @@ body::before {
         2026 年 3 月，是一个时间标记——<br/>
         AI 公司的 CEO 第一次<em class="text-accent">在公开场合直接说出</em>它。
       </p>
-      <p class="font-serif text-[clamp(18px,3.5vw,28px)] font-light leading-[1.3] tracking-tight text-fg-dim mb-8">
+      <p class="font-serif text-[clamp(18px,3.5vw,28px)] font-light leading-[1.3] tracking-tight text-fg-dim mb-6">
         在这之前，"白领大规模失业"是悲观主义者的预言；在这之后，它是 AI 公司自己的承认。
       </p>
+      <p class="font-serif text-[clamp(18px,3.5vw,28px)] font-light leading-[1.3] tracking-tight text-fg-dim mb-8">
+        但 2026 年 5 月又是另一个时间标记——<em class="text-mint">Huang、Yale、Deutsche Bank 的反驳同步登场</em>，把"承认"重新还原为"争论"。
+      </p>
       <p class="font-serif text-[clamp(18px,3.5vw,28px)] font-light leading-[1.3] tracking-tight text-fg mb-8">
-        从"预言"变成"承认"，需要的不是新的数据。<br/>
-        需要的是<em class="text-accent">说话的人换了立场</em>。
+        议题的真正前线不再是"会不会发生"，<br/>
+        而是"<em class="text-accent">在哪一层、用什么粒度、由谁先观测到</em>"。
+      </p>
+      <p class="font-serif text-[clamp(16px,3vw,22px)] font-light leading-[1.4] tracking-tight text-fg-dim mb-8">
+        <a href="https://digitaleconomy.stanford.edu/app/uploads/2025/11/CanariesintheCoalMine_Nov25.pdf" class="cite" target="_blank" rel="noopener">Brynjolfsson</a> 用 ADP + 年龄分层，看到了 -16%；<br/>
+        <a href="https://budgetlab.yale.edu/research/evaluating-impact-ai-labor-market-current-state-affairs" class="cite-mint" target="_blank" rel="noopener">Yale</a> 用职业级月度变动，看不到信号；<br/>
+        <a href="https://www.cnbc.com/2026/01/28/amazon-layoffs-anti-bureaucracy-ai.html" class="cite" target="_blank" rel="noopener">Amazon</a> 用一次裁员 1.6 万，把信号推给所有人；<br/>
+        <a href="https://fortune.com/2025/05/09/klarna-ai-humans-return-on-investment/" class="cite-mint" target="_blank" rel="noopener">Klarna</a> 用 700 人请回来，画出了替代的硬边界。<br/>
+        <em class="text-fg">同一个现实，四种测量方法，四种叙事。</em>
       </p>
 
       <div class="border-t border-line pt-8 mt-8">
         <p class="font-mono text-[11px] text-fg-mute tracking-[0.14em] leading-relaxed">
-          本前置研究为 [ECONOMY] 劳动的终局，还是转型的前夜？2026 五一劳动 vs AI 全景 提供"白领初级岗替代速度"的微观证据。本文整理于 2026-03-31。
+          本前置研究为 <a href="index.html" class="cite-mint">劳动的终局，还是转型的前夜？2026 五一劳动 vs AI 全景</a> 提供"白领初级岗替代速度"的微观证据。<br/>
+          v1 整理于 2026-03-31 · v2 增补 Huang 反驳 + Yale Budget Lab 反证 + Amazon 1.6 万实证 + Klarna 反转，更新于 2026-05-05。<br/>
+          在 <a href="dimension-map.html" class="cite-mint">AI × 劳动五维度选题地图</a> 中归类于 <em class="text-accent">L3-1 劳动市场 / 入口的消失</em>。
         </p>
       </div>
 
@@ -484,12 +623,12 @@ body::before {
         <tr class="border-b border-line hover:bg-bg-2 transition-colors">
           <td class="py-3 pr-4 text-fg">Amodei 公开警告</td>
           <td class="py-3 pr-4 text-accent">1-5 年时间线</td>
-          <td class="py-3 text-fg-mute">2026-03 公开采访</td>
+          <td class="py-3 text-fg-mute"><a href="https://x.com/oragnes/status/2038088765671948354" class="cite" target="_blank" rel="noopener">2026-03 公开采访</a></td>
         </tr>
         <tr class="border-b border-line hover:bg-bg-2 transition-colors">
           <td class="py-3 pr-4 text-fg">BoA Erica 替代量</td>
           <td class="py-3 pr-4 text-accent">≈ 1.1 万员工</td>
-          <td class="py-3 text-fg-mute">artificialintelligence-news.com</td>
+          <td class="py-3 text-fg-mute"><a href="https://www.artificialintelligence-news.com/news/ai-agents-enter-banking-roles-at-bank-of-america/" class="cite" target="_blank" rel="noopener">artificialintelligence-news.com</a></td>
         </tr>
         <tr class="border-b border-line hover:bg-bg-2 transition-colors">
           <td class="py-3 pr-4 text-fg">BoA AI 顾问岗位</td>
@@ -499,42 +638,72 @@ body::before {
         <tr class="border-b border-line hover:bg-bg-2 transition-colors">
           <td class="py-3 pr-4 text-fg">OpenAI AI 研究实习生</td>
           <td class="py-3 pr-4 text-accent">2026·09 推出</td>
-          <td class="py-3 text-fg-mute">theaivalley.com</td>
+          <td class="py-3 text-fg-mute"><a href="https://www.theaivalley.com/p/what-openai-and-meta-are-building-right-now" class="cite" target="_blank" rel="noopener">theaivalley.com</a></td>
         </tr>
         <tr class="border-b border-line hover:bg-bg-2 transition-colors">
           <td class="py-3 pr-4 text-fg">OpenAI 全自主 AI 研究</td>
           <td class="py-3 pr-4 text-fg">2028 目标</td>
-          <td class="py-3 text-fg-mute">theaivalley.com</td>
+          <td class="py-3 text-fg-mute"><a href="https://www.theaivalley.com/p/what-openai-and-meta-are-building-right-now" class="cite" target="_blank" rel="noopener">theaivalley.com</a></td>
         </tr>
         <tr class="border-b border-line hover:bg-bg-2 transition-colors">
           <td class="py-3 pr-4 text-fg">Sakana AI Scientist Nature</td>
           <td class="py-3 pr-4 text-accent">首篇 AI 自主论文</td>
-          <td class="py-3 text-fg-mute">sakana.ai/ai-scientist-nature</td>
+          <td class="py-3 text-fg-mute"><a href="https://sakana.ai/ai-scientist-nature/" class="cite" target="_blank" rel="noopener">sakana.ai/ai-scientist-nature</a></td>
         </tr>
         <tr class="border-b border-line hover:bg-bg-2 transition-colors">
           <td class="py-3 pr-4 text-fg">NVIDIA GPU 优化</td>
           <td class="py-3 pr-4 text-accent">7 天无人干预超人类</td>
-          <td class="py-3 text-fg-mute">@bingxu_ on X</td>
+          <td class="py-3 text-fg-mute"><a href="https://x.com/bingxu_/status/2036983004200149460" class="cite" target="_blank" rel="noopener">@bingxu_ on X</a></td>
         </tr>
         <tr class="border-b border-line hover:bg-bg-2 transition-colors">
           <td class="py-3 pr-4 text-fg">Meta CEO Agent</td>
           <td class="py-3 pr-4 text-fg">代替中层汇报</td>
-          <td class="py-3 text-fg-mute">WSJ 报道</td>
+          <td class="py-3 text-fg-mute"><a href="https://www.pymnts.com/artificial-intelligence-2/2026/metas-zuckerberg-creating-a-ceo-agent-to-help-with-his-job/" class="cite" target="_blank" rel="noopener">WSJ via PYMNTS 2026-03</a></td>
         </tr>
         <tr class="border-b border-line hover:bg-bg-2 transition-colors">
           <td class="py-3 pr-4 text-fg">Gartner 中层管理</td>
           <td class="py-3 pr-4 text-fg">20% 公司消除 50%</td>
-          <td class="py-3 text-fg-mute">Gartner 2024-10</td>
+          <td class="py-3 text-fg-mute"><a href="https://www.gartner.com/en/newsroom/press-releases/2024-10-22-gartner-unveils-top-predictions-for-it-organizations-and-users-in-2025-and-beyond" class="cite" target="_blank" rel="noopener">Gartner 2024-10-22</a></td>
         </tr>
         <tr class="border-b border-line hover:bg-bg-2 transition-colors">
-          <td class="py-3 pr-4 text-fg">Brynjolfsson Canaries</td>
-          <td class="py-3 pr-4 text-accent">22-25 岁就业 −13%</td>
-          <td class="py-3 text-fg-mute">Stanford Digital Economy 2025</td>
+          <td class="py-3 pr-4 text-fg">Brynjolfsson Canaries v2</td>
+          <td class="py-3 pr-4 text-accent">22-25 岁就业 −16%</td>
+          <td class="py-3 text-fg-mute"><a href="https://digitaleconomy.stanford.edu/app/uploads/2025/11/CanariesintheCoalMine_Nov25.pdf" class="cite" target="_blank" rel="noopener">Stanford Digital Economy 2025-11</a></td>
         </tr>
         <tr class="border-b border-line hover:bg-bg-2 transition-colors">
           <td class="py-3 pr-4 text-fg">CS 应届毕业生失业率</td>
           <td class="py-3 pr-4 text-fg">7.0–7.8%</td>
-          <td class="py-3 text-fg-mute">纽约联储</td>
+          <td class="py-3 text-fg-mute"><a href="https://www.newyorkfed.org/research/college-labor-market" class="cite" target="_blank" rel="noopener">纽约联储</a></td>
+        </tr>
+        <tr class="border-b border-line hover:bg-bg-2 transition-colors">
+          <td class="py-3 pr-4 text-fg">Amazon 企业岗裁员</td>
+          <td class="py-3 pr-4 text-accent">1.6 万 + 1.4 万二轮</td>
+          <td class="py-3 text-fg-mute"><a href="https://www.cnbc.com/2026/01/28/amazon-layoffs-anti-bureaucracy-ai.html" class="cite" target="_blank" rel="noopener">CNBC 2026-01-28</a></td>
+        </tr>
+        <tr class="border-b border-line hover:bg-bg-2 transition-colors">
+          <td class="py-3 pr-4 text-fg">Huang 反驳 Amodei</td>
+          <td class="py-3 pr-4 text-mint">"God complex"</td>
+          <td class="py-3 text-fg-mute"><a href="https://fortune.com/2026/05/02/jensen-huang-nvdia-ceo-god-complex-ai-apocalypse-warnings-shortages-critical-jobs/" class="cite-mint" target="_blank" rel="noopener">Fortune 2026-05-02</a></td>
+        </tr>
+        <tr class="border-b border-line hover:bg-bg-2 transition-colors">
+          <td class="py-3 pr-4 text-fg">Yale Budget Lab 反证</td>
+          <td class="py-3 pr-4 text-mint">宏观未观测到</td>
+          <td class="py-3 text-fg-mute"><a href="https://budgetlab.yale.edu/research/evaluating-impact-ai-labor-market-current-state-affairs" class="cite-mint" target="_blank" rel="noopener">Yale Budget Lab 2026-02</a></td>
+        </tr>
+        <tr class="border-b border-line hover:bg-bg-2 transition-colors">
+          <td class="py-3 pr-4 text-fg">Challenger AI 归因</td>
+          <td class="py-3 pr-4 text-fg">仅 4.5% 裁员归因 AI</td>
+          <td class="py-3 text-fg-mute"><a href="https://fortune.com/2026/02/10/ai-washing-and-forever-layoffs-why-companies-keep-cutting-jobs-even-amid-rising-profits/" class="cite-mint" target="_blank" rel="noopener">Fortune / Challenger Gray</a></td>
+        </tr>
+        <tr class="border-b border-line hover:bg-bg-2 transition-colors">
+          <td class="py-3 pr-4 text-fg">AI Redundancy Washing</td>
+          <td class="py-3 pr-4 text-amber">2026 主流叙事</td>
+          <td class="py-3 text-fg-mute"><a href="https://fortune.com/2026/02/10/ai-washing-and-forever-layoffs-why-companies-keep-cutting-jobs-even-amid-rising-profits/" class="cite" target="_blank" rel="noopener">Deutsche Bank 2026-02</a></td>
+        </tr>
+        <tr class="border-b border-line hover:bg-bg-2 transition-colors">
+          <td class="py-3 pr-4 text-fg">Klarna 反转</td>
+          <td class="py-3 pr-4 text-mint">700 → 重新雇人</td>
+          <td class="py-3 text-fg-mute"><a href="https://fortune.com/2025/05/09/klarna-ai-humans-return-on-investment/" class="cite-mint" target="_blank" rel="noopener">Fortune 2025-05</a></td>
         </tr>
       </tbody>
     </table>
@@ -572,12 +741,12 @@ body::before {
 <!-- ═══════════════════ FOOTER ═══════════════════ -->
 <footer class="relative z-[2]">
   <div class="max-w-wrap mx-auto px-[5vw] lg:px-12 pt-10 pb-6">
-    <div class="grid grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-10 mb-10 text-[12px] lg:text-[13px]">
+    <div class="grid grid-cols-2 lg:grid-cols-5 gap-6 lg:gap-8 mb-10 text-[12px] lg:text-[13px]">
       <div>
         <div class="font-mono text-[9px] tracking-[0.2em] uppercase text-fg-mute mb-4">CEO 表态</div>
         <div class="space-y-2 font-light text-fg-dim">
           <div><a href="https://x.com/oragnes/status/2038088765671948354" class="hover:text-accent transition-colors">Amodei 1-5 年警告</a></div>
-          <div><a href="https://www.wsj.com/" class="hover:text-accent transition-colors">WSJ: 扎克伯格 CEO Agent</a></div>
+          <div><a href="https://www.pymnts.com/artificial-intelligence-2/2026/metas-zuckerberg-creating-a-ceo-agent-to-help-with-his-job/" class="hover:text-accent transition-colors">WSJ/PYMNTS: 扎克伯格 CEO Agent</a></div>
           <div><a href="https://www.theaivalley.com/p/what-openai-and-meta-are-building-right-now" class="hover:text-accent transition-colors">OpenAI 2026/09 实习生</a></div>
         </div>
       </div>
@@ -595,15 +764,39 @@ body::before {
         <div class="space-y-2 font-light text-fg-dim">
           <div><a href="https://digitaleconomy.stanford.edu/wp-content/uploads/2025/08/Canaries_BrynjolfssonChandarChen.pdf" class="hover:text-accent transition-colors">Brynjolfsson Canaries</a></div>
           <div><a href="https://www.anthropic.com/research/labor-market-impacts" class="hover:text-accent transition-colors">Anthropic Labor Market</a></div>
+          <div><a href="https://arxiv.org/abs/2602.13622" class="hover:text-accent transition-colors">Shadow Boss: 原子化操控</a></div>
+          <div><a href="https://arxiv.org/abs/2506.06576" class="hover:text-accent transition-colors">arXiv: AI 就业未来</a></div>
           <div><a href="https://www.newyorkfed.org/research/college-labor-market" class="hover:text-accent transition-colors">纽约联储劳动力数据</a></div>
+        </div>
+      </div>
+      <div>
+        <div class="font-mono text-[9px] tracking-[0.2em] uppercase text-mint mb-4">反驳与反证</div>
+        <div class="space-y-2 font-light text-fg-dim">
+          <div><a href="https://fortune.com/2025/06/11/nvidia-jensen-huang-disagress-anthropic-ceo-dario-amodei-ai-jobs/" class="hover:text-mint transition-colors">Huang 反驳 Amodei (2025-06)</a></div>
+          <div><a href="https://fortune.com/2026/05/02/jensen-huang-nvdia-ceo-god-complex-ai-apocalypse-warnings-shortages-critical-jobs/" class="hover:text-mint transition-colors">Huang "God complex" (2026-05)</a></div>
+          <div><a href="https://budgetlab.yale.edu/research/evaluating-impact-ai-labor-market-current-state-affairs" class="hover:text-mint transition-colors">Yale Budget Lab 反证</a></div>
+          <div><a href="https://fortune.com/2026/02/10/ai-washing-and-forever-layoffs-why-companies-keep-cutting-jobs-even-amid-rising-profits/" class="hover:text-mint transition-colors">Deutsche Bank: AI Washing</a></div>
+          <div><a href="https://fortune.com/2025/05/09/klarna-ai-humans-return-on-investment/" class="hover:text-mint transition-colors">Klarna 反转 (2025-05)</a></div>
         </div>
       </div>
       <div>
         <div class="font-mono text-[9px] tracking-[0.2em] uppercase text-fg-mute mb-4">框架参考</div>
         <div class="space-y-2 font-light text-fg-dim">
-          <div><a href="https://www.gartner.com/" class="hover:text-accent transition-colors">Gartner 中层预测</a></div>
+          <div><a href="https://www.gartner.com/en/newsroom/press-releases/2024-10-22-gartner-unveils-top-predictions-for-it-organizations-and-users-in-2025-and-beyond" class="hover:text-accent transition-colors">Gartner 中层预测</a></div>
           <div><a href="https://www.weforum.org/publications/the-future-of-jobs-report-2025/" class="hover:text-accent transition-colors">WEF Future of Jobs 2025</a></div>
           <div><a href="https://www.imf.org/en/Publications/Staff-Discussion-Notes/Issues/2024/01/14/Gen-AI-Artificial-Intelligence-and-the-Future-of-Work-542379" class="hover:text-accent transition-colors">IMF SDN/2024/001</a></div>
+          <div><a href="https://www.cnbc.com/2026/01/28/amazon-layoffs-anti-bureaucracy-ai.html" class="hover:text-accent transition-colors">Amazon 1.6 万裁员</a></div>
+          <div><a href="dimension-map.html" class="hover:text-accent transition-colors">← AI × 劳动 五维选题地图</a></div>
+        </div>
+      </div>
+      <div>
+        <div class="font-mono text-[9px] tracking-[0.2em] uppercase text-mint mb-4">范式反转 / NEWJOB</div>
+        <div class="space-y-2 font-light text-fg-dim">
+          <div><a href="https://rentahuman.ai/" class="hover:text-mint transition-colors">RentAHuman.ai 平台</a></div>
+          <div><a href="https://www.ycombinator.com/companies/rentahuman" class="hover:text-mint transition-colors">YC W25 — RentAHuman</a></div>
+          <div><a href="https://humanops.io/" class="hover:text-mint transition-colors">HumanOps 企业版</a></div>
+          <div><a href="https://leg.colorado.gov/bills/sb25-205" class="hover:text-mint transition-colors">Colorado AI Act (2026)</a></div>
+          <div><a href="rentahuman.html" class="hover:text-mint transition-colors">→ 范式反转深度分析</a></div>
         </div>
       </div>
     </div>

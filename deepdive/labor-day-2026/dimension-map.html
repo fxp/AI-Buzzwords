@@ -1,0 +1,1021 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI × 劳动：五维度选题地图</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;400;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #0c0a07;
+      --bg2: #111009;
+      --text: #d8cbb8;
+      --text-dim: #7a6e5e;
+      --red: #e84040;
+      --red-bg: rgba(232,64,64,0.07);
+      --blue: #4f86f7;
+      --blue-bg: rgba(79,134,247,0.07);
+      --green: #34d399;
+      --green-bg: rgba(52,211,153,0.07);
+      --gray: #6b7280;
+      --gray-bg: rgba(107,114,128,0.06);
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Noto Serif SC', serif;
+      line-height: 1.75;
+      font-size: 15px;
+    }
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='0.012'%3E%3Crect x='0' y='0' width='1' height='1'/%3E%3C/g%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 0;
+    }
+    em, i { font-style: normal; }
+    a { color: inherit; text-decoration: none; }
+
+    /* TOP STRIP */
+    .top-strip {
+      background: var(--red);
+      color: #fff;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.18em;
+      text-align: center;
+      padding: 7px 0;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* HERO */
+    .hero {
+      padding: 80px 5vw 64px;
+      max-width: 1040px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+    }
+    .hero-eyebrow {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.22em;
+      color: var(--red);
+      margin-bottom: 24px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    .hero-eyebrow::after {
+      content: '';
+      display: block;
+      width: 40px;
+      height: 1px;
+      background: var(--red);
+      opacity: 0.4;
+    }
+    .hero h1 {
+      font-size: clamp(36px, 7vw, 72px);
+      font-weight: 700;
+      line-height: 1.12;
+      color: #f0e8d8;
+      margin-bottom: 20px;
+      letter-spacing: -0.01em;
+    }
+    .hero-sub {
+      font-size: 18px;
+      color: var(--text-dim);
+      margin-bottom: 52px;
+      max-width: 540px;
+      line-height: 1.6;
+    }
+    .stats-row {
+      display: flex;
+      gap: 48px;
+      flex-wrap: wrap;
+    }
+    .stat-item { border-left: 2px solid var(--red); padding-left: 14px; }
+    .stat-num {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 28px;
+      font-weight: 700;
+      color: #f0e8d8;
+      line-height: 1;
+      margin-bottom: 4px;
+    }
+    .stat-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.12em;
+      color: var(--text-dim);
+    }
+
+    /* DIVIDER */
+    .h-divider { width: 100%; height: 1px; background: rgba(255,255,255,0.06); }
+
+    /* SECTION */
+    .section {
+      max-width: 1040px;
+      margin: 0 auto;
+      padding: 64px 5vw;
+      position: relative;
+      z-index: 1;
+    }
+    .section-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.22em;
+      color: var(--text-dim);
+      margin-bottom: 36px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    .section-label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: rgba(255,255,255,0.06);
+    }
+
+    /* INTRO */
+    .intro-text p {
+      font-size: 16px;
+      line-height: 1.95;
+      color: var(--text);
+      margin-bottom: 18px;
+    }
+    .intro-text p:last-child { margin-bottom: 0; }
+    .intro-text strong { color: #f0e8d8; font-weight: 600; }
+
+    /* PULLQUOTE */
+    .pullquote {
+      border-left: 3px solid var(--red);
+      padding: 18px 24px;
+      margin: 36px 0;
+      font-size: 16px;
+      line-height: 1.85;
+      color: #c4b8a4;
+      font-weight: 500;
+    }
+    .pullquote cite {
+      display: block;
+      margin-top: 10px;
+      font-size: 11px;
+      font-family: 'JetBrains Mono', monospace;
+      color: var(--text-dim);
+      font-style: normal;
+      letter-spacing: 0.05em;
+    }
+
+    /* LEGEND */
+    .legend {
+      display: flex;
+      gap: 24px;
+      flex-wrap: wrap;
+      padding: 18px 20px;
+      background: rgba(255,255,255,0.025);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 3px;
+      margin-top: 36px;
+    }
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: var(--text-dim);
+    }
+    .legend-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 2px;
+      flex-shrink: 0;
+    }
+
+    /* TOPIC MAP GRID */
+    .map-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    .topic-grid {
+      display: grid;
+      grid-template-columns: 90px repeat(3, 1fr);
+      gap: 3px;
+      min-width: 560px;
+    }
+    .gh { /* grid header */
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.1em;
+      color: var(--text-dim);
+      padding: 12px 14px;
+      background: rgba(255,255,255,0.02);
+      border: 1px solid rgba(255,255,255,0.05);
+      text-align: center;
+    }
+    .gh.row-label { text-align: left; }
+    .grid-row-label {
+      padding: 18px 14px;
+      background: rgba(255,255,255,0.02);
+      border: 1px solid rgba(255,255,255,0.05);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    .rl-level {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--red);
+      margin-bottom: 3px;
+    }
+    .rl-name {
+      font-size: 11px;
+      color: var(--text-dim);
+      line-height: 1.3;
+    }
+
+    /* TOPIC CELL */
+    .tc {
+      padding: 16px;
+      border: 1px solid rgba(255,255,255,0.05);
+      cursor: pointer;
+      transition: all 0.18s ease;
+      position: relative;
+      min-height: 100px;
+    }
+    .tc:hover { border-color: rgba(255,255,255,0.14); }
+    .tc.active { border-color: rgba(255,255,255,0.22) !important; }
+    .tc.s-hot   { border-left: 3px solid var(--red);   background: var(--red-bg); }
+    .tc.s-emerging { border-left: 3px solid var(--blue); background: var(--blue-bg); }
+    .tc.s-open  { border-left: 3px solid var(--gray);  background: var(--gray-bg); }
+    .tc.s-published { border-left: 3px solid var(--green); background: var(--green-bg); }
+    .tc.s-hot:hover, .tc.s-hot.active       { background: rgba(232,64,64,0.13); }
+    .tc.s-emerging:hover, .tc.s-emerging.active { background: rgba(79,134,247,0.13); }
+    .tc.s-open:hover, .tc.s-open.active     { background: rgba(107,114,128,0.12); }
+    .tc.s-published:hover, .tc.s-published.active { background: rgba(52,211,153,0.13); }
+    .tc-title {
+      font-size: 13px;
+      font-weight: 600;
+      color: #f0e8d8;
+      line-height: 1.45;
+      margin-bottom: 10px;
+    }
+    .tc-badge {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 9.5px;
+      letter-spacing: 0.04em;
+    }
+    .tc-badge.b-hot { color: var(--red); }
+    .tc-badge.b-emerging { color: var(--blue); }
+    .tc-badge.b-open { color: var(--gray); }
+    .tc-badge.b-published { color: var(--green); }
+    .tc-caret {
+      position: absolute;
+      bottom: 8px;
+      right: 10px;
+      font-size: 10px;
+      color: var(--text-dim);
+      opacity: 0;
+      transition: opacity 0.15s;
+      font-family: 'JetBrains Mono', monospace;
+    }
+    .tc:hover .tc-caret { opacity: 1; }
+
+    /* DETAIL PANEL */
+    .detail-panel {
+      display: none;
+      background: var(--bg2);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 3px;
+      padding: 28px 32px;
+      margin-top: 8px;
+      animation: dpFade 0.22s ease;
+    }
+    .detail-panel.open { display: block; }
+    @keyframes dpFade {
+      from { opacity: 0; transform: translateY(-6px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .dp-top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      margin-bottom: 20px;
+      gap: 16px;
+    }
+    .dp-meta {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.12em;
+      color: var(--text-dim);
+      margin-bottom: 6px;
+    }
+    .dp-title {
+      font-size: 22px;
+      font-weight: 700;
+      color: #f0e8d8;
+    }
+    .dp-close {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: var(--text-dim);
+      cursor: pointer;
+      padding: 4px 10px;
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 2px;
+      white-space: nowrap;
+      flex-shrink: 0;
+      transition: background 0.15s;
+    }
+    .dp-close:hover { background: rgba(255,255,255,0.06); color: var(--text); }
+    .dp-thesis {
+      border-left: 3px solid var(--red);
+      padding: 14px 18px;
+      margin-bottom: 18px;
+      font-size: 15px;
+      font-weight: 500;
+      color: #c4b8a4;
+      line-height: 1.8;
+      background: rgba(255,255,255,0.02);
+    }
+    .dp-body {
+      font-size: 13.5px;
+      line-height: 1.95;
+      color: #8a7e6e;
+      margin-bottom: 18px;
+    }
+    .dp-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 20px;
+    }
+    .dp-tag {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      padding: 3px 9px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 2px;
+      color: var(--text-dim);
+    }
+    .dp-link {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: var(--red);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      letter-spacing: 0.04em;
+    }
+    .dp-link:hover { text-decoration: underline; }
+
+    /* ARTICLE CARDS (index) */
+    .article-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 10px;
+    }
+    .acard {
+      border: 1px solid rgba(255,255,255,0.06);
+      padding: 20px 22px;
+      border-radius: 3px;
+      display: flex;
+      align-items: flex-start;
+      gap: 20px;
+      transition: border-color 0.18s;
+      cursor: default;
+    }
+    .acard a.acard-link {
+      display: contents;
+    }
+    .acard:hover { border-color: rgba(255,255,255,0.13); }
+    .acard-num {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      color: var(--text-dim);
+      padding-top: 3px;
+      white-space: nowrap;
+      min-width: 36px;
+    }
+    .acard-body { flex: 1; }
+    .acard-title {
+      font-size: 15px;
+      font-weight: 600;
+      color: #f0e8d8;
+      margin-bottom: 4px;
+      line-height: 1.45;
+    }
+    .acard-desc {
+      font-size: 13px;
+      color: var(--text-dim);
+      line-height: 1.65;
+    }
+    .acard-badge {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 9.5px;
+      padding: 3px 9px;
+      border-radius: 2px;
+      white-space: nowrap;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+    .bg-pub { background: rgba(52,211,153,0.1); color: var(--green); }
+    .bg-hot { background: rgba(232,64,64,0.1); color: var(--red); }
+    .bg-em  { background: rgba(79,134,247,0.1); color: var(--blue); }
+    .bg-op  { background: rgba(107,114,128,0.1); color: var(--gray); }
+
+    /* FOOTER */
+    .footer {
+      border-top: 1px solid rgba(255,255,255,0.06);
+      padding: 40px 5vw;
+      max-width: 1040px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+    }
+    .footer-text {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      color: var(--text-dim);
+      line-height: 1.9;
+      letter-spacing: 0.04em;
+    }
+
+    @media (max-width: 580px) {
+      .stats-row { gap: 24px; }
+      .topic-grid { grid-template-columns: 70px repeat(3,1fr); }
+      .tc { padding: 12px; min-height: 80px; }
+      .tc-title { font-size: 12px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- TOP STRIP -->
+<div class="top-strip">ECONOMY SERIES &nbsp;·&nbsp; AI × 劳动 &nbsp;·&nbsp; 2026 &nbsp;·&nbsp; ONGOING</div>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="hero-eyebrow">索引 / INDEX</div>
+  <h1>AI × 劳动<br>五维度选题地图</h1>
+  <p class="hero-sub">一张框架，索引二十个最重要的劳动议题——从个人认知到全球政治经济</p>
+  <div class="stats-row">
+    <div class="stat-item">
+      <div class="stat-num">5</div>
+      <div class="stat-label">分析维度</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">15</div>
+      <div class="stat-label">独立选题</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">3</div>
+      <div class="stat-label">主题轴</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">∞</div>
+      <div class="stat-label">持续更新</div>
+    </div>
+  </div>
+</header>
+
+<div class="h-divider"></div>
+
+<!-- INTRO -->
+<section class="section">
+  <div class="section-label">§ 01 &nbsp; 为什么需要这张地图</div>
+  <div class="intro-text">
+    <p>关于 AI 与劳动的讨论，充斥着两种极端：要么是<strong>技术决定论</strong>的恐慌（"AI 要取代所有工作"），要么是<strong>新自由主义乐观主义</strong>的安慰（"历史上每次技术革命都创造了更多就业"）。两种叙事都太粗，都跳过了真正重要的问题。</p>
+    <p>这张地图试图做一件不同的事：把 AI 对劳动的影响，从五个不同的分析维度切开——个体、组织、劳动市场、国家、全球——并在每个维度找出<strong>最值得深入分析的具体议题</strong>。不是综述，是选题框架；不是答案，是值得问的问题清单。</p>
+    <p>每一格，都对应一篇独立的深度文章。点击任意格子，可以看到该议题的核心论点和研究方向。</p>
+  </div>
+
+  <div class="pullquote">
+    技术进步从未自动惠及大多数人。生产率提升落入劳动者口袋，不是因为技术慷慨——而是因为劳动者组织起来并拥有了足够的政治权力。
+    <cite>— Daron Acemoglu，2024 年诺贝尔经济学奖演讲</cite>
+  </div>
+
+  <div class="legend">
+    <div class="legend-item"><div class="legend-dot" style="background:var(--red)"></div>强推优先——时效性强、数据充足、反直觉冲击力高</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--blue)"></div>新兴议题——2025-26 年开始显现、研究积累中</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--gray)"></div>待开发——框架已有、待系统研究</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--green)"></div>已覆盖——在全景导言或其他文章中已深入分析</div>
+  </div>
+</section>
+
+<div class="h-divider"></div>
+
+<!-- TOPIC MAP -->
+<section class="section">
+  <div class="section-label">§ 02 &nbsp; 选题全景地图 / TOPIC MAP</div>
+
+  <div class="map-wrap">
+    <div class="topic-grid" id="topicGrid">
+
+      <!-- HEADER ROW -->
+      <div class="gh row-label"></div>
+      <div class="gh">个体 / 心理</div>
+      <div class="gh">结构 / 权力</div>
+      <div class="gh">分配 / 制度</div>
+
+      <!-- L1 -->
+      <div class="grid-row-label">
+        <div class="rl-level">L1</div>
+        <div class="rl-name">个体</div>
+      </div>
+      <div class="tc s-hot" data-id="l1c1" onclick="showDetail('l1c1')">
+        <div class="tc-title">认知外包与技能萎缩</div>
+        <div class="tc-badge b-hot">▲ 强推优先</div>
+        <div class="tc-caret">展开 →</div>
+      </div>
+      <div class="tc s-emerging" data-id="l1c2" onclick="showDetail('l1c2')">
+        <div class="tc-title">AI 焦虑与生产力悖论</div>
+        <div class="tc-badge b-emerging">◉ 新兴议题</div>
+        <div class="tc-caret">展开 →</div>
+      </div>
+      <div class="tc s-open" data-id="l1c3" onclick="showDetail('l1c3')">
+        <div class="tc-title">意义的失落</div>
+        <div class="tc-badge b-open">○ 待开发</div>
+        <div class="tc-caret">展开 →</div>
+      </div>
+
+      <!-- L2 -->
+      <div class="grid-row-label">
+        <div class="rl-level">L2</div>
+        <div class="rl-name">组织</div>
+      </div>
+      <div class="tc s-emerging" data-id="l2c1" onclick="showDetail('l2c1')">
+        <div class="tc-title">白领技能去熟练化</div>
+        <div class="tc-badge b-emerging">◉ 新兴议题</div>
+        <div class="tc-caret">展开 →</div>
+      </div>
+      <div class="tc s-hot" data-id="l2c2" onclick="showDetail('l2c2')">
+        <div class="tc-title">算法老板</div>
+        <div class="tc-badge b-hot">▲ 强推优先</div>
+        <div class="tc-caret">展开 →</div>
+      </div>
+      <div class="tc s-open" data-id="l2c3" onclick="showDetail('l2c3')">
+        <div class="tc-title">AI 薪酬重构</div>
+        <div class="tc-badge b-open">○ 待开发</div>
+        <div class="tc-caret">展开 →</div>
+      </div>
+
+      <!-- L3 -->
+      <div class="grid-row-label">
+        <div class="rl-level">L3</div>
+        <div class="rl-name">劳动<br>市场</div>
+      </div>
+      <div class="tc s-published" data-id="l3c1" onclick="showDetail('l3c1')">
+        <div class="tc-title">入口的消失：白领工作终局</div>
+        <div class="tc-badge b-published">✓ 已发布</div>
+        <div class="tc-caret">展开 →</div>
+      </div>
+      <div class="tc s-hot" data-id="l3c2" onclick="showDetail('l3c2')">
+        <div class="tc-title">蓝领神话的破裂</div>
+        <div class="tc-badge b-hot">▲ 强推优先</div>
+        <div class="tc-caret">展开 →</div>
+      </div>
+      <div class="tc s-emerging" data-id="l3c3" onclick="showDetail('l3c3')">
+        <div class="tc-title">职业路径断裂</div>
+        <div class="tc-badge b-emerging">◉ 新兴议题</div>
+        <div class="tc-caret">展开 →</div>
+      </div>
+
+      <!-- L4 -->
+      <div class="grid-row-label">
+        <div class="rl-level">L4</div>
+        <div class="rl-name">国家</div>
+      </div>
+      <div class="tc s-emerging" data-id="l4c1" onclick="showDetail('l4c1')">
+        <div class="tc-title">技能再培训的虚假承诺</div>
+        <div class="tc-badge b-emerging">◉ 新兴议题</div>
+        <div class="tc-caret">展开 →</div>
+      </div>
+      <div class="tc s-hot" data-id="l4c2" onclick="showDetail('l4c2')">
+        <div class="tc-title">超越 UBI：分配制度重构</div>
+        <div class="tc-badge b-hot">▲ 强推优先</div>
+        <div class="tc-caret">展开 →</div>
+      </div>
+      <div class="tc s-open" data-id="l4c3" onclick="showDetail('l4c3')">
+        <div class="tc-title">AI 税与知识使用税</div>
+        <div class="tc-badge b-open">○ 待开发</div>
+        <div class="tc-caret">展开 →</div>
+      </div>
+
+      <!-- L5 -->
+      <div class="grid-row-label">
+        <div class="rl-level">L5</div>
+        <div class="rl-name">全球</div>
+      </div>
+      <div class="tc s-hot" data-id="l5c1" onclick="showDetail('l5c1')">
+        <div class="tc-title">幽灵劳工</div>
+        <div class="tc-badge b-hot">▲ 强推优先</div>
+        <div class="tc-caret">展开 →</div>
+      </div>
+      <div class="tc s-emerging" data-id="l5c2" onclick="showDetail('l5c2')">
+        <div class="tc-title">AI 殖民主义</div>
+        <div class="tc-badge b-emerging">◉ 新兴议题</div>
+        <div class="tc-caret">展开 →</div>
+      </div>
+      <div class="tc s-open" data-id="l5c3" onclick="showDetail('l5c3')">
+        <div class="tc-title">数字主权与劳动数据权</div>
+        <div class="tc-badge b-open">○ 待开发</div>
+        <div class="tc-caret">展开 →</div>
+      </div>
+
+    </div><!-- /topic-grid -->
+  </div><!-- /map-wrap -->
+
+  <!-- DETAIL PANEL -->
+  <div class="detail-panel" id="detailPanel">
+    <div class="dp-top">
+      <div>
+        <div class="dp-meta" id="dpMeta"></div>
+        <div class="dp-title" id="dpTitle"></div>
+      </div>
+      <div class="dp-close" onclick="closeDetail()">关闭 ✕</div>
+    </div>
+    <div class="dp-thesis" id="dpThesis"></div>
+    <div class="dp-body" id="dpBody"></div>
+    <div class="dp-tags" id="dpTags"></div>
+    <a class="dp-link" id="dpLink" href="#">→ 阅读完整文章</a>
+  </div>
+
+</section>
+
+<div class="h-divider"></div>
+
+<!-- SERIES INDEX -->
+<section class="section">
+  <div class="section-label">§ 03 &nbsp; 系列文章索引 / ARTICLE INDEX</div>
+
+  <div style="margin-bottom:24px">
+    <div style="font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text-dim);margin-bottom:12px;letter-spacing:0.1em">— 全景导言</div>
+    <a class="acard-link" href="index.html">
+    <div class="acard" style="border-color:rgba(52,211,153,0.2)">
+      <div class="acard-num">00</div>
+      <div class="acard-body">
+        <div class="acard-title">劳动的终局，还是转型的前夜？——2026 五一劳动 vs AI 全景</div>
+        <div class="acard-desc">跨越所有维度的全景报告。78,557 人裁员数据、Klarna 重招、RentAHuman、有效进步主义四命题——AI 与劳动关系的完整地图。</div>
+      </div>
+      <div class="acard-badge bg-pub">已发布</div>
+    </div>
+    </a>
+  </div>
+
+  <div style="font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text-dim);margin-bottom:12px;letter-spacing:0.1em">— L1 个体维度</div>
+  <div class="article-grid" style="margin-bottom:28px">
+    <div class="acard">
+      <div class="acard-num">L1-1</div>
+      <div class="acard-body">
+        <div class="acard-title">认知外包与技能萎缩</div>
+        <div class="acard-desc">把思考交给 AI，就是在主动放弃让自己独特的能力。GPS 的空间认知教训，正在算法时代大规模重演。</div>
+      </div>
+      <div class="acard-badge bg-hot">强推</div>
+    </div>
+    <div class="acard">
+      <div class="acard-num">L1-2</div>
+      <div class="acard-body">
+        <div class="acard-title">AI 焦虑与生产力悖论</div>
+        <div class="acard-desc">80% 的工人抵制强制 AI 工具。"AI 税"——核查、纠错、解释 AI 输出的隐性工时——可能吃掉所有效率收益。</div>
+      </div>
+      <div class="acard-badge bg-em">新兴</div>
+    </div>
+    <div class="acard">
+      <div class="acard-num">L1-3</div>
+      <div class="acard-body">
+        <div class="acard-title">意义的失落：当工作不再需要技艺</div>
+        <div class="acard-desc">UBI 能解决温饱，解决不了"我是谁"。Bostrom 的"目的赤字"，Harari 的"无用阶级"，指向同一个问题。</div>
+      </div>
+      <div class="acard-badge bg-op">待开发</div>
+    </div>
+  </div>
+
+  <div style="font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text-dim);margin-bottom:12px;letter-spacing:0.1em">— L2 组织维度</div>
+  <div class="article-grid" style="margin-bottom:28px">
+    <div class="acard">
+      <div class="acard-num">L2-1</div>
+      <div class="acard-body">
+        <div class="acard-title">白领技能去熟练化</div>
+        <div class="acard-desc">最依赖 AI 的知识工人，正在以最快的速度失去那些让他们不可替代的专业能力。1970 年代制造业的故事，在知识工作里重演。</div>
+      </div>
+      <div class="acard-badge bg-em">新兴</div>
+    </div>
+    <div class="acard">
+      <div class="acard-num">L2-2</div>
+      <div class="acard-body">
+        <div class="acard-title">算法老板：数字泰勒主义的扩张</div>
+        <div class="acard-desc">当老板变成算法，情感、判断、善意——劳动关系中最后的人性缓冲——也消失了。从仓库工人到白领，监控正在无差别扩散。</div>
+      </div>
+      <div class="acard-badge bg-hot">强推</div>
+    </div>
+    <div class="acard">
+      <div class="acard-num">L2-3</div>
+      <div class="acard-body">
+        <div class="acard-title">AI 薪酬重构：谁决定你的工作值多少钱</div>
+        <div class="acard-desc">AI 让技能定价更透明——对工人来说，这是坏消息。算法薪资系统正从 Gig 经济向企业内部渗透。</div>
+      </div>
+      <div class="acard-badge bg-op">待开发</div>
+    </div>
+  </div>
+
+  <div style="font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text-dim);margin-bottom:12px;letter-spacing:0.1em">— L3 劳动市场维度</div>
+  <div class="article-grid" style="margin-bottom:28px">
+    <a class="acard-link" href="white-collar.html">
+    <div class="acard" style="border-color:rgba(52,211,153,0.4)">
+      <div class="acard-num">L3-1</div>
+      <div class="acard-body">
+        <div class="acard-title">入口的消失：白领工作终局</div>
+        <div class="acard-desc">Amodei "1-5 年消失" 警告 + 五条跨行业实证 + 黄仁勋 "God complex" 反驳 + Yale 宏观反证 + Amazon 1.6 万实证 + Klarna 反转。议题前线已从"会不会"转向"在哪一层、用什么粒度测量"。</div>
+      </div>
+      <div class="acard-badge bg-pub">已发布 v2</div>
+    </div>
+    </a>
+    <div class="acard">
+      <div class="acard-num">L3-2</div>
+      <div class="acard-body">
+        <div class="acard-title">蓝领神话的破裂</div>
+        <div class="acard-desc">"蓝领工作是安全的"——这个叙事在 2026 年正在崩塌。Aurora Trucking 已在商业运营，蓝领工人却几乎没有任何准备。</div>
+      </div>
+      <div class="acard-badge bg-hot">强推</div>
+    </div>
+    <div class="acard">
+      <div class="acard-num">L3-3</div>
+      <div class="acard-body">
+        <div class="acard-title">职业路径断裂：20 年的阶梯消失之后</div>
+        <div class="acard-desc">没有 entry-level 就没有学徒期，没有学徒期就没有下一代 senior。这是一个时滞炸弹——五年后才会看到破坏。</div>
+      </div>
+      <div class="acard-badge bg-em">新兴</div>
+    </div>
+  </div>
+
+  <div style="font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text-dim);margin-bottom:12px;letter-spacing:0.1em">— L4 国家维度</div>
+  <div class="article-grid" style="margin-bottom:28px">
+    <div class="acard">
+      <div class="acard-num">L4-1</div>
+      <div class="acard-body">
+        <div class="acard-title">技能再培训的虚假承诺</div>
+        <div class="acard-desc">政府再培训项目按人类时间运行，AI 冲击按机器时间到来。历史数据显示美国再培训项目实际就业率不超过 40%。</div>
+      </div>
+      <div class="acard-badge bg-em">新兴</div>
+    </div>
+    <div class="acard">
+      <div class="acard-num">L4-2</div>
+      <div class="acard-body">
+        <div class="acard-title">超越 UBI：重新想象分配制度</div>
+        <div class="acard-desc">UBI 是对症不治本的临时方案。真正的问题是 AI 收益的所有权结构。阿拉斯加模型、员工持股、数据红利——哪个才是出路？</div>
+      </div>
+      <div class="acard-badge bg-hot">强推</div>
+    </div>
+    <div class="acard">
+      <div class="acard-num">L4-3</div>
+      <div class="acard-body">
+        <div class="acard-title">AI 税与知识使用税</div>
+        <div class="acard-desc">用人类智慧训练的 AI，应为这份"智慧提取"向人类支付租金。现行税制系统性激励替代而非增强。</div>
+      </div>
+      <div class="acard-badge bg-op">待开发</div>
+    </div>
+  </div>
+
+  <div style="font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text-dim);margin-bottom:12px;letter-spacing:0.1em">— L5 全球维度</div>
+  <div class="article-grid">
+    <div class="acard">
+      <div class="acard-num">L5-1</div>
+      <div class="acard-body">
+        <div class="acard-title">幽灵劳工：AI 背后的人类</div>
+        <div class="acard-desc">你以为是 AI 在工作——背后是每小时两美元的肯尼亚工人。AI 不是取代了人的故事，而是创造了新形式的不可见劳动。</div>
+      </div>
+      <div class="acard-badge bg-hot">强推</div>
+    </div>
+    <div class="acard">
+      <div class="acard-num">L5-2</div>
+      <div class="acard-body">
+        <div class="acard-title">AI 殖民主义：谁的数据，谁的模型，谁的未来</div>
+        <div class="acard-desc">AI 经济从全球南方提取数据与劳动，把收益集中在硅谷和北京。这是数字时代的资源提取主义。</div>
+      </div>
+      <div class="acard-badge bg-em">新兴</div>
+    </div>
+    <div class="acard">
+      <div class="acard-num">L5-3</div>
+      <div class="acard-body">
+        <div class="acard-title">数字主权与劳动数据权</div>
+        <div class="acard-desc">你的工作数据训练了替代你的 AI，但你没收到一分授权费。谁控制训练数据，谁就控制 AI 的未来。</div>
+      </div>
+      <div class="acard-badge bg-op">待开发</div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<div class="h-divider"></div>
+<footer class="footer">
+  <div class="footer-text">
+    AI × 劳动系列 &nbsp;·&nbsp; ECONOMY DEEPDIVE &nbsp;·&nbsp; 2026<br>
+    数据来源：Layoffs.fyi / Brynjolfsson Lab / Acemoglu &amp; Johnson (2023) / TIME Magazine / RentAHuman.ai<br>
+    本地图持续更新中。每一格代表一篇独立的深度研究文章。
+  </div>
+</footer>
+
+<script>
+const data = {
+  l1c1: {
+    meta: 'L1 个体 · 个体/心理',
+    title: '认知外包与技能萎缩',
+    status: 'hot',
+    thesis: '把思考外包给 AI，就像把肌肉外包给机器——久而久之，我们就再也无法独立完成那项工作。',
+    body: '从 GPS 导致空间认知退化，到 AI 助手导致论证能力下滑，认知科学有大量证据支持"用进废退"原则。斯坦福、MIT 多项 2025-2026 年研究显示：持续使用 AI 编程助手的工程师，在无辅助状态下的调试能力显著下降；AI 辅助写作者的独立论证评分在 6 个月内平均降低 22%。AI 最大的风险不是取代我们——而是让我们主动放弃那些使我们独特的思维能力。',
+    tags: ['认知科学', 'use-it-or-lose-it', 'Copilot 研究', 'GPS 空间认知实验', '写作能力退化'],
+    link: '#'
+  },
+  l1c2: {
+    meta: 'L1 个体 · 结构/权力',
+    title: 'AI 焦虑与生产力悖论',
+    status: 'emerging',
+    thesis: '被强制使用 AI 工具的工人，反而比不用 AI 的人产出更低——"AI 税"的隐性工时抹去了效率收益。',
+    body: '80% 的白领工人对雇主强制 AI 工具产生抵制，29% 主动破坏公司 AI 战略。"AI 税"是指那些用于核查、纠错、向 AI 输出解释所花的隐性工时。这种现象在 Z 世代中尤为突出（44% 的主动抵制率）。这种焦虑和抵制，正在成为被系统性低估的组织成本——而大多数生产力研究忽视了这一效应。',
+    tags: ['AI 税（AI Tax）', '强制采用 vs 自愿采用', 'Z 世代抵制', '隐性工时', '安静离职 2.0'],
+    link: '#'
+  },
+  l1c3: {
+    meta: 'L1 个体 · 分配/制度',
+    title: '意义的失落',
+    status: 'open',
+    thesis: '当工作不再需要技艺、判断与创造，人类失去的不只是收入——而是身份与存在意义。',
+    body: 'Bostrom 的"目的赤字"（meaning deficit）和 Harari 的"无用阶级"，指向同一个问题：经济保障不等于意义感。UBI 能解决温饱，解决不了"我是谁"。心理学研究显示，工作的意义感来自三个来源：技艺掌握（mastery）、自主性（autonomy）、社会连接（relatedness）——AI 对这三者都有系统性的侵蚀效应。',
+    tags: ['Bostrom 目的赤字', 'Harari 无用阶级', '自我决定理论', 'UBI 与主观幸福感', '劳动身份认同'],
+    link: '#'
+  },
+  l2c1: {
+    meta: 'L2 组织 · 个体/心理',
+    title: '白领技能去熟练化',
+    status: 'emerging',
+    thesis: '最依赖 AI 的知识工人，正在以最快的速度失去那些让他们变得不可替代的专业能力。',
+    body: '律师依赖 AI 起草而失去论证直觉；分析师依赖 AI 建模而失去数感；设计师依赖 AI 生成而失去视觉判断力。这不是危机预言，而是可以观测到的去熟练化过程（deskilling）——1970-80 年代制造业自动化的教训，正在知识工作里以更快的速度重演。技能一旦流失，重建的成本远高于保持。',
+    tags: ['去熟练化（deskilling）', '知识工作', '律师/分析师/设计师案例', '制造业历史先例', '隐性知识流失'],
+    link: '#'
+  },
+  l2c2: {
+    meta: 'L2 组织 · 结构/权力',
+    title: '算法老板',
+    status: 'hot',
+    thesis: '当老板变成算法，劳动关系中最后的人性缓冲——情感、判断、善意——也消失了。',
+    body: 'Amazon 仓库的出勤率算法、Uber 的动态定价算法、Microsoft Viva Insights 的生产力评分——数字泰勒主义（Digital Taylorism）正从蓝领向白领全面扩散。算法管理的根本问题不在于效率高低，而在于它构造了一种无法申诉、无法谈判、无从问责的权力结构。2026 年，这种管理模式已覆盖估计全球 7 亿工人。',
+    tags: ['数字泰勒主义', 'Amazon 算法管理', 'Microsoft Viva Insights', 'Uber/Lyft 驾驶员调研', '无从申诉的权力'],
+    link: '#'
+  },
+  l2c3: {
+    meta: 'L2 组织 · 分配/制度',
+    title: 'AI 薪酬重构',
+    status: 'open',
+    thesis: 'AI 让技能定价变得更透明——对工人来说，这是坏消息。',
+    body: '当 AI 可以精确量化某项技能的市场价值，劳动力议价能力随之下降。算法薪资系统已在 Gig 经济中大规模部署，正向企业内部薪酬决策渗透。"透明"是资本的武器：当雇主知道你能接受的最低价格，就没有谈判空间了。这与工资不透明时代形成了奇特的倒转。',
+    tags: ['算法薪资', 'Gig 经济定价', '薪资透明度的双刃', '劳动力议价能力', '技能定价精确化'],
+    link: '#'
+  },
+  l3c1: {
+    meta: 'L3 劳动市场 · 个体/心理',
+    title: '入口的消失：白领工作终局',
+    status: 'published',
+    thesis: '初级白领岗位消失不再是预言——CEO 公开承认了，但反驳之声同周登场，议题从"会不会"转向"在哪一层"。',
+    body: 'Amodei 的 1-5 年警告（2026-03）+ Bank of America 1.1 万岗位、Sakana AI Scientist 登 Nature、扎克伯格 CEO Agent、NVIDIA GPU Agent 7 天超人类——五条独立证据同周汇聚。Brynjolfsson 2025-11 修订版：22-25 岁高 AI 暴露岗位就业 -16%（从 -13% 上调）。但反驳同步登场：黄仁勋"God complex"指控、Yale Budget Lab "宏观未观测到"、Deutsche Bank "AI Redundancy Washing"、Klarna 700 人请回。Amazon 1.6 万企业岗裁员（2026-01）成为支持 Amodei 的最强单点实证。议题真正的前线是方法论之争：宏观聚合 vs 微观分层。',
+    tags: ['Amodei 1-5年警告', 'Brynjolfsson Canaries -16%', 'Huang God complex 反驳', 'Yale Budget Lab 反证', 'Deutsche Bank AI Washing', 'Amazon 1.6万实证', 'Klarna 反转'],
+    link: 'white-collar.html'
+  },
+  l3c2: {
+    meta: 'L3 劳动市场 · 结构/权力',
+    title: '蓝领神话的破裂',
+    status: 'hot',
+    thesis: '"蓝领工作是安全的"——这个叙事在 2026 年正在崩塌，而蓝领工人几乎没有任何准备。',
+    body: 'Aurora Trucking 已于 2026 年 Q1 在达拉斯-休斯顿商业运营；机器人厨师（Miso Robotics）已部署在超过 200 家连锁餐厅；AI 辅助手术系统正在扩大适应症范围。蓝领工人面临的冲击与白领不同：技能迁移更难、再培训资源更少、工会保护正在瓦解、社会安全网更薄。这场冲击将比白领更快、更残酷，却几乎没有出现在主流 AI 讨论中。',
+    tags: ['Aurora Trucking 商业运营', 'Miso Robotics', '卡车司机群体', '建筑/制造/餐饮自动化', '蓝领社会安全网'],
+    link: '#'
+  },
+  l3c3: {
+    meta: 'L3 劳动市场 · 分配/制度',
+    title: '职业路径断裂',
+    status: 'emerging',
+    thesis: '20 年的职业阶梯消失之后，"经验积累"这个概念本身需要被重新定义。',
+    body: '从 entry-level 到 senior 的传统职业路径依赖渐进式技能积累和隐性知识传递。当 AI 抹去了初级岗位，没有了"学徒期"，下一代的 senior 从哪里来？这是一个时滞效应：现在企业感受不到，五年后将是整个行业的专业能力危机。历史先例：1980 年代美国制造业自动化之后，一代工人的传统技艺断代——AI 时代的断代将发生在知识工作领域。',
+    tags: ['职业梯队断层', '隐性知识传递', '学徒制危机', '时滞效应', '行业专业能力断代'],
+    link: '#'
+  },
+  l4c1: {
+    meta: 'L4 国家 · 个体/心理',
+    title: '技能再培训的虚假承诺',
+    status: 'emerging',
+    thesis: '政府的再培训项目按人类时间运行，但 AI 的冲击按机器时间到来——两者永远无法同步。',
+    body: '历史数据：美国 JTPA 项目参与者实际就业率约 40%，贸易调整援助（TAA）成效同样有限。再培训失败不是执行问题，而是前提错误——假设被替代的技能和替代性需求都是稳定可预测的。在 AI 时代，技能被替代的速度（月/季度级别）远快于人类再学习的速度（年级别）。芬兰、新加坡等"再培训成功案例"的前提条件，在大多数国家并不存在。',
+    tags: ['JTPA 项目数据', 'TAA 贸易援助', '芬兰/新加坡模式', '时间尺度不匹配', '技能替代速度'],
+    link: '#'
+  },
+  l4c2: {
+    meta: 'L4 国家 · 结构/权力',
+    title: '超越 UBI：分配制度重构',
+    status: 'hot',
+    thesis: 'UBI 是对症不治本的临时方案——真正的问题是 AI 收益的所有权结构，而不是再分配规模。',
+    body: 'UBI 假设问题是收入不足，但忽视了根本：谁拥有生产 AI 的资本，谁就拥有了经济权力。阿拉斯加永久基金（Alaska Permanent Fund）证明了一个替代模型：资源（石油/AI算力）的所有权可以分散。员工持股（ESOP）、主权 AI 基金、Worker Data Dividend 提案，比 UBI 更接近真正的结构性解决。Acemoglu 的核心立场：不是"多给钱"，而是"重塑谁拥有什么"。',
+    tags: ['Alaska Permanent Fund', 'Worker Data Dividend', 'ESOP 员工持股', 'Acemoglu 所有权论', 'UBI 的局限性'],
+    link: '#'
+  },
+  l4c3: {
+    meta: 'L4 国家 · 分配/制度',
+    title: 'AI 税与知识使用税',
+    status: 'open',
+    thesis: '用人类智慧训练的 AI 系统，应为这份"智慧提取"向人类支付租金。',
+    body: '现行税制系统性激励用机器替代工人：雇用工人需缴工资税，购买 AI 设备可快速折旧。机器人税（比尔·盖茨 2017 年提出）、知识使用税（Knowledge Use Tax）、AI 红利框架，是矫正这一结构性扭曲的具体手段。韩国已于 2017 年率先限制机器人折旧速率，但全球尚无系统性 AI 税立法。',
+    tags: ['机器人税', '知识使用税', '工资税 vs 资本折旧', '韩国机器人税先例', 'AI 红利分配'],
+    link: '#'
+  },
+  l5c1: {
+    meta: 'L5 全球 · 个体/心理',
+    title: '幽灵劳工',
+    status: 'hot',
+    thesis: '你以为是 AI 在工作——背后其实是每小时两美元的肯尼亚工人在工作。',
+    body: 'TIME Magazine 2023 年调查揭露：OpenAI 在肯尼亚雇用工人进行内容审核，时薪不足 2 美元，且需持续接触极度有害内容。这不是个案：ChatGPT、Midjourney、自动驾驶背后，都有大量隐形人类劳动——内容审核、数据标注、RLHF 对齐训练。RentAHuman.ai（2026）是这个趋势的最新形态：AI Agent 直接发出任务委托，人类成为"生物执行层"。AI 不是取代了人，而是创造了新形式的不可见、低报酬、高风险的劳动。',
+    tags: ['TIME Magazine OpenAI 调查', 'Mechanical Turk', '数据标注产业', 'RLHF 人类反馈劳动', 'RentAHuman 模型'],
+    link: '#'
+  },
+  l5c2: {
+    meta: 'L5 全球 · 结构/权力',
+    title: 'AI 殖民主义',
+    status: 'emerging',
+    thesis: 'AI 经济从全球南方提取数据、劳动与市场，却把收益集中在硅谷和北京。',
+    body: '非洲的人口数据、亚洲的内容标注劳动、南美的矿产资源（锂、钴）——构成了 AI 产业的原材料提取链。但 AI 的决策权、所有权、收益高度集中于少数国家和公司。这是一种新形式的殖民主义：数字时代的资源提取主义。与历史殖民主义的区别在于：这次被提取的是人类的认知劳动和文化产出，而非仅仅自然资源。',
+    tags: ['数字殖民主义', 'AI 训练数据地理分布', '全球南方劳动', '锂/钴矿产链', '认知提取主义'],
+    link: '#'
+  },
+  l5c3: {
+    meta: 'L5 全球 · 分配/制度',
+    title: '数字主权与劳动数据权',
+    status: 'open',
+    thesis: '你的工作产生的数据，训练了替代你的 AI——但你没有收到一分钱的授权费。',
+    body: '艺术家、作家、程序员、医生——所有知识工作者的历史输出，都在未经授权的情况下被用于训练 AI 模型。美国作家协会 2023 年罢工成功争取到部分 AI 版权条款，但覆盖范围极为有限。GDPR 是数据权利的法律先例，但劳动数据权需要全新的法律框架。国家层面：印度、欧盟正在讨论"数据主权"立法，但实施路径仍不清晰。',
+    tags: ['作家协会 AI 条款', 'GDPR 先例', '数字主权立法', '劳动数据权', 'Worker Data Dividend'],
+    link: '#'
+  }
+};
+
+let activeId = null;
+
+function showDetail(id) {
+  const d = data[id];
+  if (!d) return;
+
+  // Toggle: click same cell = close
+  if (activeId === id) {
+    closeDetail();
+    return;
+  }
+
+  // Clear previous active
+  document.querySelectorAll('.tc').forEach(el => el.classList.remove('active'));
+
+  // Set new active
+  const cell = document.querySelector(`[data-id="${id}"]`);
+  if (cell) cell.classList.add('active');
+  activeId = id;
+
+  // Fill panel
+  document.getElementById('dpMeta').textContent = d.meta;
+  document.getElementById('dpTitle').textContent = d.title;
+  document.getElementById('dpThesis').textContent = d.thesis;
+  document.getElementById('dpBody').textContent = d.body;
+
+  const tagsEl = document.getElementById('dpTags');
+  tagsEl.innerHTML = d.tags.map(t => `<span class="dp-tag">${t}</span>`).join('');
+
+  const linkEl = document.getElementById('dpLink');
+  linkEl.href = d.link;
+  linkEl.textContent = d.status === 'published' ? '→ 查看全景导言' : '→ 阅读完整文章';
+
+  // Apply border color based on status
+  const panel = document.getElementById('detailPanel');
+  panel.style.borderColor = {
+    hot: 'rgba(232,64,64,0.25)',
+    emerging: 'rgba(79,134,247,0.25)',
+    open: 'rgba(107,114,128,0.2)',
+    published: 'rgba(52,211,153,0.25)'
+  }[d.status] || 'rgba(255,255,255,0.1)';
+
+  panel.classList.add('open');
+
+  // Smooth scroll to panel
+  setTimeout(() => panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' }), 50);
+}
+
+function closeDetail() {
+  document.getElementById('detailPanel').classList.remove('open');
+  document.querySelectorAll('.tc').forEach(el => el.classList.remove('active'));
+  activeId = null;
+}
+</script>
+</body>
+</html>
