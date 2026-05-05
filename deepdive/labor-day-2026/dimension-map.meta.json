@@ -4,7 +4,7 @@
   "topic_dir": "labor-day-2026",
   "title": {
     "zh": "AI × 劳动：五维度选题地图",
-    "en": null
+    "en": "AI × Labor: Five-Dimension Topic Map"
   },
   "is_index": true,
   "current_version": 1,
@@ -12,9 +12,18 @@
   "last_updated": "2026-05-05",
   "freshness_priority": "warm",
   "next_check": "2026-06-05",
-  "languages": ["zh"],
+  "languages": [
+    "zh",
+    "en"
+  ],
   "primary_language": "zh",
-  "translations": {},
+  "translations": {
+    "en": {
+      "synced_at_version": 1,
+      "last_translated": "2026-05-05",
+      "method": "auto:glm-5.1"
+    }
+  },
   "version_log": [
     {
       "v": 1,
@@ -23,6 +32,13 @@
       "summary": "首次发布：5×3 维度矩阵 / 15 选题索引"
     }
   ],
-  "related": ["white-collar", "labor-day-2026"],
-  "tags": ["Index", "Dimension Map", "Topic Framework"]
+  "related": [
+    "white-collar",
+    "labor-day-2026"
+  ],
+  "tags": [
+    "Index",
+    "Dimension Map",
+    "Topic Framework"
+  ]
 }

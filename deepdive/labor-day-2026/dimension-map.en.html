@@ -1,0 +1,1021 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI × Labor: Five-Dimension Topic Map</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;400;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #0c0a07;
+      --bg2: #111009;
+      --text: #d8cbb8;
+      --text-dim: #7a6e5e;
+      --red: #e84040;
+      --red-bg: rgba(232,64,64,0.07);
+      --blue: #4f86f7;
+      --blue-bg: rgba(79,134,247,0.07);
+      --green: #34d399;
+      --green-bg: rgba(52,211,153,0.07);
+      --gray: #6b7280;
+      --gray-bg: rgba(107,114,128,0.06);
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Noto Serif SC', serif;
+      line-height: 1.75;
+      font-size: 15px;
+    }
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='0.012'%3E%3Crect x='0' y='0' width='1' height='1'/%3E%3C/g%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 0;
+    }
+    em, i { font-style: normal; }
+    a { color: inherit; text-decoration: none; }
+
+    /* TOP STRIP */
+    .top-strip {
+      background: var(--red);
+      color: #fff;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.18em;
+      text-align: center;
+      padding: 7px 0;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* HERO */
+    .hero {
+      padding: 80px 5vw 64px;
+      max-width: 1040px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+    }
+    .hero-eyebrow {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.22em;
+      color: var(--red);
+      margin-bottom: 24px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    .hero-eyebrow::after {
+      content: '';
+      display: block;
+      width: 40px;
+      height: 1px;
+      background: var(--red);
+      opacity: 0.4;
+    }
+    .hero h1 {
+      font-size: clamp(36px, 7vw, 72px);
+      font-weight: 700;
+      line-height: 1.12;
+      color: #f0e8d8;
+      margin-bottom: 20px;
+      letter-spacing: -0.01em;
+    }
+    .hero-sub {
+      font-size: 18px;
+      color: var(--text-dim);
+      margin-bottom: 52px;
+      max-width: 540px;
+      line-height: 1.6;
+    }
+    .stats-row {
+      display: flex;
+      gap: 48px;
+      flex-wrap: wrap;
+    }
+    .stat-item { border-left: 2px solid var(--red); padding-left: 14px; }
+    .stat-num {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 28px;
+      font-weight: 700;
+      color: #f0e8d8;
+      line-height: 1;
+      margin-bottom: 4px;
+    }
+    .stat-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.12em;
+      color: var(--text-dim);
+    }
+
+    /* DIVIDER */
+    .h-divider { width: 100%; height: 1px; background: rgba(255,255,255,0.06); }
+
+    /* SECTION */
+    .section {
+      max-width: 1040px;
+      margin: 0 auto;
+      padding: 64px 5vw;
+      position: relative;
+      z-index: 1;
+    }
+    .section-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.22em;
+      color: var(--text-dim);
+      margin-bottom: 36px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    .section-label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: rgba(255,255,255,0.06);
+    }
+
+    /* INTRO */
+    .intro-text p {
+      font-size: 16px;
+      line-height: 1.95;
+      color: var(--text);
+      margin-bottom: 18px;
+    }
+    .intro-text p:last-child { margin-bottom: 0; }
+    .intro-text strong { color: #f0e8d8; font-weight: 600; }
+
+    /* PULLQUOTE */
+    .pullquote {
+      border-left: 3px solid var(--red);
+      padding: 18px 24px;
+      margin: 36px 0;
+      font-size: 16px;
+      line-height: 1.85;
+      color: #c4b8a4;
+      font-weight: 500;
+    }
+    .pullquote cite {
+      display: block;
+      margin-top: 10px;
+      font-size: 11px;
+      font-family: 'JetBrains Mono', monospace;
+      color: var(--text-dim);
+      font-style: normal;
+      letter-spacing: 0.05em;
+    }
+
+    /* LEGEND */
+    .legend {
+      display: flex;
+      gap: 24px;
+      flex-wrap: wrap;
+      padding: 18px 20px;
+      background: rgba(255,255,255,0.025);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 3px;
+      margin-top: 36px;
+    }
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: var(--text-dim);
+    }
+    .legend-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 2px;
+      flex-shrink: 0;
+    }
+
+    /* TOPIC MAP GRID */
+    .map-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    .topic-grid {
+      display: grid;
+      grid-template-columns: 90px repeat(3, 1fr);
+      gap: 3px;
+      min-width: 560px;
+    }
+    .gh { /* grid header */
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.1em;
+      color: var(--text-dim);
+      padding: 12px 14px;
+      background: rgba(255,255,255,0.02);
+      border: 1px solid rgba(255,255,255,0.05);
+      text-align: center;
+    }
+    .gh.row-label { text-align: left; }
+    .grid-row-label {
+      padding: 18px 14px;
+      background: rgba(255,255,255,0.02);
+      border: 1px solid rgba(255,255,255,0.05);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    .rl-level {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--red);
+      margin-bottom: 3px;
+    }
+    .rl-name {
+      font-size: 11px;
+      color: var(--text-dim);
+      line-height: 1.3;
+    }
+
+    /* TOPIC CELL */
+    .tc {
+      padding: 16px;
+      border: 1px solid rgba(255,255,255,0.05);
+      cursor: pointer;
+      transition: all 0.18s ease;
+      position: relative;
+      min-height: 100px;
+    }
+    .tc:hover { border-color: rgba(255,255,255,0.14); }
+    .tc.active { border-color: rgba(255,255,255,0.22) !important; }
+    .tc.s-hot   { border-left: 3px solid var(--red);   background: var(--red-bg); }
+    .tc.s-emerging { border-left: 3px solid var(--blue); background: var(--blue-bg); }
+    .tc.s-open  { border-left: 3px solid var(--gray);  background: var(--gray-bg); }
+    .tc.s-published { border-left: 3px solid var(--green); background: var(--green-bg); }
+    .tc.s-hot:hover, .tc.s-hot.active       { background: rgba(232,64,64,0.13); }
+    .tc.s-emerging:hover, .tc.s-emerging.active { background: rgba(79,134,247,0.13); }
+    .tc.s-open:hover, .tc.s-open.active     { background: rgba(107,114,128,0.12); }
+    .tc.s-published:hover, .tc.s-published.active { background: rgba(52,211,153,0.13); }
+    .tc-title {
+      font-size: 13px;
+      font-weight: 600;
+      color: #f0e8d8;
+      line-height: 1.45;
+      margin-bottom: 10px;
+    }
+    .tc-badge {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 9.5px;
+      letter-spacing: 0.04em;
+    }
+    .tc-badge.b-hot { color: var(--red); }
+    .tc-badge.b-emerging { color: var(--blue); }
+    .tc-badge.b-open { color: var(--gray); }
+    .tc-badge.b-published { color: var(--green); }
+    .tc-caret {
+      position: absolute;
+      bottom: 8px;
+      right: 10px;
+      font-size: 10px;
+      color: var(--text-dim);
+      opacity: 0;
+      transition: opacity 0.15s;
+      font-family: 'JetBrains Mono', monospace;
+    }
+    .tc:hover .tc-caret { opacity: 1; }
+
+    /* DETAIL PANEL */
+    .detail-panel {
+      display: none;
+      background: var(--bg2);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 3px;
+      padding: 28px 32px;
+      margin-top: 8px;
+      animation: dpFade 0.22s ease;
+    }
+    .detail-panel.open { display: block; }
+    @keyframes dpFade {
+      from { opacity: 0; transform: translateY(-6px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .dp-top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      margin-bottom: 20px;
+      gap: 16px;
+    }
+    .dp-meta {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.12em;
+      color: var(--text-dim);
+      margin-bottom: 6px;
+    }
+    .dp-title {
+      font-size: 22px;
+      font-weight: 700;
+      color: #f0e8d8;
+    }
+    .dp-close {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: var(--text-dim);
+      cursor: pointer;
+      padding: 4px 10px;
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 2px;
+      white-space: nowrap;
+      flex-shrink: 0;
+      transition: background 0.15s;
+    }
+    .dp-close:hover { background: rgba(255,255,255,0.06); color: var(--text); }
+    .dp-thesis {
+      border-left: 3px solid var(--red);
+      padding: 14px 18px;
+      margin-bottom: 18px;
+      font-size: 15px;
+      font-weight: 500;
+      color: #c4b8a4;
+      line-height: 1.8;
+      background: rgba(255,255,255,0.02);
+    }
+    .dp-body {
+      font-size: 13.5px;
+      line-height: 1.95;
+      color: #8a7e6e;
+      margin-bottom: 18px;
+    }
+    .dp-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 20px;
+    }
+    .dp-tag {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      padding: 3px 9px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 2px;
+      color: var(--text-dim);
+    }
+    .dp-link {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: var(--red);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      letter-spacing: 0.04em;
+    }
+    .dp-link:hover { text-decoration: underline; }
+
+    /* ARTICLE CARDS (index) */
+    .article-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 10px;
+    }
+    .acard {
+      border: 1px solid rgba(255,255,255,0.06);
+      padding: 20px 22px;
+      border-radius: 3px;
+      display: flex;
+      align-items: flex-start;
+      gap: 20px;
+      transition: border-color 0.18s;
+      cursor: default;
+    }
+    .acard a.acard-link {
+      display: contents;
+    }
+    .acard:hover { border-color: rgba(255,255,255,0.13); }
+    .acard-num {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      color: var(--text-dim);
+      padding-top: 3px;
+      white-space: nowrap;
+      min-width: 36px;
+    }
+    .acard-body { flex: 1; }
+    .acard-title {
+      font-size: 15px;
+      font-weight: 600;
+      color: #f0e8d8;
+      margin-bottom: 4px;
+      line-height: 1.45;
+    }
+    .acard-desc {
+      font-size: 13px;
+      color: var(--text-dim);
+      line-height: 1.65;
+    }
+    .acard-badge {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 9.5px;
+      padding: 3px 9px;
+      border-radius: 2px;
+      white-space: nowrap;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+    .bg-pub { background: rgba(52,211,153,0.1); color: var(--green); }
+    .bg-hot { background: rgba(232,64,64,0.1); color: var(--red); }
+    .bg-em  { background: rgba(79,134,247,0.1); color: var(--blue); }
+    .bg-op  { background: rgba(107,114,128,0.1); color: var(--gray); }
+
+    /* FOOTER */
+    .footer {
+      border-top: 1px solid rgba(255,255,255,0.06);
+      padding: 40px 5vw;
+      max-width: 1040px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+    }
+    .footer-text {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      color: var(--text-dim);
+      line-height: 1.9;
+      letter-spacing: 0.04em;
+    }
+
+    @media (max-width: 580px) {
+      .stats-row { gap: 24px; }
+      .topic-grid { grid-template-columns: 70px repeat(3,1fr); }
+      .tc { padding: 12px; min-height: 80px; }
+      .tc-title { font-size: 12px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- TOP STRIP -->
+<div class="top-strip">ECONOMY SERIES &nbsp;·&nbsp; AI × Labor &nbsp;·&nbsp; 2026 &nbsp;·&nbsp; ONGOING</div>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="hero-eyebrow">INDEX</div>
+  <h1>AI × Labor<br>Five-Dimension Topic Map</h1>
+  <p class="hero-sub">A single framework indexing the twenty most important labor issues—from individual cognition to global political economy</p>
+  <div class="stats-row">
+    <div class="stat-item">
+      <div class="stat-num">5</div>
+      <div class="stat-label">Analytical Dimensions</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">15</div>
+      <div class="stat-label">Independent Topics</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">3</div>
+      <div class="stat-label">Thematic Axes</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">∞</div>
+      <div class="stat-label">Continuously Updated</div>
+    </div>
+  </div>
+</header>
+
+<div class="h-divider"></div>
+
+<!-- INTRO -->
+<section class="section">
+  <div class="section-label">§ 01 &nbsp; Why This Map Is Needed</div>
+  <div class="intro-text">
+    <p>Discussion about AI and labor is dominated by two extremes: either <strong>technological determinist</strong> panic ("AI will replace all jobs") or <strong>neoliberal optimism</strong> reassurance ("every technological revolution in history has created more employment"). Both narratives are too coarse—both skip over the truly important questions.</p>
+    <p>This map attempts something different: to slice the impact of AI on labor across five distinct analytical dimensions—individual, organization, labor market, nation, global—and identify within each the <strong>specific issues most worth deep analysis</strong>. Not a survey, but a topic framework; not answers, but a list of questions worth asking.</p>
+    <p>Each cell corresponds to an independent deep-dive article. Click any cell to see the core thesis and research direction for that issue.</p>
+  </div>
+
+  <div class="pullquote">
+    Technological progress has never automatically benefited the majority. Productivity gains end up in workers' pockets not because technology is generous—but because workers organized and secured enough political power.
+    <cite>— Daron Acemoglu, 2024 Nobel Prize in Economics Lecture</cite>
+  </div>
+
+  <div class="legend">
+    <div class="legend-item"><div class="legend-dot" style="background:var(--red)"></div>High Priority—time-sensitive, data-rich, high counter-intuitive impact</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--blue)"></div>Emerging—manifesting from 2025-26, research accumulating</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--gray)"></div>Open—framework exists, awaiting systematic research</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--green)"></div>Covered—already analyzed in depth in the panorama overview or other articles</div>
+  </div>
+</section>
+
+<div class="h-divider"></div>
+
+<!-- TOPIC MAP -->
+<section class="section">
+  <div class="section-label">§ 02 &nbsp; Topic Map / TOPIC MAP</div>
+
+  <div class="map-wrap">
+    <div class="topic-grid" id="topicGrid">
+
+      <!-- HEADER ROW -->
+      <div class="gh row-label"></div>
+      <div class="gh">Individual / Psychology</div>
+      <div class="gh">Structure / Power</div>
+      <div class="gh">Distribution / Institutions</div>
+
+      <!-- L1 -->
+      <div class="grid-row-label">
+        <div class="rl-level">L1</div>
+        <div class="rl-name">Individual</div>
+      </div>
+      <div class="tc s-hot" data-id="l1c1" onclick="showDetail('l1c1')">
+        <div class="tc-title">Cognitive Outsourcing & Skill Atrophy</div>
+        <div class="tc-badge b-hot">▲ High Priority</div>
+        <div class="tc-caret">Expand →</div>
+      </div>
+      <div class="tc s-emerging" data-id="l1c2" onclick="showDetail('l1c2')">
+        <div class="tc-title">AI Anxiety & the Productivity Paradox</div>
+        <div class="tc-badge b-emerging">◉ Emerging</div>
+        <div class="tc-caret">Expand →</div>
+      </div>
+      <div class="tc s-open" data-id="l1c3" onclick="showDetail('l1c3')">
+        <div class="tc-title">The Loss of Meaning</div>
+        <div class="tc-badge b-open">○ Open</div>
+        <div class="tc-caret">Expand →</div>
+      </div>
+
+      <!-- L2 -->
+      <div class="grid-row-label">
+        <div class="rl-level">L2</div>
+        <div class="rl-name">Organization</div>
+      </div>
+      <div class="tc s-emerging" data-id="l2c1" onclick="showDetail('l2c1')">
+        <div class="tc-title">White-Collar Deskilling</div>
+        <div class="tc-badge b-emerging">◉ Emerging</div>
+        <div class="tc-caret">Expand →</div>
+      </div>
+      <div class="tc s-hot" data-id="l2c2" onclick="showDetail('l2c2')">
+        <div class="tc-title">Algorithmic Boss</div>
+        <div class="tc-badge b-hot">▲ High Priority</div>
+        <div class="tc-caret">Expand →</div>
+      </div>
+      <div class="tc s-open" data-id="l2c3" onclick="showDetail('l2c3')">
+        <div class="tc-title">AI Compensation Restructuring</div>
+        <div class="tc-badge b-open">○ Open</div>
+        <div class="tc-caret">Expand →</div>
+      </div>
+
+      <!-- L3 -->
+      <div class="grid-row-label">
+        <div class="rl-level">L3</div>
+        <div class="rl-name">Labor<br>Market</div>
+      </div>
+      <div class="tc s-published" data-id="l3c1" onclick="showDetail('l3c1')">
+        <div class="tc-title">The Vanishing Entry-Level: White-Collar Endgame</div>
+        <div class="tc-badge b-published">✓ Published</div>
+        <div class="tc-caret">Expand →</div>
+      </div>
+      <div class="tc s-hot" data-id="l3c2" onclick="showDetail('l3c2')">
+        <div class="tc-title">The Blue-Collar Myth Shattered</div>
+        <div class="tc-badge b-hot">▲ High Priority</div>
+        <div class="tc-caret">Expand →</div>
+      </div>
+      <div class="tc s-emerging" data-id="l3c3" onclick="showDetail('l3c3')">
+        <div class="tc-title">Career Path Fracture</div>
+        <div class="tc-badge b-emerging">◉ Emerging</div>
+        <div class="tc-caret">Expand →</div>
+      </div>
+
+      <!-- L4 -->
+      <div class="grid-row-label">
+        <div class="rl-level">L4</div>
+        <div class="rl-name">Nation</div>
+      </div>
+      <div class="tc s-emerging" data-id="l4c1" onclick="showDetail('l4c1')">
+        <div class="tc-title">The False Promise of Retraining</div>
+        <div class="tc-badge b-emerging">◉ Emerging</div>
+        <div class="tc-caret">Expand →</div>
+      </div>
+      <div class="tc s-hot" data-id="l4c2" onclick="showDetail('l4c2')">
+        <div class="tc-title">Beyond UBI: Restructuring Distribution</div>
+        <div class="tc-badge b-hot">▲ High Priority</div>
+        <div class="tc-caret">Expand →</div>
+      </div>
+      <div class="tc s-open" data-id="l4c3" onclick="showDetail('l4c3')">
+        <div class="tc-title">AI Tax & Knowledge Use Tax</div>
+        <div class="tc-badge b-open">○ Open</div>
+        <div class="tc-caret">Expand →</div>
+      </div>
+
+      <!-- L5 -->
+      <div class="grid-row-label">
+        <div class="rl-level">L5</div>
+        <div class="rl-name">Global</div>
+      </div>
+      <div class="tc s-hot" data-id="l5c1" onclick="showDetail('l5c1')">
+        <div class="tc-title">Ghost Workers</div>
+        <div class="tc-badge b-hot">▲ High Priority</div>
+        <div class="tc-caret">Expand →</div>
+      </div>
+      <div class="tc s-emerging" data-id="l5c2" onclick="showDetail('l5c2')">
+        <div class="tc-title">AI Colonialism</div>
+        <div class="tc-badge b-emerging">◉ Emerging</div>
+        <div class="tc-caret">Expand →</div>
+      </div>
+      <div class="tc s-open" data-id="l5c3" onclick="showDetail('l5c3')">
+        <div class="tc-title">Digital Sovereignty & Labor Data Rights</div>
+        <div class="tc-badge b-open">○ Open</div>
+        <div class="tc-caret">Expand →</div>
+      </div>
+
+    </div><!-- /topic-grid -->
+  </div><!-- /map-wrap -->
+
+  <!-- DETAIL PANEL -->
+  <div class="detail-panel" id="detailPanel">
+    <div class="dp-top">
+      <div>
+        <div class="dp-meta" id="dpMeta"></div>
+        <div class="dp-title" id="dpTitle"></div>
+      </div>
+      <div class="dp-close" onclick="closeDetail()">Close ✕</div>
+    </div>
+    <div class="dp-thesis" id="dpThesis"></div>
+    <div class="dp-body" id="dpBody"></div>
+    <div class="dp-tags" id="dpTags"></div>
+    <a class="dp-link" id="dpLink" href="#">→ Read Full Article</a>
+  </div>
+
+</section>
+
+<div class="h-divider"></div>
+
+<!-- SERIES INDEX -->
+<section class="section">
+  <div class="section-label">§ 03 &nbsp; Article Index / ARTICLE INDEX</div>
+
+  <div style="margin-bottom:24px">
+    <div style="font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text-dim);margin-bottom:12px;letter-spacing:0.1em">— Panorama Overview</div>
+    <a class="acard-link" href="index.html">
+    <div class="acard" style="border-color:rgba(52,211,153,0.2)">
+      <div class="acard-num">00</div>
+      <div class="acard-body">
+        <div class="acard-title">The End of Labor, or the Eve of Transformation? — 2026 May Day: Labor vs AI Panorama</div>
+        <div class="acard-desc">A panorama report spanning all dimensions. 78,557 layoff data points, Klarna rehiring, RentAHuman, four propositions of effective progressivism—a complete map of AI and labor relations.</div>
+      </div>
+      <div class="acard-badge bg-pub">Published</div>
+    </div>
+    </a>
+  </div>
+
+  <div style="font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text-dim);margin-bottom:12px;letter-spacing:0.1em">— L1 Individual Dimension</div>
+  <div class="article-grid" style="margin-bottom:28px">
+    <div class="acard">
+      <div class="acard-num">L1-1</div>
+      <div class="acard-body">
+        <div class="acard-title">Cognitive Outsourcing & Skill Atrophy</div>
+        <div class="acard-desc">Outsourcing thinking to AI means voluntarily surrendering the abilities that make you unique. The GPS spatial cognition lesson is repeating at scale in the algorithmic age.</div>
+      </div>
+      <div class="acard-badge bg-hot">High Priority</div>
+    </div>
+    <div class="acard">
+      <div class="acard-num">L1-2</div>
+      <div class="acard-body">
+        <div class="acard-title">AI Anxiety & the Productivity Paradox</div>
+        <div class="acard-desc">80% of workers resist mandatory AI tools. The "AI tax"—hidden hours spent verifying, correcting, and explaining AI outputs—may consume all efficiency gains.</div>
+      </div>
+      <div class="acard-badge bg-em">Emerging</div>
+    </div>
+    <div class="acard">
+      <div class="acard-num">L1-3</div>
+      <div class="acard-body">
+        <div class="acard-title">The Loss of Meaning: When Work No Longer Requires Craft</div>
+        <div class="acard-desc">UBI can solve subsistence, but not "who am I." Bostrom's "purpose deficit" and Harari's "useless class" point to the same problem.</div>
+      </div>
+      <div class="acard-badge bg-op">Open</div>
+    </div>
+  </div>
+
+  <div style="font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text-dim);margin-bottom:12px;letter-spacing:0.1em">— L2 Organization Dimension</div>
+  <div class="article-grid" style="margin-bottom:28px">
+    <div class="acard">
+      <div class="acard-num">L2-1</div>
+      <div class="acard-body">
+        <div class="acard-title">White-Collar Deskilling</div>
+        <div class="acard-desc">The knowledge workers most dependent on AI are losing the specialized capabilities that made them irreplaceable at the fastest rate. The 1970s manufacturing story is repeating in knowledge work.</div>
+      </div>
+      <div class="acard-badge bg-em">Emerging</div>
+    </div>
+    <div class="acard">
+      <div class="acard-num">L2-2</div>
+      <div class="acard-body">
+        <div class="acard-title">Algorithmic Boss: The Expansion of Digital Taylorism</div>
+        <div class="acard-desc">When the boss becomes an algorithm, emotion, judgment, goodwill—the last human buffers in labor relations—disappear too. From warehouse workers to white-collar, surveillance is spreading indiscriminately.</div>
+      </div>
+      <div class="acard-badge bg-hot">High Priority</div>
+    </div>
+    <div class="acard">
+      <div class="acard-num">L2-3</div>
+      <div class="acard-body">
+        <div class="acard-title">AI Compensation Restructuring: Who Decides What Your Work Is Worth</div>
+        <div class="acard-desc">AI makes skill pricing more transparent—for workers, this is bad news. Algorithmic compensation systems are penetrating from the gig economy into corporate internals.</div>
+      </div>
+      <div class="acard-badge bg-op">Open</div>
+    </div>
+  </div>
+
+  <div style="font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text-dim);margin-bottom:12px;letter-spacing:0.1em">— L3 Labor Market Dimension</div>
+  <div class="article-grid" style="margin-bottom:28px">
+    <a class="acard-link" href="white-collar.html">
+    <div class="acard" style="border-color:rgba(52,211,153,0.4)">
+      <div class="acard-num">L3-1</div>
+      <div class="acard-body">
+        <div class="acard-title">The Vanishing Entry-Level: White-Collar Endgame</div>
+        <div class="acard-desc">Amodei's "1-5 year disappearance" warning + five cross-industry empirical cases + Jensen Huang's "God complex" rebuttal + Yale macro counter-evidence + Amazon 16,000 empirical case + Klarna reversal. The frontline of the debate has shifted from "will it happen" to "at which layer, measured at what granularity."</div>
+      </div>
+      <div class="acard-badge bg-pub">Published v2</div>
+    </div>
+    </a>
+    <div class="acard">
+      <div class="acard-num">L3-2</div>
+      <div class="acard-body">
+        <div class="acard-title">The Blue-Collar Myth Shattered</div>
+        <div class="acard-desc">"Blue-collar jobs are safe"—this narrative is collapsing in 2026. Aurora Trucking is already in commercial operation, yet blue-collar workers have almost no preparation.</div>
+      </div>
+      <div class="acard-badge bg-hot">High Priority</div>
+    </div>
+    <div class="acard">
+      <div class="acard-num">L3-3</div>
+      <div class="acard-body">
+        <div class="acard-title">Career Path Fracture: After the 20-Year Ladder Disappears</div>
+        <div class="acard-desc">No entry-level means no apprenticeship, no apprenticeship means no next generation of seniors. This is a time-delay bomb—the damage won't be visible for five years.</div>
+      </div>
+      <div class="acard-badge bg-em">Emerging</div>
+    </div>
+  </div>
+
+  <div style="font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text-dim);margin-bottom:12px;letter-spacing:0.1em">— L4 Nation Dimension</div>
+  <div class="article-grid" style="margin-bottom:28px">
+    <div class="acard">
+      <div class="acard-num">L4-1</div>
+      <div class="acard-body">
+        <div class="acard-title">The False Promise of Retraining</div>
+        <div class="acard-desc">Government retraining programs run on human time, but AI disruption arrives on machine time. Historical data shows U.S. retraining programs achieve actual employment rates no higher than 40%.</div>
+      </div>
+      <div class="acard-badge bg-em">Emerging</div>
+    </div>
+    <div class="acard">
+      <div class="acard-num">L4-2</div>
+      <div class="acard-body">
+        <div class="acard-title">Beyond UBI: Reimagining Distribution</div>
+        <div class="acard-desc">UBI is a band-aid that treats symptoms, not root causes. The real question is the ownership structure of AI gains. The Alaska model, employee stock ownership, data dividend—which is the way out?</div>
+      </div>
+      <div class="acard-badge bg-hot">High Priority</div>
+    </div>
+    <div class="acard">
+      <div class="acard-num">L4-3</div>
+      <div class="acard-body">
+        <div class="acard-title">AI Tax & Knowledge Use Tax</div>
+        <div class="acard-desc">AI systems trained on human wisdom should pay rent for this "wisdom extraction." Current tax systems systematically incentivize replacement over augmentation.</div>
+      </div>
+      <div class="acard-badge bg-op">Open</div>
+    </div>
+  </div>
+
+  <div style="font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text-dim);margin-bottom:12px;letter-spacing:0.1em">— L5 Global Dimension</div>
+  <div class="article-grid">
+    <div class="acard">
+      <div class="acard-num">L5-1</div>
+      <div class="acard-body">
+        <div class="acard-title">Ghost Workers: The Humans Behind AI</div>
+        <div class="acard-desc">You think AI is doing the work—behind it is a Kenyan worker earning two dollars an hour. AI is not the story of replacing humans, but of creating new forms of invisible labor.</div>
+      </div>
+      <div class="acard-badge bg-hot">High Priority</div>
+    </div>
+    <div class="acard">
+      <div class="acard-num">L5-2</div>
+      <div class="acard-body">
+        <div class="acard-title">AI Colonialism: Whose Data, Whose Model, Whose Future</div>
+        <div class="acard-desc">The AI economy extracts data and labor from the Global South while concentrating returns in Silicon Valley and Beijing. This is resource extractionism for the digital age.</div>
+      </div>
+      <div class="acard-badge bg-em">Emerging</div>
+    </div>
+    <div class="acard">
+      <div class="acard-num">L5-3</div>
+      <div class="acard-body">
+        <div class="acard-title">Digital Sovereignty & Labor Data Rights</div>
+        <div class="acard-desc">Your work data trained the AI that replaces you, yet you haven't received a cent in licensing fees. Whoever controls training data controls the future of AI.</div>
+      </div>
+      <div class="acard-badge bg-op">Open</div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<div class="h-divider"></div>
+<footer class="footer">
+  <div class="footer-text">
+    AI × Labor Series &nbsp;·&nbsp; ECONOMY DEEPDIVE &nbsp;·&nbsp; 2026<br>
+    Data sources: Layoffs.fyi / Brynjolfsson Lab / Acemoglu &amp; Johnson (2023) / TIME Magazine / RentAHuman.ai<br>
+    This map is continuously updated. Each cell represents an independent deep-dive research article.
+  </div>
+</footer>
+
+<script>
+const data = {
+  l1c1: {
+    meta: 'L1 Individual · Individual/Psychology',
+    title: 'Cognitive Outsourcing & Skill Atrophy',
+    status: 'hot',
+    thesis: 'Outsourcing thinking to AI is like outsourcing muscle to machines—over time, we can no longer perform that work independently.',
+    body: 'From GPS-induced spatial cognition decline to AI-assistant-induced argumentation decline, cognitive science offers extensive evidence for the "use it or lose it" principle. Multiple 2025-2026 studies from Stanford and MIT show: engineers who consistently use AI coding assistants exhibit significant declines in unassisted debugging ability; AI-assisted writers\' independent argumentation scores dropped an average of 22% within six months. The greatest risk of AI is not replacing us—but making us voluntarily surrender the thinking abilities that make us unique.',
+    tags: ['Cognitive science', 'Use-it-or-lose-it', 'Copilot studies', 'GPS spatial cognition experiments', 'Writing ability decline'],
+    link: '#'
+  },
+  l1c2: {
+    meta: 'L1 Individual · Structure/Power',
+    title: 'AI Anxiety & the Productivity Paradox',
+    status: 'emerging',
+    thesis: 'Workers forced to use AI tools actually produce less than those who don\'t—the hidden hours of the "AI tax" wipe out efficiency gains.',
+    body: '80% of white-collar workers resist employer-mandated AI tools, and 29% actively sabotage corporate AI strategies. The "AI tax" refers to hidden hours spent verifying, correcting, and explaining AI outputs. This phenomenon is especially pronounced among Gen Z (44% active resistance rate). This anxiety and resistance is becoming a systematically underestimated organizational cost—one that most productivity studies overlook.',
+    tags: ['AI tax', 'Mandatory vs voluntary adoption', 'Gen Z resistance', 'Hidden labor hours', 'Quiet quitting 2.0'],
+    link: '#'
+  },
+  l1c3: {
+    meta: 'L1 Individual · Distribution/Institutions',
+    title: 'The Loss of Meaning',
+    status: 'open',
+    thesis: 'When work no longer requires craft, judgment, and creativity, humans lose not just income—but identity and existential meaning.',
+    body: 'Bostrom\'s "meaning deficit" and Harari\'s "useless class" point to the same problem: economic security does not equal a sense of meaning. UBI can solve subsistence, but not "who am I." Psychological research shows that meaning in work comes from three sources: mastery, autonomy, and relatedness—AI has a systematic erosive effect on all three.',
+    tags: ['Bostrom meaning deficit', 'Harari useless class', 'Self-determination theory', 'UBI & subjective well-being', 'Labor identity'],
+    link: '#'
+  },
+  l2c1: {
+    meta: 'L2 Organization · Individual/Psychology',
+    title: 'White-Collar Deskilling',
+    status: 'emerging',
+    thesis: 'The knowledge workers most dependent on AI are losing the specialized capabilities that made them irreplaceable at the fastest rate.',
+    body: 'Lawyers relying on AI drafting lose argumentation intuition; analysts relying on AI modeling lose numeracy; designers relying on AI generation lose visual judgment. This is not a crisis prediction but an observable deskilling process—the lesson of 1970s-80s manufacturing automation is repeating in knowledge work at an even faster pace. Once skills are lost, the cost of rebuilding far exceeds the cost of maintaining them.',
+    tags: ['Deskilling', 'Knowledge work', 'Lawyer/analyst/designer cases', 'Manufacturing historical precedent', 'Tacit knowledge loss'],
+    link: '#'
+  },
+  l2c2: {
+    meta: 'L2 Organization · Structure/Power',
+    title: 'Algorithmic Boss',
+    status: 'hot',
+    thesis: 'When the boss becomes an algorithm, the last human buffers in labor relations—emotion, judgment, goodwill—disappear too.',
+    body: 'Amazon warehouse attendance algorithms, Uber dynamic pricing algorithms, Microsoft Viva Insights productivity scores—digital Taylorism is spreading comprehensively from blue-collar to white-collar. The fundamental problem with algorithmic management is not whether it\'s efficient, but that it constructs a power structure that cannot be appealed, negotiated, or held accountable. In 2026, this management model is estimated to cover 700 million workers globally.',
+    tags: ['Digital Taylorism', 'Amazon algorithmic management', 'Microsoft Viva Insights', 'Uber/Lyft driver surveys', 'Unaccountable power'],
+    link: '#'
+  },
+  l2c3: {
+    meta: 'L2 Organization · Distribution/Institutions',
+    title: 'AI Compensation Restructuring',
+    status: 'open',
+    thesis: 'AI makes skill pricing more transparent—for workers, this is bad news.',
+    body: 'When AI can precisely quantify the market value of a skill, labor bargaining power declines accordingly. Algorithmic compensation systems are already deployed at scale in the gig economy and are penetrating corporate compensation decisions. "Transparency" is capital\'s weapon: when employers know the minimum price you\'ll accept, there\'s no room for negotiation. This forms a peculiar inversion from the era of wage opacity.',
+    tags: ['Algorithmic compensation', 'Gig economy pricing', 'Transparency double edge', 'Labor bargaining power', 'Skill pricing precision'],
+    link: '#'
+  },
+  l3c1: {
+    meta: 'L3 Labor Market · Individual/Psychology',
+    title: 'The Vanishing Entry-Level: White-Collar Endgame',
+    status: 'published',
+    thesis: 'The disappearance of entry-level white-collar jobs is no longer a prediction—CEOs have publicly acknowledged it, but rebuttals arrived the same week, shifting the debate from "will it happen" to "at which layer."',
+    body: 'Amodei\'s 1-5 year warning (2026-03) + Bank of America 11,000 positions, Sakana AI Scientist published in Nature, Zuckerberg\'s CEO Agent, Nvidia GPU Agent surpassing humans in 7 days—five independent lines of evidence converging in the same week. Brynjolfsson\'s 2025-11 revised edition: 22-25 age group in high-AI-exposure positions at -16% employment (revised up from -13%). But rebuttals arrived simultaneously: Jensen Huang\'s "God complex" accusation, Yale Budget Lab\'s "not observed at macro level," Deutsche Bank\'s "AI redundancy washing," Klarna rehiring 700 people. Amazon\'s 16,000 corporate layoffs (2026-01) became the strongest single-point empirical evidence supporting Amodei. The real frontline of the debate is a methodological dispute: macro aggregation vs. micro stratification.',
+    tags: ['Amodei 1-5 year warning', 'Brynjolfsson Canaries -16%', 'Huang God complex rebuttal', 'Yale Budget Lab counter-evidence', 'Deutsche Bank AI washing', 'Amazon 16K empirical case', 'Klarna reversal'],
+    link: 'white-collar.html'
+  },
+  l3c2: {
+    meta: 'L3 Labor Market · Structure/Power',
+    title: 'The Blue-Collar Myth Shattered',
+    status: 'hot',
+    thesis: '"Blue-collar jobs are safe"—this narrative is collapsing in 2026, yet blue-collar workers have almost no preparation.',
+    body: 'Aurora Trucking began commercial operations on the Dallas-Houston route in 2026 Q1; robotic chefs (Miso Robotics) have been deployed in over 200 chain restaurants; AI-assisted surgical systems are expanding their range of indications. The冲击 blue-collar workers face differs from white-collar: skill transfer is harder, retraining resources are scarcer, union protections are eroding, and social safety nets are thinner. This disruption will be faster and more brutal than the white-collar one, yet it has barely appeared in mainstream AI discussions.',
+    tags: ['Aurora Trucking commercial ops', 'Miso Robotics', 'Truck driver demographics', 'Construction/manufacturing/food automation', 'Blue-collar safety net'],
+    link: '#'
+  },
+  l3c3: {
+    meta: 'L3 Labor Market · Distribution/Institutions',
+    title: 'Career Path Fracture',
+    status: 'emerging',
+    thesis: 'After the 20-year career ladder disappears, the concept of "experience accumulation" itself needs to be redefined.',
+    body: 'The traditional career path from entry-level to senior relies on incremental skill accumulation and tacit knowledge transfer. When AI eliminates junior positions, without an "apprenticeship," where does the next generation of seniors come from? This is a time-delay effect: companies don\'t feel it now, but in five years it will be an industry-wide professional capability crisis. Historical precedent: after U.S. manufacturing automation in the 1980s, a generation of workers\' traditional craft was lost—the AI-era discontinuity will occur in knowledge work.',
+    tags: ['Career pipeline fracture', 'Tacit knowledge transfer', 'Apprenticeship crisis', 'Time-delay effect', 'Industry capability discontinuity'],
+    link: '#'
+  },
+  l4c1: {
+    meta: 'L4 Nation · Individual/Psychology',
+    title: 'The False Promise of Retraining',
+    status: 'emerging',
+    thesis: 'Government retraining programs run on human time, but AI disruption arrives on machine time—the two can never sync.',
+    body: 'Historical data: U.S. JTPA program participants\' actual employment rate is approximately 40%, and Trade Adjustment Assistance (TAA) results are similarly limited. Retraining failure is not an execution problem but a premise error—assuming that displaced skills and replacement demand are both stable and predictable. In the AI era, skills are displaced at monthly/quarterly speed, far faster than human relearning speed (yearly). The preconditions for "retraining success stories" like Finland and Singapore don\'t exist in most countries.',
+    tags: ['JTPA program data', 'TAA trade assistance', 'Finland/Singapore models', 'Time-scale mismatch', 'Skill displacement speed'],
+    link: '#'
+  },
+  l4c2: {
+    meta: 'L4 Nation · Structure/Power',
+    title: 'Beyond UBI: Restructuring Distribution',
+    status: 'hot',
+    thesis: 'UBI is a band-aid that treats symptoms, not root causes—the real question is the ownership structure of AI gains, not the scale of redistribution.',
+    body: 'UBI assumes the problem is insufficient income, but overlooks the root: whoever owns the capital that produces AI owns economic power. The Alaska Permanent Fund proves an alternative model: ownership of resources (oil/AI compute) can be distributed. Employee stock ownership (ESOP), sovereign AI funds, and Worker Data Dividend proposals come closer to a genuine structural solution than UBI. Acemoglu\'s core position: it\'s not "give more money," but "reshape who owns what."',
+    tags: ['Alaska Permanent Fund', 'Worker Data Dividend', 'ESOP employee stock ownership', 'Acemoglu ownership thesis', 'Limits of UBI'],
+    link: '#'
+  },
+  l4c3: {
+    meta: 'L4 Nation · Distribution/Institutions',
+    title: 'AI Tax & Knowledge Use Tax',
+    status: 'open',
+    thesis: 'AI systems trained on human wisdom should pay rent for this "wisdom extraction."',
+    body: 'Current tax systems systematically incentivize replacing workers with machines: hiring workers requires payroll taxes, while purchasing AI equipment allows rapid depreciation. Robot tax (proposed by Bill Gates in 2017), Knowledge Use Tax, and AI dividend frameworks are concrete means to correct this structural distortion. South Korea took the lead in 2017 by restricting robot depreciation rates, but there is no systematic AI tax legislation globally yet.',
+    tags: ['Robot tax', 'Knowledge Use Tax', 'Payroll tax vs capital depreciation', 'South Korea robot tax precedent', 'AI dividend distribution'],
+    link: '#'
+  },
+  l5c1: {
+    meta: 'L5 Global · Individual/Psychology',
+    title: 'Ghost Workers',
+    status: 'hot',
+    thesis: 'You think AI is doing the work—behind it is actually a Kenyan worker earning two dollars an hour.',
+    body: 'TIME Magazine\'s 2023 investigation revealed: OpenAI hired workers in Kenya for content moderation at less than $2/hour, requiring sustained exposure to extremely harmful content. This is not an isolated case: behind ChatGPT, Midjourney, and autonomous driving lies massive invisible human labor—content moderation, data labeling, RLHF alignment training. RentAHuman.ai (2026) is the latest form of this trend: AI agents directly issue task commissions, with humans becoming the "biological execution layer." AI is not replacing humans, but creating new forms of invisible, low-paid, high-risk labor.',
+    tags: ['TIME Magazine OpenAI investigation', 'Mechanical Turk', 'Data labeling industry', 'RLHF human feedback labor', 'RentAHuman model'],
+    link: '#'
+  },
+  l5c2: {
+    meta: 'L5 Global · Structure/Power',
+    title: 'AI Colonialism',
+    status: 'emerging',
+    thesis: 'The AI economy extracts data, labor, and markets from the Global South, while concentrating returns in Silicon Valley and Beijing.',
+    body: 'Africa\'s population data, Asia\'s content annotation labor, South America\'s mineral resources (lithium, cobalt)—these constitute the raw material extraction chain of the AI industry. But AI decision-making power, ownership, and returns are highly concentrated in a few countries and companies. This is a new form of colonialism: resource extractionism for the digital age. The difference from historical colonialism is that this time what is extracted is human cognitive labor and cultural output, not merely natural resources.',
+    tags: ['Digital colonialism', 'AI training data geography', 'Global South labor', 'Lithium/cobalt mineral chain', 'Cognitive extractionism'],
+    link: '#'
+  },
+  l5c3: {
+    meta: 'L5 Global · Distribution/Institutions',
+    title: 'Digital Sovereignty & Labor Data Rights',
+    status: 'open',
+    thesis: 'The data generated by your work trained the AI that replaces you—yet you haven\'t received a cent in licensing fees.',
+    body: 'Artists, writers, programmers, doctors—the historical output of all knowledge workers has been used to train AI models without authorization. The Writers Guild of America\'s 2023 strike successfully secured partial AI copyright provisions, but coverage remains extremely limited. GDPR is a legal precedent for data rights, but labor data rights require an entirely new legal framework. At the national level: India and the EU are discussing "digital sovereignty" legislation, but implementation paths remain unclear.',
+    tags: ['Writers Guild AI provisions', 'GDPR precedent', 'Digital sovereignty legislation', 'Labor data rights', 'Worker Data Dividend'],
+    link: '#'
+  }
+};
+
+let activeId = null;
+
+function showDetail(id) {
+  const d = data[id];
+  if (!d) return;
+
+  // Toggle: click same cell = close
+  if (activeId === id) {
+    closeDetail();
+    return;
+  }
+
+  // Clear previous active
+  document.querySelectorAll('.tc').forEach(el => el.classList.remove('active'));
+
+  // Set new active
+  const cell = document.querySelector(`[data-id="${id}"]`);
+  if (cell) cell.classList.add('active');
+  activeId = id;
+
+  // Fill panel
+  document.getElementById('dpMeta').textContent = d.meta;
+  document.getElementById('dpTitle').textContent = d.title;
+  document.getElementById('dpThesis').textContent = d.thesis;
+  document.getElementById('dpBody').textContent = d.body;
+
+  const tagsEl = document.getElementById('dpTags');
+  tagsEl.innerHTML = d.tags.map(t => `<span class="dp-tag">${t}</span>`).join('');
+
+  const linkEl = document.getElementById('dpLink');
+  linkEl.href = d.link;
+  linkEl.textContent = d.status === 'published' ? '→ View Panorama Overview' : '→ Read Full Article';
+
+  // Apply border color based on status
+  const panel = document.getElementById('detailPanel');
+  panel.style.borderColor = {
+    hot: 'rgba(232,64,64,0.25)',
+    emerging: 'rgba(79,134,247,0.25)',
+    open: 'rgba(107,114,128,0.2)',
+    published: 'rgba(52,211,153,0.25)'
+  }[d.status] || 'rgba(255,255,255,0.1)';
+
+  panel.classList.add('open');
+
+  // Smooth scroll to panel
+  setTimeout(() => panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' }), 50);
+}
+
+function closeDetail() {
+  document.getElementById('detailPanel').classList.remove('open');
+  document.querySelectorAll('.tc').forEach(el => el.classList.remove('active'));
+  activeId = null;
+}
+</script>
+</body>
+</html>
