@@ -99,8 +99,8 @@ body::after { content:''; position:fixed; inset:0; background-image:url("data:im
     </div>
     <div class="bg-bg p-5 lg:p-7">
       <div class="text-[9px] lg:text-[10px] tracking-[0.16em] uppercase text-fg-mute mb-3">关键差异维度</div>
-      <div class="font-serif text-[30px] lg:text-[44px] font-normal text-fg leading-none mb-2">5<span class="text-lg lg:text-xl text-fg-mute"> 项</span></div>
-      <div class="text-[10px] lg:text-[11px] text-fg-dim">采购链 / 合规信号 / 数据主权 / 渠道 / 竞争格局</div>
+      <div class="font-serif text-[30px] lg:text-[44px] font-normal text-fg leading-none mb-2">7<span class="text-lg lg:text-xl text-fg-mute"> 项</span></div>
+      <div class="text-[10px] lg:text-[11px] text-fg-dim">采购链 / 合规信号 / 数据主权 / 渠道 / 竞争格局 / SaaS生态 / ERP障碍</div>
     </div>
     <div class="bg-bg p-5 lg:p-7">
       <div class="text-[9px] lg:text-[10px] tracking-[0.16em] uppercase text-fg-mute mb-3">数据主权窗口期（估算）</div>
@@ -327,6 +327,219 @@ body::after { content:''; position:fixed; inset:0; background-image:url("data:im
         </div>
       </div>
     </div>
+  </div>
+</section>
+
+<!-- § DATA / 佐证图表 -->
+<section class="max-w-wrap mx-auto px-[5vw] lg:px-12 relative z-[2] py-14 lg:py-28 border-b border-line">
+  <header class="grid grid-cols-1 lg:grid-cols-[120px_1fr] gap-4 lg:gap-12 items-baseline mb-10 lg:mb-[72px]">
+    <div class="cursor font-mono text-[10px] lg:text-[11px] tracking-[0.2em] text-amber pt-3 border-t border-amber uppercase">DATA / 佐证</div>
+    <h2 class="font-serif font-light text-[clamp(24px,7vw,68px)] leading-[1.05] tracking-tight">四组数据<br/><em class="text-amber">支撑论点</em></h2>
+  </header>
+
+  <div class="lg:ml-[168px] max-w-content space-y-10">
+
+    <!-- Chart 1: SaaS Penetration -->
+    <div class="border border-line overflow-hidden">
+      <div class="bg-bg-2 px-5 py-3 font-mono text-[10px] tracking-[0.15em] uppercase text-amber border-b border-line flex flex-wrap justify-between gap-2 items-center">
+        <span>数据 01 / 企业 SaaS 渗透率：中美对比</span>
+        <span class="text-fg-mute text-[9px] normal-case tracking-normal">来源：IDC · 易观分析 · Gartner — 2023 年估算</span>
+      </div>
+      <div class="p-5 lg:p-7">
+        <div class="space-y-5 max-w-[600px]">
+          <!-- US Bar -->
+          <div>
+            <div class="flex justify-between items-baseline mb-2">
+              <span class="font-mono text-[10px] text-fg-mute uppercase tracking-[0.1em]">🇺🇸 美国</span>
+              <span class="font-mono text-[11px] text-mint font-medium">~40%</span>
+            </div>
+            <div class="h-8 bg-line rounded-[2px] relative overflow-hidden">
+              <div class="h-full rounded-[2px]" style="width:40%;background:#7fb88b;"></div>
+            </div>
+            <p class="text-[11px] text-fg-mute font-light mt-1.5">云原生为默认部署，SaaS 订阅覆盖中小到大型企业，Anthropic Agent 可直接 API 交付</p>
+          </div>
+          <!-- China Bar -->
+          <div>
+            <div class="flex justify-between items-baseline mb-2">
+              <span class="font-mono text-[10px] text-fg-mute uppercase tracking-[0.1em]">🇨🇳 中国</span>
+              <span class="font-mono text-[11px] text-amber font-medium">10–15%</span>
+            </div>
+            <div class="h-8 bg-line rounded-[2px] relative overflow-hidden">
+              <div class="h-full rounded-[2px]" style="width:12%;background:#f5a524;"></div>
+            </div>
+            <p class="text-[11px] text-fg-mute font-light mt-1.5">预算集中在央企 / 国企 / 头部民企；大型企业采购须同时提供私有化部署选项</p>
+          </div>
+        </div>
+        <!-- Gap annotation -->
+        <div class="mt-6 bg-amber/[0.06] border-l-2 border-amber pl-4 py-3 text-[12px] text-fg font-light max-w-[600px]">
+          渗透率差距 3–4 倍 → 中国版 Agent 的销售周期与交付成本远高于美国；云 SaaS 定价逻辑无法直接复制
+        </div>
+      </div>
+    </div>
+
+    <!-- Chart 2: ERP Revenue -->
+    <div class="border border-line overflow-hidden">
+      <div class="bg-bg-2 px-5 py-3 font-mono text-[10px] tracking-[0.15em] uppercase text-amber border-b border-line flex flex-wrap justify-between gap-2 items-center">
+        <span>数据 02 / 主要 ERP / 行业软件厂商营收（2023 年报）</span>
+        <span class="text-fg-mute text-[9px] normal-case tracking-normal">来源：各公司 2023 年度报告（A股 / 港股）</span>
+      </div>
+      <div class="p-5 lg:p-7">
+        <svg viewBox="0 0 480 210" xmlns="http://www.w3.org/2000/svg" class="w-full max-w-[560px]" aria-label="ERP厂商2023年营收对比">
+          <!-- Grid lines -->
+          <line x1="50" y1="15"  x2="50" y2="170" stroke="#2b2823" stroke-width="1"/>
+          <line x1="50" y1="170" x2="450" y2="170" stroke="#2b2823" stroke-width="1"/>
+          <!-- Horizontal grid -->
+          <line x1="50" y1="170" x2="450" y2="170" stroke="#2b2823" stroke-width="1" stroke-dasharray="4,4"/>
+          <line x1="50" y1="130" x2="450" y2="130" stroke="#2b2823" stroke-width="1" stroke-dasharray="4,4"/>
+          <line x1="50" y1="90"  x2="450" y2="90"  stroke="#2b2823" stroke-width="1" stroke-dasharray="4,4"/>
+          <line x1="50" y1="50"  x2="450" y2="50"  stroke="#2b2823" stroke-width="1" stroke-dasharray="4,4"/>
+          <!-- Y-axis labels -->
+          <text x="44" y="173" text-anchor="end" fill="#5a544b" font-family="'JetBrains Mono',monospace" font-size="9">0</text>
+          <text x="44" y="133" text-anchor="end" fill="#5a544b" font-family="'JetBrains Mono',monospace" font-size="9">20</text>
+          <text x="44" y="93"  text-anchor="end" fill="#5a544b" font-family="'JetBrains Mono',monospace" font-size="9">40</text>
+          <text x="44" y="53"  text-anchor="end" fill="#5a544b" font-family="'JetBrains Mono',monospace" font-size="9">60</text>
+          <text x="44" y="25"  text-anchor="end" fill="#5a544b" font-family="'JetBrains Mono',monospace" font-size="9">80亿</text>
+          <!-- Bar: 用友网络 ~77亿 → height (77/80)*155 = 149.2, top = 170-149 = 21 -->
+          <rect x="90"  y="21"  width="70" height="149" rx="1" fill="#f5a524"/>
+          <text x="125" y="16"  text-anchor="middle" fill="#f5a524" font-family="'JetBrains Mono',monospace" font-size="10" font-weight="500">77亿</text>
+          <text x="125" y="185" text-anchor="middle" fill="#9a948a" font-family="'JetBrains Mono',monospace" font-size="9">用友网络</text>
+          <!-- Bar: 广联达 ~56亿 → height (56/80)*155 = 108.5, top = 170-109 = 61 -->
+          <rect x="200" y="61"  width="70" height="109" rx="1" fill="#f5a524" opacity="0.6"/>
+          <text x="235" y="56"  text-anchor="middle" fill="#9a948a" font-family="'JetBrains Mono',monospace" font-size="10">56亿</text>
+          <text x="235" y="185" text-anchor="middle" fill="#9a948a" font-family="'JetBrains Mono',monospace" font-size="9">广联达</text>
+          <!-- Bar: 金蝶国际 ~48亿(折RMB) → height (48/80)*155 = 93, top = 170-93 = 77 -->
+          <rect x="310" y="77"  width="70" height="93"  rx="1" fill="#f5a524" opacity="0.4"/>
+          <text x="345" y="72"  text-anchor="middle" fill="#9a948a" font-family="'JetBrains Mono',monospace" font-size="10">~48亿</text>
+          <text x="345" y="185" text-anchor="middle" fill="#9a948a" font-family="'JetBrains Mono',monospace" font-size="9">金蝶国际</text>
+          <!-- Source footnote: 金蝶港币折算 -->
+          <text x="50" y="205" fill="#3d3830" font-family="'JetBrains Mono',monospace" font-size="8">金蝶国际为港股营收按约 0.93 折算人民币估算；单位：人民币亿元</text>
+        </svg>
+        <div class="mt-4 bg-bg-2 border border-line p-4 text-[12px] text-fg-dim font-light max-w-[560px]">
+          <strong class="text-fg font-normal">关键含义：</strong>三家公司合计营收超 180 亿元，覆盖企业客户逾 700 万家，且均已内置或规划 AI 能力层（YonGPT / 金蝶 AI / Glodon AI）。大模型企业面对的是<strong class="text-amber font-normal">已拥有数据 + 客户 + 工作流的竞争者</strong>，不是空白市场。
+        </div>
+      </div>
+    </div>
+
+    <!-- Chart 3: Deployment Preference -->
+    <div class="border border-line overflow-hidden">
+      <div class="bg-bg-2 px-5 py-3 font-mono text-[10px] tracking-[0.15em] uppercase text-amber border-b border-line flex flex-wrap justify-between gap-2 items-center">
+        <span>数据 03 / 大型企业 AI 应用部署偏好（中国）</span>
+        <span class="text-fg-mute text-[9px] normal-case tracking-normal">来源：CCID 智库 · IDC 中国企业 AI 调研 · 2023–2024 综合估算</span>
+      </div>
+      <div class="p-5 lg:p-7">
+        <!-- Stacked horizontal bar -->
+        <div class="max-w-[600px]">
+          <!-- Legend -->
+          <div class="flex flex-wrap gap-5 mb-5 font-mono text-[10px] text-fg-mute">
+            <div class="flex items-center gap-1.5"><span class="inline-block w-3 h-3 rounded-[1px]" style="background:#f5a524"></span>私有化部署</div>
+            <div class="flex items-center gap-1.5"><span class="inline-block w-3 h-3 rounded-[1px]" style="background:#7fb88b"></span>混合部署</div>
+            <div class="flex items-center gap-1.5"><span class="inline-block w-3 h-3 rounded-[1px]" style="background:#443f37"></span>公有云</div>
+          </div>
+          <!-- Full bar -->
+          <div class="flex h-10 rounded-[2px] overflow-hidden w-full">
+            <div class="h-full flex items-center justify-center font-mono text-[10px] text-bg font-medium" style="width:64%;background:#f5a524;">64%</div>
+            <div class="h-full flex items-center justify-center font-mono text-[10px] text-bg" style="width:18%;background:#7fb88b;">18%</div>
+            <div class="h-full flex items-center justify-center font-mono text-[10px] text-fg-mute" style="width:18%;background:#443f37;">18%</div>
+          </div>
+          <!-- Sub-labels -->
+          <div class="flex text-[10px] text-fg-mute font-mono mt-1.5">
+            <div style="width:64%">64% 私有化</div>
+            <div style="width:18%">18% 混合</div>
+            <div style="width:18%;text-align:right">18% 云</div>
+          </div>
+        </div>
+
+        <div class="mt-6 grid grid-cols-1 lg:grid-cols-3 gap-3 max-w-[600px]">
+          <div class="bg-amber/[0.07] border border-amber/30 p-3">
+            <div class="font-mono text-[9px] text-amber uppercase tracking-[0.12em] mb-1">私有化部署 · 64%</div>
+            <p class="text-[11px] text-fg-dim font-light leading-relaxed">央企 / 国有银行 / 关键基础设施的硬性要求；数据不离开自有数据中心</p>
+          </div>
+          <div class="bg-bg-2 border border-line p-3">
+            <div class="font-mono text-[9px] text-mint uppercase tracking-[0.12em] mb-1">混合部署 · 18%</div>
+            <p class="text-[11px] text-fg-dim font-light leading-relaxed">非核心应用走公有云，涉密流程走私有云；灵活但集成成本高</p>
+          </div>
+          <div class="bg-bg-2 border border-line p-3">
+            <div class="font-mono text-[9px] text-fg-mute uppercase tracking-[0.12em] mb-1">公有云 · 18%</div>
+            <p class="text-[11px] text-fg-dim font-light leading-relaxed">以中型民营企业为主，非核心业务场景；对应 Anthropic 的主要目标市场</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Chart 4: China AI Market Projection -->
+    <div class="border border-line overflow-hidden">
+      <div class="bg-bg-2 px-5 py-3 font-mono text-[10px] tracking-[0.15em] uppercase text-amber border-b border-line flex flex-wrap justify-between gap-2 items-center">
+        <span>数据 04 / 中国企业级 AI 软件 &amp; 服务市场规模预测</span>
+        <span class="text-fg-mute text-[9px] normal-case tracking-normal">来源：IDC · 华泰证券研究所 · 国泰君安研究 — 2024 预测综合</span>
+      </div>
+      <div class="p-5 lg:p-7">
+        <svg viewBox="0 0 560 220" xmlns="http://www.w3.org/2000/svg" class="w-full max-w-[640px]" aria-label="中国企业AI市场规模预测">
+          <defs>
+            <linearGradient id="areaGrad" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%"   stop-color="#f5a524" stop-opacity="0.25"/>
+              <stop offset="100%" stop-color="#f5a524" stop-opacity="0.02"/>
+            </linearGradient>
+          </defs>
+          <!-- Y-axis -->
+          <line x1="60" y1="15" x2="60" y2="170" stroke="#2b2823" stroke-width="1"/>
+          <!-- X-axis -->
+          <line x1="60" y1="170" x2="540" y2="170" stroke="#2b2823" stroke-width="1"/>
+          <!-- Grid horizontals (at 2000, 4000, 6000 of 7400 scale) -->
+          <!-- 2000: y=170-(2000/7400)*155=170-41.9=128 -->
+          <line x1="60" y1="128" x2="540" y2="128" stroke="#2b2823" stroke-width="1" stroke-dasharray="4,4"/>
+          <!-- 4000: y=170-(4000/7400)*155=170-83.8=86 -->
+          <line x1="60" y1="86"  x2="540" y2="86"  stroke="#2b2823" stroke-width="1" stroke-dasharray="4,4"/>
+          <!-- 6000: y=170-(6000/7400)*155=170-125.7=44 -->
+          <line x1="60" y1="44"  x2="540" y2="44"  stroke="#2b2823" stroke-width="1" stroke-dasharray="4,4"/>
+          <!-- Y labels -->
+          <text x="54" y="173" text-anchor="end" fill="#5a544b" font-family="'JetBrains Mono',monospace" font-size="9">0</text>
+          <text x="54" y="131" text-anchor="end" fill="#5a544b" font-family="'JetBrains Mono',monospace" font-size="9">2,000</text>
+          <text x="54" y="89"  text-anchor="end" fill="#5a544b" font-family="'JetBrains Mono',monospace" font-size="9">4,000</text>
+          <text x="54" y="47"  text-anchor="end" fill="#5a544b" font-family="'JetBrains Mono',monospace" font-size="9">6,000</text>
+          <text x="54" y="20"  text-anchor="end" fill="#5a544b" font-family="'JetBrains Mono',monospace" font-size="9">亿元</text>
+          <!-- X labels (2022-2027, equally spaced, x positions: 60,156,252,348,444,540) -->
+          <text x="60"  y="183" text-anchor="middle" fill="#5a544b" font-family="'JetBrains Mono',monospace" font-size="9">2022</text>
+          <text x="156" y="183" text-anchor="middle" fill="#5a544b" font-family="'JetBrains Mono',monospace" font-size="9">2023</text>
+          <text x="252" y="183" text-anchor="middle" fill="#9a948a" font-family="'JetBrains Mono',monospace" font-size="9">2024E</text>
+          <text x="348" y="183" text-anchor="middle" fill="#9a948a" font-family="'JetBrains Mono',monospace" font-size="9">2025E</text>
+          <text x="444" y="183" text-anchor="middle" fill="#9a948a" font-family="'JetBrains Mono',monospace" font-size="9">2026E</text>
+          <text x="540" y="183" text-anchor="middle" fill="#9a948a" font-family="'JetBrains Mono',monospace" font-size="9">2027E</text>
+          <!-- Area fill (data: 1600→2200→3000→4100→5500→7300) -->
+          <!-- y values: 170-(val/7400)*155 -->
+          <!-- 1600: 170-33.5=136.5≈137 | 2200: 170-46.1=123.9≈124 | 3000: 170-62.8=107.2≈107 -->
+          <!-- 4100: 170-85.9=84.1≈84   | 5500: 170-115.2=54.8≈55  | 7300: 170-152.9=17.1≈17  -->
+          <path d="M60,137 L156,124 L252,107 L348,84 L444,55 L540,17 L540,170 L60,170 Z" fill="url(#areaGrad)"/>
+          <!-- Actual line -->
+          <polyline points="60,137 156,124 252,107 348,84 444,55 540,17" fill="none" stroke="#f5a524" stroke-width="2" stroke-linejoin="round"/>
+          <!-- Forecast divider (after 2023 = x=156+48=between 156 and 252, at x=200 approx) -->
+          <line x1="204" y1="15" x2="204" y2="170" stroke="#f5a524" stroke-width="1" stroke-dasharray="3,5" opacity="0.4"/>
+          <text x="207" y="26" fill="#5a544b" font-family="'JetBrains Mono',monospace" font-size="8">预测期</text>
+          <!-- Data points -->
+          <circle cx="60"  cy="137" r="3.5" fill="#0a0908" stroke="#f5a524" stroke-width="1.5"/>
+          <circle cx="156" cy="124" r="3.5" fill="#0a0908" stroke="#f5a524" stroke-width="1.5"/>
+          <circle cx="252" cy="107" r="3.5" fill="#0a0908" stroke="#f5a524" stroke-width="1.5"/>
+          <circle cx="348" cy="84"  r="3.5" fill="#0a0908" stroke="#f5a524" stroke-width="1.5"/>
+          <circle cx="444" cy="55"  r="3.5" fill="#0a0908" stroke="#f5a524" stroke-width="1.5"/>
+          <circle cx="540" cy="17"  r="3.5" fill="#f5a524" stroke="#f5a524" stroke-width="1.5"/>
+          <!-- Value labels -->
+          <text x="60"  y="132" text-anchor="middle" fill="#9a948a" font-family="'JetBrains Mono',monospace" font-size="8.5">1,600</text>
+          <text x="156" y="119" text-anchor="middle" fill="#9a948a" font-family="'JetBrains Mono',monospace" font-size="8.5">2,200</text>
+          <text x="252" y="102" text-anchor="middle" fill="#9a948a" font-family="'JetBrains Mono',monospace" font-size="8.5">3,000</text>
+          <text x="348" y="79"  text-anchor="middle" fill="#9a948a" font-family="'JetBrains Mono',monospace" font-size="8.5">4,100</text>
+          <text x="444" y="50"  text-anchor="middle" fill="#9a948a" font-family="'JetBrains Mono',monospace" font-size="8.5">5,500</text>
+          <text x="540" y="12"  text-anchor="middle" fill="#f5a524" font-family="'JetBrains Mono',monospace" font-size="8.5" font-weight="500">7,300</text>
+          <!-- CAGR annotation -->
+          <text x="390" y="115" fill="#f5a524" font-family="'JetBrains Mono',monospace" font-size="9" opacity="0.8">CAGR ~35%</text>
+        </svg>
+        <div class="mt-4 bg-bg-2 border border-line p-4 text-[12px] text-fg-dim font-light max-w-[640px]">
+          <strong class="text-fg font-normal">注：</strong>数字为中国企业级 AI 软件（含 Agent）及服务市场综合估算，参考 IDC、华泰证券、国泰君安 2024 年预测均值。市场定义不含硬件与算力基础设施。预测期（2024-2027E）存在较大不确定性，CAGR 35% 为中性情景。
+        </div>
+        <div class="mt-3 bg-amber/[0.06] border-l-2 border-amber pl-4 py-3 text-[12px] text-fg font-light max-w-[640px]">
+          2022→2027 市场规模扩大约 4.6 倍。Anthropic 选择在此时做结构性转型，时间窗口判断正确——中国大模型企业同样面对这个窗口，且有数据主权优势加持
+        </div>
+      </div>
+    </div>
+
   </div>
 </section>
 
