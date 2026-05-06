@@ -127,25 +127,60 @@ body::after { content:''; position:fixed; inset:0; background-image:url("data:im
 </section>
 
 <!-- TL;DR -->
-<section class="max-w-wrap mx-auto px-[5vw] lg:px-12 relative z-[2] py-10 lg:py-16 border-b border-line">
+<section class="max-w-wrap mx-auto px-[5vw] lg:px-12 relative z-[2] py-10 lg:py-18 border-b border-line">
   <div class="lg:ml-[168px] max-w-content">
     <div class="font-mono text-[10px] tracking-[0.22em] uppercase text-amber mb-6">TL;DR / 30 秒核心</div>
+
+    <!-- 一句话核心 -->
+    <p class="text-[17px] lg:text-[20px] font-light text-fg leading-[1.55] mb-8 max-w-[760px]">
+      Anthropic 用 72 小时完成了一次身份置换：<strong class="text-amber font-normal">PE JV 是分销管道，10 个金融 Agent 是商品，Dimon 是合规背书</strong>——三件事是同一个战役，不是三个独立新闻。
+    </p>
+
+    <!-- 带数字的要点 -->
+    <div class="border-l-2 border-line pl-5 lg:pl-7 mb-10 space-y-3 max-w-[720px]">
+      <div class="flex items-baseline gap-3">
+        <span class="font-mono text-[10px] text-amber shrink-0 w-5">01</span>
+        <p class="text-[13px] lg:text-[14px] text-fg-dim font-light leading-relaxed"><strong class="text-fg font-normal">$1.5B JV</strong>，Blackstone $300M + H&F $300M + Goldman $150M 等 7 家机构——<a href="https://money.usnews.com/investing/news/articles/2026-05-05/openai-anthropic-ventures-in-talks-to-buy-ai-services-firms-sources-say" target="_blank" class="text-amber hover:underline">Reuters</a> 指出资金主要用于 roll-up 现有 AI 服务公司</p>
+      </div>
+      <div class="flex items-baseline gap-3">
+        <span class="font-mono text-[10px] text-amber shrink-0 w-5">02</span>
+        <p class="text-[13px] lg:text-[14px] text-fg-dim font-light leading-relaxed"><strong class="text-fg font-normal">ARR $9B → $30B</strong>，4 个月增长 3.3×（<a href="https://anthropic.com/news/anthropic-amazon-compute" target="_blank" class="text-amber hover:underline">4-29 披露</a>）；同期 OpenAI DeployCo 需承诺 17.5% 年化保底才能拿到 $10B</p>
+      </div>
+      <div class="flex items-baseline gap-3">
+        <span class="font-mono text-[10px] text-amber shrink-0 w-5">03</span>
+        <p class="text-[13px] lg:text-[14px] text-fg-dim font-light leading-relaxed"><strong class="text-fg font-normal">10 个预构建金融 Agent</strong>（PitchBook 分析 / KYC / 月结 / 合规审计等），可直接部署进企业工作流，不是 demo</p>
+      </div>
+      <div class="flex items-baseline gap-3">
+        <span class="font-mono text-[10px] text-amber shrink-0 w-5">04</span>
+        <p class="text-[13px] lg:text-[14px] text-fg-dim font-light leading-relaxed"><strong class="text-fg font-normal">Jamie Dimon 从"持币观望"到公开站台</strong>——<a href="https://fortune.com/2026/05/05/anthropic-wall-street-financial-services-agents-jamie-dimon/" target="_blank" class="text-amber hover:underline">Fortune</a> 报道，JPMorgan 是 <a href="https://anthropic.com/glasswing" target="_blank" class="text-amber hover:underline">Project Glasswing</a> 联合创始成员</p>
+      </div>
+      <div class="flex items-baseline gap-3">
+        <span class="font-mono text-[10px] text-amber shrink-0 w-5">05</span>
+        <p class="text-[13px] lg:text-[14px] text-fg-dim font-light leading-relaxed"><strong class="text-fg font-normal">Carlyle（顶级 PE）已采用，Walleye Capital 400 人全员部署</strong>——<a href="https://www.anthropic.com/news/finance-agents" target="_blank" class="text-amber hover:underline">官方公告</a>披露的首批客户清单</p>
+      </div>
+      <div class="flex items-baseline gap-3">
+        <span class="font-mono text-[10px] text-amber shrink-0 w-5">06</span>
+        <p class="text-[13px] lg:text-[14px] text-fg-dim font-light leading-relaxed"><strong class="text-fg font-normal">FDE（前部署工程师）招聘 2025 年 1-9 月暴涨 800%+</strong>——<a href="https://newsletter.pragmaticengineer.com/p/forward-deployed-engineers" target="_blank" class="text-amber hover:underline">Pragmatic Engineer</a> 追踪，这个 JV 是提前布局好的</p>
+      </div>
+    </div>
+
+    <!-- 反共识洞察 + 3 insight 卡片 -->
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+      <div class="lg:col-span-2 bg-amber/[0.07] border border-amber/40 p-5 lg:p-6">
+        <div class="font-mono text-[9px] tracking-[0.18em] text-amber uppercase mb-2.5">反共识洞察</div>
+        <p class="text-[14px] lg:text-[15px] text-fg leading-relaxed font-light">大多数评论者把这归类为"模型公司做咨询"——<strong class="text-amber font-medium">这是误读</strong>。正确框架是：PE 主导的 AI 服务市场 roll-up，Anthropic 是技术内核，PE 带来渠道、资本和合规信用。对标不是 Accenture，是<strong class="text-amber font-medium"> Bloomberg Terminal 的继承者</strong>。</p>
+      </div>
       <div class="bg-bg-2 border border-line p-5 lg:p-6">
         <div class="font-mono text-[9px] tracking-[0.18em] text-amber uppercase mb-2.5">被低估的事实 01</div>
         <p class="text-[14px] lg:text-[15px] text-fg leading-relaxed font-light">5-04 与 5-05 是同一战役。<strong class="text-amber font-medium">JV 是渠道，第二天的 10 个金融 Agent 才是货</strong>。</p>
       </div>
       <div class="bg-bg-2 border border-line p-5 lg:p-6">
         <div class="font-mono text-[9px] tracking-[0.18em] text-amber uppercase mb-2.5">被低估的事实 02</div>
-        <p class="text-[14px] lg:text-[15px] text-fg leading-relaxed font-light"><a href="https://money.usnews.com/investing/news/articles/2026-05-05/openai-anthropic-ventures-in-talks-to-buy-ai-services-firms-sources-say" target="_blank" class="text-amber hover:text-fg-dim transition-colors">Reuters 5-05</a>：JV 资金主要用于<strong class="text-amber font-medium">收购</strong>现有 AI 服务公司——PE 把 AI 服务市场 roll-up，不是"模型公司做咨询"。</p>
+        <p class="text-[14px] lg:text-[15px] text-fg leading-relaxed font-light"><a href="https://money.usnews.com/investing/news/articles/2026-05-05/openai-anthropic-ventures-in-talks-to-buy-ai-services-firms-sources-say" target="_blank" class="text-amber hover:text-fg-dim transition-colors">Reuters 5-05</a>：JV 资金主要用于<strong class="text-amber font-medium">收购</strong>现有 AI 服务公司——PE 主导 AI 服务市场 roll-up，不是"模型公司做咨询"。</p>
       </div>
       <div class="bg-bg-2 border border-line p-5 lg:p-6">
         <div class="font-mono text-[9px] tracking-[0.18em] text-amber uppercase mb-2.5">被低估的事实 03</div>
         <p class="text-[14px] lg:text-[15px] text-fg leading-relaxed font-light">Jamie Dimon "AI 持币观望派" → "every dollar worth it"——意味着 <strong class="text-amber font-medium">JPMorgan 已实质性站队 Anthropic</strong>（<a href="https://anthropic.com/glasswing" target="_blank" class="text-amber hover:text-fg-dim transition-colors">Glasswing</a> 证实）。</p>
-      </div>
-      <div class="bg-bg-2 border border-amber/30 p-5 lg:p-6">
-        <div class="font-mono text-[9px] tracking-[0.18em] text-amber uppercase mb-2.5">核心判断</div>
-        <p class="text-[14px] lg:text-[15px] text-fg leading-relaxed font-light">Anthropic 这一周完成的不是与 Accenture 竞争——是<strong class="text-amber font-medium">对标 Bloomberg Terminal 的下一代金融工作平台</strong>雏形。</p>
       </div>
     </div>
   </div>
