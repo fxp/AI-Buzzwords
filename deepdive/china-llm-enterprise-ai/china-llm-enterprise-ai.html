@@ -284,6 +284,49 @@ body::after { content:''; position:fixed; inset:0; background-image:url("data:im
         </div>
       </div>
     </div>
+
+    <!-- 差异 06 — SaaS 生态 -->
+    <div class="border border-line overflow-hidden">
+      <div class="bg-bg-2 px-5 py-3 font-mono text-[10px] tracking-[0.15em] uppercase text-amber border-b border-line">差异 06 / SaaS 渗透率与大型企业主导格局</div>
+      <div class="grid grid-cols-1 lg:grid-cols-2 divide-y lg:divide-y-0 lg:divide-x divide-line">
+        <div class="p-5 lg:p-6">
+          <div class="font-mono text-[9px] text-fg-mute uppercase tracking-[0.12em] mb-3">🇺🇸 美国</div>
+          <p class="text-[14px] text-fg-dim font-light leading-relaxed">SaaS 渗透率约 <strong class="text-fg font-normal">40%</strong>，中小企业 + 大型企业混合市场，云原生为默认部署方式。Anthropic 的 Agent 以 API / 云订阅形式交付，无需本地部署，企业可自助上线</p>
+        </div>
+        <div class="p-5 lg:p-6">
+          <div class="font-mono text-[9px] text-fg-mute uppercase tracking-[0.12em] mb-3">🇨🇳 中国</div>
+          <p class="text-[14px] text-fg-dim font-light leading-relaxed">SaaS 渗透率约 <strong class="text-fg font-normal">10%-15%</strong>，采购预算高度集中在<strong class="text-fg font-normal">央企、国企、头部民企</strong>。大型企业普遍要求<strong class="text-fg font-normal">私有化部署（本地化）</strong>——数据不离开自己的数据中心，这是硬需求而非谈判筹码</p>
+        </div>
+      </div>
+      <div class="bg-bg px-5 py-3 border-t border-line">
+        <p class="text-[12px] text-fg-mute font-mono">→ 中国版预构建 Agent 的 SKU 必须包含：云版 / 私有化版 / 国产化信创版 三种部署形态；纯云 SaaS 无法进入核心场景</p>
+      </div>
+    </div>
+
+    <!-- 差异 07 — ERP/ISV 隐形障碍 -->
+    <div class="border border-amber/25 overflow-hidden">
+      <div class="bg-amber/[0.05] px-5 py-3 font-mono text-[10px] tracking-[0.15em] uppercase text-amber border-b border-amber/25">差异 07 / 用友 · 金蝶 · 广联达：被低估的隐形障碍</div>
+      <div class="p-5 lg:p-7">
+        <p class="text-[14px] text-fg-dim font-light leading-relaxed mb-5">美国的分销障碍是 SI（Accenture/Deloitte）。中国大型企业的工作流已深度嵌入 ERP / 行业管理软件，形成一道更难绕过的壁垒：</p>
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-5">
+          <div class="bg-bg border border-line p-4">
+            <div class="font-mono text-[9px] text-amber uppercase tracking-[0.12em] mb-2">用友 YonBIP</div>
+            <p class="text-[12px] text-fg-dim font-light leading-relaxed">覆盖 700 万家企业，大型制造 / 央企 ERP 首选，已内置 <strong class="text-fg font-normal">YonGPT</strong>——用友正在从 ERP 内部长出 AI 能力，是竞争对手，不只是分销渠道</p>
+          </div>
+          <div class="bg-bg border border-line p-4">
+            <div class="font-mono text-[9px] text-amber uppercase tracking-[0.12em] mb-2">金蝶云·苍穹</div>
+            <p class="text-[12px] text-fg-dim font-light leading-relaxed">超大型企业 ERP 平台，与华为云深度合作，已具备 AI Agent 能力框架。现有数据 + 工作流集成 + 客户信任，三重壁垒叠加</p>
+          </div>
+          <div class="bg-bg border border-line p-4">
+            <div class="font-mono text-[9px] text-amber uppercase tracking-[0.12em] mb-2">广联达</div>
+            <p class="text-[12px] text-fg-dim font-light leading-relaxed">工程建设行业数字化垄断平台，正 AI 化工程预算 / BIM 场景。外部大模型几乎无法绕开它直接接触工程数字化数据</p>
+          </div>
+        </div>
+        <div class="bg-amber/[0.07] border-l-2 border-amber p-4 text-[13px] text-fg font-light">
+          <strong class="text-amber font-medium">核心判断：</strong>大型企业的 AI 采购决策，很可能最终发生在"要不要在用友/金蝶里开启 AI"——而不是"要不要采购一个 AI 产品"。大模型企业需要明确回答：<strong class="text-fg font-normal">内嵌（做 ERP 的 AI 层）还是替代（做 AI-native 的 ERP）</strong>？两条路径的商业模式、销售动作、资本结构截然不同。
+        </div>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -367,6 +410,10 @@ body::after { content:''; position:fixed; inset:0; background-image:url("data:im
         <div class="font-mono text-[9px] tracking-[0.15em] text-amber uppercase mb-2.5">华为盘古的战略位置</div>
         <p class="text-[13px] text-fg-dim font-light leading-relaxed">合规信用最强（★★★★★），但模型能力是软肋。华为云的最优策略可能不是做 Agent 产品公司，而是做<strong class="text-fg font-normal">"最安全的 AI 基础设施提供商"</strong>——Layer 1 角色，让其他大模型跑在华为云上</p>
       </div>
+      <div class="lg:col-span-2 bg-bg-2 border border-amber/25 p-5">
+        <div class="font-mono text-[9px] tracking-[0.15em] text-amber uppercase mb-2.5">矩阵之外：用友 / 金蝶 / 广联达是未被列入的隐形竞争者</div>
+        <p class="text-[13px] text-fg-dim font-light leading-relaxed">所有大型中国企业的业务流程都已锁在 ERP 系统里。<strong class="text-fg font-normal">用友（YonGPT）和金蝶</strong>正在从 ERP 内部长出 AI 能力——它们已有数据、已有集成、已有采购关系。大型企业的 AI 决策很可能是"用友的 AI 还是另购 AI"，而不是在大模型厂商之间选择。<strong class="text-fg font-normal">最优解可能不是打败用友，而是成为用友选择合作的大模型。</strong></p>
+      </div>
     </div>
   </div>
 </section>
@@ -443,6 +490,49 @@ body::after { content:''; position:fixed; inset:0; background-image:url("data:im
       </div>
       <div class="mt-4 border-l-2 border-line pl-4 text-[13px] text-fg-mute font-light">
         <strong class="text-fg font-normal">选择原则：</strong>先做格式最固定、验收标准最清晰的任务——交付周期短，客户验收无争议，最快形成参考案例
+      </div>
+
+      <!-- 部署模式：三种 SKU -->
+      <div class="border border-line overflow-hidden mt-6">
+        <div class="bg-bg-2 px-5 py-3 font-mono text-[10px] tracking-[0.15em] uppercase text-amber border-b border-line">部署模式 / 大型企业要求三种 SKU 并存</div>
+        <div class="grid grid-cols-1 lg:grid-cols-3 divide-y lg:divide-y-0 lg:divide-x divide-line">
+          <div class="p-5">
+            <div class="font-mono text-[9px] text-fg-mute uppercase tracking-[0.12em] mb-2">云 SaaS 版</div>
+            <p class="text-[12px] text-fg-dim font-light leading-relaxed">面向中小企业、创业公司、民营中型企业。订阅制，快速上线，适合非敏感数据场景</p>
+            <div class="mt-2 text-[11px] text-mint font-mono">适用：券商研究部 / 律所 / 咨询公司</div>
+          </div>
+          <div class="p-5 bg-amber/[0.03]">
+            <div class="font-mono text-[9px] text-amber uppercase tracking-[0.12em] mb-2">私有化部署版 ← 核心</div>
+            <p class="text-[12px] text-fg-dim font-light leading-relaxed">面向央企、国有银行、大型制造企业。数据不出本地数据中心，等保三级认证，与内部 ERP/OA 深度集成</p>
+            <div class="mt-2 text-[11px] text-amber font-mono">适用：工行/建行 / 国家电网 / 中石化</div>
+          </div>
+          <div class="p-5">
+            <div class="font-mono text-[9px] text-fg-mute uppercase tracking-[0.12em] mb-2">国产化信创版</div>
+            <p class="text-[12px] text-fg-dim font-light leading-relaxed">面向政务、军工、关键基础设施。运行在国产芯片（鲲鹏/海光）+ 国产操作系统（麒麟/统信）+ 国产数据库（达梦/人大金仓）全栈上</p>
+            <div class="mt-2 text-[11px] text-mint font-mono">适用：政府机关 / 军工央企</div>
+          </div>
+        </div>
+        <div class="bg-amber/[0.05] px-5 py-3 border-t border-line">
+          <p class="text-[12px] text-amber font-mono">Anthropic 的 Agent 是纯云交付——中国版必须三种并行，否则直接排除在 70% 的大型企业采购之外</p>
+        </div>
+      </div>
+
+      <!-- ERP 集成：内嵌还是替代 -->
+      <div class="border border-line overflow-hidden mt-4">
+        <div class="bg-bg-2 px-5 py-3 font-mono text-[10px] tracking-[0.15em] uppercase text-amber border-b border-line">ERP 集成策略 / 内嵌还是替代，必须提前选边</div>
+        <div class="grid grid-cols-1 lg:grid-cols-2 divide-y lg:divide-y-0 lg:divide-x divide-line">
+          <div class="p-5 lg:p-6">
+            <div class="font-mono text-[9px] text-fg-mute uppercase tracking-[0.12em] mb-2">路径 A：内嵌（合作）</div>
+            <p class="text-[13px] text-fg-dim font-light leading-relaxed">成为用友/金蝶/广联达的 AI 引擎——模型能力对外，工作流 + 数据 + 客户关系归 ERP 公司。速度快，但话语权弱，长期有被替换风险</p>
+          </div>
+          <div class="p-5 lg:p-6">
+            <div class="font-mono text-[9px] text-fg-mute uppercase tracking-[0.12em] mb-2">路径 B：替代（竞争）</div>
+            <p class="text-[13px] text-fg-dim font-light leading-relaxed">做 AI-native 的企业软件，从流程设计上绕开 ERP 体系——替换而非集成。周期长，资本密集，但一旦成功拥有完整数据飞轮和定价权</p>
+          </div>
+        </div>
+        <div class="bg-bg px-5 py-3 border-t border-line">
+          <p class="text-[12px] text-fg-mute font-mono">→ 两条路径不能兼得——选 A 就要早签战略合作协议拿到数据；选 B 就要找一个 ERP 防御力弱的垂直场景先打穿</p>
+        </div>
       </div>
     </div>
 
