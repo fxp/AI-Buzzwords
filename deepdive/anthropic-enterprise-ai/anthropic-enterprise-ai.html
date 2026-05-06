@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>AI LAB / ANTHROPIC · 模型公司不再是模型公司</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,700&family=JetBrains+Mono:wght@300;400;500;700&family=Inter+Tight:wght@400;500;600&display=swap" rel="stylesheet" />
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      colors: {
+        bg: '#0a0908', 'bg-2': '#111110',
+        fg: '#ebe6dc', 'fg-dim': '#9a948a', 'fg-mute': '#5a544b',
+        line: '#2b2823', 'line-bright': '#443f37',
+        amber: '#f5a524', 'amber-soft': 'rgba(245,165,36,0.09)', 'amber-glow': 'rgba(245,165,36,0.2)',
+        mint: '#7fb88b', 'mint-soft': 'rgba(127,184,139,0.12)',
+        signal: '#d1402c', paper: '#e8e3d8', ink: '#1a1815',
+      },
+      fontFamily: {
+        serif: ["'Fraunces'","'Source Han Serif SC'","'Noto Serif SC'","Georgia","serif"],
+        mono: ["'JetBrains Mono'","ui-monospace","monospace"],
+        sans: ["'Inter Tight'","system-ui","sans-serif"],
+      },
+      maxWidth: { prose: '820px', content: '1020px', wrap: '1320px' },
+    }
+  }
+}
+</script>
+<style>
+em, i { font-style: normal }
+body { font-feature-settings: 'ss01','ss02','kern'; -webkit-font-smoothing: antialiased }
+
+body::before { content:''; position:fixed; inset:0; background-image: linear-gradient(rgba(245,165,36,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(245,165,36,0.04) 1px, transparent 1px); background-size:80px 80px; pointer-events:none; z-index:0 }
+body::after { content:''; position:fixed; inset:0; background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.96 0 0 0 0 0.9 0 0 0 0 0.8 0 0 0 0.08 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); pointer-events:none; z-index:1; opacity:0.45; mix-blend-mode:overlay }
+
+.lamp { display:inline-block; width:8px; height:8px; border-radius:50%; background:#f5a524; box-shadow:0 0 10px #f5a524, 0 0 24px rgba(245,165,36,0.2); animation:pulse 2.4s ease-in-out infinite; vertical-align:middle }
+@keyframes pulse { 0%,100%{opacity:1;box-shadow:0 0 10px #f5a524,0 0 24px rgba(245,165,36,0.2)} 50%{opacity:.55;box-shadow:0 0 6px #f5a524,0 0 14px rgba(245,165,36,0.2)} }
+
+.cursor::after { content:'▮'; color:#f5a524; margin-left:6px; animation:blink 1.1s steps(2) infinite }
+@keyframes blink { 0%,50%{opacity:1} 51%,100%{opacity:0} }
+
+@keyframes fadeUp { from{opacity:0;transform:translateY(12px)} to{opacity:1;transform:translateY(0)} }
+.hero-anim > * { animation:fadeUp 0.9s cubic-bezier(.2,.7,.2,1) both }
+.hero-anim > *:nth-child(1){animation-delay:0.05s} .hero-anim > *:nth-child(2){animation-delay:0.15s}
+.hero-anim > *:nth-child(3){animation-delay:0.28s} .hero-anim > *:nth-child(4){animation-delay:0.42s}
+
+.bar-fill { position:absolute; top:0; left:0; height:100%; background:linear-gradient(90deg,#f5a524,#ffb84a) }
+.bar-fill-muted { position:absolute; top:0; left:0; height:100%; background:#5a544b }
+.bar-fill-mint { position:absolute; top:0; left:0; height:100%; background:linear-gradient(90deg,#7fb88b,#a3d4ad) }
+
+.pullquote-mark::before { content:'"'; position:absolute; top:16px; left:12px; font-family:'Fraunces',serif; font-size:100px; color:#f5a524; opacity:0.18; line-height:1 }
+
+.synthesis-label::before { content:'SYNTHESIS / 核心判断'; position:absolute; top:-10px; left:28px; background:#0a0908; padding:0 12px; font-family:'JetBrains Mono',monospace; font-size:10px; letter-spacing:0.2em; color:#f5a524 }
+
+.risk-label::before { content:'RISK / 需要追踪'; position:absolute; top:-10px; left:28px; background:#0a0908; padding:0 12px; font-family:'JetBrains Mono',monospace; font-size:10px; letter-spacing:0.2em; color:#7fb88b; font-weight:500 }
+
+.series-inner-bg { background:linear-gradient(135deg,rgba(245,165,36,0.09) 0%,transparent 60%),#111110 }
+.insight-current { background:linear-gradient(135deg,rgba(245,165,36,0.09) 0%,#0a0908 60%) }
+.insight-mint { background:linear-gradient(135deg,rgba(127,184,139,0.08) 0%,#0a0908 60%) }
+</style>
+
+  <script src="../../lang-switcher.js" defer></script>
+  <link rel="alternate" hreflang="zh" href="anthropic-enterprise-ai.html" />
+  <link rel="alternate" hreflang="en" href="anthropic-enterprise-ai.en.html" />
+  <link rel="alternate" hreflang="x-default" href="anthropic-enterprise-ai.html" />
+</head>
+
+<body class="bg-bg text-fg font-serif leading-relaxed overflow-x-hidden">
+
+<!-- TOP STRIP -->
+<div class="max-w-wrap mx-auto px-[5vw] lg:px-12 relative z-[2]">
+  <div class="border-b border-line py-3.5 font-mono text-[10px] lg:text-[11px] tracking-[0.12em] uppercase text-fg-dim grid grid-cols-1 lg:grid-cols-4 gap-2 lg:gap-6 items-center">
+    <div><span class="lamp mr-2.5"></span>AI LAB / DEEP ANALYSIS · № 01</div>
+    <div class="hidden lg:block">SUBJECT / ANTHROPIC</div>
+    <div class="hidden lg:block">FILED / 2026.05.04 — 05.06</div>
+    <div class="lg:text-right">ENTERPRISE AI · WALL STREET OS</div>
+  </div>
+</div>
+
+<!-- HERO -->
+<section class="hero-anim max-w-wrap mx-auto px-[5vw] lg:px-12 relative z-[2] pt-10 lg:pt-28 pb-12 lg:pb-24 border-b border-line">
+  <div class="font-mono text-[9px] lg:text-[11px] tracking-[0.18em] uppercase text-amber mb-8 lg:mb-10 flex flex-wrap gap-2 lg:gap-7 items-center">
+    <span>EVENT ANALYSIS</span>
+    <span class="text-fg-mute hidden lg:inline">/</span>
+    <span>PE JV · ENTERPRISE AGENTS · WALL STREET</span>
+    <span class="text-fg-mute hidden lg:inline">/</span>
+    <span>SAN FRANCISCO — NEW YORK</span>
+  </div>
+  <h1 class="font-serif font-light text-[clamp(28px,8.5vw,110px)] leading-[0.95] tracking-tight mb-6 lg:mb-9">
+    Anthropic 的<em class="text-amber font-normal"> 72 小时</em>
+    <span class="block">模型公司</span>
+    <span class="block">不再是<em class="text-amber font-normal">模型公司</em></span>
+  </h1>
+  <div class="max-w-[720px] text-[15px] lg:text-xl text-fg-dim font-light leading-relaxed lg:leading-[1.55] border-l border-amber pl-3.5 lg:pl-5 mt-4">
+    5 月 3-5 日：WSJ scoop → PE JV 官宣 → Dimon 站台 + 10 个金融 Agent 发布。<br/>
+    <strong class="text-fg font-normal">大多数评论者把这 72 小时拆成三个独立事件——这是误读。</strong>
+    它是一场精密设计的连环发布：JV 是分销基础设施，Agents 是商品，Dimon 是合规背书。
+  </div>
+
+  <!-- HERO STATS GRID -->
+  <div class="mt-12 lg:mt-16 grid grid-cols-2 lg:grid-cols-4 gap-px bg-line border border-line font-mono">
+    <div class="bg-bg p-5 lg:p-7">
+      <div class="text-[9px] lg:text-[10px] tracking-[0.16em] uppercase text-fg-mute mb-3">JV 总承诺资本</div>
+      <div class="font-serif text-[30px] lg:text-[44px] font-normal text-amber leading-none mb-2">$1.5<span class="text-lg lg:text-xl text-fg-mute"> B</span></div>
+      <div class="text-[10px] lg:text-[11px] text-fg-dim">BLACKSTONE · H&F · GOLDMAN · +5</div>
+    </div>
+    <div class="bg-bg p-5 lg:p-7">
+      <div class="text-[9px] lg:text-[10px] tracking-[0.16em] uppercase text-fg-mute mb-3">ANTHROPIC ARR · 2026-04</div>
+      <div class="font-serif text-[30px] lg:text-[44px] font-normal text-amber leading-none mb-2">$30<span class="text-lg lg:text-xl text-fg-mute"> B</span></div>
+      <div class="text-[10px] lg:text-[11px] text-fg-dim">4 个月从 $9B 增长 3.3×</div>
+    </div>
+    <div class="bg-bg p-5 lg:p-7">
+      <div class="text-[9px] lg:text-[10px] tracking-[0.16em] uppercase text-fg-mute mb-3">金融预构建 AGENTS</div>
+      <div class="font-serif text-[30px] lg:text-[44px] font-normal text-fg leading-none mb-2">10<span class="text-lg lg:text-xl text-fg-mute"> 个</span></div>
+      <div class="text-[10px] lg:text-[11px] text-fg-dim">PITCHBOOK · KYC · MONTH-END</div>
+    </div>
+    <div class="bg-bg p-5 lg:p-7">
+      <div class="text-[9px] lg:text-[10px] tracking-[0.16em] uppercase text-fg-mute mb-3">OPENAI DEPLOYCO · 对照</div>
+      <div class="font-serif text-[30px] lg:text-[44px] font-normal text-amber leading-none mb-2">$10<span class="text-lg lg:text-xl text-fg-mute"> B</span></div>
+      <div class="text-[10px] lg:text-[11px] text-fg-dim">17.5% 年化保底 · 19 家投资人</div>
+    </div>
+  </div>
+</section>
+
+<!-- TL;DR -->
+<section class="max-w-wrap mx-auto px-[5vw] lg:px-12 relative z-[2] py-10 lg:py-16 border-b border-line">
+  <div class="lg:ml-[168px] max-w-content">
+    <div class="font-mono text-[10px] tracking-[0.22em] uppercase text-amber mb-6">TL;DR / 30 秒核心</div>
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+      <div class="bg-bg-2 border border-line p-5 lg:p-6">
+        <div class="font-mono text-[9px] tracking-[0.18em] text-amber uppercase mb-2.5">被低估的事实 01</div>
+        <p class="text-[14px] lg:text-[15px] text-fg leading-relaxed font-light">5-04 与 5-05 是同一战役。<strong class="text-amber font-medium">JV 是渠道，第二天的 10 个金融 Agent 才是货</strong>。</p>
+      </div>
+      <div class="bg-bg-2 border border-line p-5 lg:p-6">
+        <div class="font-mono text-[9px] tracking-[0.18em] text-amber uppercase mb-2.5">被低估的事实 02</div>
+        <p class="text-[14px] lg:text-[15px] text-fg leading-relaxed font-light"><a href="https://money.usnews.com/investing/news/articles/2026-05-05/openai-anthropic-ventures-in-talks-to-buy-ai-services-firms-sources-say" target="_blank" class="text-amber hover:text-fg-dim transition-colors">Reuters 5-05</a>：JV 资金主要用于<strong class="text-amber font-medium">收购</strong>现有 AI 服务公司——PE 把 AI 服务市场 roll-up，不是"模型公司做咨询"。</p>
+      </div>
+      <div class="bg-bg-2 border border-line p-5 lg:p-6">
+        <div class="font-mono text-[9px] tracking-[0.18em] text-amber uppercase mb-2.5">被低估的事实 03</div>
+        <p class="text-[14px] lg:text-[15px] text-fg leading-relaxed font-light">Jamie Dimon "AI 持币观望派" → "every dollar worth it"——意味着 <strong class="text-amber font-medium">JPMorgan 已实质性站队 Anthropic</strong>（<a href="https://anthropic.com/glasswing" target="_blank" class="text-amber hover:text-fg-dim transition-colors">Glasswing</a> 证实）。</p>
+      </div>
+      <div class="bg-bg-2 border border-amber/30 p-5 lg:p-6">
+        <div class="font-mono text-[9px] tracking-[0.18em] text-amber uppercase mb-2.5">核心判断</div>
+        <p class="text-[14px] lg:text-[15px] text-fg leading-relaxed font-light">Anthropic 这一周完成的不是与 Accenture 竞争——是<strong class="text-amber font-medium">对标 Bloomberg Terminal 的下一代金融工作平台</strong>雏形。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- § 01 72H TIMELINE -->
+<section class="max-w-wrap mx-auto px-[5vw] lg:px-12 relative z-[2] py-14 lg:py-28 border-b border-line">
+  <header class="grid grid-cols-1 lg:grid-cols-[120px_1fr] gap-4 lg:gap-12 items-baseline mb-10 lg:mb-[72px]">
+    <div class="cursor font-mono text-[10px] lg:text-[11px] tracking-[0.2em] text-amber pt-3 border-t border-amber uppercase">§ 01 / TIMELINE</div>
+    <h2 class="font-serif font-light text-[clamp(24px,7vw,68px)] leading-[1.05] tracking-tight">72 小时<br/><em class="text-amber">连环发布</em></h2>
+  </header>
+
+  <div class="lg:ml-[168px] max-w-content">
+    <!-- Timeline table -->
+    <div class="border border-line font-mono text-xs overflow-x-auto">
+      <div class="grid grid-cols-[90px_1fr_130px] border-b border-line bg-bg-2">
+        <div class="p-3 text-fg-mute tracking-[0.12em] uppercase text-[10px]">时间</div>
+        <div class="p-3 text-fg-mute tracking-[0.12em] uppercase text-[10px]">事件</div>
+        <div class="p-3 text-fg-mute tracking-[0.12em] uppercase text-[10px]">性质</div>
+      </div>
+      <div class="grid grid-cols-[90px_1fr_130px] border-b border-line">
+        <div class="p-3 text-fg-dim">5月3日</div>
+        <div class="p-3 text-fg"><a href="https://money.usnews.com/investing/news/articles/2026-05-03/anthropic-nears-1-5-billion-ai-joint-venture-with-wall-street-firms-wsj-reports" target="_blank" class="text-amber hover:underline">WSJ scoop</a>：Anthropic 接近完成 $1.5B JV</div>
+        <div class="p-3 text-fg-mute">信号铺垫</div>
+      </div>
+      <div class="grid grid-cols-[90px_1fr_130px] border-b border-line">
+        <div class="p-3 text-fg-dim">5月4日</div>
+        <div class="p-3 text-fg"><a href="https://www.anthropic.com/news/enterprise-ai-services-company" target="_blank" class="text-amber hover:underline">官方公告</a>：JV 落定（Blackstone $300M / H&F $300M / Goldman $150M …）<br/><span class="text-fg-mute">OpenAI 同日：<a href="https://www.bloomberg.com/news/articles/2026-05-04/openai-finalizes-10-billion-joint-venture-with-pe-firms-to-deploy-ai" target="_blank" class="text-mint hover:underline">DeployCo</a> $10B / 17.5% 保底</span></div>
+        <div class="p-3 text-amber font-medium">渠道基础设施</div>
+      </div>
+      <div class="grid grid-cols-[90px_1fr_130px] border-b border-line">
+        <div class="p-3 text-fg-dim">5月5日</div>
+        <div class="p-3 text-fg"><a href="https://www.anthropic.com/news/finance-agents" target="_blank" class="text-amber hover:underline">纽约 Financial Services Briefing</a>（邀制）</div>
+        <div class="p-3 text-amber font-medium">产品发布</div>
+      </div>
+      <div class="grid grid-cols-[90px_1fr_130px] border-b border-line bg-amber-soft">
+        <div class="p-3 text-fg-dim">5月5日 同步</div>
+        <div class="p-3 text-amber font-medium"><a href="https://anthropic.com/news/claude-opus-4-7" target="_blank" class="hover:underline">Claude Opus 4.7</a> 金融能力优化 + <strong>10 个金融预构建 Agents</strong></div>
+        <div class="p-3 text-amber font-medium">货</div>
+      </div>
+      <div class="grid grid-cols-[90px_1fr_130px] border-b border-line">
+        <div class="p-3 text-fg-dim">5月5日 同步</div>
+        <div class="p-3 text-fg">Microsoft 365 完整集成（Excel / PPT / Word / Outlook 单一 Agent）</div>
+        <div class="p-3 text-fg-mute">工作流入口</div>
+      </div>
+      <div class="grid grid-cols-[90px_1fr_130px] border-b border-line">
+        <div class="p-3 text-fg-dim">5月5日 同步</div>
+        <div class="p-3 text-fg">Moody's 完整平台嵌入（6 亿企业信用数据原生访问）</div>
+        <div class="p-3 text-fg-mute">数据层</div>
+      </div>
+      <div class="grid grid-cols-[90px_1fr_130px]">
+        <div class="p-3 text-fg-dim">5月5日 同步</div>
+        <div class="p-3 text-amber font-medium"><a href="https://fortune.com/2026/05/05/anthropic-wall-street-financial-services-agents-jamie-dimon/" target="_blank" class="hover:underline">Dario Amodei × Jamie Dimon 首次共同站台</a></div>
+        <div class="p-3 text-amber font-medium">合规背书</div>
+      </div>
+    </div>
+
+    <div class="mt-8 text-[15px] lg:text-lg leading-relaxed font-light text-fg-dim">
+      <p class="mb-4"><a href="https://thenextweb.com/news/anthropic-financial-services-agents-claude-opus-4-7-fis" target="_blank" class="text-amber hover:underline">The Next Web</a> 的标题最精炼地概括了这点：<strong class="text-fg font-medium">"The day after the $1.5bn JV, Anthropic shipped what the JV will sell."</strong></p>
+      <p>全栈产品已具备：<strong class="text-fg font-medium">模型</strong>（Opus 4.7）+ <strong class="text-fg font-medium">接口</strong>（Microsoft 365）+ <strong class="text-fg font-medium">数据</strong>（Moody's + 8 家合作方）+ <strong class="text-fg font-medium">应用</strong>（10 个 Agent）+ <strong class="text-fg font-medium">渠道</strong>（$1.5B JV + Blackstone 275 家投组合）+ <strong class="text-fg font-medium">背书</strong>（Dimon）。</p>
+    </div>
+  </div>
+</section>
+
+<!-- § 02 COMPARISON -->
+<section class="max-w-wrap mx-auto px-[5vw] lg:px-12 relative z-[2] py-14 lg:py-28 border-b border-line">
+  <header class="grid grid-cols-1 lg:grid-cols-[120px_1fr] gap-4 lg:gap-12 items-baseline mb-10 lg:mb-[72px]">
+    <div class="cursor font-mono text-[10px] lg:text-[11px] tracking-[0.2em] text-amber pt-3 border-t border-amber uppercase">§ 02 / COMPARISON</div>
+    <h2 class="font-serif font-light text-[clamp(24px,7vw,68px)] leading-[1.05] tracking-tight">同日<em class="text-amber">两条路径</em><br/>Anthropic vs OpenAI</h2>
+  </header>
+
+  <div class="lg:ml-[168px] max-w-content">
+    <div class="border border-line font-mono text-xs overflow-x-auto">
+      <div class="grid grid-cols-[160px_1fr_1fr] border-b border-line bg-bg-2">
+        <div class="p-3 text-fg-mute text-[10px] tracking-[0.1em] uppercase">维度</div>
+        <div class="p-3 text-amber font-medium text-[11px]"><a href="https://www.anthropic.com/news/enterprise-ai-services-company" target="_blank" class="hover:underline">Anthropic JV</a></div>
+        <div class="p-3 text-mint font-medium text-[11px]"><a href="https://www.bloomberg.com/news/articles/2026-05-04/openai-finalizes-10-billion-joint-venture-with-pe-firms-to-deploy-ai" target="_blank" class="hover:underline">OpenAI DeployCo</a></div>
+      </div>
+      <div class="grid grid-cols-[160px_1fr_1fr] border-b border-line">
+        <div class="p-3 text-fg-dim">总规模</div>
+        <div class="p-3 text-fg">$1.5B 总承诺</div>
+        <div class="p-3 text-fg">$10B 估值 / $4B 实缴</div>
+      </div>
+      <div class="grid grid-cols-[160px_1fr_1fr] border-b border-line">
+        <div class="p-3 text-fg-dim">出资人数</div>
+        <div class="p-3 text-fg">8 家</div>
+        <div class="p-3 text-fg">19 家</div>
+      </div>
+      <div class="grid grid-cols-[160px_1fr_1fr] border-b border-line">
+        <div class="p-3 text-fg-dim">锚定方</div>
+        <div class="p-3 text-fg">Blackstone / H&F / Goldman</div>
+        <div class="p-3 text-fg">TPG / Brookfield / Bain</div>
+      </div>
+      <div class="grid grid-cols-[160px_1fr_1fr] border-b border-line bg-amber-soft">
+        <div class="p-3 text-amber font-medium">保底回报</div>
+        <div class="p-3 text-amber font-medium">无</div>
+        <div class="p-3 text-fg">5 年 17.5% 年化</div>
+      </div>
+      <div class="grid grid-cols-[160px_1fr_1fr] border-b border-line">
+        <div class="p-3 text-fg-dim">控制权</div>
+        <div class="p-3 text-fg">平等股权</div>
+        <div class="p-3 text-fg">super-voting shares</div>
+      </div>
+      <div class="grid grid-cols-[160px_1fr_1fr] border-b border-line bg-amber-soft">
+        <div class="p-3 text-amber font-medium">同日产品发布</div>
+        <div class="p-3 text-amber font-medium">✅ 10 个金融 Agent</div>
+        <div class="p-3 text-fg-mute">❌ 无</div>
+      </div>
+      <div class="grid grid-cols-[160px_1fr_1fr]">
+        <div class="p-3 text-fg-dim">投资人池重叠</div>
+        <div class="p-3 text-signal font-medium">0</div>
+        <div class="p-3 text-signal font-medium">0（完全不重叠）</div>
+      </div>
+    </div>
+    <p class="mt-6 text-[14px] text-fg-dim font-light leading-relaxed"><strong class="text-fg font-medium">两个阵营完全没有交集</strong>——5 月 4 日是华尔街向 AI 双寡头格局正式确权的日子。剩下的二线模型公司（Mistral / xAI / Cohere）窗口期正在关闭。</p>
+  </div>
+</section>
+
+<!-- PULLQUOTE -->
+<div class="max-w-wrap mx-auto px-[5vw] lg:px-12 relative z-[2]">
+  <blockquote class="pullquote-mark relative max-w-[960px] mx-auto py-10 lg:py-12 px-5 lg:px-14 border-t border-b border-amber my-10 lg:my-[72px]">
+    <span class="font-serif font-light text-[clamp(19px,5vw,36px)] leading-snug text-fg block">
+      Anthropic 这一周做的事不是"开咨询公司"，<br/>
+      是<em class="text-amber font-normal">完成了从模型公司到华尔街操作系统的转型公告</em>。
+    </span>
+    <cite class="block mt-6 font-mono text-[11px] text-amber tracking-[0.18em] uppercase not-italic">— XIAOPING · AI LAB DEEP ANALYSIS · 2026.05.06</cite>
+  </blockquote>
+</div>
+
+<!-- § 03 INSIGHTS -->
+<section class="max-w-wrap mx-auto px-[5vw] lg:px-12 relative z-[2] py-14 lg:py-28 border-b border-line">
+  <header class="grid grid-cols-1 lg:grid-cols-[120px_1fr] gap-4 lg:gap-12 items-baseline mb-10 lg:mb-[72px]">
+    <div class="cursor font-mono text-[10px] lg:text-[11px] tracking-[0.2em] text-amber pt-3 border-t border-amber uppercase">§ 03 / INSIGHTS</div>
+    <h2 class="font-serif font-light text-[clamp(24px,7vw,68px)] leading-[1.05] tracking-tight">五个<em class="text-amber">非共识</em>洞察<br/>基于事实，不瞎编</h2>
+  </header>
+
+  <div class="lg:ml-[168px] max-w-content grid grid-cols-1 gap-px bg-line border border-line">
+
+    <!-- Insight 01 -->
+    <div class="insight-current bg-bg p-6 lg:p-10">
+      <div class="grid grid-cols-[48px_1fr] gap-4 lg:gap-8">
+        <div class="font-mono text-[11px] text-amber tracking-[0.16em] pt-1">01</div>
+        <div>
+          <h4 class="font-serif text-xl lg:text-[26px] font-normal leading-snug mb-4">JV 不是"咨询业务"，是 PE 把 AI 服务市场 <em class="text-amber">roll-up</em></h4>
+          <p class="text-[14px] lg:text-base text-fg-dim leading-relaxed font-light mb-4"><strong class="text-fg font-medium">主流叙事</strong>：Anthropic 开 JV = 模型公司做咨询 = 与 Accenture 竞争。</p>
+          <p class="text-[14px] lg:text-base text-fg leading-relaxed font-light"><strong class="text-amber font-medium">真实判断</strong>：<a href="https://money.usnews.com/investing/news/articles/2026-05-05/openai-anthropic-ventures-in-talks-to-buy-ai-services-firms-sources-say" target="_blank" class="text-amber hover:underline">Reuters 5-05</a> 引述消息源：JV 资金主要用于<strong class="text-amber font-medium">收购现有 AI 服务公司</strong>，OpenAI 已在 3 笔收购 advanced stages。这是 PE 圈 30 年来在 dental / HVAC / accounting / IT MSP 行业用的经典 roll-up 剧本。<br/><strong class="text-fg font-medium">含义</strong>：Accenture / Deloitte 真正的威胁是 <strong class="text-amber font-medium">Blackstone 把碎片化中型 AI 咨询公司整合成大体量竞争者</strong>。</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Insight 02 -->
+    <div class="bg-bg p-6 lg:p-10 hover:bg-bg-2 transition-colors">
+      <div class="grid grid-cols-[48px_1fr] gap-4 lg:gap-8">
+        <div class="font-mono text-[11px] text-amber tracking-[0.16em] pt-1">02</div>
+        <div>
+          <h4 class="font-serif text-xl lg:text-[26px] font-normal leading-snug mb-4">OpenAI 17.5% 保底不是"信誉不足"，是 <em class="text-amber">PE roll-up 曲线对赌</em></h4>
+          <p class="text-[14px] lg:text-base text-fg-dim leading-relaxed font-light mb-4"><strong class="text-fg font-medium">主流叙事</strong>：OpenAI 用保底补偿 PE，承认企业落地能力不如 Anthropic。</p>
+          <p class="text-[14px] lg:text-base text-fg leading-relaxed font-light">PE roll-up 标准回报 20-30% IRR，17.5% 是下限。OpenAI 把"PE 整合 AI 服务市场的回报曲线"产品化成"OpenAI 兜底的 5 年期债权"——<strong class="text-amber font-medium">首次把 LBO 金融工程语言搬到 AI 服务市场</strong>。<br/><strong class="text-fg font-medium">Anthropic 不兜底也能拿到 8 家顶级 PE</strong>，意味着市场对 Anthropic 信任溢价更高。两条路径都成立。</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Insight 03 -->
+    <div class="insight-mint bg-bg p-6 lg:p-10">
+      <div class="grid grid-cols-[48px_1fr] gap-4 lg:gap-8">
+        <div class="font-mono text-[11px] text-mint tracking-[0.16em] pt-1">03</div>
+        <div>
+          <h4 class="font-serif text-xl lg:text-[26px] font-normal leading-snug mb-4">JPMorgan 已经实质性站队 Anthropic——<em class="text-mint">已公开</em></h4>
+          <p class="text-[14px] lg:text-base text-fg-dim leading-relaxed font-light mb-4">Jamie Dimon 2025 年全年公开质疑 AI capex（"speculative spending boom"）。5-05 与 Dario <a href="https://fortune.com/2026/05/05/anthropic-wall-street-financial-services-agents-jamie-dimon/" target="_blank" class="text-mint hover:underline">共同站台</a>并表态 <strong class="text-fg font-medium">"the AI buildout is worth every dollar"</strong>——立场反转幅度异常大。</p>
+          <p class="text-[14px] lg:text-base text-fg leading-relaxed font-light"><a href="https://anthropic.com/glasswing" target="_blank" class="text-mint hover:underline">Project Glasswing</a> 证明：JPMorgan 在 Dimon 站台<strong class="text-fg font-medium">之前</strong>已是 Anthropic 的官方合作伙伴——JPMorganChase CISO Pat Opet 在官方公告中直接署名。<br/><strong class="text-mint font-medium">含义</strong>：Citi / Morgan Stanley / Wells Fargo 将在未来 6 个月被迫做相同选择。</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Insight 04 -->
+    <div class="bg-bg p-6 lg:p-10 hover:bg-bg-2 transition-colors">
+      <div class="grid grid-cols-[48px_1fr] gap-4 lg:gap-8">
+        <div class="font-mono text-[11px] text-amber tracking-[0.16em] pt-1">04</div>
+        <div>
+          <h4 class="font-serif text-xl lg:text-[26px] font-normal leading-snug mb-4">真正的对手不是 Accenture，是 <em class="text-amber">Bloomberg Terminal</em></h4>
+          <p class="text-[14px] lg:text-base text-fg-dim leading-relaxed font-light mb-4">Bloomberg Terminal 收 $2.4 万 / 用户 / 年，30+ 万付费用户，30 年来没有真正威胁。</p>
+          <p class="text-[14px] lg:text-base text-fg leading-relaxed font-light">Anthropic 这一周的组合产品（Opus 4.7 + Microsoft 365 + Moody's + 10 Agent + Dimon 背书）是<strong class="text-amber font-medium">第一次有完整替代品</strong>——一个金融分析师过去用 Bloomberg 查数据 + Excel 建模 + PPT 写 pitch，现在 Claude 一个 Agent 做完。<br/>
+          佐证：<a href="https://www.anthropic.com/news/finance-agents" target="_blank" class="text-amber hover:underline"><strong class="text-amber font-medium">Carlyle（顶级 PE）</strong></a>已采用 Claude 作为 AI 技术栈核心；<strong class="text-amber font-medium"><a href="https://www.anthropic.com/news/finance-agents" target="_blank" class="text-amber hover:underline">Walleye Capital 400 人对冲基金 100% 员工使用 Claude Code</a></strong>。</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Insight 05 -->
+    <div class="bg-bg p-6 lg:p-10 hover:bg-bg-2 transition-colors">
+      <div class="grid grid-cols-[48px_1fr] gap-4 lg:gap-8">
+        <div class="font-mono text-[11px] text-amber tracking-[0.16em] pt-1">05</div>
+        <div>
+          <h4 class="font-serif text-xl lg:text-[26px] font-normal leading-snug mb-4">5-04 是华尔街向 AI 双寡头格局<em class="text-amber">正式确权</em>的日子</h4>
+          <p class="text-[14px] lg:text-base text-fg leading-relaxed font-light">OpenAI 阵营（TPG / Brookfield / Bain / Advent / SoftBank）vs Anthropic 阵营（Blackstone / H&F / Goldman / GA / Apollo / Leonard Green / GIC / Sequoia）——<strong class="text-amber font-medium">两个阵营完全没有交集</strong>。<br/><br/>
+          剩下的顶级 PE（KKR / Carlyle / CVC / EQT / Vista / Silver Lake）在 6 个月内必须选择：加入 Anthropic 第二轮、加入 OpenAI 后续轮、还是绑定二线模型公司。<strong class="text-fg font-medium">这个窗口期对 Mistral / Cohere / xAI 极重要</strong>——错过就只能在中型 PE 找伙伴，估值和资源差一个数量级。</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- § 04 IMPLICATIONS -->
+<section class="max-w-wrap mx-auto px-[5vw] lg:px-12 relative z-[2] py-14 lg:py-28 border-b border-line">
+  <header class="grid grid-cols-1 lg:grid-cols-[120px_1fr] gap-4 lg:gap-12 items-baseline mb-10 lg:mb-[72px]">
+    <div class="cursor font-mono text-[10px] lg:text-[11px] tracking-[0.2em] text-amber pt-3 border-t border-amber uppercase">§ 04 / IMPLICATIONS</div>
+    <h2 class="font-serif font-light text-[clamp(24px,7vw,68px)] leading-[1.05] tracking-tight">对其他大模型公司<br/>的<em class="text-amber">核心启示</em></h2>
+  </header>
+
+  <div class="lg:ml-[168px] max-w-content">
+    <div class="border border-line font-mono overflow-x-auto">
+      <div class="grid grid-cols-[100px_1fr_1fr] border-b border-line bg-bg-2 text-[10px] tracking-[0.1em] uppercase">
+        <div class="p-3 text-fg-mute">公司</div>
+        <div class="p-3 text-fg-mute">当前位置</div>
+        <div class="p-3 text-fg-mute">必须回答的问题</div>
+      </div>
+      <div class="grid grid-cols-[100px_1fr_1fr] border-b border-line text-[12px] lg:text-[13px]">
+        <div class="p-3 text-amber font-medium">Mistral</div>
+        <div class="p-3 text-fg-dim">Accenture 多年合作（已有），无 PE JV</div>
+        <div class="p-3 text-fg">6 个月内能否拉到 EQT / CVC 做欧洲版 JV？</div>
+      </div>
+      <div class="grid grid-cols-[100px_1fr_1fr] border-b border-line text-[12px] lg:text-[13px]">
+        <div class="p-3 text-fg">xAI</div>
+        <div class="p-3 text-fg-dim">暂无清晰企业服务战略</div>
+        <div class="p-3 text-fg">是否承认 PE JV 模式？还是赌 Musk 个人关系网？</div>
+      </div>
+      <div class="grid grid-cols-[100px_1fr_1fr] border-b border-line text-[12px] lg:text-[13px]">
+        <div class="p-3 text-fg">Cohere</div>
+        <div class="p-3 text-fg-dim">加拿大金融垂直，规模小</div>
+        <div class="p-3 text-fg">能否找到行业垂直 PE 做"加拿大金融 AI roll-up"？</div>
+      </div>
+      <div class="grid grid-cols-[100px_1fr_1fr] border-b border-line text-[12px] lg:text-[13px]">
+        <div class="p-3 text-fg-mute">DeepSeek</div>
+        <div class="p-3 text-fg-dim">开源 + 中国地缘约束</div>
+        <div class="p-3 text-fg-dim">美欧企业市场已基本封闭——只能做亚洲 + 开源生态</div>
+      </div>
+      <div class="grid grid-cols-[100px_1fr_1fr] text-[12px] lg:text-[13px]">
+        <div class="p-3 text-fg-dim">Google / MS</div>
+        <div class="p-3 text-fg-dim">自营云 + SI 关系，无需 JV</div>
+        <div class="p-3 text-fg-dim">警惕 PE 资本被锁完后，二线模型公司反向竞争 Cloud</div>
+      </div>
+    </div>
+    <div class="mt-8 p-5 lg:p-7 bg-amber-soft border-l-4 border-amber">
+      <p class="font-serif text-base lg:text-[17px] text-fg leading-relaxed font-light">如果你不能在 <strong class="text-amber font-medium">2026 H2 之前</strong>给出"如何上移到实施层"的答案，你的估值故事会在 <strong class="text-amber font-medium">2027 年被市场重新定价</strong>。</p>
+    </div>
+  </div>
+</section>
+
+<!-- § 05 RISKS -->
+<section class="max-w-wrap mx-auto px-[5vw] lg:px-12 relative z-[2] py-14 lg:py-28 border-b border-line">
+  <header class="grid grid-cols-1 lg:grid-cols-[120px_1fr] gap-4 lg:gap-12 items-baseline mb-10 lg:mb-[72px]">
+    <div class="cursor font-mono text-[10px] lg:text-[11px] tracking-[0.2em] text-amber pt-3 border-t border-amber uppercase">§ 05 / RISKS</div>
+    <h2 class="font-serif font-light text-[clamp(24px,7vw,68px)] leading-[1.05] tracking-tight">风险与<em class="text-amber">值得追踪</em><br/>的 12 个月信号</h2>
+  </header>
+
+  <div class="lg:ml-[168px] max-w-content">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-10">
+      <div class="p-5 bg-bg-2 border border-signal/30">
+        <div class="font-mono text-[10px] tracking-[0.18em] text-signal uppercase mb-3">风险（不能忽视）</div>
+        <ul class="space-y-2 text-[14px] text-fg-dim font-light leading-relaxed">
+          <li>· 金融业 JV 历史业绩欠佳（PE + Tech 过去 20 年成功率不高）</li>
+          <li>· Claude 3 年后形态可能完全不同——FDE 模式可能被 Agent 自动化淘汰</li>
+          <li>· "谨慎实验室"定位与深度部署 Blackstone 275 家投组合的张力</li>
+          <li>· <strong class="text-fg font-medium">Blackstone 既是 Anthropic 股东又是 JV 联合发起人</strong>——SEC 审计会要求详细披露利益冲突</li>
+        </ul>
+      </div>
+      <div class="p-5 bg-bg-2 border border-mint/30">
+        <div class="font-mono text-[10px] tracking-[0.18em] text-mint uppercase mb-3">12 个月内值得追踪</div>
+        <ul class="space-y-2 text-[14px] text-fg-dim font-light leading-relaxed">
+          <li>1. <strong class="text-fg font-medium">JV 命名 + CEO 任命</strong>——决定它是哪种气质的公司</li>
+          <li>2. <strong class="text-fg font-medium">首批收购公布</strong>——OpenAI 3 笔收购 6 个月内会出来</li>
+          <li>3. <strong class="text-fg font-medium">Accenture / Deloitte 反应</strong>——是支持还是反击？</li>
+          <li>4. <strong class="text-fg font-medium">JPMorgan 关系公开</strong>——洞察 3 是否兑现的关键信号</li>
+          <li>5. <strong class="text-fg font-medium">Mistral / Cohere / xAI 跟进</strong>——谁能在 6 个月内拉到顶级 PE？</li>
+          <li>6. <strong class="text-fg font-medium">Bloomberg 反应</strong>——如何应对第一个 existential 威胁？</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SYNTHESIS -->
+<section class="max-w-wrap mx-auto px-[5vw] lg:px-12 relative z-[2] py-14 lg:py-28 border-b border-line">
+  <div class="synthesis-label lg:ml-[168px] max-w-content mt-0 p-6 lg:p-10 border border-dashed border-amber bg-amber-soft relative">
+    <p class="font-serif text-[15px] lg:text-[18px] leading-[1.75] text-fg font-light mb-4">Anthropic 这 72 小时做了三件事：</p>
+    <ol class="font-serif text-[15px] lg:text-[17px] leading-[1.8] text-fg font-light mb-6 space-y-2">
+      <li><strong class="text-amber font-medium">1.</strong> 拿到金融业最大资本的分销网络（5-04 JV）</li>
+      <li><strong class="text-amber font-medium">2.</strong> 同步发布货架商品（5-05 10 个金融 Agent + Microsoft 365 + Moody's）</li>
+      <li><strong class="text-amber font-medium">3.</strong> 拿到华尔街最大银行 CEO 的合规背书（5-05 Dimon 站台）</li>
+    </ol>
+    <p class="font-serif text-[15px] lg:text-[17px] leading-[1.75] text-fg font-light">这三件事合在一起，<strong class="text-amber font-medium">不是"开咨询公司"</strong>——是<strong class="text-amber font-medium">"成为华尔街金融工作流的默认 AI 层"</strong>。<br/><br/>如果 5 年后回头看，2026 年 5 月第一周可能是 AI 商业历史上最重要的一周——<strong class="text-fg font-medium">模型公司不再是模型公司，PE 资本第一次成为 AI GTM 引擎，华尔街正式向 AI 双寡头格局确权</strong>。</p>
+  </div>
+</section>
+
+<!-- CODA -->
+<section class="max-w-wrap mx-auto px-[5vw] lg:px-12 relative z-[2] py-20 lg:py-32 text-center border-b border-line">
+  <div class="w-3.5 h-3.5 bg-amber shadow-[0_0_18px_#f5a524,0_0_42px_rgba(245,165,36,0.2)] mx-auto mb-14" style="animation:pulse 2.4s ease-in-out infinite"></div>
+  <h2 class="font-serif font-light text-[clamp(20px,5.5vw,52px)] leading-snug max-w-[880px] mx-auto tracking-tight">剩下的所有大模型公司，<br/>无论是否愿意都必须面对<em class="text-amber font-normal">这个新现实</em>。</h2>
+  <p class="max-w-[640px] mx-auto mt-8 text-fg-dim text-[15px] lg:text-[17px] leading-relaxed font-light">完整深度分析请阅读：<a href="https://fxp.github.io/AI-Buzzwords/viewer.html?f=deepdive/anthropic-enterprise-ai/anthropic-enterprise-ai.html" class="text-amber hover:underline">Anthropic 企业 AI 服务公司——战略深度分析</a></p>
+</section>
+
+<!-- SERIES BAND -->
+<section class="max-w-wrap mx-auto px-[5vw] lg:px-12 relative z-[2] py-20 lg:py-24 border-b border-line">
+  <div class="series-inner-bg max-w-[1100px] mx-auto border border-amber p-7 lg:p-14 relative">
+    <div class="flex items-center gap-6 mb-9">
+      <span class="font-mono text-[11px] tracking-[0.22em] text-amber uppercase">AI LAB / 系列</span>
+      <div data-lang-switcher data-slug="anthropic-enterprise-ai" style="margin-left:auto"></div>
+      <span class="flex-1 h-px bg-line-bright"></span>
+    </div>
+    <h3 class="font-serif font-light text-[clamp(20px,5vw,42px)] leading-snug tracking-tight mb-4">这是 <em class="text-amber font-normal">AI Lab Deep Analysis</em> 系列</h3>
+    <p class="max-w-[780px] text-sm lg:text-base text-fg-dim font-light leading-relaxed mb-10">AI Lab 系列关注<strong class="text-fg font-medium">前沿 AI 实验室的战略转型与商业化路径</strong>——从模型能力到企业部署，从资本结构到市场格局。</p>
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-px bg-line border border-line">
+      <div class="insight-current p-6"><div class="font-mono text-[10px] tracking-[0.16em] text-amber uppercase mb-3.5">№ 01 · 本期</div><div class="font-serif text-[22px] font-normal text-fg mb-2">ANTHROPIC</div><div class="font-mono text-[11px] text-fg-dim leading-snug">企业 AI 服务公司 · 模型公司的 72 小时转型</div></div>
+      <div class="bg-bg p-6"><div class="font-mono text-[10px] tracking-[0.16em] text-fg-mute uppercase mb-3.5">配套 · 深度分析</div><div class="font-serif text-[22px] font-normal text-fg-mute mb-2">战略全景</div><div class="font-mono text-[11px] text-fg-dim leading-snug">Anthropic 公司全景 1-7 系列</div></div>
+      <div class="bg-bg p-6"><div class="font-mono text-[10px] tracking-[0.16em] text-fg-mute uppercase mb-3.5">№ 02 · 编辑中</div><div class="font-serif text-[22px] font-normal text-fg-mute mb-2">———</div><div class="font-mono text-[11px] text-fg-dim leading-snug">敬请期待</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="max-w-wrap mx-auto px-[5vw] lg:px-12 relative z-[2] pt-14 pb-20 font-mono text-[11px] text-fg-mute tracking-[0.1em]">
+  <div class="grid grid-cols-1 lg:grid-cols-4 gap-7 lg:gap-10 mb-12">
+    <div>
+      <h6 class="text-amber text-[10px] tracking-[0.2em] mb-4 uppercase font-normal">TIER 1 · 官方信源</h6>
+      <ul class="space-y-1.5">
+        <li><a href="https://www.anthropic.com/news/enterprise-ai-services-company" target="_blank" class="text-fg-dim hover:text-amber transition-colors">Anthropic JV 官方公告 (5-04)</a></li>
+        <li><a href="https://www.anthropic.com/news/finance-agents" target="_blank" class="text-fg-dim hover:text-amber transition-colors">Anthropic 金融 Agents (5-05)</a></li>
+        <li><a href="https://anthropic.com/glasswing" target="_blank" class="text-fg-dim hover:text-amber transition-colors">Project Glasswing · JPMorgan</a></li>
+        <li><a href="https://anthropic.com/news/anthropic-amazon-compute" target="_blank" class="text-fg-dim hover:text-amber transition-colors">ARR $30B · Amazon 协议</a></li>
+        <li><a href="https://www.blackstone.com/news/press/anthropic-partners-with-blackstone-hellman-friedman-and-goldman-sachs-to-launch-enterprise-ai-services-firm/" target="_blank" class="text-fg-dim hover:text-amber transition-colors">Blackstone 新闻稿</a></li>
+      </ul>
+    </div>
+    <div>
+      <h6 class="text-amber text-[10px] tracking-[0.2em] mb-4 uppercase font-normal">TIER 2 · 顶级财经媒体</h6>
+      <ul class="space-y-1.5">
+        <li><a href="https://www.bloomberg.com/news/articles/2026-05-04/openai-finalizes-10-billion-joint-venture-with-pe-firms-to-deploy-ai" target="_blank" class="text-fg-dim hover:text-amber transition-colors">Bloomberg · OpenAI DeployCo</a></li>
+        <li><a href="https://fortune.com/2026/05/05/anthropic-wall-street-financial-services-agents-jamie-dimon/" target="_blank" class="text-fg-dim hover:text-amber transition-colors">Fortune · Dimon 站台 (5-05)</a></li>
+        <li><a href="https://money.usnews.com/investing/news/articles/2026-05-05/openai-anthropic-ventures-in-talks-to-buy-ai-services-firms-sources-say" target="_blank" class="text-fg-dim hover:text-amber transition-colors">Reuters 5-05 · JV 收购用途</a></li>
+        <li><a href="https://www.cnbc.com/2026/05/04/anthropic-goldman-blackstone-ai-venture.html" target="_blank" class="text-fg-dim hover:text-amber transition-colors">CNBC · Marc Nachmann 专访</a></li>
+      </ul>
+    </div>
+    <div>
+      <h6 class="text-amber text-[10px] tracking-[0.2em] mb-4 uppercase font-normal">TIER 3 · 行业分析</h6>
+      <ul class="space-y-1.5">
+        <li><a href="https://thenextweb.com/news/anthropic-financial-services-agents-claude-opus-4-7-fis" target="_blank" class="text-fg-dim hover:text-amber transition-colors text-amber font-medium">The Next Web 5-05 · JV是渠道</a></li>
+        <li><a href="https://thenextweb.com/news/openai-deployco-finalized-10-billion-joint-venture" target="_blank" class="text-fg-dim hover:text-amber transition-colors">The Next Web · DeployCo 批判</a></li>
+        <li><a href="https://newsletter.pragmaticengineer.com/p/forward-deployed-engineers" target="_blank" class="text-fg-dim hover:text-amber transition-colors">Pragmatic Engineer · FDE 800%</a></li>
+        <li><a href="https://www.horsesforsources.com/anthropic-is-devouring-it-services_041326/" target="_blank" class="text-fg-dim hover:text-amber transition-colors">Horses for Sources · IT 服务警告</a></li>
+      </ul>
+    </div>
+    <div>
+      <h6 class="text-amber text-[10px] tracking-[0.2em] mb-4 uppercase font-normal">配套阅读</h6>
+      <ul class="space-y-1.5">
+        <li class="text-amber font-medium">AI LAB № 01 · 本文</li>
+        <li><a href="../../viewer.html?f=deepdive/anthropic-enterprise-ai/anthropic-enterprise-ai.html" class="text-fg-dim hover:text-amber transition-colors">完整战略深度分析</a></li>
+        <li class="pt-2 mt-2 border-t border-line">Anthropic 公司全景 01-07</li>
+        <li class="text-mint font-medium">Claude 桌面版开发者指南</li>
+      </ul>
+    </div>
+  </div>
+  <div class="flex flex-col lg:flex-row justify-between pt-8 border-t border-line text-[9px] lg:text-[10px] tracking-[0.16em] uppercase gap-2">
+    <span>AI LAB № 01 · ANTHROPIC — ENTERPRISE AI SERVICES COMPANY</span>
+    <span>AI LAB DEEP ANALYSIS · 2026.05 · xiaoping</span>
+  </div>
+</footer>
+
+</body>
+</html>

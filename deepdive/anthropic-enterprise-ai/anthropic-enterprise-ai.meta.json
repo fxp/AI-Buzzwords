@@ -1,0 +1,26 @@
+{
+  "$schema": "../../config/meta.schema.json",
+  "slug": "anthropic-enterprise-ai",
+  "topic_dir": "anthropic-enterprise-ai",
+  "title": {
+    "zh": "Anthropic 的 72 小时：模型公司不再是模型公司",
+    "en": null
+  },
+  "current_version": 1,
+  "first_published": "2026-05-06",
+  "last_updated": "2026-05-06",
+  "freshness_priority": "hot",
+  "next_check": "2026-05-13",
+  "languages": ["zh"],
+  "primary_language": "zh",
+  "translations": {},
+  "version_log": [
+    {
+      "v": 1,
+      "date": "2026-05-06",
+      "git": "",
+      "summary": "首次发布：AI LAB深度分析，Anthropic企业AI服务公司72小时事件复盘"
+    }
+  ],
+  "tags": ["anthropic", "pe-jv", "enterprise-ai", "wall-street", "finance-agents"]
+}
