@@ -1,0 +1,26 @@
+{
+  "$schema": "../../config/meta.schema.json",
+  "slug": "china-llm-enterprise-ai",
+  "topic_dir": "china-llm-enterprise-ai",
+  "title": {
+    "zh": "中国大模型企业的 Anthropic 时刻",
+    "en": null
+  },
+  "current_version": 1,
+  "first_published": "2026-05-06",
+  "last_updated": "2026-05-06",
+  "freshness_priority": "hot",
+  "next_check": "2026-05-13",
+  "languages": ["zh"],
+  "primary_language": "zh",
+  "translations": {},
+  "version_log": [
+    {
+      "v": 1,
+      "date": "2026-05-06",
+      "git": "",
+      "summary": "首次发布：Anthropic企业AI事件对中国大模型企业的启示，含中美差异地图、现状矩阵、中国版三层结构可复制路径"
+    }
+  ],
+  "tags": ["anthropic", "china-llm", "enterprise-ai", "data-sovereignty", "pe-jv", "zhipu", "alibaba", "baidu"]
+}
