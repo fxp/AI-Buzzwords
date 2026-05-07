@@ -1,10 +1,12 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="red">
 <head>
 <style id="theme-vars">:root{--accent:#e84040;--accent-glow:rgba(232,64,64,0.30);--accent-soft:rgba(232,64,64,0.10);}</style>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>When AI Becomes the Employer — RentAHuman and the Paradigm Inversion of the Meatspace Economy</title>
+<!-- Design System v2: canonical token CSS (fonts, themes, type, CJK rules) -->
+<link rel="stylesheet" href="../../colors_and_type.css">
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,700&family=JetBrains+Mono:wght@300;400;500;700&display=swap" rel="stylesheet" />
@@ -85,6 +87,7 @@ body::before {
 </style>
 
   <script src="../../lang-switcher.js" defer></script>
+  <script src="../../mode-toggle.js" defer></script>
   <link rel="alternate" hreflang="zh" href="rentahuman.html" />
   <link rel="alternate" hreflang="en" href="rentahuman.en.html" />
   <link rel="alternate" hreflang="x-default" href="rentahuman.html" />
@@ -100,6 +103,9 @@ body::before {
     <span class="font-mono text-[9px] lg:text-[10px] tracking-[0.18em] uppercase text-fg-mute">[NEWJOB] · RentAHuman</span>
     <a href="index.html" class="font-mono text-[9px] lg:text-[10px] tracking-[0.18em] uppercase text-fg-mute hover:text-accent border border-line-bright px-2 py-0.5 transition-colors">← 全景</a>
     <div data-lang-switcher data-slug="rentahuman" style="margin-left:auto"></div>
+    <button data-toggle-mode aria-pressed="false" class="font-mono text-[9px] lg:text-[10px] tracking-[0.18em] uppercase text-fg-mute hover:text-accent border border-line-bright px-2 py-0.5 transition-colors" style="background:transparent;cursor:pointer" data-label-light="Light" data-label-dark="Dark">
+      <span data-mode-icon>◐</span> <span data-mode-label>Dark</span>
+    </button>
     <span class="flex-1 h-px bg-line hidden lg:block"></span>
     <span class="font-mono text-[9px] tracking-[0.14em] text-fg-mute">v1 · 2026 · MAY 01</span>
   </div>

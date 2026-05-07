@@ -1,10 +1,12 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="mint">
 <head>
 <style id="theme-vars">:root{--accent:#7fb88b;--accent-glow:rgba(127,184,139,0.28);--accent-soft:rgba(127,184,139,0.12);}</style>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>More Than a Desktop Pet — What Claude Desktop Buddy Means for Developers</title>
+<!-- Design System v2: canonical token CSS (fonts, themes, type, CJK rules) -->
+<link rel="stylesheet" href="../../colors_and_type.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -112,6 +114,7 @@
     }
   </style>
   <script src="../../lang-switcher.js" defer></script>
+  <script src="../../mode-toggle.js" defer></script>
   <link rel="alternate" hreflang="zh" href="prd.html" />
   <link rel="alternate" hreflang="en" href="prd.en.html" />
   <link rel="alternate" hreflang="x-default" href="prd.html" />
@@ -125,6 +128,9 @@
     <span class="font-mono text-[9px] lg:text-[10px] tracking-[0.18em] uppercase text-fg-mute">[LAB] · CLAUDE DESKTOP BUDDY № 01</span>
     <a href="protocol.html" class="font-mono text-[9px] lg:text-[10px] tracking-[0.18em] uppercase text-fg-mute hover:text-accent border border-line-bright px-2 py-0.5 transition-colors">→ № 02 Protocol</a>
     <div data-lang-switcher data-slug="prd" style="margin-left:auto"></div>
+    <button data-toggle-mode aria-pressed="false" class="font-mono text-[9px] lg:text-[10px] tracking-[0.18em] uppercase text-fg-mute hover:text-accent border border-line-bright px-2 py-0.5 transition-colors" style="background:transparent;cursor:pointer" data-label-light="Light" data-label-dark="Dark">
+      <span data-mode-icon>◐</span> <span data-mode-label>Dark</span>
+    </button>
     <span class="flex-1 h-px bg-line hidden lg:block"></span>
     <span class="font-mono text-[9px] tracking-[0.14em] text-fg-mute">v1 · 2026</span>
   </div>
