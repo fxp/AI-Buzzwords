@@ -1,0 +1,26 @@
+<!--
+  Standardized TOP STRIP component (Pattern A · single-row flex)
+  Drop-in replacement for any article's top strip.
+
+  Slots:
+    {{TOPIC_LABEL}}      [ECONOMY] · 白领工作终局
+    {{NAV_PILL_HREF}}    optional (omit the <a> if not needed)
+    {{NAV_PILL_LABEL}}   optional
+    {{SLUG}}             white-collar
+    {{VERSION_LABEL}}    v2 · 2026 · MAY 05 · 增补 ...
+
+  Renders:
+    [●] DEEPDIVE / [TOPIC_LABEL] [NAV_PILL]   [LANG_SWITCHER]   |  VERSION_LABEL
+-->
+<div class="relative z-[2] border-b border-line">
+  <div class="max-w-wrap mx-auto px-[5vw] lg:px-12 py-3 flex items-center gap-4 flex-wrap">
+    <span class="lamp mr-1"></span>
+    <span class="font-mono text-[9px] lg:text-[10px] tracking-[0.22em] uppercase text-accent">DEEPDIVE</span>
+    <span class="text-line-bright font-mono text-[10px]">/</span>
+    <span class="font-mono text-[9px] lg:text-[10px] tracking-[0.18em] uppercase text-fg-mute">{{TOPIC_LABEL}}</span>
+    <a href="{{NAV_PILL_HREF}}" class="font-mono text-[9px] lg:text-[10px] tracking-[0.18em] uppercase text-fg-mute hover:text-accent border border-line-bright px-2 py-0.5 transition-colors">{{NAV_PILL_LABEL}}</a>
+    <div data-lang-switcher data-slug="{{SLUG}}" style="margin-left:auto"></div>
+    <span class="flex-1 h-px bg-line hidden lg:block"></span>
+    <span class="font-mono text-[9px] tracking-[0.14em] text-fg-mute">{{VERSION_LABEL}}</span>
+  </div>
+</div>

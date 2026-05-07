@@ -370,7 +370,73 @@ See related memory files:
 
 ---
 
-## 13. Project structure quick reference
+## 13. Article template + style normalization (added 2026-05-07)
+
+Every published article shares a unified chrome — top strip + theme tokens
++ lang-switcher placement. Bespoke hero / sections / footers stay per-article.
+
+### Template files
+
+| File | Purpose |
+|---|---|
+| `templates/article.html` | Golden template with `{{PLACEHOLDERS}}`. Use as starting point for new articles. |
+| `templates/_strip.html` | Drop-in TOP STRIP component (single-row Pattern A). |
+| `config/themes.json` | Per-article accent + topic label + version label + nav pill. Edit when adding new article. |
+
+### Theme palette (4 colors only)
+
+| Token | Hex | Use for |
+|---|---|---|
+| `red` | `#e84040` | Alarming/urgent (labor, military, leaks) |
+| `signal` | `#d1402c` | Alarming variant |
+| `amber` | `#f5a524` | Analytical/historical (Cybertonia, NeoLab, Palantir) |
+| `mint` | `#7fb88b` | Research/discovery (Emotion Vectors, Project DEAL, Buddy) |
+
+Each article picks ONE accent. The body gets `data-theme="<accent>"` and a
+`<style id="theme-vars">:root{--accent:...}</style>` block in `<head>`.
+
+### Normalize existing article (replace strip + apply theme)
+
+```bash
+python3 scripts/normalize_strip.py --dry-run             # preview all
+python3 scripts/normalize_strip.py --slug <slug> --dry-run
+python3 scripts/normalize_strip.py                        # apply all
+```
+
+The script:
+1. Finds the existing TOP STRIP block (works on Pattern A and Pattern B
+   layouts, balances `<div>` nesting properly)
+2. Replaces with standardized strip rendered from `templates/_strip.html` +
+   `config/themes.json`
+3. Removes any stray `<div data-lang-switcher>` placed outside the strip
+   (the broken Phase-1 injection)
+4. Adds `data-theme="..."` to `<body>`
+5. Injects `:root{--accent:...}` CSS variables
+
+Idempotent — re-running on already-normalized files is a no-op.
+
+### Articles excluded from normalize
+
+`SKIP_SLUGS` in `normalize_strip.py` lists articles whose custom CSS would
+break with the standardized strip. Currently: `dimension-map` (uses pure
+custom CSS, no Tailwind config block).
+
+### Adding a new article — full sequence
+
+```bash
+# 1. Author or migrate ZH HTML to deepdive/<topic>/<slug>.html
+# 2. Add entry to config/themes.json under "articles"
+# 3. Create deepdive/<topic>/<slug>.meta.json (see §3)
+# 4. Run normalizer to apply standard strip
+python3 scripts/normalize_strip.py --slug <slug>
+# 5. Translation + lang-switcher injection happens via Action on push
+git add deepdive/<topic>/ config/themes.json
+git commit -m "Add article: <slug>" && git push
+```
+
+---
+
+## 14. Project structure quick reference
 
 ```
 ~/Code/AI-Buzzwords/
@@ -383,11 +449,16 @@ See related memory files:
 ├── wrangler.toml                 # Worker config
 ├── config/
 │   ├── languages.json            # multilingual registry
-│   └── glossary.json             # ZH/EN term library
+│   ├── glossary.json             # ZH/EN term library
+│   └── themes.json               # per-article accent + topic label registry
+├── templates/
+│   ├── article.html              # golden article template
+│   └── _strip.html               # drop-in TOP STRIP component
 ├── scripts/
 │   ├── translate.py              # GLM-5.1 / Claude translation
 │   ├── freshness_check.py        # weekly content scan
 │   ├── inject_lang_switcher.py   # post-translation switcher injection
+│   ├── normalize_strip.py        # unify TOP STRIP across articles
 │   ├── llm_client.py             # provider-agnostic LLM caller
 │   ├── notify_slack.py           # webhook posting
 │   └── publish-md.sh             # legacy md publish helper
@@ -409,7 +480,7 @@ See related memory files:
 
 ---
 
-## 14. Authoring philosophy reminder
+## 15. Authoring philosophy reminder
 
 This isn't a generic blog. The user maintains opinionated, deeply researched articles on AI/labor/policy topics. When asked to extend, refactor, or add to an article:
 

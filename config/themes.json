@@ -1,0 +1,29 @@
+{
+  "$schema": "Per-article theme registry. accent must be one of: red, signal, amber, mint",
+  "version": 1,
+  "palette": {
+    "red":    { "hex": "#e84040", "soft": "rgba(232,64,64,0.10)",  "glow": "rgba(232,64,64,0.30)",  "use_for": "alarming/urgent (labor, military, leaks)" },
+    "signal": { "hex": "#d1402c", "soft": "rgba(209,64,44,0.10)",  "glow": "rgba(209,64,44,0.28)",  "use_for": "alarming variant" },
+    "amber":  { "hex": "#f5a524", "soft": "rgba(245,165,36,0.10)", "glow": "rgba(245,165,36,0.28)", "use_for": "analytical/historical (Cybertonia, NeoLab)" },
+    "mint":   { "hex": "#7fb88b", "soft": "rgba(127,184,139,0.12)", "glow": "rgba(127,184,139,0.28)", "use_for": "research/discovery (Emotion Vectors, Project DEAL)" }
+  },
+  "default_theme": "red",
+  "articles": {
+    "ai-military":           { "accent": "red",    "topic_label": "[GOV] · AI Military",                  "version_label": "v1 · 2026 · APR 30",                                                "nav_pill": null },
+    "claude-code-leak":      { "accent": "signal", "topic_label": "[AGENT] · Claude Code 泄露",            "version_label": "v1 · 2026 · APR 30",                                                "nav_pill": null },
+    "cybertonia":            { "accent": "amber",  "topic_label": "[TRENDS] · Cybertonia",                "version_label": "v1 · 2026 · APR 30",                                                "nav_pill": null },
+    "emotion-vectors":       { "accent": "mint",   "topic_label": "[MODELS] · 情感向量",                   "version_label": "v1 · 2026 · APR 30",                                                "nav_pill": null },
+    "neolab":                { "accent": "amber",  "topic_label": "[NEOLAB] · ANDON LABS",                "version_label": "v1 · 2026 · APR 28",                                                "nav_pill": null },
+    "project-deal":          { "accent": "mint",   "topic_label": "[NEOLAB] · APPENDIX A",                "version_label": "v1 · 2026 · APR 28",                                                "nav_pill": { "href": "index.html", "label": "← NEO LAB № 01" } },
+    "palantir-aip":          { "accent": "amber",  "topic_label": "[ENTERPRISE] · Palantir AIP",          "version_label": "v1 · 2026 · APR 30",                                                "nav_pill": null },
+    "labor-day-2026":        { "accent": "red",    "topic_label": "[ECONOMY] · 五一劳动 vs AI 全景",        "version_label": "v1 · 2026 · MAY 01",                                                "nav_pill": { "href": "dimension-map.html", "label": "维度地图" } },
+    "white-collar":          { "accent": "red",    "topic_label": "[ECONOMY] · 白领工作终局",              "version_label": "v2 · 2026 · MAY 05 · 增补 Huang 反驳 / Yale 反证 / Amazon 实证",      "nav_pill": { "href": "dimension-map.html", "label": "L3-1 · 劳动市场 / 入口" } },
+    "rentahuman":            { "accent": "red",    "topic_label": "[NEWJOB] · RentAHuman",                "version_label": "v1 · 2026 · MAY 01",                                                "nav_pill": { "href": "index.html", "label": "← 全景" } },
+    "dimension-map":         { "accent": "red",    "topic_label": "[ECONOMY] · 五维度选题地图",           "version_label": "v1 · 2026 · MAY 05",                                                "nav_pill": { "href": "index.html", "label": "← 全景导言" } },
+    "anthropic-enterprise-ai": { "accent": "amber", "topic_label": "[LAB] · ANTHROPIC",                    "version_label": "v1 · 2026 · MAY 04—06",                                              "nav_pill": null },
+    "china-llm-enterprise-ai": { "accent": "amber", "topic_label": "[GEO] · 中国大模型 ToB",               "version_label": "v1 · 2026",                                                          "nav_pill": null },
+    "china-software-vs-west":  { "accent": "amber", "topic_label": "[GEO] · 中国软件 vs 西方",             "version_label": "v1 · 2026",                                                          "nav_pill": null },
+    "prd":                   { "accent": "mint",   "topic_label": "[LAB] · CLAUDE DESKTOP BUDDY № 01",    "version_label": "v1 · 2026",                                                          "nav_pill": { "href": "protocol.html", "label": "→ № 02 协议篇" } },
+    "protocol":              { "accent": "mint",   "topic_label": "[LAB] · CLAUDE DESKTOP BUDDY № 02",    "version_label": "v1 · 2026",                                                          "nav_pill": { "href": "prd.html", "label": "← № 01 价值篇" } }
+  }
+}

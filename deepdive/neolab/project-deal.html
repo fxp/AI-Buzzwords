@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh">
 <head>
+<style id="theme-vars">:root{--accent:#7fb88b;--accent-glow:rgba(127,184,139,0.28);--accent-soft:rgba(127,184,139,0.12);}</style>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>NEO LAB № 01 · APPENDIX A / PROJECT DEAL · 看不见的不平等</title>
@@ -163,15 +164,18 @@ body::after {
   <link rel="alternate" hreflang="x-default" href="project-deal.html" />
 </head>
 
-<body class="bg-bg text-fg font-serif leading-relaxed overflow-x-hidden">
+<body class="bg-bg text-fg font-serif leading-relaxed overflow-x-hidden" data-theme="mint">
 
-<!-- TOP STRIP -->
-<div class="max-w-wrap mx-auto px-[5vw] lg:px-12 relative z-2">
-  <div class="border-b border-line py-3.5 font-mono text-[10px] lg:text-[11px] tracking-wide2 uppercase text-fg-dim grid grid-cols-1 lg:grid-cols-4 gap-2 lg:gap-6 items-center">
-    <div><span class="lamp mr-2.5"></span>NEO LAB / № 01 · APPENDIX A</div>
-    <div class="hidden lg:block">SUBJECT / PROJECT DEAL</div>
-    <div class="hidden lg:block">FILED / 2026.04.26</div>
-    <div class="lg:text-right">ANTHROPIC · PROJECT DEAL</div>
+<div class="relative z-[2] border-b border-line">
+  <div class="max-w-wrap mx-auto px-[5vw] lg:px-12 py-3 flex items-center gap-4 flex-wrap">
+    <span class="lamp mr-1"></span>
+    <span class="font-mono text-[9px] lg:text-[10px] tracking-[0.22em] uppercase text-accent">DEEPDIVE</span>
+    <span class="text-line-bright font-mono text-[10px]">/</span>
+    <span class="font-mono text-[9px] lg:text-[10px] tracking-[0.18em] uppercase text-fg-mute">[NEOLAB] · APPENDIX A</span>
+    <a href="index.html" class="font-mono text-[9px] lg:text-[10px] tracking-[0.18em] uppercase text-fg-mute hover:text-accent border border-line-bright px-2 py-0.5 transition-colors">← NEO LAB № 01</a>
+    <div data-lang-switcher data-slug="project-deal" style="margin-left:auto"></div>
+    <span class="flex-1 h-px bg-line hidden lg:block"></span>
+    <span class="font-mono text-[9px] tracking-[0.14em] text-fg-mute">v1 · 2026 · APR 28</span>
   </div>
 </div>
 

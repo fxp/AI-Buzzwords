@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh">
 <head>
+<style id="theme-vars">:root{--accent:#f5a524;--accent-glow:rgba(245,165,36,0.28);--accent-soft:rgba(245,165,36,0.10);}</style>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>AI LAB / ANTHROPIC · 模型公司不再是模型公司</title>
@@ -69,15 +70,17 @@ body::after { content:''; position:fixed; inset:0; background-image:url("data:im
   <link rel="alternate" hreflang="x-default" href="anthropic-enterprise-ai.html" />
 </head>
 
-<body class="bg-bg text-fg font-serif leading-relaxed overflow-x-hidden">
+<body class="bg-bg text-fg font-serif leading-relaxed overflow-x-hidden" data-theme="amber">
 
-<!-- TOP STRIP -->
-<div class="max-w-wrap mx-auto px-[5vw] lg:px-12 relative z-[2]">
-  <div class="border-b border-line py-3.5 font-mono text-[10px] lg:text-[11px] tracking-[0.12em] uppercase text-fg-dim grid grid-cols-1 lg:grid-cols-4 gap-2 lg:gap-6 items-center">
-    <div><span class="lamp mr-2.5"></span>AI LAB / DEEP ANALYSIS · № 01</div>
-    <div class="hidden lg:block">SUBJECT / ANTHROPIC</div>
-    <div class="hidden lg:block">FILED / 2026.05.04 — 05.06</div>
-    <div class="lg:text-right">ENTERPRISE AI · WALL STREET OS</div>
+<div class="relative z-[2] border-b border-line">
+  <div class="max-w-wrap mx-auto px-[5vw] lg:px-12 py-3 flex items-center gap-4 flex-wrap">
+    <span class="lamp mr-1"></span>
+    <span class="font-mono text-[9px] lg:text-[10px] tracking-[0.22em] uppercase text-accent">DEEPDIVE</span>
+    <span class="text-line-bright font-mono text-[10px]">/</span>
+    <span class="font-mono text-[9px] lg:text-[10px] tracking-[0.18em] uppercase text-fg-mute">[LAB] · ANTHROPIC</span>
+    <div data-lang-switcher data-slug="anthropic-enterprise-ai" style="margin-left:auto"></div>
+    <span class="flex-1 h-px bg-line hidden lg:block"></span>
+    <span class="font-mono text-[9px] tracking-[0.14em] text-fg-mute">v1 · 2026 · MAY 04—06</span>
   </div>
 </div>
 
