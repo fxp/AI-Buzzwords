@@ -1,55 +1,80 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="amber">
 <head>
-<style id="theme-vars">:root{--accent:#f5a524;--accent-glow:rgba(245,165,36,0.28);--accent-soft:rgba(245,165,36,0.10);}</style>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Context Layer Is the Ultimate Moat for B2B AI · Palantir / AI Buzzwords</title>
-<link rel="preconnect" href="https://fonts.googleapis.com" />
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,700&family=JetBrains+Mono:wght@300;400;500;700&family=Inter+Tight:wght@400;500;600&display=swap" rel="stylesheet" />
+<!-- Design System v2: canonical token CSS (fonts, themes, type, CJK rules, signature components) -->
+<link rel="stylesheet" href="../../colors_and_type.css">
 <script src="https://cdn.tailwindcss.com"></script>
 <script>
+/* Tailwind utility classes resolve through CSS variables → light/dark + theme switching auto-track. */
 tailwind.config = {
-  theme: {
-    extend: {
-      colors: {
-        bg:'#0a0908','bg-2':'#111110',
-        fg:'#ebe6dc','fg-dim':'#9a948a','fg-mute':'#5a544b',
-        line:'#2b2823','line-bright':'#443f37',
-        amber:'#f5a524','amber-soft':'rgba(245,165,36,0.09)',
-        mint:'#7fb88b','mint-soft':'rgba(127,184,139,0.12)',
-        signal:'#d1402c',paper:'#e8e3d8',ink:'#1a1815',
-      },
-      fontFamily: {
-        serif:["'Fraunces'","'Source Han Serif SC'","'Noto Serif SC'","Georgia","serif"],
-        mono:["'JetBrains Mono'","ui-monospace","monospace"],
-        sans:["'Inter Tight'","system-ui","sans-serif"],
-      },
-      maxWidth:{prose:'820px',content:'1020px',wrap:'1320px'},
-    }
-  }
+  theme: { extend: {
+    colors: {
+      bg:'var(--bg)', 'bg-2':'var(--bg-2)', 'bg-3':'var(--bg-3)',
+      fg:'var(--fg)', 'fg-dim':'var(--fg-dim)', 'fg-mute':'var(--fg-mute)',
+      line:'var(--line)', 'line-bright':'var(--line-bright)',
+      accent:'var(--accent)', 'accent-soft':'var(--accent-soft)', 'accent-glow':'var(--accent-glow)',
+      red:'var(--red)', signal:'var(--signal)', amber:'var(--amber)', mint:'var(--mint)',
+      'amber-soft':'var(--accent-soft)', 'mint-soft':'rgba(127,184,139,0.12)',
+      paper:'var(--bg-paper)', ink:'var(--bg-ink)',
+    },
+    fontFamily: {
+      serif:["Fraunces","EB Garamond","Noto Serif SC","Source Han Serif SC","Georgia","serif"],
+      mono: ["JetBrains Mono","ui-monospace","monospace"],
+      sans: ["Inter Tight","system-ui","sans-serif"],
+    },
+    maxWidth: { prose:'820px', content:'1020px', wrap:'1320px' },
+  } }
 }
 </script>
 <style>
-em,i{font-style:normal}
-body{font-feature-settings:'ss01','ss02','kern';-webkit-font-smoothing:antialiased}
-body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(245,165,36,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(245,165,36,0.04) 1px,transparent 1px);background-size:80px 80px;pointer-events:none;z-index:0}
-body::after{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.96 0 0 0 0 0.9 0 0 0 0 0.8 0 0 0 0.08 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");pointer-events:none;z-index:1;opacity:0.45;mix-blend-mode:overlay}
-.lamp{display:inline-block;width:8px;height:8px;border-radius:50%;background:#f5a524;box-shadow:0 0 10px #f5a524,0 0 24px rgba(245,165,36,0.2);animation:pulse 2.4s ease-in-out infinite;vertical-align:middle}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:.55}}
-.cursor::after{content:'▮';color:#f5a524;margin-left:6px;animation:blink 1.1s steps(2) infinite}
-@keyframes blink{0%,50%{opacity:1}51%,100%{opacity:0}}
-@keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
-.hero-anim>*{animation:fadeUp 0.9s cubic-bezier(.2,.7,.2,1) both}
-.hero-anim>*:nth-child(1){animation-delay:.05s}.hero-anim>*:nth-child(2){animation-delay:.15s}
-.hero-anim>*:nth-child(3){animation-delay:.28s}.hero-anim>*:nth-child(4){animation-delay:.42s}
-.pullquote-mark::before{content:'"';position:absolute;top:16px;left:12px;font-family:'Fraunces',serif;font-size:100px;color:#f5a524;opacity:0.18;line-height:1}
-.layers-label::before{content:'STACK / FOUR-LAYER ARCHITECTURE';position:absolute;top:-10px;left:28px;background:#0a0908;padding:0 12px;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.2em;color:#f5a524}
-.dual-label::before{content:'DUAL EDGE / DOUBLE-EDGED SWORD';position:absolute;top:-10px;left:28px;background:#0a0908;padding:0 12px;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.2em;color:#d1402c}
+/* ============ Per-page chrome — keep ============ */
+body::before {
+  content:''; position:fixed; inset:0; pointer-events:none; z-index:0;
+  background-image:
+    linear-gradient(var(--accent-soft) 1px, transparent 1px),
+    linear-gradient(90deg, var(--accent-soft) 1px, transparent 1px);
+  background-size: 80px 80px;
+}
+body::after {
+  content:''; position:fixed; inset:0; pointer-events:none; z-index:1;
+  opacity: 0.45; mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.96 0 0 0 0 0.9 0 0 0 0 0.8 0 0 0 0.08 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+[data-mode="light"] body::after {
+  opacity: 0.30; mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.18 0 0 0 0 0.16 0 0 0 0 0.12 0 0 0 0.10 0'/%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* Hero entry stagger — article-specific (slightly slower than canonical 0.7s). */
+@keyframes fadeUp { from{opacity:0;transform:translateY(12px)} to{opacity:1;transform:translateY(0)} }
+.hero-anim > * { animation: fadeUp 0.9s cubic-bezier(.2,.7,.2,1) both; }
+.hero-anim > *:nth-child(1) { animation-delay: 0.05s; }
+.hero-anim > *:nth-child(2) { animation-delay: 0.15s; }
+.hero-anim > *:nth-child(3) { animation-delay: 0.28s; }
+.hero-anim > *:nth-child(4) { animation-delay: 0.42s; }
+
+/* Article-specific labelled callouts (editorial em-rules). */
+.layers-label::before {
+  content: 'STACK / FOUR-LAYER ARCHITECTURE';
+  position: absolute; top: -10px; left: 28px;
+  background: var(--bg); padding: 0 12px;
+  font-family: var(--mono); font-size: 10px; letter-spacing: 0.2em;
+  color: var(--accent);
+}
+.dual-label::before {
+  content: 'DUAL EDGE / DOUBLE-EDGED SWORD';
+  position: absolute; top: -10px; left: 28px;
+  background: var(--bg); padding: 0 12px;
+  font-family: var(--mono); font-size: 10px; letter-spacing: 0.2em;
+  color: var(--signal);
+}
 </style>
 
   <script src="../../lang-switcher.js" defer></script>
+  <script src="../../mode-toggle.js" defer></script>
   <link rel="alternate" hreflang="zh" href="index.html" />
   <link rel="alternate" hreflang="en" href="index.en.html" />
   <link rel="alternate" hreflang="x-default" href="index.html" />
@@ -63,6 +88,9 @@ body::after{content:'';position:fixed;inset:0;background-image:url("data:image/s
     <span class="text-line-bright font-mono text-[10px]">/</span>
     <span class="font-mono text-[9px] lg:text-[10px] tracking-[0.18em] uppercase text-fg-mute">[ENTERPRISE] · Palantir AIP</span>
     <div data-lang-switcher data-slug="palantir-aip" style="margin-left:auto"></div>
+    <button data-toggle-mode aria-pressed="false" class="font-mono text-[9px] lg:text-[10px] tracking-[0.18em] uppercase text-fg-mute hover:text-accent border border-line-bright px-2 py-0.5 transition-colors" style="background:transparent;cursor:pointer">
+      <span data-mode-icon>◐</span> <span data-mode-label>Dark</span>
+    </button>
     <span class="flex-1 h-px bg-line hidden lg:block"></span>
     <span class="font-mono text-[9px] tracking-[0.14em] text-fg-mute">v1 · 2026 · APR 30</span>
   </div>

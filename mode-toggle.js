@@ -38,8 +38,14 @@
     document.querySelectorAll('[data-mode-icon]').forEach((el) => {
       el.textContent = mode === 'light' ? '◑' : '◐';
     });
+    // Label: use button's data-label-light / data-label-dark if provided,
+    // otherwise infer from <html lang> ('en*' → English, else Chinese).
+    const isEN = (document.documentElement.lang || '').toLowerCase().startsWith('en');
     document.querySelectorAll('[data-mode-label]').forEach((el) => {
-      el.textContent = mode === 'light' ? '浅色' : '暗色';
+      const btn = el.closest('[data-toggle-mode]');
+      const lightLabel = (btn && btn.dataset.labelLight) || (isEN ? 'Light' : '浅色');
+      const darkLabel  = (btn && btn.dataset.labelDark)  || (isEN ? 'Dark'  : '暗色');
+      el.textContent = mode === 'light' ? lightLabel : darkLabel;
     });
     document.querySelectorAll('[data-toggle-mode]').forEach((el) => {
       el.setAttribute('aria-pressed', mode === 'light' ? 'true' : 'false');
