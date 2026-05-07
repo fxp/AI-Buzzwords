@@ -1,0 +1,1075 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#F5F1E8">
+<title>我做了一个测试：用厕所选择来读懂你的人格 · 距离测试</title>
+<meta name="description" content="把公共洗手间的空间选择行为转化为人格测量工具。博弈论 + Gerlach 四类型框架，比 MBTI 更诚实的人格镜子。">
+<meta property="og:title" content="用厕所选择来读懂你的人格">
+<meta property="og:description" content="距离测试：把最无意识的行为，变成最难被社会期望污染的人格信号。">
+<meta property="og:type" content="article">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500;700;900&family=Noto+Sans+SC:wght@300;400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper: #F5F1E8;
+    --paper-dark: #E8E2D3;
+    --paper-darker: #DDD5C2;
+    --ink: #1A1714;
+    --ink-soft: #4A4540;
+    --ink-faint: #8A8278;
+    --accent: #C44536;
+    --accent-soft: #E8B5A8;
+    --accent-bg: rgba(196, 69, 54, 0.07);
+    --line: #D4CCB8;
+    --serif: 'Noto Serif SC', 'Source Han Serif SC', 'Songti SC', serif;
+    --sans: 'Noto Sans SC', 'PingFang SC', 'Helvetica Neue', sans-serif;
+    --mono: 'JetBrains Mono', 'Menlo', monospace;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: var(--sans);
+    background: var(--paper);
+    color: var(--ink);
+    line-height: 1.7;
+    font-size: 17px;
+    -webkit-font-smoothing: antialiased;
+    background-image:
+      radial-gradient(ellipse at 15% 30%, rgba(196, 69, 54, 0.025) 0%, transparent 55%),
+      radial-gradient(ellipse at 85% 75%, rgba(26, 23, 20, 0.025) 0%, transparent 45%);
+  }
+
+  /* Paper grain overlay */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='0.75' numOctaves='3'/%3E%3CfeColorMatrix values='0 0 0 0 0.1 0 0 0 0 0.09 0 0 0 0 0.07 0 0 0 0.035 0'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)'/%3E%3C/svg%3E");
+    opacity: 0.6;
+    z-index: 0;
+    mix-blend-mode: multiply;
+  }
+
+  /* ── Layout ── */
+  .page {
+    position: relative;
+    z-index: 1;
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 0 24px 80px;
+  }
+
+  /* ── Header / Nav ── */
+  .site-nav {
+    border-bottom: 1px solid var(--line);
+    padding: 20px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0;
+  }
+  .site-nav-brand {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--ink-faint);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    text-decoration: none;
+  }
+  .site-nav-brand span {
+    color: var(--accent);
+  }
+  .site-nav-cta {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--accent);
+    text-decoration: none;
+    border: 1px solid var(--accent);
+    padding: 6px 14px;
+    transition: background 0.15s, color 0.15s;
+  }
+  .site-nav-cta:hover {
+    background: var(--accent);
+    color: var(--paper);
+  }
+
+  /* ── Article Header ── */
+  .article-header {
+    padding: 56px 0 40px;
+    border-bottom: 2px solid var(--ink);
+  }
+  .article-eyebrow {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--accent);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+    display: flex;
+    gap: 16px;
+    align-items: center;
+  }
+  .article-eyebrow::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--accent-soft);
+  }
+  .article-title {
+    font-family: var(--serif);
+    font-weight: 900;
+    font-size: clamp(32px, 5vw, 52px);
+    line-height: 1.08;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+    margin-bottom: 20px;
+  }
+  .article-title em {
+    font-style: italic;
+    color: var(--accent);
+  }
+  .article-subtitle {
+    font-size: 18px;
+    color: var(--ink-soft);
+    line-height: 1.6;
+    max-width: 560px;
+    margin-bottom: 28px;
+  }
+  .article-meta {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--ink-faint);
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+  .article-meta span::before {
+    content: '—';
+    margin-right: 6px;
+    color: var(--line);
+  }
+
+  /* ── Article Body ── */
+  .article-body {
+    padding-top: 48px;
+  }
+
+  p {
+    margin-bottom: 20px;
+    color: var(--ink-soft);
+  }
+  p strong {
+    color: var(--ink);
+    font-weight: 600;
+  }
+  p em {
+    font-style: italic;
+  }
+
+  /* Opening drop cap */
+  .article-body > p:first-child::first-letter {
+    font-family: var(--serif);
+    font-size: 5.2em;
+    font-weight: 900;
+    float: left;
+    line-height: 0.78;
+    padding-right: 10px;
+    padding-top: 6px;
+    color: var(--ink);
+  }
+
+  h2 {
+    font-family: var(--serif);
+    font-weight: 700;
+    font-size: 26px;
+    color: var(--ink);
+    margin: 52px 0 16px;
+    padding-top: 12px;
+    border-top: 1px solid var(--line);
+    line-height: 1.3;
+  }
+  h2 .num {
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--ink-faint);
+    font-weight: 400;
+    display: block;
+    margin-bottom: 6px;
+    letter-spacing: 0.1em;
+  }
+
+  /* ── Pull Quote ── */
+  .pull-quote {
+    margin: 36px 0;
+    padding: 24px 28px;
+    background: var(--accent-bg);
+    border-left: 3px solid var(--accent);
+  }
+  .pull-quote p {
+    font-family: var(--serif);
+    font-size: 20px;
+    font-weight: 500;
+    line-height: 1.5;
+    color: var(--ink);
+    margin: 0;
+  }
+  .pull-quote p::before { content: '\201C'; color: var(--accent); }
+  .pull-quote p::after  { content: '\201D'; color: var(--accent); }
+
+  /* ── Scenario Card ── */
+  .scenario-card {
+    background: var(--paper-dark);
+    border: 1px solid var(--line);
+    padding: 24px;
+    margin: 28px 0;
+    position: relative;
+  }
+  .scenario-card::before {
+    content: attr(data-label);
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    display: block;
+    margin-bottom: 10px;
+  }
+  .scenario-card h3 {
+    font-family: var(--serif);
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--ink);
+    margin-bottom: 10px;
+  }
+  .scenario-card p {
+    font-size: 15px;
+    margin-bottom: 0;
+    color: var(--ink-soft);
+  }
+  .scenario-card .insight {
+    margin-top: 14px;
+    padding-top: 14px;
+    border-top: 1px solid var(--line);
+    font-size: 14px;
+    color: var(--ink-faint);
+  }
+  .scenario-card .insight strong {
+    color: var(--accent);
+    font-weight: 600;
+  }
+
+  /* ── Table ── */
+  .table-wrap {
+    overflow-x: auto;
+    margin: 24px 0;
+    border: 1px solid var(--line);
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 15px;
+  }
+  thead {
+    background: var(--paper-darker);
+    border-bottom: 2px solid var(--ink);
+  }
+  thead th {
+    padding: 10px 14px;
+    text-align: left;
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    font-weight: 500;
+  }
+  tbody tr {
+    border-bottom: 1px solid var(--line);
+  }
+  tbody tr:last-child {
+    border-bottom: none;
+  }
+  tbody td {
+    padding: 10px 14px;
+    color: var(--ink-soft);
+    vertical-align: top;
+  }
+  tbody td:first-child {
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--accent);
+    font-weight: 500;
+    white-space: nowrap;
+  }
+
+  /* ── Type Cards Grid ── */
+  .types-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    margin: 28px 0;
+  }
+  @media (max-width: 480px) {
+    .types-grid { grid-template-columns: 1fr; }
+  }
+  .type-card {
+    padding: 20px;
+    border: 1px solid var(--line);
+    background: var(--paper-dark);
+    position: relative;
+    overflow: hidden;
+  }
+  .type-card::after {
+    content: attr(data-pct);
+    position: absolute;
+    right: 16px;
+    top: 16px;
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--ink-faint);
+  }
+  .type-card-icon {
+    width: 40px;
+    height: 40px;
+    margin-bottom: 12px;
+  }
+  .type-card-name {
+    font-family: var(--serif);
+    font-weight: 700;
+    font-size: 17px;
+    color: var(--ink);
+    margin-bottom: 2px;
+  }
+  .type-card-en {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--accent);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+  .type-card-slogan {
+    font-size: 13px;
+    color: var(--ink-faint);
+    font-style: italic;
+    margin-bottom: 10px;
+    line-height: 1.4;
+  }
+  .type-card-desc {
+    font-size: 13px;
+    color: var(--ink-soft);
+    line-height: 1.55;
+    margin: 0;
+  }
+
+  /* ── Radar Mini Viz ── */
+  .radar-section {
+    margin: 36px 0;
+    padding: 28px;
+    background: var(--paper-dark);
+    border: 1px solid var(--line);
+    display: flex;
+    gap: 28px;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  .radar-section svg {
+    flex-shrink: 0;
+  }
+  .radar-legend {
+    flex: 1;
+    min-width: 180px;
+  }
+  .radar-legend-title {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    margin-bottom: 14px;
+  }
+  .radar-dim {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 6px 0;
+    border-bottom: 1px solid var(--line);
+    font-size: 14px;
+  }
+  .radar-dim:last-child { border-bottom: none; }
+  .radar-dim-code {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--accent);
+    font-weight: 500;
+    width: 28px;
+    flex-shrink: 0;
+  }
+  .radar-dim-name {
+    color: var(--ink-soft);
+    flex: 1;
+    padding: 0 8px;
+  }
+  .radar-dim-bar {
+    width: 60px;
+    height: 4px;
+    background: var(--line);
+    border-radius: 2px;
+    overflow: hidden;
+    flex-shrink: 0;
+  }
+  .radar-dim-fill {
+    height: 100%;
+    background: var(--accent);
+    border-radius: 2px;
+    opacity: 0.7;
+  }
+
+  /* ── Decision Style ── */
+  .styles-list {
+    margin: 20px 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    border: 1px solid var(--line);
+  }
+  .style-row {
+    display: flex;
+    align-items: baseline;
+    gap: 14px;
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--line);
+  }
+  .style-row:last-child { border-bottom: none; }
+  .style-row:nth-child(odd) { background: var(--paper-dark); }
+  .style-label {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--accent);
+    white-space: nowrap;
+    flex-shrink: 0;
+    width: 72px;
+  }
+  .style-name {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--ink);
+    white-space: nowrap;
+    flex-shrink: 0;
+    width: 90px;
+  }
+  .style-desc {
+    font-size: 13px;
+    color: var(--ink-faint);
+    line-height: 1.4;
+  }
+
+  /* ── CTA Block ── */
+  .cta-block {
+    margin: 56px 0 0;
+    padding: 36px;
+    background: var(--ink);
+    color: var(--paper);
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .cta-block::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 30% 50%, rgba(196, 69, 54, 0.2) 0%, transparent 60%);
+    pointer-events: none;
+  }
+  .cta-block-eyebrow {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent-soft);
+    margin-bottom: 16px;
+  }
+  .cta-block h2 {
+    font-family: var(--serif);
+    font-weight: 900;
+    font-size: 28px;
+    color: var(--paper);
+    border: none;
+    margin: 0 0 12px;
+    padding: 0;
+  }
+  .cta-block p {
+    color: rgba(245, 241, 232, 0.65);
+    font-size: 15px;
+    margin: 0 0 28px;
+  }
+  .cta-btn {
+    display: inline-block;
+    font-family: var(--mono);
+    font-size: 13px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink);
+    background: var(--paper);
+    padding: 14px 32px;
+    text-decoration: none;
+    transition: background 0.15s, transform 0.1s;
+    border: 2px solid var(--paper);
+  }
+  .cta-btn:hover {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: var(--paper);
+    transform: translateY(-1px);
+  }
+  .cta-duration {
+    margin-top: 14px;
+    font-family: var(--mono);
+    font-size: 11px;
+    color: rgba(245, 241, 232, 0.35);
+    letter-spacing: 0.08em;
+  }
+
+  /* ── Footnote / Disclaimer ── */
+  .disclaimer {
+    margin-top: 48px;
+    padding: 20px 24px;
+    border: 1px solid var(--line);
+    background: var(--paper-dark);
+  }
+  .disclaimer p {
+    font-size: 13px;
+    color: var(--ink-faint);
+    margin: 0;
+    line-height: 1.55;
+  }
+  .disclaimer strong {
+    color: var(--ink-soft);
+  }
+
+  /* ── Footer ── */
+  footer {
+    margin-top: 48px;
+    padding-top: 24px;
+    border-top: 1px solid var(--line);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: gap;
+    gap: 12px;
+  }
+  footer p {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--ink-faint);
+    margin: 0;
+    letter-spacing: 0.06em;
+  }
+  footer a {
+    color: var(--accent);
+    text-decoration: none;
+  }
+
+  /* ── Inline Code ── */
+  code {
+    font-family: var(--mono);
+    font-size: 0.88em;
+    background: var(--paper-dark);
+    padding: 1px 5px;
+    border: 1px solid var(--line);
+    color: var(--accent);
+  }
+
+  /* ── Divider ── */
+  .divider {
+    text-align: center;
+    margin: 40px 0;
+    color: var(--ink-faint);
+    font-family: var(--mono);
+    font-size: 16px;
+    letter-spacing: 0.3em;
+  }
+
+  /* ── Highlight box ── */
+  .highlight-box {
+    background: var(--accent-bg);
+    border: 1px solid var(--accent-soft);
+    padding: 20px 24px;
+    margin: 24px 0;
+  }
+  .highlight-box p {
+    margin: 0;
+    color: var(--ink);
+    font-size: 15px;
+  }
+  .highlight-box p + p {
+    margin-top: 8px;
+  }
+
+  /* ── Matrix Table ── */
+  .matrix-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+    margin: 20px 0;
+    border: 1px solid var(--line);
+  }
+  .matrix-table th, .matrix-table td {
+    border: 1px solid var(--line);
+    padding: 10px 14px;
+    text-align: center;
+  }
+  .matrix-table thead th {
+    background: var(--paper-darker);
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    text-transform: none;
+    color: var(--ink);
+  }
+  .matrix-table tbody th {
+    background: var(--paper-dark);
+    text-align: left;
+    font-weight: 600;
+    color: var(--ink-soft);
+    font-family: var(--sans);
+    text-transform: none;
+    letter-spacing: 0;
+    font-size: 14px;
+  }
+  .matrix-table .cell-highlight {
+    background: var(--accent-bg);
+    color: var(--accent);
+    font-weight: 600;
+  }
+
+  /* ── Scroll progress ── */
+  .scroll-progress {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 2px;
+    background: var(--accent);
+    z-index: 100;
+    transition: width 0.1s;
+    width: 0%;
+  }
+
+  @media (max-width: 600px) {
+    body { font-size: 16px; }
+    .article-title { font-size: 30px; }
+    .article-subtitle { font-size: 16px; }
+    .radar-section { flex-direction: column; }
+    .cta-block { padding: 28px 20px; }
+    .cta-block h2 { font-size: 22px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="scroll-progress" id="scrollProgress"></div>
+
+<div class="page">
+
+  <!-- Nav -->
+  <nav class="site-nav">
+    <a href="https://xiaopingfeng.com/app/the-stall/" class="site-nav-brand">
+      THE STALL <span>·</span> 距离测试
+    </a>
+    <a href="https://xiaopingfeng.com/app/the-stall/" class="site-nav-cta">开始测试 →</a>
+  </nav>
+
+  <!-- Article Header -->
+  <header class="article-header">
+    <div class="article-eyebrow">研究笔记 · Research Note</div>
+    <h1 class="article-title">我做了一个测试：<br>用厕所选择<br>来读懂<em>你的人格</em></h1>
+    <p class="article-subtitle">
+      把最无意识的行为，变成最难被社会期望污染的人格信号。博弈论 + Gerlach 四类型框架的行为心理测量实验。
+    </p>
+    <div class="article-meta">
+      <span>冯晓平</span>
+      <span>2025 年 5 月</span>
+      <span>阅读时间 约 8 分钟</span>
+    </div>
+  </header>
+
+  <!-- Article Body -->
+  <article class="article-body">
+
+    <p>你上次进入公共洗手间，选位置的时候想了多久？</p>
+
+    <p>大多数人会说"没想"。但你的脚已经替你做了一个包含个人空间感知、社会信号解读、多步策略推演、规范内化程度的复合决策——而且每次都高度稳定。</p>
+
+    <div class="pull-quote">
+      <p>我们最"无意识"的行为，往往是最难被社会期望污染的人格信号。</p>
+    </div>
+
+    <p>这就是"距离测试"的核心洞察。把公共洗手间的空间选择行为转化为一套心理测量工具，用博弈论复盘与 Gerlach（2018）四类型框架，替代 MBTI。</p>
+
+    <h2><span class="num">01 /</span>为什么是厕所？</h2>
+
+    <p>不是为了猎奇。</p>
+
+    <p>先说一个 1976 年的研究。密苏里大学的 Middlemist、Knowles 和 Matter 让实验员站在不同距离的小便池旁，秘密记录旁边陌生人开始排尿所需的时间。结果发现：越近，延迟越长——最近距离（正相邻）比独立使用延迟了将近两倍。</p>
+
+    <p>人体的生理反应直接响应了个人空间压力。<strong>你的膀胱比你更诚实。</strong></p>
+
+    <p>洗手间提供了一个独特的社会实验室条件：</p>
+
+    <div class="highlight-box">
+      <p>✦ 有明确非正式规则（不相邻站立），提供规范遵从度的自然基准</p>
+      <p>✦ 有真实利害（谁都不想被旁观），确保行为的真实动机</p>
+      <p>✦ 有策略空间（位置选择影响未来互动概率），激活理性推演</p>
+      <p>✦ 高频发生，被试有真实的躯体记忆与情绪卷入</p>
+    </div>
+
+    <h2><span class="num">02 /</span>MBTI 的问题</h2>
+
+    <p>MBTI 问你"你更喜欢独处还是聚会"，你的回答受三件事影响——你上周经历了什么、你理想中的自己是谁、你觉得题目期待你怎么答。</p>
+
+    <p>这叫<strong>社会期望偏差</strong>（Social Desirability Bias）。当你告诉一份测试你是"T 型（思维型）"，你其实在陈述你希望自己是 T 型。</p>
+
+    <p>除此之外，MBTI 的重测信度也相当有限——有研究表明，同一个人相隔一个月后重测，约 50% 会被分配到不同类型。</p>
+
+    <div class="pull-quote">
+      <p>行为测试的优势在于：你不知道"我选最靠墙的小便池"会产生什么类型结论，所以你没有捷径去表演一个你想要的身份。</p>
+    </div>
+
+    <h2><span class="num">03 /</span>五个测量维度</h2>
+
+    <p>距离测试通过 8 个场景，量化测量五个行为维度：</p>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>代码</th>
+            <th>维度名</th>
+            <th>高分含义</th>
+            <th>低分含义</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>PS</td>
+            <td>个人空间感</td>
+            <td>主动最大化物理边界</td>
+            <td>对邻近不敏感</td>
+          </tr>
+          <tr>
+            <td>SC</td>
+            <td>社会嗅觉</td>
+            <td>快速解读他人身份信号</td>
+            <td>忽视社会信号</td>
+          </tr>
+          <tr>
+            <td>SO</td>
+            <td>棋盘思维</td>
+            <td>多步推演，接近博弈论最优</td>
+            <td>就近直觉，不做规划</td>
+          </tr>
+          <tr>
+            <td>CO</td>
+            <td>秩序心</td>
+            <td>遵从规范，利他关注细节</td>
+            <td>效率优先，不拘小节</td>
+          </tr>
+          <tr>
+            <td>AS</td>
+            <td>占位力</td>
+            <td>不让步，主动占有利资源</td>
+            <td>退避，倾向礼让</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>每个维度初始值 50 分，8 个场景的选择各自对五维度施加调整，最终落在 0–100 区间。</p>
+
+    <!-- Radar Viz -->
+    <div class="radar-section">
+      <svg width="160" height="160" viewBox="0 0 160 160">
+        <!-- Grid circles -->
+        <circle cx="80" cy="80" r="60" fill="none" stroke="#D4CCB8" stroke-width="1"/>
+        <circle cx="80" cy="80" r="45" fill="none" stroke="#D4CCB8" stroke-width="1" stroke-dasharray="3,3"/>
+        <circle cx="80" cy="80" r="30" fill="none" stroke="#D4CCB8" stroke-width="1" stroke-dasharray="3,3"/>
+        <circle cx="80" cy="80" r="15" fill="none" stroke="#D4CCB8" stroke-width="1" stroke-dasharray="3,3"/>
+        <!-- Axes -->
+        <line x1="80" y1="80" x2="80" y2="20" stroke="#D4CCB8" stroke-width="1"/>
+        <line x1="80" y1="80" x2="137" y2="63" stroke="#D4CCB8" stroke-width="1"/>
+        <line x1="80" y1="80" x2="114" y2="128" stroke="#D4CCB8" stroke-width="1"/>
+        <line x1="80" y1="80" x2="46" y2="128" stroke="#D4CCB8" stroke-width="1"/>
+        <line x1="80" y1="80" x2="23" y2="63" stroke="#D4CCB8" stroke-width="1"/>
+        <!-- Sample polygon - Coordinator type -->
+        <polygon
+          points="80,26 130,60 108,120 52,120 30,60"
+          fill="rgba(196,69,54,0.15)"
+          stroke="#C44536"
+          stroke-width="1.5"
+        />
+        <!-- Prototype outline - dashed -->
+        <polygon
+          points="80,32 126,64 106,116 54,116 34,64"
+          fill="none"
+          stroke="#C44536"
+          stroke-width="1"
+          stroke-dasharray="4,3"
+          opacity="0.4"
+        />
+        <!-- Labels -->
+        <text x="80" y="15" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="9" fill="#8A8278">PS</text>
+        <text x="146" y="62" text-anchor="start" font-family="JetBrains Mono, monospace" font-size="9" fill="#8A8278">SC</text>
+        <text x="120" y="138" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="9" fill="#8A8278">SO</text>
+        <text x="40" y="138" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="9" fill="#8A8278">CO</text>
+        <text x="14" y="62" text-anchor="end" font-family="JetBrains Mono, monospace" font-size="9" fill="#8A8278">AS</text>
+        <!-- Center dot -->
+        <circle cx="80" cy="80" r="2" fill="#C44536"/>
+      </svg>
+      <div class="radar-legend">
+        <div class="radar-legend-title">示例：协调者维度分布</div>
+        <div class="radar-dim">
+          <span class="radar-dim-code">PS</span>
+          <span class="radar-dim-name">个人空间感</span>
+          <div class="radar-dim-bar"><div class="radar-dim-fill" style="width:55%"></div></div>
+        </div>
+        <div class="radar-dim">
+          <span class="radar-dim-code">SC</span>
+          <span class="radar-dim-name">社会嗅觉</span>
+          <div class="radar-dim-bar"><div class="radar-dim-fill" style="width:80%"></div></div>
+        </div>
+        <div class="radar-dim">
+          <span class="radar-dim-code">SO</span>
+          <span class="radar-dim-name">棋盘思维</span>
+          <div class="radar-dim-bar"><div class="radar-dim-fill" style="width:85%"></div></div>
+        </div>
+        <div class="radar-dim">
+          <span class="radar-dim-code">CO</span>
+          <span class="radar-dim-name">秩序心</span>
+          <div class="radar-dim-bar"><div class="radar-dim-fill" style="width:80%"></div></div>
+        </div>
+        <div class="radar-dim">
+          <span class="radar-dim-code">AS</span>
+          <span class="radar-dim-name">占位力</span>
+          <div class="radar-dim-bar"><div class="radar-dim-fill" style="width:55%"></div></div>
+        </div>
+      </div>
+    </div>
+
+    <h2><span class="num">04 /</span>两个关键场景</h2>
+
+    <div class="scenario-card" data-label="场景 01 · 空厕所">
+      <h3>五个小便池，全空，你会站哪里？</h3>
+      <p>看起来是最简单的题。其实这道题考的是<strong>博弈论思维</strong>——如果你站最里侧，你单向屏蔽了所有未来进入者，使得他们必须在你和门之间的位置中选择，极大降低了你被相邻使用的概率。这是纳什均衡分析下的优势策略。</p>
+      <div class="insight">
+        <strong>反直觉发现：</strong>选正中的人通常有一种"公平"直觉——好像中间才是对所有人都友善的选择。这个直觉是错的，但它揭示了一种有意思的认知模式——对称性偏好。
+      </div>
+    </div>
+
+    <div class="scenario-card" data-label="场景 05 · 洗手台决策矩阵 · 最复杂场景">
+      <h3>漏水的水龙头、排队的老人、五分钟内要赶地铁</h3>
+      <p>六个选项形成一个 2×2 矩阵。</p>
+
+      <table class="matrix-table" style="margin-top:14px">
+        <thead>
+          <tr>
+            <th></th>
+            <th>关水龙头</th>
+            <th>不关水龙头</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th>照顾老人</th>
+            <td>D: 两件都做（高 CO + 高 SC）</td>
+            <td class="cell-highlight">B: 只管老人（高 SC / 低 CO）</td>
+          </tr>
+          <tr>
+            <th>不管老人</th>
+            <td class="cell-highlight">C: 只关水龙头（高 CO / 低 SC）</td>
+            <td>A: 直接走（低 CO + 低 SC）</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="insight">
+        <strong>核心诊断切口：</strong>选 B 和选 C 的总分接近，但维度结构<strong>截然相反</strong>。这才是测量的价值——不是你有没有利他心，而是你的利他心被什么激活。
+      </div>
+    </div>
+
+    <h2><span class="num">05 /</span>四种人格原型</h2>
+
+    <p>基于向量距离算法，每个参与者映射到四种行为原型之一。类型框架来自 Gerlach 等人 2018 年在《自然·人类行为》上发表的大规模数据研究。</p>
+
+    <div class="types-grid">
+      <!-- Watcher -->
+      <div class="type-card" data-pct="~22%">
+        <svg class="type-card-icon" viewBox="0 0 40 40">
+          <circle cx="20" cy="20" r="16" fill="none" stroke="#D4CCB8" stroke-width="1.5"/>
+          <circle cx="20" cy="20" r="8" fill="none" stroke="#C44536" stroke-width="1.5"/>
+          <circle cx="20" cy="20" r="2" fill="#C44536"/>
+          <line x1="20" y1="4" x2="20" y2="12" stroke="#D4CCB8" stroke-width="1"/>
+          <line x1="20" y1="28" x2="20" y2="36" stroke="#D4CCB8" stroke-width="1"/>
+          <line x1="4" y1="20" x2="12" y2="20" stroke="#D4CCB8" stroke-width="1"/>
+          <line x1="28" y1="20" x2="36" y2="20" stroke="#D4CCB8" stroke-width="1"/>
+        </svg>
+        <div class="type-card-name">守望者</div>
+        <div class="type-card-en">The Watcher</div>
+        <div class="type-card-slogan">"距离即自由"</div>
+        <p class="type-card-desc">高边界感，敏感于社会信号，但不主动争夺——因为你已经把位置选好了。</p>
+      </div>
+      <!-- Coordinator -->
+      <div class="type-card" data-pct="~24%">
+        <svg class="type-card-icon" viewBox="0 0 40 40">
+          <rect x="4" y="4" width="14" height="14" fill="none" stroke="#D4CCB8" stroke-width="1.5"/>
+          <rect x="22" y="4" width="14" height="14" fill="none" stroke="#C44536" stroke-width="1.5"/>
+          <rect x="4" y="22" width="14" height="14" fill="none" stroke="#C44536" stroke-width="1.5"/>
+          <rect x="22" y="22" width="14" height="14" fill="none" stroke="#D4CCB8" stroke-width="1.5"/>
+          <line x1="20" y1="4" x2="20" y2="36" stroke="#D4CCB8" stroke-width="1" stroke-dasharray="2,2"/>
+          <line x1="4" y1="20" x2="36" y2="20" stroke="#D4CCB8" stroke-width="1" stroke-dasharray="2,2"/>
+        </svg>
+        <div class="type-card-name">协调者</div>
+        <div class="type-card-en">The Coordinator</div>
+        <div class="type-card-slogan">"考虑下一个人"</div>
+        <p class="type-card-desc">全局最优化，高社会责任感。你的直觉已经内化了系统视角。</p>
+      </div>
+      <!-- Claimer -->
+      <div class="type-card" data-pct="~18%">
+        <svg class="type-card-icon" viewBox="0 0 40 40">
+          <polygon points="20,4 36,36 4,36" fill="none" stroke="#C44536" stroke-width="1.5"/>
+          <polygon points="20,12 30,30 10,30" fill="rgba(196,69,54,0.15)" stroke="none"/>
+          <line x1="20" y1="4" x2="20" y2="36" stroke="#C44536" stroke-width="1" opacity="0.4"/>
+        </svg>
+        <div class="type-card-name">占位者</div>
+        <div class="type-card-en">The Claimer</div>
+        <div class="type-card-slogan">"你来晚了，不是我的问题"</div>
+        <p class="type-card-desc">资源竞争导向，低规范内化。看到位置就占，效率优于礼貌。</p>
+      </div>
+      <!-- Flow -->
+      <div class="type-card" data-pct="~36%">
+        <svg class="type-card-icon" viewBox="0 0 40 40">
+          <path d="M4,20 Q12,8 20,20 Q28,32 36,20" fill="none" stroke="#C44536" stroke-width="2"/>
+          <circle cx="4" cy="20" r="2" fill="#D4CCB8"/>
+          <circle cx="20" cy="20" r="2" fill="#C44536"/>
+          <circle cx="36" cy="20" r="2" fill="#D4CCB8"/>
+        </svg>
+        <div class="type-card-name">随波者</div>
+        <div class="type-card-en">The Flow</div>
+        <div class="type-card-slogan">"大多数人怎么做，我就怎么做"</div>
+        <p class="type-card-desc">规范遵从，均值导向。不浪费时间纠结——这是被严重低估的智慧。</p>
+      </div>
+    </div>
+
+    <h2><span class="num">06 /</span>博弈论复盘：你的直觉有多"理性"？</h2>
+
+    <p>这是距离测试区别于普通人格测试最核心的设计：<strong>每个场景结束后，系统会给出博弈论最优解的分析，并标注你的选择属于"最优/次优/反直觉"三档之一。</strong></p>
+
+    <p>这不是为了评判谁更聪明。</p>
+
+    <p>这是为了让你看见：你的决策直觉与"纯粹理性"的距离，本身就是一种关于你的信息。一个总是快速选择且与最优解高度重合的人，和一个花了五秒钟选出最优解的人，具有完全不同的认知结构。</p>
+
+    <h2><span class="num">07 /</span>决策风格：你是哪种思考者？</h2>
+
+    <p>除五维度外，系统还通过<strong>反应时</strong>与<strong>选择变更次数</strong>识别你的决策风格：</p>
+
+    <div class="styles-list">
+      <div class="style-row">
+        <span class="style-label">RT &lt; 2s</span>
+        <span class="style-name">闪电决策者</span>
+        <span class="style-desc">直觉主导，快速锁定。不改变选择，相信第一反应。</span>
+      </div>
+      <div class="style-row">
+        <span class="style-label">RT &gt; 5s</span>
+        <span class="style-name">审慎权衡者</span>
+        <span class="style-desc">慢思考，但一旦确定不轻易动摇。少于两次更改。</span>
+      </div>
+      <div class="style-row">
+        <span class="style-label">变更 &gt; 3</span>
+        <span class="style-name">反复推演者</span>
+        <span class="style-desc">高不确定性，通过迭代求解。答案在过程中生成。</span>
+      </div>
+      <div class="style-row">
+        <span class="style-label">慢 + 多变</span>
+        <span class="style-name">直觉摇摆者</span>
+        <span class="style-desc">大量思考后仍不确定。感性与理性之间的持续拉锯。</span>
+      </div>
+      <div class="style-row">
+        <span class="style-label">均衡</span>
+        <span class="style-name">平衡型</span>
+        <span class="style-desc">稳定的中间态。灵活调整，不极端。</span>
+      </div>
+    </div>
+
+    <div class="divider">· · ·</div>
+
+    <h2><span class="num">08 /</span>诚实地说</h2>
+
+    <p>距离测试是一个探索性工具，不是临床诊断量表。</p>
+
+    <p>类型原型目前基于理论先验值，首批数据收集后会重新校准。测试在文化特异性上也有局限——洗手间的空间行为规范在不同文化中存在差异，中国城市的"规范"和东京或纽约并不相同。</p>
+
+    <p>测试是男性视角的。小便池的开放排列创造了独特的空间博弈，女厕隔间场景需要完全重新设计——这是 v1.0 的重要工作。</p>
+
+    <div class="disclaimer">
+      <p><strong>研究声明：</strong>本测试为探索性研究工具，不具备临床诊断效力，不适用于职业筛选或人际评判。所有测试数据匿名收集，不关联任何个人身份信息。</p>
+    </div>
+
+  </article>
+
+  <!-- CTA -->
+  <div class="cta-block">
+    <div class="cta-block-eyebrow">准备好了吗</div>
+    <h2>你会选哪个位置？</h2>
+    <p>5–8 分钟。8 个场景。5 维度雷达图 + 博弈论复盘 + 决策风格分析。</p>
+    <a href="https://xiaopingfeng.com/app/the-stall/" class="cta-btn">开始距离测试</a>
+    <div class="cta-duration">完全匿名 · 无需注册 · 可离线完成</div>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <p>© 2025 冯晓平 · <a href="https://xiaopingfeng.com">xiaopingfeng.com</a></p>
+    <p>参考：Gerlach et al. (2018) <em>Nature Human Behaviour</em> · Middlemist et al. (1976) <em>JPSP</em></p>
+  </footer>
+
+</div>
+
+<script>
+  // Scroll progress bar
+  window.addEventListener('scroll', () => {
+    const scrollTop = document.documentElement.scrollTop;
+    const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+    const progress = scrollHeight > 0 ? (scrollTop / scrollHeight) * 100 : 0;
+    document.getElementById('scrollProgress').style.width = progress + '%';
+  });
+
+  // Animate radar bars on scroll into view
+  const bars = document.querySelectorAll('.radar-dim-fill');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.style.transition = 'width 0.8s cubic-bezier(0.4, 0, 0.2, 1)';
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1 });
+
+  bars.forEach(bar => {
+    const targetWidth = bar.style.width;
+    bar.style.width = '0%';
+    observer.observe(bar);
+    setTimeout(() => {
+      bar.style.width = targetWidth;
+    }, 300);
+  });
+</script>
+
+</body>
+</html>

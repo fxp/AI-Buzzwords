@@ -1,0 +1,33 @@
+{
+  "$schema": "../../config/meta.schema.json",
+  "slug": "the-stall",
+  "topic_dir": "the-stall",
+  "title": {
+    "zh": "用厕所选择来读懂你的人格 · 距离测试",
+    "en": null
+  },
+  "current_version": 1,
+  "first_published": "2026-05-08",
+  "last_updated": "2026-05-08",
+  "freshness_priority": "cold",
+  "next_check": "2026-08-08",
+  "languages": ["zh"],
+  "primary_language": "zh",
+  "translations": {},
+  "manual_only": true,
+  "version_log": [
+    {
+      "v": 1,
+      "date": "2026-05-08",
+      "git": "PENDING",
+      "summary": "首次发布：基于厕所空间选择的多情境行为心理测量研究 + 博弈论 + Gerlach 四类型框架"
+    }
+  ],
+  "tags": ["RESEARCH", "Psychometrics", "Behavioral Psychology", "Game Theory", "Personality"],
+  "category": "RESEARCH · 行为心理测量",
+  "design": "custom-paper",
+  "_notes": [
+    "Custom design (paper-themed, not DeepDive dark theme). Excluded from normalize_strip.py via SKIP_SLUGS.",
+    "manual_only: true means translate Action skips this article. Personality content is heavily culture-anchored — manual EN if ever needed."
+  ]
+}
