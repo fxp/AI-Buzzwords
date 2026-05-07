@@ -1,0 +1,26 @@
+{
+  "$schema": "../../config/meta.schema.json",
+  "slug": "china-software-vs-west",
+  "topic_dir": "china-software-vs-west",
+  "title": {
+    "zh": "Anthropic 进中国：软件产业结构决定落地命运",
+    "en": null
+  },
+  "current_version": 1,
+  "first_published": "2026-05-07",
+  "last_updated": "2026-05-07",
+  "freshness_priority": "hot",
+  "next_check": "2026-05-14",
+  "languages": ["zh"],
+  "primary_language": "zh",
+  "translations": {},
+  "version_log": [
+    {
+      "v": 1,
+      "date": "2026-05-07",
+      "git": "",
+      "summary": "首次发布：中美欧软件产业六大结构差异深度拆解；Anthropic三层模型在中国的失效点；三个落地场景可行性评估；八个必做改变；单位经济对比数据"
+    }
+  ],
+  "tags": ["anthropic", "china-software", "enterprise-ai", "saas", "erp", "deployment-model", "unit-economics", "xinchuang", "gdpr", "feasibility"]
+}
