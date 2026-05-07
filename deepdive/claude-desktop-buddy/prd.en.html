@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<style id="theme-vars">:root{--accent:#7fb88b;--accent-glow:rgba(127,184,139,0.28);--accent-soft:rgba(127,184,139,0.12);}</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>More Than a Desktop Pet — What Claude Desktop Buddy Means for Developers</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: {
+          bg: '#0e0d0a',
+          'bg-2': '#161410',
+          'bg-3': '#1f1c16',
+          fg: '#e8e4dc',
+          'fg-dim': '#a8a298',
+          'fg-mute': '#6e6960',
+          line: '#2a2620',
+          'line-bright': '#3a352d',
+          amber: '#f5a524',
+          'amber-soft': 'rgba(245,165,36,0.08)',
+        },
+        fontFamily: {
+          serif: ["'Fraunces'", "serif"],
+          mono: ["'JetBrains Mono'", "monospace"],
+        },
+        maxWidth: { prose: '820px', content: '1020px', wrap: '1320px' },
+      }
+    }
+  }
+  </script>
+  <style>
+    em, i { font-style: normal; }
+    body {
+      font-feature-settings: 'ss01','ss02','kern';
+      -webkit-font-smoothing: antialiased;
+      background: #0e0d0a;
+      color: #e8e4dc;
+      font-family: 'Fraunces', serif;
+      position: relative;
+      overflow-x: hidden;
+    }
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 1;
+      background-image:
+        linear-gradient(rgba(245,165,36,0.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(245,165,36,0.025) 1px, transparent 1px);
+      background-size: 64px 64px;
+    }
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 1;
+      opacity: 0.35;
+      mix-blend-mode: overlay;
+      background-image: url("data:image/svg+xml;utf8,<svg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.4 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+    }
+    .lamp {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: #f5a524;
+      box-shadow: 0 0 12px #f5a524, 0 0 24px rgba(245,165,36,0.5);
+      animation: pulse 2.4s ease-in-out infinite;
+      display: inline-block;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(0.85); }
+    }
+    .cursor::after {
+      content: '_';
+      color: #f5a524;
+      animation: blink 1.1s steps(1) infinite;
+      margin-left: 4px;
+    }
+    @keyframes blink { 50% { opacity: 0; } }
+    .hero-anim > * {
+      opacity: 0;
+      animation: fadeUp .9s ease forwards;
+    }
+    .hero-anim > *:nth-child(1) { animation-delay: 0.05s; }
+    .hero-anim > *:nth-child(2) { animation-delay: 0.2s; }
+    .hero-anim > *:nth-child(3) { animation-delay: 0.4s; }
+    .hero-anim > *:nth-child(4) { animation-delay: 0.6s; }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(14px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .bar-fill {
+      position: absolute;
+      top: 0; left: 0;
+      height: 100%;
+      background: linear-gradient(90deg, #f5a524, rgba(245,165,36,0.4));
+    }
+    .glow-marker {
+      width: 14px; height: 14px;
+      border-radius: 50%;
+      background: #f5a524;
+      box-shadow: 0 0 16px #f5a524, 0 0 32px rgba(245,165,36,0.6);
+      animation: pulse 2s ease-in-out infinite;
+    }
+  </style>
+  <script src="../../lang-switcher.js" defer></script>
+  <link rel="alternate" hreflang="zh" href="prd.html" />
+  <link rel="alternate" hreflang="en" href="prd.en.html" />
+  <link rel="alternate" hreflang="x-default" href="prd.html" />
+</head>
+<body data-theme="mint">
+  <div class="relative z-[2] border-b border-line">
+  <div class="max-w-wrap mx-auto px-[5vw] lg:px-12 py-3 flex items-center gap-4 flex-wrap">
+    <span class="lamp mr-1"></span>
+    <span class="font-mono text-[9px] lg:text-[10px] tracking-[0.22em] uppercase text-accent">DEEPDIVE</span>
+    <span class="text-line-bright font-mono text-[10px]">/</span>
+    <span class="font-mono text-[9px] lg:text-[10px] tracking-[0.18em] uppercase text-fg-mute">[LAB] · CLAUDE DESKTOP BUDDY № 01</span>
+    <a href="protocol.html" class="font-mono text-[9px] lg:text-[10px] tracking-[0.18em] uppercase text-fg-mute hover:text-accent border border-line-bright px-2 py-0.5 transition-colors">→ № 02 Protocol</a>
+    <div data-lang-switcher data-slug="prd" style="margin-left:auto"></div>
+    <span class="flex-1 h-px bg-line hidden lg:block"></span>
+    <span class="font-mono text-[9px] tracking-[0.14em] text-fg-mute">v1 · 2026</span>
+  </div>
+</div>
+
+  <!-- HERO -->
+  <section class="max-w-wrap mx-auto px-[5vw] lg:px-12 relative z-[2] pt-12 lg:pt-24 pb-14 lg:pb-28 border-b border-line">
+    <div class="hero-anim">
+      <div class="font-mono text-[11px] tracking-[0.2em] text-amber uppercase mb-6 cursor">PRIMER / INTRO</div>
+      <h1 class="font-serif font-light text-[clamp(36px,9vw,108px)] leading-[0.98] tracking-tight max-w-content">
+        More Than a<em class="text-amber"> Desktop Pet</em><br/>
+        Claude Desktop Buddy<br/>
+        What It Means for Developers
+      </h1>
+      <p class="lg:ml-[168px] max-w-prose text-[15px] lg:text-lg leading-relaxed lg:leading-[1.75] font-light text-fg-dim mt-10 lg:mt-14">
+        Anthropic open-sourced an ESP32 firmware that maps Claude Code's session state to a little pet on your desk. The real problem it solves: when Claude Code runs long tasks, approval popups interrupt you every time—Buddy eliminates this interruption with a physical button.
+      </p>
+      <div class="lg:ml-[168px] max-w-content mt-14 lg:mt-20 grid grid-cols-2 lg:grid-cols-4 gap-px bg-line">
+        <div class="bg-bg p-5 lg:p-7">
+          <div class="font-mono text-[10px] tracking-[0.18em] text-fg-mute uppercase mb-2">Hardware Cost</div>
+          <div class="font-serif text-3xl lg:text-5xl font-light"><em class="text-amber">$25</em></div>
+          <div class="text-[12px] text-fg-dim mt-1 font-mono">M5StickC Plus</div>
+        </div>
+        <div class="bg-bg p-5 lg:p-7">
+          <div class="font-mono text-[10px] tracking-[0.18em] text-fg-mute uppercase mb-2">Behavior States</div>
+          <div class="font-serif text-3xl lg:text-5xl font-light"><em class="text-amber">7</em></div>
+          <div class="text-[12px] text-fg-dim mt-1 font-mono">sleep ↔ heart</div>
+        </div>
+        <div class="bg-bg p-5 lg:p-7">
+          <div class="font-mono text-[10px] tracking-[0.18em] text-fg-mute uppercase mb-2">Built-in Pets</div>
+          <div class="font-serif text-3xl lg:text-5xl font-light"><em class="text-amber">18</em></div>
+          <div class="text-[12px] text-fg-dim mt-1 font-mono">species × 7 anim</div>
+        </div>
+        <div class="bg-bg p-5 lg:p-7">
+          <div class="font-mono text-[10px] tracking-[0.18em] text-fg-mute uppercase mb-2">Open Protocol</div>
+          <div class="font-serif text-3xl lg:text-5xl font-light"><em class="text-amber">BLE</em></div>
+          <div class="text-[12px] text-fg-dim mt-1 font-mono">Nordic UART + JSON</div>
+        </div>
+      </div>
+
+      <!-- HERO IMAGE -->
+      <figure class="lg:ml-[168px] max-w-content mt-14 lg:mt-20">
+        <div class="border border-line p-2 lg:p-3 bg-bg-2">
+          <img src="https://raw.githubusercontent.com/anthropics/claude-desktop-buddy/main/docs/device.jpg"
+               alt="M5StickC Plus running the buddy firmware"
+               class="w-full h-auto block"
+               loading="lazy">
+        </div>
+        <figcaption class="mt-3 font-mono text-[10px] tracking-[0.22em] text-fg-mute uppercase flex flex-wrap gap-3">
+          <span class="text-amber">FIG / 01</span>
+          <span>M5StickC Plus running buddy firmware</span>
+          <span class="text-fg-mute">— anthropic / claude-desktop-buddy</span>
+        </figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- TL;DR INLINE -->
+  <section class="max-w-wrap mx-auto px-[5vw] lg:px-12 relative z-[2] py-10 lg:py-14 border-b border-line">
+    <div class="lg:ml-[168px] max-w-content border border-amber/40 bg-amber-soft/40 p-6 lg:p-8" style="background:rgba(245,165,36,0.04)">
+      <div class="font-mono text-[10px] lg:text-[11px] tracking-[0.18em] uppercase text-amber mb-4">TL;DR / 30 sec</div>
+      <p class="font-serif text-[18px] lg:text-[22px] leading-snug mb-5 text-fg">
+        Buddy transforms agent approval from <em class="text-amber">"switch windows and click"</em> to <em class="text-amber">"glance at the device and press"</em>—what you save isn't two seconds, it's the attention context switch.
+      </p>
+      <ul class="grid grid-cols-1 lg:grid-cols-2 gap-x-8 gap-y-2 text-[14px] text-fg-dim font-light list-none p-0 mb-5">
+        <li class="flex gap-3"><span class="font-mono text-amber min-w-[20px]">·</span><span><strong class="text-fg font-medium">7</strong> animation states + <strong class="text-fg font-medium">2</strong> physical buttons with stateful semantics (pressing A on approval page = approve)</span></li>
+        <li class="flex gap-3"><span class="font-mono text-amber min-w-[20px]">·</span><span>Whole device ~<strong class="text-fg font-medium">$25</strong> (M5StickC Plus), open-source firmware, ~80 seconds to flash with PlatformIO</span></li>
+        <li class="flex gap-3"><span class="font-mono text-amber min-w-[20px]">·</span><span><strong class="text-fg font-medium">18</strong> built-in ASCII species + GIF character packs (96 px, &lt; 1.8 MB), drag-and-drop reskinning</span></li>
+        <li class="flex gap-3"><span class="font-mono text-amber min-w-[20px]">·</span><span>Every <strong class="text-fg font-medium">50K tokens</strong> triggers a level-up physical event—making token consumption tangible</span></li>
+        <li class="flex gap-3"><span class="font-mono text-amber min-w-[20px]">·</span><span>BLE protocol is open, "Building your own device? You don't need any of the code here."</span></li>
+        <li class="flex gap-3"><span class="font-mono text-amber min-w-[20px]">·</span><span>Face-down = sleep, shake = dizzy—<strong class="text-fg font-medium">physical gestures</strong> convey intent</span></li>
+      </ul>
+      <p class="font-serif text-[15px] lg:text-[16px] text-amber italic leading-relaxed">
+        Counter-consensus insight: even if you never touch hardware, simply studying Buddy as a reference case for <em class="text-fg font-normal">"what an agent approval UI should look like"</em> is worth the $25 and an afternoon.
+      </p>
+    </div>
+  </section>
+
+  <!-- § 01 PROBLEM -->
+  <section class="max-w-wrap mx-auto px-[5vw] lg:px-12 relative z-[2] py-14 lg:py-28 border-b border-line">
+    <header class="grid grid-cols-1 lg:grid-cols-[120px_1fr] gap-4 lg:gap-12 items-baseline mb-10 lg:mb-[72px]">
+      <div class="cursor font-mono text-[10px] lg:text-[11px] tracking-[0.2em] text-amber pt-3 border-t border-amber uppercase">§ 01 / PROBLEM</div>
+      <h2 class="font-serif font-light text-[clamp(24px,7vw,68px)] leading-[1.05] tracking-tight">
+        The <em class="text-amber">Real Problem</em> It Solves
+      </h2>
+    </header>
+    <div class="lg:ml-[168px] max-w-prose text-[15px] lg:text-lg leading-relaxed lg:leading-[1.75] font-light space-y-5 text-fg">
+      <p>When Claude Code runs long tasks, the most annoying thing isn't the waiting—it's the popups.</p>
+      <p>You just hit your stride, then <span class="font-mono text-[13px] text-amber">approve: Bash</span> pops up—switch windows, click the button, switch back to your editor, and that thread in your head is broken. One time doesn't hurt, but they add up. The more authority you give the agent, the more popups; but without authority, the agent can't run.</p>
+      <p>What Buddy does is simple: it turns "switch back to the Claude window and click a button" into "glance at the device, reach out and press." <em class="text-amber">It sounds like saving two seconds, but what you're actually saving is the attention context switch.</em></p>
+    </div>
+  </section>
+
+  <!-- § 02 BEHAVIOR -->
+  <section class="max-w-wrap mx-auto px-[5vw] lg:px-12 relative z-[2] py-14 lg:py-28 border-b border-line">
+    <header class="grid grid-cols-1 lg:grid-cols-[120px_1fr] gap-4 lg:gap-12 items-baseline mb-10 lg:mb-[72px]">
+      <div class="cursor font-mono text-[10px] lg:text-[11px] tracking-[0.2em] text-amber pt-3 border-t border-amber uppercase">§ 02 / BEHAVIOR</div>
+      <h2 class="font-serif font-light text-[clamp(24px,7vw,68px)] leading-[1.05] tracking-tight">
+        The Device Has <em class="text-amber">7 States</em>
+      </h2>
+    </header>
+
+    <!-- 7 STATES grid -->
+    <div class="lg:ml-[168px] grid grid-cols-[80px_88px_1fr] lg:grid-cols-[120px_112px_1fr] gap-px bg-line max-w-content">
+      <div class="bg-bg-2 p-3 lg:p-4 font-mono text-[10px] tracking-[0.18em] text-fg-mute uppercase">State</div>
+      <div class="bg-bg-2 p-3 lg:p-4 font-mono text-[10px] tracking-[0.18em] text-fg-mute uppercase">Animation</div>
+      <div class="bg-bg-2 p-3 lg:p-4 grid grid-cols-[1fr_1.6fr] gap-4 font-mono text-[10px] tracking-[0.18em] text-fg-mute uppercase">
+        <span>Trigger</span><span>Behavior</span>
+      </div>
+
+      <div class="bg-bg p-3 lg:p-4 font-mono text-[11px] lg:text-[12px] text-amber tracking-wider self-center">SLEEP</div>
+      <div class="bg-bg p-2 flex items-center justify-center"><img src="https://raw.githubusercontent.com/anthropics/claude-desktop-buddy/main/characters/bufo/sleep.gif" alt="sleep" loading="lazy" class="max-h-20 lg:max-h-24 w-auto"></div>
+      <div class="bg-bg p-3 lg:p-4 grid grid-cols-[1fr_1.6fr] gap-4 text-[13px] lg:text-sm font-light self-center">
+        <span class="text-fg-dim">Desktop not connected</span><span class="text-fg">Eyes closed, slow breathing</span>
+      </div>
+
+      <div class="bg-bg p-3 lg:p-4 font-mono text-[11px] lg:text-[12px] text-amber tracking-wider self-center">IDLE</div>
+      <div class="bg-bg p-2 flex items-center justify-center"><img src="https://raw.githubusercontent.com/anthropics/claude-desktop-buddy/main/characters/bufo/idle_0.gif" alt="idle" loading="lazy" class="max-h-20 lg:max-h-24 w-auto"></div>
+      <div class="bg-bg p-3 lg:p-4 grid grid-cols-[1fr_1.6fr] gap-4 text-[13px] lg:text-sm font-light self-center">
+        <span class="text-fg-dim">Connected, no task</span><span class="text-fg">Blinking, looking around</span>
+      </div>
+
+      <div class="bg-bg p-3 lg:p-4 font-mono text-[11px] lg:text-[12px] text-amber tracking-wider self-center">BUSY</div>
+      <div class="bg-bg p-2 flex items-center justify-center"><img src="https://raw.githubusercontent.com/anthropics/claude-desktop-buddy/main/characters/bufo/busy.gif" alt="busy" loading="lazy" class="max-h-20 lg:max-h-24 w-auto"></div>
+      <div class="bg-bg p-3 lg:p-4 grid grid-cols-[1fr_1.6fr] gap-4 text-[13px] lg:text-sm font-light self-center">
+        <span class="text-fg-dim">Session running</span><span class="text-fg">Sweating, busy working face</span>
+      </div>
+
+      <div class="bg-bg p-3 lg:p-4 font-mono text-[11px] lg:text-[12px] text-amber tracking-wider self-center">ATTENTION</div>
+      <div class="bg-bg p-2 flex items-center justify-center"><img src="https://raw.githubusercontent.com/anthropics/claude-desktop-buddy/main/characters/bufo/attention.gif" alt="attention" loading="lazy" class="max-h-20 lg:max-h-24 w-auto"></div>
+      <div class="bg-bg p-3 lg:p-4 grid grid-cols-[1fr_1.6fr] gap-4 text-[13px] lg:text-sm font-light self-center">
+        <span class="text-fg-dim">Approval popup</span><span class="text-fg">Alert expression + LED flash</span>
+      </div>
+
+      <div class="bg-bg p-3 lg:p-4 font-mono text-[11px] lg:text-[12px] text-amber tracking-wider self-center">CELEBRATE</div>
+      <div class="bg-bg p-2 flex items-center justify-center"><img src="https://raw.githubusercontent.com/anthropics/claude-desktop-buddy/main/characters/bufo/celebrate.gif" alt="celebrate" loading="lazy" class="max-h-20 lg:max-h-24 w-auto"></div>
+      <div class="bg-bg p-3 lg:p-4 grid grid-cols-[1fr_1.6fr] gap-4 text-[13px] lg:text-sm font-light self-center">
+        <span class="text-fg-dim">50K tokens accumulated</span><span class="text-fg">Confetti, jumping</span>
+      </div>
+
+      <div class="bg-bg p-3 lg:p-4 font-mono text-[11px] lg:text-[12px] text-amber tracking-wider self-center">DIZZY</div>
+      <div class="bg-bg p-2 flex items-center justify-center"><img src="https://raw.githubusercontent.com/anthropics/claude-desktop-buddy/main/characters/bufo/dizzy.gif" alt="dizzy" loading="lazy" class="max-h-20 lg:max-h-24 w-auto"></div>
+      <div class="bg-bg p-3 lg:p-4 grid grid-cols-[1fr_1.6fr] gap-4 text-[13px] lg:text-sm font-light self-center">
+        <span class="text-fg-dim">You shook it (IMU)</span><span class="text-fg">Spinning eyes + wobbling</span>
+      </div>
+
+      <div class="bg-bg p-3 lg:p-4 font-mono text-[11px] lg:text-[12px] text-amber tracking-wider self-center">HEART</div>
+      <div class="bg-bg p-2 flex items-center justify-center"><img src="https://raw.githubusercontent.com/anthropics/claude-desktop-buddy/main/characters/bufo/heart.gif" alt="heart" loading="lazy" class="max-h-20 lg:max-h-24 w-auto"></div>
+      <div class="bg-bg p-3 lg:p-4 grid grid-cols-[1fr_1.6fr] gap-4 text-[13px] lg:text-sm font-light self-center">
+        <span class="text-fg-dim">Approved within 5 sec</span><span class="text-fg">Floating hearts</span>
+      </div>
+    </div>
+    <p class="lg:ml-[168px] max-w-content mt-3 font-mono text-[10px] tracking-[0.22em] text-fg-mute uppercase">
+      <span class="text-amber">FIG / 02</span> &nbsp;LIVE GIFS FROM <span class="text-fg-dim">characters/bufo/</span> — official repo character pack
+    </p>
+
+    <!-- BUTTON TABLE -->
+    <div class="lg:ml-[168px] max-w-content mt-12 lg:mt-16">
+      <div class="font-mono text-[10px] tracking-[0.2em] text-amber uppercase mb-5">KEYMAP / Button semantics change with state</div>
+      <div class="overflow-x-auto">
+        <table class="w-full text-[13px] font-light border-collapse">
+          <thead>
+            <tr class="bg-bg-2">
+              <th class="text-left p-3 lg:p-4 font-mono text-[10px] tracking-[0.18em] text-fg-mute uppercase border border-line"></th>
+              <th class="text-left p-3 lg:p-4 font-mono text-[10px] tracking-[0.18em] text-fg-mute uppercase border border-line">Default</th>
+              <th class="text-left p-3 lg:p-4 font-mono text-[10px] tracking-[0.18em] text-fg-mute uppercase border border-line">Viewing Pet</th>
+              <th class="text-left p-3 lg:p-4 font-mono text-[10px] tracking-[0.18em] text-fg-mute uppercase border border-line">Viewing Info</th>
+              <th class="text-left p-3 lg:p-4 font-mono text-[10px] tracking-[0.18em] text-amber uppercase border border-line">During Approval</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="border-b border-line hover:bg-bg-2 transition-colors">
+              <td class="p-3 lg:p-4 font-mono text-amber text-[12px] border border-line">A (front)</td>
+              <td class="p-3 lg:p-4 text-fg-dim border border-line">Next screen</td>
+              <td class="p-3 lg:p-4 text-fg-dim border border-line">Next screen</td>
+              <td class="p-3 lg:p-4 text-fg-dim border border-line">Next screen</td>
+              <td class="p-3 lg:p-4 text-amber font-mono text-[12px] border border-line">✓ Approve</td>
+            </tr>
+            <tr class="border-b border-line hover:bg-bg-2 transition-colors">
+              <td class="p-3 lg:p-4 font-mono text-amber text-[12px] border border-line">B (side)</td>
+              <td class="p-3 lg:p-4 text-fg-dim border border-line">Scroll conversation</td>
+              <td class="p-3 lg:p-4 text-fg-dim border border-line">Next pet</td>
+              <td class="p-3 lg:p-4 text-fg-dim border border-line">Page down</td>
+              <td class="p-3 lg:p-4 text-fg border border-line">✗ Reject</td>
+            </tr>
+            <tr class="border-b border-line hover:bg-bg-2 transition-colors">
+              <td class="p-3 lg:p-4 font-mono text-amber text-[12px] border border-line">Long-press A</td>
+              <td class="p-3 lg:p-4 text-fg-dim border border-line" colspan="4">Enter menu</td>
+            </tr>
+            <tr class="border-b border-line hover:bg-bg-2 transition-colors">
+              <td class="p-3 lg:p-4 font-mono text-amber text-[12px] border border-line">Shake</td>
+              <td class="p-3 lg:p-4 text-fg-dim border border-line" colspan="4">Trigger dizzy animation</td>
+            </tr>
+            <tr class="hover:bg-bg-2 transition-colors">
+              <td class="p-3 lg:p-4 font-mono text-amber text-[12px] border border-line">Place face-down</td>
+              <td class="p-3 lg:p-4 text-fg-dim border border-line" colspan="4">Sleep & recharge (save energy)</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="mt-2 font-mono text-[10px] text-fg-mute">Auto screen-off after 30s idle / stays on during approval / any button wakes</p>
+    </div>
+
+    <!-- A DAY -->
+    <div class="lg:ml-[168px] max-w-prose mt-16 lg:mt-20">
+      <div class="font-mono text-[10px] tracking-[0.2em] text-amber uppercase mb-5">A DAY / What it's actually like in practice</div>
+      <ol class="space-y-4 text-[15px] lg:text-base leading-relaxed font-light text-fg">
+        <li class="grid grid-cols-[44px_1fr] gap-4">
+          <span class="font-mono text-amber text-[12px] pt-1">09:00</span>
+          <span>Open Claude Desktop → wakes from sleep into idle, starts blinking and looking around.</span>
+        </li>
+        <li class="grid grid-cols-[44px_1fr] gap-4">
+          <span class="font-mono text-amber text-[12px] pt-1">10:15</span>
+          <span>Have Code run a refactor → enters busy, starts sweating.</span>
+        </li>
+        <li class="grid grid-cols-[44px_1fr] gap-4">
+          <span class="font-mono text-amber text-[12px] pt-1">10:23</span>
+          <span>Halfway through, needs <span class="font-mono text-[13px] text-amber">git push</span> approval → switches to attention, LED flashes. Catch it in your peripheral vision, reach out and press A, approved within 5 sec → heart floating hearts.</span>
+        </li>
+        <li class="grid grid-cols-[44px_1fr] gap-4">
+          <span class="font-mono text-amber text-[12px] pt-1">11:40</span>
+          <span>Ran a long agent, burned 50K tokens → celebrate with confetti.</span>
+        </li>
+        <li class="grid grid-cols-[44px_1fr] gap-4">
+          <span class="font-mono text-amber text-[12px] pt-1">12:30</span>
+          <span>Heading out for lunch, place it face-down on the desk → enters sleep to recharge.</span>
+        </li>
+        <li class="grid grid-cols-[44px_1fr] gap-4">
+          <span class="font-mono text-amber text-[12px] pt-1">14:00</span>
+          <span>Come back, give it a shake → dizzy spinning eyes.</span>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- § 03 USEFUL -->
+  <section class="max-w-wrap mx-auto px-[5vw] lg:px-12 relative z-[2] py-14 lg:py-28 border-b border-line">
+    <header class="grid grid-cols-1 lg:grid-cols-[120px_1fr] gap-4 lg:gap-12 items-baseline mb-10 lg:mb-[72px]">
+      <div class="cursor font-mono text-[10px] lg:text-[11px] tracking-[0.2em] text-amber pt-3 border-t border-amber uppercase">§ 03 / USEFUL</div>
+      <h2 class="font-serif font-light text-[clamp(24px,7vw,68px)] leading-[1.05] tracking-tight">
+        Where It's <em class="text-amber">Actually Useful</em>
+      </h2>
+    </header>
+
+    <div class="lg:ml-[168px] grid grid-cols-1 lg:grid-cols-3 gap-px bg-line max-w-content">
+      <div class="bg-bg p-6 lg:p-8">
+        <div class="font-mono text-[10px] tracking-[0.18em] text-amber uppercase mb-3">Approvals don't break your workflow</div>
+        <p class="text-[14px] text-fg-dim leading-relaxed font-light">You're debugging in another terminal while Claude runs batch tasks in the background. No need to switch windows—hands stay on keyboard, glance over, press once. Especially useful with dual monitors or when Claude runs on another machine.</p>
+      </div>
+      <div class="bg-bg p-6 lg:p-8">
+        <div class="font-mono text-[10px] tracking-[0.18em] text-amber uppercase mb-3">Token consumption becomes tangible</div>
+        <p class="text-[14px] text-fg-dim leading-relaxed font-light">Every 50K tokens triggers a level-up confetti burst. This number used to be buried in a webpage with no real awareness. Now a physical event happens on your desk—you genuinely notice how much you're burning, which has a non-obvious effect on cost control.</p>
+      </div>
+      <div class="bg-bg p-6 lg:p-8">
+        <div class="font-mono text-[10px] tracking-[0.18em] text-amber uppercase mb-3">Face-down and shaking</div>
+        <p class="text-[14px] text-fg-dim leading-relaxed font-light">Face-down = go to sleep, don't bother me; shake = just playing around. Sounds a bit silly, but these two gestures convey intent at a much lower cost than typing, and they're real physical actions, not software buttons.</p>
+      </div>
+    </div>
+
+    <!-- BAR CHART -->
+    <div class="lg:ml-[168px] mt-12 lg:mt-16 max-w-content bg-bg-2 border border-line p-5 lg:p-8">
+      <div class="font-mono text-[10px] tracking-[0.18em] text-fg-dim uppercase mb-6 flex justify-between">
+        <span>Attention cost per approval (estimated)</span>
+        <span class="text-amber">Shorter is better</span>
+      </div>
+      <div class="space-y-4 font-mono text-xs">
+        <div class="grid grid-cols-[120px_1fr_92px] lg:grid-cols-[200px_1fr_120px] gap-3 items-center">
+          <span class="text-fg-dim">Modal popup + mouse</span>
+          <span class="relative h-2 bg-line overflow-hidden"><span class="bar-fill" style="width:92%"></span></span>
+          <span class="text-right text-fg-dim">~8s + flow loss</span>
+        </div>
+        <div class="grid grid-cols-[120px_1fr_92px] lg:grid-cols-[200px_1fr_120px] gap-3 items-center">
+          <span class="text-fg-dim">Keyboard shortcut</span>
+          <span class="relative h-2 bg-line overflow-hidden"><span class="bar-fill" style="width:55%"></span></span>
+          <span class="text-right text-fg-dim">~3s</span>
+        </div>
+        <div class="grid grid-cols-[120px_1fr_92px] lg:grid-cols-[200px_1fr_120px] gap-3 items-center">
+          <span class="text-amber">Buddy physical button</span>
+          <span class="relative h-2 bg-line overflow-hidden"><span class="bar-fill" style="width:18%"></span></span>
+          <span class="text-right text-amber">~1s, no focus</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- § 04 HACKING -->
+  <section class="max-w-wrap mx-auto px-[5vw] lg:px-12 relative z-[2] py-14 lg:py-28 border-b border-line">
+    <header class="grid grid-cols-1 lg:grid-cols-[120px_1fr] gap-4 lg:gap-12 items-baseline mb-10 lg:mb-[72px]">
+      <div class="cursor font-mono text-[10px] lg:text-[11px] tracking-[0.2em] text-amber pt-3 border-t border-amber uppercase">§ 04 / HACKING</div>
+      <h2 class="font-serif font-light text-[clamp(24px,7vw,68px)] leading-[1.05] tracking-tight">
+        How to <em class="text-amber">Hack</em> It
+      </h2>
+    </header>
+
+    <article class="grid grid-cols-1 lg:grid-cols-[180px_1fr] gap-4 lg:gap-12 py-7 lg:py-12 border-t border-line">
+      <div class="font-mono text-[11px] text-fg-mute flex lg:flex-col flex-wrap items-center lg:items-start gap-x-2 gap-y-1.5 lg:gap-0">
+        <span class="text-amber text-[13px] tracking-[0.1em] block lg:mb-2.5">LV / 01</span>
+        <span class="text-fg-dim block">ZERO CODE</span>
+        <span class="inline-block border border-line-bright py-0.5 px-2 text-[10px] text-fg-dim">3 sec</span>
+      </div>
+      <div>
+        <h3 class="font-serif text-2xl lg:text-[32px] font-normal leading-snug">Swap Pets</h3>
+        <p class="text-base text-fg-dim leading-relaxed font-light mt-4">The firmware includes 18 ASCII species—long-press A → menu → next pet to cycle through, persists across power loss. If you just want a reskin, this step is enough.</p>
+      </div>
+    </article>
+
+    <article class="grid grid-cols-1 lg:grid-cols-[180px_1fr] gap-4 lg:gap-12 py-7 lg:py-12 border-t border-line">
+      <div class="font-mono text-[11px] text-fg-mute flex lg:flex-col flex-wrap items-center lg:items-start gap-x-2 gap-y-1.5 lg:gap-0">
+        <span class="text-amber text-[13px] tracking-[0.1em] block lg:mb-2.5">LV / 02</span>
+        <span class="text-fg-dim block">ASSET PACK</span>
+        <span class="inline-block border border-line-bright py-0.5 px-2 text-[10px] text-fg-dim">drag &amp; drop</span>
+      </div>
+      <div>
+        <h3 class="font-serif text-2xl lg:text-[32px] font-normal leading-snug">Push GIF Character Pack</h3>
+        <p class="text-base text-fg-dim leading-relaxed font-light mt-4">Don't want ASCII? Create a set of GIFs and drag them to the Hardware Buddy window's drop target, which pushes them to the device via BLE for real-time switching. The repo's <span class="font-mono text-[13px] text-amber">characters/bufo/</span> is a complete frog example.</p>
+
+        <figure class="mt-6">
+          <div class="border border-line p-2 bg-bg-2">
+            <img src="https://raw.githubusercontent.com/anthropics/claude-desktop-buddy/main/docs/hardware-buddy-window.png"
+                 alt="Hardware Buddy window with Connect button and folder drop target"
+                 class="w-full h-auto block"
+                 loading="lazy">
+          </div>
+          <figcaption class="mt-2 font-mono text-[10px] tracking-[0.22em] text-fg-mute uppercase flex flex-wrap gap-2">
+            <span class="text-amber">FIG / 03</span>
+            <span>HARDWARE BUDDY WINDOW — drag drop target on the right</span>
+          </figcaption>
+        </figure>
+
+        <div class="mt-5 p-4 bg-bg-2 border border-line font-mono text-[11px] text-fg-dim leading-loose">
+my-character/<br/>
+&nbsp;&nbsp;manifest.json<br/>
+&nbsp;&nbsp;sleep.gif<br/>
+&nbsp;&nbsp;idle_0.gif&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="text-fg-mute"># Array: cycle through</span><br/>
+&nbsp;&nbsp;idle_1.gif<br/>
+&nbsp;&nbsp;busy.gif / attention.gif / celebrate.gif / dizzy.gif / heart.gif
+        </div>
+        <div class="mt-5 p-4 bg-amber-soft border-l-2 border-amber">
+          <span class="font-mono text-[10px] tracking-[0.18em] text-amber uppercase mb-1.5 block">CONSTRAINTS</span>
+          <p class="text-[14px] text-fg leading-relaxed font-light">
+            96px wide / height ≤140px / total pack &lt; 1.8MB &nbsp;·&nbsp; <span class="font-mono text-amber">tools/prep_character.py</span> handles uniform scaling &nbsp;·&nbsp; <span class="font-mono text-amber">gifsicle --lossy=80 -O3 --colors 64</span> typically compresses 40~60%
+          </p>
+        </div>
+      </div>
+    </article>
+
+    <article class="grid grid-cols-1 lg:grid-cols-[180px_1fr] gap-4 lg:gap-12 py-7 lg:py-12 border-t border-line">
+      <div class="font-mono text-[11px] text-fg-mute flex lg:flex-col flex-wrap items-center lg:items-start gap-x-2 gap-y-1.5 lg:gap-0">
+        <span class="text-amber text-[13px] tracking-[0.1em] block lg:mb-2.5">LV / 03</span>
+        <span class="text-fg-dim block">FAST LOOP</span>
+        <span class="inline-block border border-line-bright py-0.5 px-2 text-[10px] text-fg-dim">USB</span>
+      </div>
+      <div>
+        <h3 class="font-serif text-2xl lg:text-[32px] font-normal leading-snug">USB Direct Flash (faster iteration)</h3>
+        <p class="text-base text-fg-dim leading-relaxed font-light mt-4">Don't want to go through Bluetooth every time when iterating on characters: <span class="font-mono text-[13px] text-amber">tools/flash_character.py characters/bufo</span> puts assets in <span class="font-mono text-[13px] text-amber">data/</span> then <span class="font-mono text-[13px] text-amber">pio run -t uploadfs</span> writes directly to the filesystem.</p>
+      </div>
+    </article>
+
+    <article class="grid grid-cols-1 lg:grid-cols-[180px_1fr] gap-4 lg:gap-12 py-7 lg:py-12 border-t border-b border-line">
+      <div class="font-mono text-[11px] text-fg-mute flex lg:flex-col flex-wrap items-center lg:items-start gap-x-2 gap-y-1.5 lg:gap-0">
+        <span class="text-amber text-[13px] tracking-[0.1em] block lg:mb-2.5">LV / 04</span>
+        <span class="text-fg-dim block">FIRMWARE</span>
+        <span class="inline-block border border-line-bright py-0.5 px-2 text-[10px] text-fg-dim">C++</span>
+      </div>
+      <div>
+        <h3 class="font-serif text-2xl lg:text-[32px] font-normal leading-snug">Modify Firmware</h3>
+        <p class="text-base text-fg-dim leading-relaxed font-light mt-4"><span class="font-mono text-[13px] text-amber">src/</span> structure is clean: state machine in <span class="font-mono text-[13px] text-amber">main.cpp</span>, one file per species animation in <span class="font-mono text-[13px] text-amber">buddies/</span>, BLE bridge in <span class="font-mono text-[13px] text-amber">ble_bridge.cpp</span>, GIF decoding in <span class="font-mono text-[13px] text-amber">character.cpp</span>. Add new states, new triggers (like double-click), or modify animations—just edit one file.</p>
+      </div>
+    </article>
+  </section>
+
+  <!-- § 05 PLATFORM -->
+  <section class="max-w-wrap mx-auto px-[5vw] lg:px-12 relative z-[2] py-14 lg:py-28 border-b border-line">
+    <header class="grid grid-cols-1 lg:grid-cols-[120px_1fr] gap-4 lg:gap-12 items-baseline mb-10 lg:mb-[72px]">
+      <div class="cursor font-mono text-[10px] lg:text-[11px] tracking-[0.2em] text-amber pt-3 border-t border-amber uppercase">§ 05 / PROTOCOL</div>
+      <h2 class="font-serif font-light text-[clamp(24px,7vw,68px)] leading-[1.05] tracking-tight">
+        The Protocol Is <em class="text-amber">Open</em>
+      </h2>
+    </header>
+
+    <div class="lg:ml-[168px] max-w-prose text-[15px] lg:text-lg leading-relaxed lg:leading-[1.75] font-light text-fg space-y-5">
+      <p>Nordic UART over BLE, JSON over line buffer, schema all in <span class="font-mono text-[14px] text-amber">REFERENCE.md</span>. The docs explicitly state: <span class="text-fg-dim">"Building your own device? You don't need any of the code here."</span></p>
+      <p>In other words: you don't need an M5Stick to connect, you don't have to display a pet, and you can use it entirely in reverse.</p>
+    </div>
+
+    <div class="lg:ml-[168px] mt-12 grid grid-cols-1 lg:grid-cols-3 gap-px bg-line max-w-content">
+      <div class="bg-bg p-6 lg:p-8">
+        <div class="font-mono text-[10px] tracking-[0.18em] text-amber uppercase mb-3">Without M5Stick</div>
+        <p class="text-[14px] text-fg-dim leading-relaxed font-light">Any ESP32, nRF52, or Raspberry Pi + dongle that can run BLE can connect.</p>
+      </div>
+      <div class="bg-bg p-6 lg:p-8">
+        <div class="font-mono text-[10px] tracking-[0.18em] text-amber uppercase mb-3">No Pet Display</div>
+        <p class="text-[14px] text-fg-dim leading-relaxed font-light">A mechanical flip clock, an old Nokia screen, a fog lamp by the office door—anything that can consume those few state messages.</p>
+      </div>
+      <div class="bg-bg p-6 lg:p-8">
+        <div class="font-mono text-[10px] tracking-[0.18em] text-amber uppercase mb-3">Reverse Integration</div>
+        <p class="text-[14px] text-fg-dim leading-relaxed font-light">Feed Claude state into Home Assistant—when the agent starts running, dim the house lights; when it finishes, bring them back up.</p>
+      </div>
+    </div>
+
+    <div class="lg:ml-[168px] mt-8 max-w-prose p-5 lg:p-6 bg-amber-soft border-l-2 border-amber">
+      <p class="text-[15px] lg:text-base text-fg leading-relaxed font-light">
+        M5StickC Plus whole device ~$25, open-source firmware, flash with PlatformIO. The barrier to entry is essentially zero.
+      </p>
+    </div>
+  </section>
+
+  <!-- § 06 ACTION -->
+  <section class="max-w-wrap mx-auto px-[5vw] lg:px-12 relative z-[2] py-14 lg:py-28 border-b border-line">
+    <header class="grid grid-cols-1 lg:grid-cols-[120px_1fr] gap-4 lg:gap-12 items-baseline mb-10 lg:mb-[72px]">
+      <div class="cursor font-mono text-[10px] lg:text-[11px] tracking-[0.2em] text-amber pt-3 border-t border-amber uppercase">§ 06 / ACTION</div>
+      <h2 class="font-serif font-light text-[clamp(24px,7vw,68px)] leading-[1.05] tracking-tight">
+        What You Can Do <em class="text-amber">Right Now</em>
+      </h2>
+    </header>
+
+    <!-- VIDEO -->
+    <div class="lg:ml-[168px] max-w-content mb-12 lg:mb-16">
+      <div class="font-mono text-[10px] tracking-[0.2em] text-amber uppercase mb-4">TUTORIAL / Full setup demo (~80 sec)</div>
+      <div class="border border-line bg-bg-2 p-2 lg:p-3">
+        <video src="tutorial.mp4" controls class="w-full h-auto block" preload="metadata">
+          Your browser does not support the video tag.
+        </video>
+      </div>
+      <p class="mt-3 font-mono text-[10px] tracking-[0.22em] text-fg-mute uppercase">
+        <span class="text-amber">VID / 01</span>&nbsp; PlatformIO setup → firmware flash → Developer Mode → BLE pairing → live approval interaction
+      </p>
+    </div>
+
+    <ol class="lg:ml-[168px] max-w-content space-y-px bg-line">
+      <li class="bg-bg grid grid-cols-[60px_1fr] lg:grid-cols-[80px_1fr] gap-4 lg:gap-8 p-5 lg:p-8 hover:bg-bg-2 transition-colors">
+        <span class="font-mono text-amber text-[13px] tracking-[0.16em]">01</span>
+        <div>
+          <h4 class="font-serif text-lg lg:text-xl font-normal leading-snug">Start Using It</h4>
+          <p class="text-[14px] lg:text-[15px] text-fg-dim leading-relaxed font-light mt-2">Flash the official firmware on M5StickC Plus, try it for a week first.</p>
+        </div>
+      </li>
+      <li class="bg-bg grid grid-cols-[60px_1fr] lg:grid-cols-[80px_1fr] gap-4 lg:gap-8 p-5 lg:p-8 hover:bg-bg-2 transition-colors">
+        <span class="font-mono text-amber text-[13px] tracking-[0.16em]">02</span>
+        <div>
+          <h4 class="font-serif text-lg lg:text-xl font-normal leading-snug">Swap Pets</h4>
+          <p class="text-[14px] lg:text-[15px] text-fg-dim leading-relaxed font-light mt-2">Long-press A → menu → next pet, try all 18 ASCII species.</p>
+        </div>
+      </li>
+      <li class="bg-bg grid grid-cols-[60px_1fr] lg:grid-cols-[80px_1fr] gap-4 lg:gap-8 p-5 lg:p-8 hover:bg-bg-2 transition-colors">
+        <span class="font-mono text-amber text-[13px] tracking-[0.16em]">03</span>
+        <div>
+          <h4 class="font-serif text-lg lg:text-xl font-normal leading-snug">Reskin</h4>
+          <p class="text-[14px] lg:text-[15px] text-fg-dim leading-relaxed font-light mt-2">Drag a GIF character pack over, or make your own (96px wide, &lt; 1.8MB).</p>
+        </div>
+      </li>
+      <li class="bg-bg grid grid-cols-[60px_1fr] lg:grid-cols-[80px_1fr] gap-4 lg:gap-8 p-5 lg:p-8 hover:bg-bg-2 transition-colors">
+        <span class="font-mono text-amber text-[13px] tracking-[0.16em]">04</span>
+        <div>
+          <h4 class="font-serif text-lg lg:text-xl font-normal leading-snug">Modify Firmware</h4>
+          <p class="text-[14px] lg:text-[15px] text-fg-dim leading-relaxed font-light mt-2">Add a double-click trigger, modify animations, add new states.</p>
+        </div>
+      </li>
+      <li class="bg-bg grid grid-cols-[60px_1fr] lg:grid-cols-[80px_1fr] gap-4 lg:gap-8 p-5 lg:p-8 hover:bg-bg-2 transition-colors">
+        <span class="font-mono text-amber text-[13px] tracking-[0.16em]">05</span>
+        <div>
+          <h4 class="font-serif text-lg lg:text-xl font-normal leading-snug">Connect Other Hardware</h4>
+          <p class="text-[14px] lg:text-[15px] text-fg-dim leading-relaxed font-light mt-2">Use the open BLE protocol to connect your existing devices to Claude's state.</p>
+        </div>
+      </li>
+      <li class="bg-bg grid grid-cols-[60px_1fr] lg:grid-cols-[80px_1fr] gap-4 lg:gap-8 p-5 lg:p-8 hover:bg-bg-2 transition-colors">
+        <span class="font-mono text-amber text-[13px] tracking-[0.16em]">06</span>
+        <div>
+          <h4 class="font-serif text-lg lg:text-xl font-normal leading-snug">Reverse Applications</h4>
+          <p class="text-[14px] lg:text-[15px] text-fg-dim leading-relaxed font-light mt-2">Feed Claude state into Home Assistant / Stream Deck / custom keyboard macros.</p>
+        </div>
+      </li>
+    </ol>
+  </section>
+
+  <!-- CODA -->
+  <section class="max-w-wrap mx-auto px-[5vw] lg:px-12 relative z-[2] py-20 lg:py-32 border-b border-line">
+    <div class="max-w-content mx-auto flex flex-col items-start gap-8">
+      <div class="glow-marker"></div>
+      <p class="font-serif font-light text-[clamp(22px,4vw,42px)] leading-[1.25] tracking-tight">
+        Even if you never touch hardware, studying Buddy as a reference case for "what an agent approval UI should look like" is worth the <em class="text-amber">$25</em> and an afternoon.
+      </p>
+    </div>
+  </section>
+
+  <!-- SERIES BAND -->
+  <section class="max-w-wrap mx-auto px-[5vw] lg:px-12 relative z-[2] py-14 lg:py-20 border-b border-line">
+    <div class="font-mono text-[10px] tracking-[0.22em] text-amber uppercase mb-6">CLAUDE DESKTOP BUDDY · DUOLOGY</div>
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-px bg-line max-w-content">
+      <div class="bg-amber-soft p-6 lg:p-8 border border-amber">
+        <div class="font-mono text-[10px] tracking-[0.22em] text-amber uppercase mb-3">FIELD NOTE / № 01 — Product Perspective</div>
+        <h3 class="font-serif text-xl lg:text-2xl font-normal leading-snug">Value</h3>
+        <p class="text-sm text-fg-dim mt-2 font-light">What problem Buddy solves, how to use it, how to hack it · State table + day-in-the-life narrative + action gradient</p>
+        <span class="inline-block mt-4 font-mono text-[10px] text-amber tracking-[0.16em] uppercase">▣ Currently Reading</span>
+      </div>
+      <a href="protocol.html" class="bg-bg p-6 lg:p-8 hover:bg-bg-2 transition-colors block">
+        <div class="font-mono text-[10px] tracking-[0.22em] text-fg-mute uppercase mb-3">DEEP DIVE / № 01 — Technical Perspective →</div>
+        <h3 class="font-serif text-xl lg:text-2xl font-normal leading-snug">Protocol Deep Dive</h3>
+        <p class="text-sm text-fg-dim mt-2 font-light">Protocol teardown + design analysis + protocol stack positioning + future predictions · The full picture of BLE to agent-hardware communication</p>
+        <span class="inline-block mt-4 font-mono text-[10px] text-amber tracking-[0.16em] uppercase">▢ Published</span>
+      </a>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="max-w-wrap mx-auto px-[5vw] lg:px-12 relative z-[2] py-12 lg:py-16">
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12 mb-12">
+      <div>
+        <div class="font-mono text-[10px] tracking-[0.2em] text-amber uppercase mb-4">SOURCE</div>
+        <ul class="space-y-2 text-[13px] text-fg-dim font-light">
+          <li><a class="hover:text-amber transition" href="https://github.com/anthropics/claude-desktop-buddy" target="_blank" rel="noopener">github.com/anthropics/claude-desktop-buddy</a></li>
+          <li><span class="text-fg-mute">REFERENCE.md — BLE protocol</span></li>
+          <li><span class="text-fg-mute">characters/bufo — character pack sample</span></li>
+        </ul>
+      </div>
+      <div>
+        <div class="font-mono text-[10px] tracking-[0.2em] text-amber uppercase mb-4">HARDWARE</div>
+        <ul class="space-y-2 text-[13px] text-fg-dim font-light">
+          <li>M5StickC Plus / ~$25</li>
+          <li>ESP32 + Arduino framework</li>
+          <li>BLE 5.0 / NimBLE</li>
+        </ul>
+      </div>
+      <div>
+        <div class="font-mono text-[10px] tracking-[0.2em] text-amber uppercase mb-4">TOOLCHAIN</div>
+        <ul class="space-y-2 text-[13px] text-fg-dim font-light">
+          <li>PlatformIO Core 6.1+</li>
+          <li>Claude Desktop (developer mode)</li>
+          <li>gifsicle / pillow</li>
+        </ul>
+      </div>
+      <div>
+        <div class="font-mono text-[10px] tracking-[0.2em] text-amber uppercase mb-4">RELATED</div>
+        <ul class="space-y-2 text-[13px] text-fg-dim font-light">
+          <li>Hardware Buddy window</li>
+          <li>Nordic UART Service</li>
+          <li>NVS persistence</li>
+        </ul>
+      </div>
+    </div>
+    <div class="pt-8 border-t border-line flex flex-wrap items-center justify-between gap-4 font-mono text-[10px] tracking-[0.2em] uppercase text-fg-mute">
+      <span>FIELD NOTE / № 01 — END</span>
+      <span class="text-fg-dim">Filed 2026.05.07</span>
+    </div>
+  </footer>
+
+</body>
+</html>
