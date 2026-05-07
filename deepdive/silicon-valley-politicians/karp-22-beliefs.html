@@ -1,0 +1,925 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Karp的22条信念 · The Technological Republic</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=IBM+Plex+Mono:wght@400;500&family=Noto+Serif+SC:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0a0f;
+    --surface: #111118;
+    --surface2: #16161f;
+    --border: #2a2a3a;
+    --accent: #c8a96e;
+    --accent2: #7b6ee8;
+    --text: #e8e4da;
+    --text-muted: #8a8590;
+    --text-dim: #555060;
+    --red: #e85555;
+    --green: #55b88a;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Noto Serif SC', serif;
+    line-height: 1.8;
+    overflow-x: hidden;
+  }
+
+  /* HERO */
+  .hero {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 4rem 2rem;
+    overflow: hidden;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: 
+      radial-gradient(ellipse 80% 60% at 50% 20%, rgba(123,110,232,0.12) 0%, transparent 60%),
+      radial-gradient(ellipse 60% 40% at 80% 80%, rgba(200,169,110,0.08) 0%, transparent 50%);
+  }
+
+  .hero-grid {
+    position: absolute;
+    inset: 0;
+    background-image: 
+      linear-gradient(rgba(200,169,110,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(200,169,110,0.04) 1px, transparent 1px);
+    background-size: 60px 60px;
+    mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 0%, transparent 100%);
+  }
+
+  .hero-eyebrow {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.3em;
+    color: var(--accent);
+    text-transform: uppercase;
+    margin-bottom: 2rem;
+    opacity: 0;
+    animation: fadeUp 0.8s ease 0.2s forwards;
+  }
+
+  .hero-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(3rem, 8vw, 7rem);
+    font-weight: 900;
+    line-height: 1.0;
+    margin-bottom: 1.5rem;
+    opacity: 0;
+    animation: fadeUp 0.8s ease 0.4s forwards;
+  }
+
+  .hero-title .accent { color: var(--accent); }
+  .hero-title .dim { color: var(--text-dim); }
+
+  .hero-subtitle {
+    font-size: 1.1rem;
+    color: var(--text-muted);
+    max-width: 600px;
+    margin-bottom: 3rem;
+    opacity: 0;
+    animation: fadeUp 0.8s ease 0.6s forwards;
+  }
+
+  .hero-meta {
+    display: flex;
+    gap: 2rem;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.75rem;
+    color: var(--text-dim);
+    opacity: 0;
+    animation: fadeUp 0.8s ease 0.8s forwards;
+  }
+
+  .hero-meta span { color: var(--accent); }
+
+  .scroll-indicator {
+    position: absolute;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    color: var(--text-dim);
+    opacity: 0;
+    animation: fadeUp 0.8s ease 1.2s forwards;
+  }
+
+  .scroll-line {
+    width: 1px;
+    height: 40px;
+    background: linear-gradient(to bottom, var(--accent), transparent);
+    animation: scrollPulse 2s ease-in-out infinite;
+  }
+
+  /* GROUPS NAV */
+  .groups-nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(10,10,15,0.9);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 2rem;
+    display: flex;
+    gap: 0;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  .groups-nav::-webkit-scrollbar { display: none; }
+
+  .nav-item {
+    padding: 1rem 1.2rem;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.1em;
+    color: var(--text-dim);
+    cursor: pointer;
+    white-space: nowrap;
+    border-bottom: 2px solid transparent;
+    transition: all 0.3s ease;
+    background: none;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+  }
+
+  .nav-item:hover { color: var(--accent); }
+  .nav-item.active { color: var(--accent); border-bottom-color: var(--accent); }
+
+  /* MAIN CONTENT */
+  .main {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 4rem 2rem;
+  }
+
+  /* GROUP SECTION */
+  .group-section {
+    margin-bottom: 6rem;
+  }
+
+  .group-header {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    margin-bottom: 3rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .group-number {
+    font-family: 'Playfair Display', serif;
+    font-size: 4rem;
+    font-weight: 900;
+    color: var(--text-dim);
+    line-height: 1;
+    opacity: 0.3;
+  }
+
+  .group-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--accent);
+  }
+
+  .group-desc {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    margin-top: 0.3rem;
+  }
+
+  /* BELIEF CARD */
+  .belief-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 2px;
+    margin-bottom: 2rem;
+    overflow: hidden;
+    transition: border-color 0.3s ease;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.5s ease, transform 0.5s ease, border-color 0.3s ease;
+  }
+
+  .belief-card.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .belief-card:hover {
+    border-color: rgba(200,169,110,0.3);
+  }
+
+  .belief-header {
+    display: grid;
+    grid-template-columns: 60px 1fr;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .belief-num {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 1.2rem;
+    font-weight: 500;
+    color: var(--accent);
+    border-right: 1px solid var(--border);
+    background: var(--surface2);
+    padding: 1rem;
+  }
+
+  .belief-title {
+    padding: 1rem 1.5rem;
+    font-family: 'Playfair Display', serif;
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--text);
+    display: flex;
+    align-items: center;
+  }
+
+  .belief-body {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  @media (max-width: 768px) {
+    .belief-body { grid-template-columns: 1fr; }
+  }
+
+  .belief-original {
+    padding: 1.5rem;
+    border-right: 1px solid var(--border);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.78rem;
+    line-height: 1.8;
+    color: var(--text-muted);
+    background: rgba(0,0,0,0.2);
+    position: relative;
+  }
+
+  .belief-original::before {
+    content: 'ORIGINAL';
+    display: block;
+    font-size: 0.6rem;
+    letter-spacing: 0.2em;
+    color: var(--text-dim);
+    margin-bottom: 0.8rem;
+  }
+
+  .belief-translation {
+    padding: 1.5rem;
+    font-size: 0.88rem;
+    line-height: 1.9;
+    color: var(--text);
+    position: relative;
+  }
+
+  .belief-translation::before {
+    content: '译文';
+    display: block;
+    font-size: 0.6rem;
+    letter-spacing: 0.2em;
+    color: var(--text-dim);
+    font-family: 'IBM Plex Mono', monospace;
+    margin-bottom: 0.8rem;
+  }
+
+  .belief-analysis {
+    padding: 1.5rem;
+    border-top: 1px solid var(--border);
+    background: var(--surface2);
+  }
+
+  .analysis-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.2em;
+    color: var(--accent2);
+    margin-bottom: 0.8rem;
+  }
+
+  .analysis-text {
+    font-size: 0.88rem;
+    line-height: 1.9;
+    color: var(--text-muted);
+  }
+
+  .analysis-text strong {
+    color: var(--accent);
+    font-weight: 700;
+  }
+
+  /* TAG */
+  .tag {
+    display: inline-block;
+    padding: 0.2rem 0.6rem;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.1em;
+    border-radius: 2px;
+    margin-left: 0.5rem;
+    vertical-align: middle;
+  }
+
+  .tag-war { background: rgba(232,85,85,0.15); color: var(--red); border: 1px solid rgba(232,85,85,0.3); }
+  .tag-culture { background: rgba(123,110,232,0.15); color: var(--accent2); border: 1px solid rgba(123,110,232,0.3); }
+  .tag-geo { background: rgba(200,169,110,0.15); color: var(--accent); border: 1px solid rgba(200,169,110,0.3); }
+  .tag-tech { background: rgba(85,184,138,0.15); color: var(--green); border: 1px solid rgba(85,184,138,0.3); }
+
+  /* FOOTER */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 3rem 2rem;
+    text-align: center;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--text-dim);
+  }
+
+  footer .highlight { color: var(--accent); }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes scrollPulse {
+    0%, 100% { opacity: 0.3; transform: scaleY(1); }
+    50% { opacity: 1; transform: scaleY(1.2); }
+  }
+
+  /* SUMMARY BOX */
+  .summary-box {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--accent);
+    padding: 2rem;
+    margin-bottom: 4rem;
+    font-size: 0.9rem;
+    line-height: 1.9;
+    color: var(--text-muted);
+  }
+
+  .summary-box h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    color: var(--accent);
+    margin-bottom: 1rem;
+  }
+
+  .summary-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1.5rem;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.75rem;
+  }
+
+  .summary-table th {
+    text-align: left;
+    padding: 0.6rem 1rem;
+    background: var(--surface2);
+    color: var(--accent);
+    border-bottom: 1px solid var(--border);
+    letter-spacing: 0.1em;
+  }
+
+  .summary-table td {
+    padding: 0.7rem 1rem;
+    border-bottom: 1px solid rgba(42,42,58,0.5);
+    color: var(--text-muted);
+  }
+
+  .summary-table tr:last-child td { border-bottom: none; }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-grid"></div>
+  <div class="hero-eyebrow">Alex Karp · The Technological Republic · 2025</div>
+  <h1 class="hero-title">
+    <span class="dim">22条</span><br>
+    <span class="accent">信念</span>
+  </h1>
+  <p class="hero-subtitle">Palantir CEO Alex Karp 的政治哲学宣言——原文、译文与深度解析</p>
+  <div class="hero-meta">
+    <div>共 <span>22</span> 条</div>
+    <div>分 <span>5</span> 组</div>
+    <div>一份<span>科技民族主义</span>宣言</div>
+  </div>
+  <div class="scroll-indicator">
+    <div class="scroll-line"></div>
+    SCROLL
+  </div>
+</section>
+
+<!-- NAV -->
+<nav class="groups-nav">
+  <button class="nav-item active" onclick="scrollToGroup('g1')">① 硅谷责任</button>
+  <button class="nav-item" onclick="scrollToGroup('g2')">② 硬实力与军事</button>
+  <button class="nav-item" onclick="scrollToGroup('g3')">③ 政治文化批判</button>
+  <button class="nav-item" onclick="scrollToGroup('g4')">④ 地缘政治与历史</button>
+  <button class="nav-item" onclick="scrollToGroup('g5')">⑤ 文化与价值观</button>
+</nav>
+
+<main class="main">
+
+  <!-- SUMMARY -->
+  <div class="summary-box">
+    <h3>这份宣言是什么？</h3>
+    这22条出自Alex Karp为《纽约时报》撰写的文章，是他新书《科技共和国》（The Technological Republic）的思想纲领。Karp是Palantir（帕兰提尔）公司CEO——这家公司以《指环王》中"腐蚀人心的全视之眼"命名，长期为CIA、NSA、美国军方提供数据分析和AI服务。这22条是他为自己的存在写下的道义宣言。
+    <table class="summary-table">
+      <tr><th>维度</th><th>Karp的立场</th></tr>
+      <tr><td>对科技行业</td><td>有道义责任，不能只做消费品</td></tr>
+      <tr><td>对军事</td><td>硬实力优先，AI是新核武器</td></tr>
+      <tr><td>对政治文化</td><td>反取消文化，反政治粉丝化</td></tr>
+      <tr><td>对地缘政治</td><td>美国霸权是善的，需要维持</td></tr>
+      <tr><td>对多元主义</td><td>空洞包容是文明自杀</td></tr>
+    </table>
+  </div>
+
+  <!-- GROUP 1 -->
+  <section class="group-section" id="g1">
+    <div class="group-header">
+      <div class="group-number">I</div>
+      <div>
+        <div class="group-title">硅谷的责任与国家义务</div>
+        <div class="group-desc">条目 1–3：科技精英欠这个国家什么</div>
+      </div>
+    </div>
+
+    <!-- 1 -->
+    <div class="belief-card">
+      <div class="belief-header">
+        <div class="belief-num">01</div>
+        <div class="belief-title">硅谷欠这个国家一笔道义债<span class="tag tag-tech">科技责任</span></div>
+      </div>
+      <div class="belief-body">
+        <div class="belief-original">Silicon Valley owes a moral debt to the country that made its rise possible. The engineering elite of Silicon Valley has an affirmative obligation to participate in the defense of the nation.</div>
+        <div class="belief-translation">硅谷对这个成就了它崛起的国家负有道义上的债务。硅谷的工程精英有积极参与国家防务的义务。</div>
+      </div>
+      <div class="belief-analysis">
+        <div class="analysis-label">ANALYSIS · 深度解析</div>
+        <div class="analysis-text">这不只是感恩，而是在<strong>论证法律义务般的责任</strong>。硅谷的繁荣依赖于美国的法律体系、公立大学、军事保护（互联网本身源于DARPA军方项目）。Karp在说：你们享受了这一切，就没有资格以"科技中立"为由拒绝参与国防。这是Palantir拿国防合同的<strong>道义基础</strong>，也是对Google退出Maven项目那批工程师的隔空批判。</div>
+      </div>
+    </div>
+
+    <!-- 2 -->
+    <div class="belief-card">
+      <div class="belief-header">
+        <div class="belief-num">02</div>
+        <div class="belief-title">反抗应用程序的暴政<span class="tag tag-tech">科技批判</span></div>
+      </div>
+      <div class="belief-body">
+        <div class="belief-original">We must rebel against the tyranny of the apps. Is the iPhone our greatest creative if not crowning achievement as a civilization? The object has changed our lives, but it may also now be limiting and constraining our sense of the possible.</div>
+        <div class="belief-translation">我们必须反抗应用程序的暴政。iPhone是我们作为一个文明所取得的最伟大、乃至最巅峰的成就吗？这个设备改变了我们的生活，但它或许也正在限制和束缚我们对可能性的想象。</div>
+      </div>
+      <div class="belief-analysis">
+        <div class="analysis-label">ANALYSIS · 深度解析</div>
+        <div class="analysis-text">表面批评iPhone，实际上是在批评<strong>整个消费级科技行业</strong>（Meta、TikTok、游戏）——这些公司把人类智识能量消耗在刷屏上。Karp认为这是文明的自我矮化。硅谷本应做更宏大的事：国防、基础设施、太空。"应用程序的暴政"是一个精准的隐喻——我们以为在使用工具，实际上是被工具塑造和囚禁。</div>
+      </div>
+    </div>
+
+    <!-- 3 -->
+    <div class="belief-card">
+      <div class="belief-header">
+        <div class="belief-num">03</div>
+        <div class="belief-title">免费电子邮件还不够<span class="tag tag-tech">科技批判</span></div>
+      </div>
+      <div class="belief-body">
+        <div class="belief-original">Free email is not enough. The decadence of a culture or civilization, and indeed its ruling class, will be forgiven only if that culture is capable of delivering economic growth and security for the public.</div>
+        <div class="belief-translation">免费电子邮件还不够。一种文化或文明——乃至其统治阶层——的颓废与堕落，只有在这种文化能够为公众带来经济增长与安全保障时，才能被原谅。</div>
+      </div>
+      <div class="belief-analysis">
+        <div class="analysis-label">ANALYSIS · 深度解析</div>
+        <div class="analysis-text">直接点名Gmail这类产品。背后是一个<strong>社会契约论</strong>：统治阶层（科技精英）可以有各种特权和"颓废"，但前提是他们必须为社会创造真正的价值。仅仅提供免费服务（而用广告变现）是<strong>不及格的社会贡献</strong>。这也是对"互联网让信息民主化"叙事的质疑——信息免费了，但安全感、就业机会、经济增长呢？</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- GROUP 2 -->
+  <section class="group-section" id="g2">
+    <div class="group-header">
+      <div class="group-number">II</div>
+      <div>
+        <div class="group-title">硬实力与军事哲学</div>
+        <div class="group-desc">条目 4–7：软件是本世纪的武器</div>
+      </div>
+    </div>
+
+    <!-- 4 -->
+    <div class="belief-card">
+      <div class="belief-header">
+        <div class="belief-num">04</div>
+        <div class="belief-title">软实力的局限已经暴露<span class="tag tag-war">军事</span><span class="tag tag-geo">地缘</span></div>
+      </div>
+      <div class="belief-body">
+        <div class="belief-original">The limits of soft power, of soaring rhetoric alone, have been exposed. The ability of free and democratic societies to prevail requires something more than moral appeal. It requires hard power, and hard power in this century will be built on software.</div>
+        <div class="belief-translation">软实力的局限性、单靠慷慨陈词的局限性，已经暴露无遗。自由民主社会要想取得胜利，需要的不仅仅是道义上的感召，还需要硬实力——而本世纪的硬实力将建立在软件之上。</div>
+      </div>
+      <div class="belief-analysis">
+        <div class="analysis-label">ANALYSIS · 深度解析</div>
+        <div class="analysis-text">背景是乌克兰战争、台海紧张局势。Karp认为西方长期迷信"民主感召力"和"经济相互依赖"能维持和平，这是幻觉。<strong>本世纪的硬实力 = 软件 + AI</strong>，这正是Palantir的商业逻辑——他们卖的不只是数据分析工具，而是"21世纪的武器基础设施"。这句话让Palantir的国防合同从"赚钱行为"升华为"历史必然"。</div>
+      </div>
+    </div>
+
+    <!-- 5 -->
+    <div class="belief-card">
+      <div class="belief-header">
+        <div class="belief-num">05</div>
+        <div class="belief-title">AI武器的问题是"谁造"而非"造不造"<span class="tag tag-war">军事</span></div>
+      </div>
+      <div class="belief-body">
+        <div class="belief-original">The question is not whether A.I. weapons will be built; it is who will build them and for what purpose. Our adversaries will not pause to indulge in theatrical debates about the merits of developing technologies with critical military and national security applications. They will proceed.</div>
+        <div class="belief-translation">问题不在于AI武器是否会被制造出来，而在于谁来制造、为何而造。我们的对手不会停下来，去纵容那些关于是否应该开发具有重大军事和国家安全应用的技术的表演性辩论。他们只会继续推进。</div>
+      </div>
+      <div class="belief-analysis">
+        <div class="analysis-label">ANALYSIS · 深度解析</div>
+        <div class="analysis-text">这是对科技界反军事AI声音（如Google员工抗议Maven项目、OpenAI员工联署）的<strong>直接反驳</strong>。Karp的逻辑是：你拒绝做，中国不会拒绝。这是典型的"<strong>如果不是我们就是他们</strong>"论证——把道德拒绝重新定义为战略失败。"theatrical debates"（表演性辩论）这个措辞尤其辛辣，暗指那些反对者不过是在表演道德优越感。</div>
+      </div>
+    </div>
+
+    <!-- 6 -->
+    <div class="belief-card">
+      <div class="belief-header">
+        <div class="belief-num">06</div>
+        <div class="belief-title">国家服务应成全民义务<span class="tag tag-war">军事</span></div>
+      </div>
+      <div class="belief-body">
+        <div class="belief-original">National service should be a universal duty. We should, as a society, seriously consider moving away from an all-volunteer force and only fight the next war if everyone shares in the risk and the cost.</div>
+        <div class="belief-translation">国家服务应当成为一项全民义务。作为一个社会，我们应当认真考虑放弃全志愿兵役制，只有当所有人共同承担风险与代价时，才去打下一场战争。</div>
+      </div>
+      <div class="belief-analysis">
+        <div class="analysis-label">ANALYSIS · 深度解析</div>
+        <div class="analysis-text">主张重新考虑<strong>征兵制</strong>。核心逻辑出人意料地进步：当只有部分人（往往是穷人和少数族裔）承担战争风险时，精英阶层更容易轻率地发动战争。让所有人"<strong>皮在局中</strong>"，决策才会更审慎。这是一种反精英的平等主义论证，但结论是强化军事动员能力——逻辑悖论中透着现实主义。</div>
+      </div>
+    </div>
+
+    <!-- 7 -->
+    <div class="belief-card">
+      <div class="belief-header">
+        <div class="belief-num">07</div>
+        <div class="belief-title">士兵要什么就造什么<span class="tag tag-war">军事</span></div>
+      </div>
+      <div class="belief-body">
+        <div class="belief-original">If a U.S. Marine asks for a better rifle, we should build it; and the same goes for software. We should as a country be capable of continuing a debate about the appropriateness of military action abroad while remaining unflinching in our commitment to those we have asked to step into harm's way.</div>
+        <div class="belief-translation">如果一名美国海军陆战队员要求一支更好的步枪，我们就应该造出来；软件同理。作为一个国家，我们应当有能力在持续讨论对外军事行动是否适当的同时，对那些被我们派往险境的人保持坚定不移的支持。</div>
+      </div>
+      <div class="belief-analysis">
+        <div class="analysis-label">ANALYSIS · 深度解析</div>
+        <div class="analysis-text">这是对科技公司员工抗议国防合同的回应，也是一个<strong>责任转移策略</strong>：把"是否该打仗"和"是否给士兵最好的装备"分离开来。Karp说：你可以反对战争，但<strong>一旦国家已经决定让士兵去战场，拒绝给他们最好的工具是道义上的懦弱</strong>。这个论证把技术公司从"战争参与者"重新定义为"士兵的服务者"。</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- GROUP 3 -->
+  <section class="group-section" id="g3">
+    <div class="group-header">
+      <div class="group-number">III</div>
+      <div>
+        <div class="group-title">政治文化批判</div>
+        <div class="group-desc">条目 8–11：取消文化、政治粉丝化与道德表演</div>
+      </div>
+    </div>
+
+    <!-- 8 -->
+    <div class="belief-card">
+      <div class="belief-header">
+        <div class="belief-num">08</div>
+        <div class="belief-title">公务员无需成为圣人<span class="tag tag-culture">政治文化</span></div>
+      </div>
+      <div class="belief-body">
+        <div class="belief-original">Public servants need not be our priests. Any business that compensated its employees in the way that the federal government compensates public servants would struggle to survive.</div>
+        <div class="belief-translation">公务员无需成为我们的圣人。任何以联邦政府薪酬方式对待员工的企业，都将难以为继。</div>
+      </div>
+      <div class="belief-analysis">
+        <div class="analysis-label">ANALYSIS · 深度解析</div>
+        <div class="analysis-text">"Priests"（祭司）是隐喻：社会期待公务员用"使命感"弥补低薪，这是在<strong>剥削道德感</strong>。政府之所以还能运转，恰恰是因为有人接受了精神补偿代替物质报酬。结果是<strong>真正有能力的人才流向私营部门</strong>，政府人才库逐渐空洞化。这也呼应了DOGE（政府效率部）的逻辑：政府应该像企业一样运营，用竞争性薪酬吸引顶尖人才。</div>
+      </div>
+    </div>
+
+    <!-- 9 -->
+    <div class="belief-card">
+      <div class="belief-header">
+        <div class="belief-num">09</div>
+        <div class="belief-title">对公众人物应更宽容<span class="tag tag-culture">取消文化</span></div>
+      </div>
+      <div class="belief-body">
+        <div class="belief-original">We should show far more grace towards those who have subjected themselves to public life. The eradication of any space for forgiveness—a jettisoning of any tolerance for the complexities and contradictions of the human psyche—may leave us with a cast of characters at the helm we will grow to regret.</div>
+        <div class="belief-translation">我们应当对那些置身公共生活的人给予更多宽容。对宽恕空间的彻底消除——对人类心理复杂性与矛盾性的容忍度的全面抛弃——最终可能让我们悔不当初，因为掌舵者将是一群我们自己选出来、却又日益憎恶的人。</div>
+      </div>
+      <div class="belief-analysis">
+        <div class="analysis-label">ANALYSIS · 深度解析</div>
+        <div class="analysis-text">批评<strong>取消文化（Cancel Culture）</strong>的核心机制：对公众人物私德的零容忍，会导致真正有能力、有个性的人不愿从政，最终政治舞台只剩下毫无个性、滴水不漏的"空洞容器"。这是一个悖论：<strong>我们对不完美者的不宽容，制造了一个更不完美的政治精英群体</strong>。</div>
+      </div>
+    </div>
+
+    <!-- 10 -->
+    <div class="belief-card">
+      <div class="belief-header">
+        <div class="belief-num">10</div>
+        <div class="belief-title">政治的心理化正在误导我们<span class="tag tag-culture">政治文化</span></div>
+      </div>
+      <div class="belief-body">
+        <div class="belief-original">The psychologization of modern politics is leading us astray. Those who look to the political arena to nourish their soul and sense of self, who rely too heavily on their internal life finding expression in people they may never meet, will be left disappointed.</div>
+        <div class="belief-translation">现代政治的心理化倾向正在将我们引入歧途。那些寄望于政治舞台来滋养自己灵魂与自我认同的人，那些过度依赖内心世界在素未谋面的人身上找到回应的人，终将失望而归。</div>
+      </div>
+      <div class="belief-analysis">
+        <div class="analysis-label">ANALYSIS · 深度解析</div>
+        <div class="analysis-text">批评<strong>政治粉丝化</strong>——把政治人物当精神领袖、把投票当自我认同表达的现象。Karp认为这种心理投射是危险的：政治是利益博弈和权力运作，不是心灵鸡汤。当人们开始从政治中寻找意义感和归属感，他们就失去了清醒评判政策的能力。这一条对左右两派同样适用——无论是MAGA狂热还是进步派圣战。</div>
+      </div>
+    </div>
+
+    <!-- 11 -->
+    <div class="belief-card">
+      <div class="belief-header">
+        <div class="belief-num">11</div>
+        <div class="belief-title">不要沉醉于敌人的覆灭<span class="tag tag-culture">政治文化</span></div>
+      </div>
+      <div class="belief-body">
+        <div class="belief-original">Our society has grown too eager to hasten, and is often gleeful at, the demise of its enemies. The vanquishing of an opponent is a moment to pause, not rejoice.</div>
+        <div class="belief-translation">我们的社会对于催促乃至乐见敌人覆灭，已经过于急切。击败对手，是驻足沉思的时刻，而非欢呼雀跃的时刻。</div>
+      </div>
+      <div class="belief-analysis">
+        <div class="analysis-label">ANALYSIS · 深度解析</div>
+        <div class="analysis-text">颇有古典政治哲学气质（类似马基雅维利或基辛格的现实主义）。击败对手后的克制，既是<strong>战略智慧</strong>（防止仇恨积累、避免殉道者效应），也是文明成熟度的体现。影射西方对俄罗斯、对特朗普政敌的态度——羞辱战败者只会制造下一场冲突的种子。这条或许也是Karp对自身处于舆论漩涡时的自我告诫。</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- GROUP 4 -->
+  <section class="group-section" id="g4">
+    <div class="group-header">
+      <div class="group-number">IV</div>
+      <div>
+        <div class="group-title">地缘政治与历史观</div>
+        <div class="group-desc">条目 12–15：AI威慑、美国霸权与重新武装</div>
+      </div>
+    </div>
+
+    <!-- 12 -->
+    <div class="belief-card">
+      <div class="belief-header">
+        <div class="belief-num">12</div>
+        <div class="belief-title">原子时代终结，AI威慑时代开启<span class="tag tag-war">军事</span><span class="tag tag-geo">地缘</span></div>
+      </div>
+      <div class="belief-body">
+        <div class="belief-original">The atomic age is ending. One age of deterrence, the atomic age, is ending, and a new era of deterrence built on A.I. is set to begin.</div>
+        <div class="belief-translation">原子时代正在终结。以核武器为基础的威慑时代——即原子时代——正走向终结，一个以AI为基础的新威慑时代即将开启。</div>
+      </div>
+      <div class="belief-analysis">
+        <div class="analysis-label">ANALYSIS · 深度解析</div>
+        <div class="analysis-text">这是Karp最核心的历史判断。冷战的稳定来自核威慑（MAD，相互确保毁灭）。他认为AI正在构建新的威慑逻辑——谁掌握最强的AI军事能力，谁就掌握新时代的"核按钮"。这个判断把Palantir从一家数据公司重新定义为<strong>"新威慑时代的核武器制造商"</strong>。对投资者而言，这是一个极具说服力的定位叙事。</div>
+      </div>
+    </div>
+
+    <!-- 13 -->
+    <div class="belief-card">
+      <div class="belief-header">
+        <div class="belief-num">13</div>
+        <div class="belief-title">美国是人类历史上最进步的国家<span class="tag tag-geo">美国例外论</span></div>
+      </div>
+      <div class="belief-body">
+        <div class="belief-original">No other country in the history of the world has advanced progressive values more than this one. The United States is far from perfect. But it is easy to forget how much more opportunity exists in this country for those who are not hereditary elites than in any other nation on the planet.</div>
+        <div class="belief-translation">世界历史上没有任何国家比这个国家更有力地推进了进步价值观。美国远非完美，但人们很容易忘记，在这个国家，那些并非世袭精英的人所拥有的机会，远比地球上任何其他国家都要多。</div>
+      </div>
+      <div class="belief-analysis">
+        <div class="analysis-label">ANALYSIS · 深度解析</div>
+        <div class="analysis-text">这条很微妙——Karp用<strong>进步主义的语言为美国例外论辩护</strong>。他不是保守派式的"美国是上帝选民"，而是从阶层流动性、机会平等的角度做实证论证。这是向左派受众的喊话：即使你不爱美国的旗帜，你也要承认它在阶层开放性上的结构性优势。Karp本人出生于移民家庭的背景使这条论证更具说服力。</div>
+      </div>
+    </div>
+
+    <!-- 14 -->
+    <div class="belief-card">
+      <div class="belief-header">
+        <div class="belief-num">14</div>
+        <div class="belief-title">美国力量维持了近百年和平<span class="tag tag-geo">美国霸权</span></div>
+      </div>
+      <div class="belief-body">
+        <div class="belief-original">American power has made possible an extraordinarily long peace. Too many have forgotten or perhaps take for granted that nearly a century of some version of peace has prevailed in the world without a great power military conflict. At least three generations — billions of people and their children and now grandchildren — have never known a world war.</div>
+        <div class="belief-translation">美国的力量造就了一段异乎寻常的长久和平。太多人已经遗忘，或者视之为理所当然——在近一个世纪里，世界在没有大国军事冲突的情况下维持了某种形式的和平。至少三代人——数十亿人及其子女、如今的孙辈——从未经历过世界大战。</div>
+      </div>
+      <div class="belief-analysis">
+        <div class="analysis-label">ANALYSIS · 深度解析</div>
+        <div class="analysis-text">这是对反战、反美霸权叙事的<strong>结构性反驳</strong>。Karp说：你们批评美国霸权带来的种种罪恶，但正是这个霸权防止了大国战争。没有美国，1945年后的"<strong>长和平</strong>"根本不会存在。这一论证要求批评者为自己的替代方案负责：如果没有美国主导的秩序，谁来维持和平？</div>
+      </div>
+    </div>
+
+    <!-- 15 -->
+    <div class="belief-card">
+      <div class="belief-header">
+        <div class="belief-num">15</div>
+        <div class="belief-title">德国和日本的"去爪化"必须纠正<span class="tag tag-geo">地缘政治</span></div>
+      </div>
+      <div class="belief-body">
+        <div class="belief-original">The postwar neutering of Germany and Japan must be undone. The defanging of Germany was an overcorrection for which Europe is now paying a heavy price. A similar and highly theatrical commitment to Japanese pacifism will, if maintained, also threaten to shift the balance of power in Asia.</div>
+        <div class="belief-translation">战后对德国和日本的"去爪化"必须予以纠正。对德国的削弱是一种矫枉过正，欧洲正在为此付出沉重代价。日本对和平主义那种同样带有强烈表演性质的承诺，若继续维持，也将威胁亚洲的力量平衡。</div>
+      </div>
+      <div class="belief-analysis">
+        <div class="analysis-label">ANALYSIS · 深度解析</div>
+        <div class="analysis-text">非常直白的地缘政治主张。德国不能打仗、日本宪法第九条禁止战争——Karp认为这是冷战时代的过度设计，在中俄崛起的今天已成<strong>战略负债</strong>。德国在乌克兰问题上的迟疑印证了这一判断。"<strong>highly theatrical</strong>"（高度表演性质的）暗示日本的和平主义不过是政治姿态，而非真正的价值承诺。</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- GROUP 5 -->
+  <section class="group-section" id="g5">
+    <div class="group-header">
+      <div class="group-number">V</div>
+      <div>
+        <div class="group-title">文化与价值观</div>
+        <div class="group-desc">条目 16–22：多元主义、宗教与文明的定义</div>
+      </div>
+    </div>
+
+    <!-- 16 -->
+    <div class="belief-card">
+      <div class="belief-header">
+        <div class="belief-num">16</div>
+        <div class="belief-title">为在市场失灵处建设的人鼓掌<span class="tag tag-tech">科技</span></div>
+      </div>
+      <div class="belief-body">
+        <div class="belief-original">We should applaud those who attempt to build where the market has failed to act. The culture almost snickers at Musk's interest in grand narrative, as if billionaires ought to simply stay in their lane of enriching themselves . . . . Any curiosity or genuine interest in the value of what he has created is essentially dismissed, or perhaps lurks from beneath a thinly veiled scorn.</div>
+        <div class="belief-translation">我们应当为那些勇于在市场失灵之处开拓建设的人鼓掌。整个文化几乎对马斯克的宏大叙事志趣嗤之以鼻，仿佛亿万富翁理应安分守己地只顾中饱私囊……对于他所创造之物的任何真诚的好奇心与兴趣，实际上都遭到漠视，隐伏于一层薄薄的轻蔑之下。</div>
+      </div>
+      <div class="belief-analysis">
+        <div class="analysis-label">ANALYSIS · 深度解析</div>
+        <div class="analysis-text">为马斯克辩护，但论证角度是<strong>市场失灵理论</strong>：SpaceX做的是政府和市场都不做的事（廉价太空探索），这种"不安分"值得尊重。Karp也在为自己辩护——Palantir做的国防AI同样是"市场不愿碰"的领域。批评者的讽刺被重新定义为<strong>精英阶层的傲慢与短视</strong>：你们嘲笑宏大叙事，是因为你们习惯了做消费品的小生意。</div>
+      </div>
+    </div>
+
+    <!-- 17 -->
+    <div class="belief-card">
+      <div class="belief-header">
+        <div class="belief-num">17</div>
+        <div class="belief-title">硅谷必须参与解决暴力犯罪<span class="tag tag-tech">科技责任</span></div>
+      </div>
+      <div class="belief-body">
+        <div class="belief-original">Silicon Valley must play a role in addressing violent crime. Many politicians across the United States have essentially shrugged when it comes to violent crime, abandoning any serious efforts to address the problem or take on any risk with their constituencies or donors in coming up with solutions and experiments in what should be a desperate bid to save lives.</div>
+        <div class="belief-translation">硅谷必须在应对暴力犯罪问题上发挥作用。美国许多政客在暴力犯罪问题上基本上是耸耸肩了事，放弃了任何认真解决问题的努力，不愿在选民或捐助者面前承担任何风险，去探索那些本应是拼尽全力挽救生命的解决方案与实验。</div>
+      </div>
+      <div class="belief-analysis">
+        <div class="analysis-label">ANALYSIS · 深度解析</div>
+        <div class="analysis-text">批评政客在犯罪问题上的不作为，呼吁科技公司介入。背后是Palantir的<strong>预测性警务产品</strong>——这条实际上是为自己的产品线做道义背书。"政客不敢碰"的领域正是科技公司的机会。这是Karp惯用的论证结构：找到一个被主流力量（政府、市场）回避的重要问题，然后论证为什么像Palantir这样的公司必须介入。</div>
+      </div>
+    </div>
+
+    <!-- 18 -->
+    <div class="belief-card">
+      <div class="belief-header">
+        <div class="belief-num">18</div>
+        <div class="belief-title">对公众人物的曝光让人才逃离政治<span class="tag tag-culture">媒体</span></div>
+      </div>
+      <div class="belief-body">
+        <div class="belief-original">The ruthless exposure of the private lives of public figures drives far too much talent away from government service. The public arena—and the shallow and petty assaults against those who dare to do something other than enrich themselves—has become so unforgiving that the republic is left with a significant roster of ineffectual, empty vessels whose ambition one would forgive if there were any genuine belief structure lurking within.</div>
+        <div class="belief-translation">对公众人物私生活的无情曝光，正在将太多人才拒于政府服务门外。公共舞台已变得如此冷酷无情，共和国只剩下一大批无能的空洞容器——他们的野心或许情有可原，若其中还潜藏着任何真正的信念的话。</div>
+      </div>
+      <div class="belief-analysis">
+        <div class="analysis-label">ANALYSIS · 深度解析</div>
+        <div class="analysis-text">与第9条呼应，但更聚焦于<strong>媒体和网络舆论的破坏性后果</strong>。"empty vessels"（空洞容器）是这段话中最刻薄的措辞——有野心但没有信仰。结果是政治舞台充斥着表演者，而非思考者。这也是Karp对自身处境的反思：他因为公开发表争议观点而饱受批评，这条告诉读者<strong>那些批评的代价是什么</strong>。</div>
+      </div>
+    </div>
+
+    <!-- 19 -->
+    <div class="belief-card">
+      <div class="belief-header">
+        <div class="belief-num">19</div>
+        <div class="belief-title">谨小慎微具有腐蚀性<span class="tag tag-culture">政治文化</span></div>
+      </div>
+      <div class="belief-body">
+        <div class="belief-original">The caution in public life that we unwittingly encourage is corrosive. Those who say nothing wrong often say nothing much at all.</div>
+        <div class="belief-translation">我们在无意间所鼓励的公共生活中的谨小慎微，具有腐蚀性。那些从不说错话的人，往往也没什么真正值得一说的。</div>
+      </div>
+      <div class="belief-analysis">
+        <div class="analysis-label">ANALYSIS · 深度解析</div>
+        <div class="analysis-text">22条中<strong>最精炼的一句</strong>，也是Karp本人风格的自我辩护。他经常发表争议言论（包括关于AI冲击女性和民主党选民的言论），这条就是在说：<strong>敢说话本身就是一种美德</strong>。从不说错话的人其实是在保护自己，而非为公共讨论做贡献。这种"勇于冒险的言说"与他在整份宣言中的反精英情绪一脉相承。</div>
+      </div>
+    </div>
+
+    <!-- 20 -->
+    <div class="belief-card">
+      <div class="belief-header">
+        <div class="belief-num">20</div>
+        <div class="belief-title">对宗教的不宽容必须抵制<span class="tag tag-culture">文化</span></div>
+      </div>
+      <div class="belief-body">
+        <div class="belief-original">The pervasive intolerance of religious belief in certain circles must be resisted. The elite's intolerance of religious belief is perhaps one of the most telling signs that its political project constitutes a less open intellectual movement than many within it would claim.</div>
+        <div class="belief-translation">某些圈子里对宗教信仰的普遍不宽容，必须予以抵制。精英阶层对宗教信仰的不宽容，或许是最能说明问题的信号之一——它揭示出，这场政治运动在思想上其实远不如其内部人士所标榜的那般开放。</div>
+      </div>
+      <div class="belief-analysis">
+        <div class="analysis-label">ANALYSIS · 深度解析</div>
+        <div class="analysis-text">Karp本人是犹太裔，这条批评的是<strong>世俗自由派精英</strong>的内在矛盾：他们标榜包容多元，却对宗教信仰者充满鄙视——这本身就是一种思想上的不开放，是<strong>"包容主义的不包容"</strong>。这条也与第22条呼应：西方自由主义对自身价值体系失去定义能力，对宗教的排斥是症状之一。</div>
+      </div>
+    </div>
+
+    <!-- 21 -->
+    <div class="belief-card">
+      <div class="belief-header">
+        <div class="belief-num">21</div>
+        <div class="belief-title">并非所有文化都是平等的<span class="tag tag-culture">文化等级论</span></div>
+      </div>
+      <div class="belief-body">
+        <div class="belief-original">Some cultures have produced vital advances; others remain dysfunctional and regressive. All cultures are now equal. Criticism and value judgments are forbidden. Yet this new dogma glosses over the fact that certain cultures and indeed subcultures . . . have produced wonders. Others have proven middling, and worse, regressive and harmful.</div>
+        <div class="belief-translation">某些文化孕育了重要的进步；另一些则依然功能失调、落后守旧。如今的信条是：所有文化一律平等，批评与价值判断一概禁止。然而这种新教条掩盖了一个事实：某些文化乃至亚文化创造了奇迹；另一些则表现平平，更有甚者，走向了退步与有害。</div>
+      </div>
+      <div class="belief-analysis">
+        <div class="analysis-label">ANALYSIS · 深度解析</div>
+        <div class="analysis-text">22条中<strong>最具争议性</strong>的一条，直接挑战多元文化主义的基本公设。Karp的逻辑是：承认文化差异、承认某些文化在某些维度上更有生产力，是<strong>诚实</strong>，不是种族主义。批评者则认为这是为文化等级论和西方中心主义背书。这条的危险性在于："某些文化有害"这一判断的标准由谁来定？历史上这类判断总是由强者对弱者作出的。</div>
+      </div>
+    </div>
+
+    <!-- 22 -->
+    <div class="belief-card">
+      <div class="belief-header">
+        <div class="belief-num">22</div>
+        <div class="belief-title">抵制空洞的多元主义<span class="tag tag-culture">文明定义</span></div>
+      </div>
+      <div class="belief-body">
+        <div class="belief-original">We must resist the shallow temptation of a vacant and hollow pluralism. We, in America and more broadly the West, have for the past half century resisted defining national cultures in the name of inclusivity. But inclusion into what?</div>
+        <div class="belief-translation">我们必须抵制空洞虚伪的多元主义的肤浅诱惑。过去半个世纪，美国乃至更广泛的西方世界，以包容的名义回避了对本国文化的定义。但——包容进入什么之中？</div>
+      </div>
+      <div class="belief-analysis">
+        <div class="analysis-label">ANALYSIS · 深度解析</div>
+        <div class="analysis-text">收尾之作，也是整份宣言的核心问题。<strong>"Inclusion into what?"</strong>（包容进入什么之中？）这个反问是全书最锋利的一句话——西方在包容一切的过程中，失去了对自身文明核心价值的定义能力。没有主体的包容是自我消解。这条的保守主义色彩最浓，但Karp的表述让它听起来更像是一个<strong>认识论问题而非价值判断</strong>：你连"我们是谁"都不敢回答，谈何包容他者？</div>
+      </div>
+    </div>
+
+  </section>
+
+</main>
+
+<footer>
+  <div>
+    <span class="highlight">Alex Karp</span> · The Technological Republic · 2025<br><br>
+    原文节选自《纽约时报》专栏文章。本页面仅供学习研究之用。
+  </div>
+</footer>
+
+<script>
+  // Intersection Observer for card animations
+  const cards = document.querySelectorAll('.belief-card');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => entry.target.classList.add('visible'), i * 80);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1 });
+
+  cards.forEach(card => observer.observe(card));
+
+  // Nav active state
+  const sections = document.querySelectorAll('.group-section');
+  const navItems = document.querySelectorAll('.nav-item');
+
+  const sectionObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const id = entry.target.id;
+        navItems.forEach(item => {
+          item.classList.remove('active');
+          if (item.getAttribute('onclick').includes(id)) {
+            item.classList.add('active');
+          }
+        });
+      }
+    });
+  }, { threshold: 0.3 });
+
+  sections.forEach(s => sectionObserver.observe(s));
+
+  function scrollToGroup(id) {
+    document.getElementById(id).scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+</script>
+
+</body>
+</html>

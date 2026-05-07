@@ -1,0 +1,917 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>劳动的终局，还是转型的前夜？— X Article</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Fraunces:opsz,wght@9..144,400;9..144,700&display=swap" rel="stylesheet" />
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0 }
+
+:root {
+  --bg: #ffffff;
+  --bg-2: #f7f9f9;
+  --fg: #0f1419;
+  --fg-2: #536471;
+  --fg-3: #8b98a5;
+  --border: #eff3f4;
+  --border-2: #d6dce1;
+  --accent: #1d9bf0;
+  --accent-light: #e8f5fd;
+  --red: #f4212e;
+  --green: #00ba7c;
+  --tag-bg: #e7f3ff;
+  --tag-fg: #1d9bf0;
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  background: var(--bg);
+  color: var(--fg);
+  -webkit-font-smoothing: antialiased;
+  line-height: 1.6;
+}
+
+/* ── Layout ── */
+.page-wrap {
+  max-width: 680px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* ── X Chrome Top Bar ── */
+.x-topbar {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(255,255,255,0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+  padding: 0 20px;
+}
+.x-topbar-inner {
+  max-width: 680px;
+  margin: 0 auto;
+  height: 53px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.x-logo {
+  width: 28px; height: 28px;
+}
+.x-topbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.x-btn {
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 700;
+  padding: 6px 16px;
+  border-radius: 999px;
+  border: none;
+  cursor: pointer;
+  line-height: 1;
+}
+.x-btn-outline {
+  background: transparent;
+  border: 1px solid var(--border-2);
+  color: var(--fg);
+}
+.x-btn-fill {
+  background: var(--fg);
+  color: #fff;
+}
+
+/* ── Article Header ── */
+.article-header {
+  padding: 36px 0 0;
+}
+
+.article-tag {
+  display: inline-block;
+  background: var(--tag-bg);
+  color: var(--tag-fg);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  padding: 4px 10px;
+  border-radius: 999px;
+  margin-bottom: 20px;
+  text-transform: uppercase;
+}
+
+.article-title {
+  font-family: 'Fraunces', Georgia, serif;
+  font-size: clamp(28px, 6vw, 44px);
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  color: var(--fg);
+  margin-bottom: 16px;
+}
+
+.article-subtitle {
+  font-size: 18px;
+  font-weight: 400;
+  color: var(--fg-2);
+  line-height: 1.5;
+  margin-bottom: 28px;
+}
+
+/* ── Author Row ── */
+.author-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 0;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 8px;
+}
+.author-avatar {
+  width: 40px; height: 40px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #1d9bf0, #0052cc);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  font-weight: 700;
+  color: white;
+  flex-shrink: 0;
+}
+.author-info {
+  flex: 1;
+}
+.author-name {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--fg);
+}
+.author-handle {
+  font-size: 13px;
+  color: var(--fg-3);
+}
+.author-follow {
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 700;
+  padding: 5px 16px;
+  border-radius: 999px;
+  border: 1px solid var(--border-2);
+  background: transparent;
+  cursor: pointer;
+  color: var(--fg);
+}
+
+/* ── Article Meta ── */
+.article-meta {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+  color: var(--fg-3);
+  padding: 12px 0 28px;
+  flex-wrap: wrap;
+}
+.meta-dot { color: var(--fg-3); }
+
+/* ── Cover Image Area ── */
+.cover-area {
+  background: linear-gradient(135deg, #0f1419 0%, #1a2332 50%, #0f1419 100%);
+  border-radius: 16px;
+  padding: 48px 40px;
+  margin-bottom: 40px;
+  position: relative;
+  overflow: hidden;
+}
+.cover-area::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+.cover-stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  position: relative;
+  z-index: 1;
+}
+.cover-stat {
+  text-align: center;
+  padding: 16px;
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 12px;
+  background: rgba(255,255,255,0.04);
+}
+.cover-stat-num {
+  font-family: 'Fraunces', serif;
+  font-size: clamp(24px, 5vw, 38px);
+  font-weight: 700;
+  color: #f4212e;
+  line-height: 1;
+  margin-bottom: 6px;
+}
+.cover-stat-num.green { color: #00ba7c; }
+.cover-stat-label {
+  font-size: 11px;
+  color: rgba(255,255,255,0.5);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  line-height: 1.4;
+}
+.cover-caption {
+  position: relative;
+  z-index: 1;
+  font-size: 11px;
+  color: rgba(255,255,255,0.35);
+  text-align: center;
+  margin-top: 16px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+/* ── Body ── */
+.article-body {
+  font-size: 17px;
+  line-height: 1.75;
+  color: var(--fg);
+}
+
+.article-body p {
+  margin-bottom: 22px;
+}
+
+.article-body h2 {
+  font-family: 'Fraunces', serif;
+  font-size: clamp(20px, 4vw, 27px);
+  font-weight: 700;
+  line-height: 1.25;
+  color: var(--fg);
+  margin: 48px 0 16px;
+  letter-spacing: -0.01em;
+}
+
+.article-body h3 {
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--fg);
+  margin: 32px 0 10px;
+}
+
+.article-body strong { font-weight: 700; color: var(--fg); }
+
+.article-body a {
+  color: var(--accent);
+  text-decoration: none;
+}
+.article-body a:hover { text-decoration: underline; }
+
+/* Pull quote */
+.pullquote {
+  border-left: 3px solid var(--accent);
+  margin: 32px 0;
+  padding: 4px 0 4px 20px;
+}
+.pullquote p {
+  font-family: 'Fraunces', serif;
+  font-size: 21px;
+  font-weight: 400;
+  line-height: 1.45;
+  color: var(--fg);
+  margin: 0;
+  font-style: italic;
+}
+.pullquote cite {
+  display: block;
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  font-style: normal;
+  color: var(--fg-3);
+  margin-top: 8px;
+}
+
+/* Stat callout */
+.stat-callout {
+  background: var(--bg-2);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 20px 22px;
+  margin: 28px 0;
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
+}
+.stat-callout-num {
+  font-family: 'Fraunces', serif;
+  font-size: 38px;
+  font-weight: 700;
+  color: var(--red);
+  line-height: 1;
+  flex-shrink: 0;
+}
+.stat-callout-num.blue { color: var(--accent); }
+.stat-callout-num.green { color: var(--green); }
+.stat-callout-text {
+  font-size: 15px;
+  color: var(--fg-2);
+  line-height: 1.5;
+}
+
+/* Case card */
+.case-card {
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 22px 24px;
+  margin: 28px 0;
+  position: relative;
+}
+.case-label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 10px;
+}
+.case-title {
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--fg);
+  margin-bottom: 8px;
+  line-height: 1.4;
+}
+.case-body {
+  font-size: 15px;
+  color: var(--fg-2);
+  line-height: 1.65;
+}
+.case-body strong { color: var(--fg); }
+.case-verdict {
+  margin-top: 14px;
+  padding-top: 14px;
+  border-top: 1px solid var(--border);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--fg);
+}
+.case-verdict::before {
+  content: '→ ';
+  color: var(--accent);
+}
+
+/* Warning box */
+.warning-box {
+  background: #fff8e1;
+  border: 1px solid #ffe082;
+  border-radius: 10px;
+  padding: 14px 18px;
+  margin: 20px 0;
+  font-size: 14px;
+  color: #5d4037;
+  line-height: 1.6;
+}
+.warning-box strong { color: #3e2723; }
+
+/* Thesis grid */
+.thesis-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1px;
+  background: var(--border);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+  margin: 28px 0;
+}
+.thesis-item {
+  background: var(--bg);
+  padding: 18px 20px;
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+}
+.thesis-num {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--accent);
+  letter-spacing: 0.1em;
+  flex-shrink: 0;
+  padding-top: 2px;
+  width: 24px;
+}
+.thesis-content h4 {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--fg);
+  margin-bottom: 5px;
+  line-height: 1.35;
+}
+.thesis-content p {
+  font-size: 14px;
+  color: var(--fg-2);
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* Voice cards */
+.voice-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin: 28px 0;
+}
+@media (max-width: 480px) {
+  .voice-row { grid-template-columns: 1fr; }
+}
+.voice-card {
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 16px;
+}
+.voice-name {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--fg-3);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+.voice-text {
+  font-size: 14px;
+  color: var(--fg);
+  line-height: 1.6;
+  font-style: italic;
+}
+.voice-text em {
+  font-style: normal;
+  font-weight: 600;
+  color: var(--fg);
+}
+
+/* Divider */
+.section-break {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin: 48px 0;
+  color: var(--fg-3);
+  font-size: 18px;
+  letter-spacing: 0.3em;
+}
+.section-break::before,
+.section-break::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
+
+/* Ending emphasis */
+.article-end {
+  background: var(--fg);
+  color: #fff;
+  border-radius: 16px;
+  padding: 32px 28px;
+  margin: 40px 0;
+}
+.article-end p {
+  font-family: 'Fraunces', serif;
+  font-size: 20px;
+  font-weight: 400;
+  line-height: 1.5;
+  margin-bottom: 14px;
+  color: rgba(255,255,255,0.9);
+}
+.article-end p:last-child { margin-bottom: 0; }
+.article-end em {
+  font-style: normal;
+  color: #f4212e;
+  font-weight: 700;
+}
+
+/* ── Engagement Bar ── */
+.engagement-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 0;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  margin: 32px 0;
+}
+.engagement-actions {
+  display: flex;
+  gap: 20px;
+}
+.eng-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  color: var(--fg-3);
+  cursor: pointer;
+  padding: 6px 0;
+  background: none;
+  border: none;
+  font-family: inherit;
+  transition: color 0.15s;
+}
+.eng-btn:hover { color: var(--accent); }
+.eng-btn svg { width: 18px; height: 18px; }
+
+/* ── Related Posts ── */
+.related-section {
+  margin: 40px 0 60px;
+}
+.related-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--fg-3);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  margin-bottom: 16px;
+}
+.related-item {
+  display: flex;
+  gap: 12px;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--border);
+  align-items: flex-start;
+  text-decoration: none;
+  color: inherit;
+}
+.related-item:last-child { border-bottom: none; }
+.related-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--border-2);
+  flex-shrink: 0;
+  margin-top: 8px;
+}
+.related-text {
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--fg);
+  line-height: 1.4;
+}
+.related-sub {
+  font-size: 13px;
+  color: var(--fg-3);
+  margin-top: 3px;
+}
+
+/* ── Footer ── */
+.article-footer {
+  border-top: 1px solid var(--border);
+  padding: 20px 0 40px;
+  font-size: 12px;
+  color: var(--fg-3);
+  line-height: 1.6;
+}
+.article-footer a { color: var(--accent); text-decoration: none; }
+</style>
+</head>
+
+<body>
+
+<!-- X Top Bar -->
+<div class="x-topbar">
+  <div class="x-topbar-inner">
+    <svg class="x-logo" viewBox="0 0 24 24" fill="currentColor">
+      <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.746l7.73-8.835L1.254 2.25H8.08l4.261 5.635 5.905-5.635zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+    </svg>
+    <div class="x-topbar-actions">
+      <button class="x-btn x-btn-outline">登录</button>
+      <button class="x-btn x-btn-fill">注册</button>
+    </div>
+  </div>
+</div>
+
+<!-- Article -->
+<main class="page-wrap">
+  <article>
+
+    <!-- Header -->
+    <header class="article-header">
+      <div class="article-tag">劳动经济 · 五一特刊 2026</div>
+      <h1 class="article-title">劳动的终局，还是转型的前夜？</h1>
+      <p class="article-subtitle">Goldman Sachs 砸下万亿美元说"基本为零"，Klarna 裁了 700 人又悄悄招回来，AI 开始通过 API 雇用人类——这是 2026 年五一前夜，真实发生的事。</p>
+
+      <!-- Author -->
+      <div class="author-row">
+        <div class="author-avatar">D</div>
+        <div class="author-info">
+          <div class="author-name">DeepDive</div>
+          <div class="author-handle">@deepdive_ai</div>
+        </div>
+        <button class="author-follow">关注</button>
+      </div>
+
+      <!-- Meta -->
+      <div class="article-meta">
+        <span>2026年5月1日</span>
+        <span class="meta-dot">·</span>
+        <span>约 14 分钟阅读</span>
+        <span class="meta-dot">·</span>
+        <span>数据核查版</span>
+      </div>
+    </header>
+
+    <!-- Cover stats -->
+    <div class="cover-area">
+      <div class="cover-stats">
+        <div class="cover-stat">
+          <div class="cover-stat-num">78,557</div>
+          <div class="cover-stat-label">Q1 2026<br/>科技行业裁员</div>
+        </div>
+        <div class="cover-stat">
+          <div class="cover-stat-num">47.9%</div>
+          <div class="cover-stat-label">归因于<br/>AI 自动化</div>
+        </div>
+        <div class="cover-stat">
+          <div class="cover-stat-num">70万+</div>
+          <div class="cover-stat-label">RentAHuman<br/>全球注册数</div>
+        </div>
+        <div class="cover-stat green">
+          <div class="cover-stat-num green">56%</div>
+          <div class="cover-stat-label">AI 技能<br/>工资溢价</div>
+        </div>
+      </div>
+      <div class="cover-caption">数据来源：IMF · WEF · Tom's Hardware · PwC · Bloomberg · 数据核查于 2026-05-01</div>
+    </div>
+
+    <!-- Body -->
+    <div class="article-body">
+
+      <p>今天是五一劳动节。</p>
+
+      <p>如果你问我 2026 年的劳动现场是什么感觉，我会说：<strong>像同时看两部在说不同故事的电影</strong>——一部里每天都有人被 AI 裁掉，另一部里 CEO 们声称招聘从未如此积极。两部电影都是真的，都在同一个时间线里发生。</p>
+
+      <p>这篇文章试图把两部电影剪在一起，看清楚正在发生什么。</p>
+
+      <div class="section-break">· · ·</div>
+
+      <h2>先说数字</h2>
+
+      <p>数字先于观点到来，而且这次的数字比过去任何时候都更难无视。</p>
+
+      <div class="stat-callout">
+        <div class="stat-callout-num">78,557</div>
+        <div class="stat-callout-text"><strong>2026 年第一季度，科技行业裁员总数。</strong>其中 47.9% 被公司在官方文件里明确标注为"AI 和工作流自动化"——这不是分析师的推断，是雇主自己填写的裁员原因。</div>
+      </div>
+
+      <p>具体到公司：Snap 裁 1,000 人（占全员 16%），同时披露<strong> 65% 的代码现在由 AI 生成</strong>。Salesforce 把客服团队从 9,000 人砍到 5,000 人，直接原因是 AI Agent 上线。Meta 在 4 月裁员约 8,000 人，同期 AI 资本支出指引上调至 $125B–$145B。Block 裁 40%，用 AI 替代中间管理层的协调功能。</p>
+
+      <div class="warning-box">
+        <strong>需要注意：</strong>一项调查显示，59% 的招聘经理承认公司将裁员"包装"为 AI 驱动——部分是为了吸引投资者，即便 AI 并非真正决定性原因。"AI 裁员洗白"（AI Redundancy Washing）这个词已经在 HR 圈流传。即便扣掉水分，大方向是真实的。
+      </div>
+
+      <p>但在此之前，我想先讲三个案例——因为它们比任何宏观数字都更能说明这场变革的复杂性。</p>
+
+      <div class="section-break">· · ·</div>
+
+      <h2>三个反常识</h2>
+
+      <div class="case-card">
+        <div class="case-label">案例 01 · 宏观</div>
+        <div class="case-title">Goldman Sachs：砸下 1 万亿美元，GDP 贡献"基本为零"</div>
+        <div class="case-body">
+          2023 年，Goldman Sachs 预测 AI 将把全球 GDP 推高 7%，影响 3 亿个岗位。<br/><br/>
+          2026 年初，该行首席经济学家 Jan Hatzius 自我打脸：<strong>AI 2025 年对美国 GDP 的净贡献"基本为零"</strong>。原因是大量 AI 硬件投资流向台湾、韩国等进口来源地，并未拉动本土 GDP；在经济整体层面，至今未发现 AI 与生产率之间有意义的关系。<br/><br/>
+          这是 Solow 1987 年名言的 2026 年重演——"处处可见计算机，就是统计数字上看不到生产率提高。"今天只需把"计算机"换成"AI"。
+        </div>
+        <div class="case-verdict">资本市场欢呼，劳动市场受苦，生产率数字无动于衷——三者同时为真。</div>
+      </div>
+
+      <div class="case-card">
+        <div class="case-label">案例 02 · 企业</div>
+        <div class="case-title">Klarna：裁 700 人，然后悄悄招回来</div>
+        <div class="case-body">
+          2024 年，Klarna CEO Sebastian Siemiatkowski 高调宣布：AI 客服顶替了 700 名人类工人（占全员 35%）。这个数字被全球媒体反复引用，成为"AI 替代人类"最有力的证据。<br/><br/>
+          <strong>2025 年 5 月 28 日，CEO 公开认错，宣布重启人工招聘。</strong>原因是他发现公司"过于专注效率和成本削减，导致服务质量下降"。他还补充了一个品牌层面的考量："我认为明确告诉客户'始终有真人'至关重要。"<br/><br/>
+          2025 年 7 月，Klarna 以 $19.65B 估值 IPO。Gartner 随后预测：到 2027 年前，因 AI 裁员的客服公司，将有<strong>一半要再回招</strong>。
+        </div>
+        <div class="case-verdict">AI 能做一件事，不等于它能替代人做这件事的全部价值——包括信任、情感、品牌质感和客户的心理预期。</div>
+      </div>
+
+      <div class="case-card">
+        <div class="case-label">案例 03 · 结构性反转</div>
+        <div class="case-title">RentAHuman：AI 开始雇用人类</div>
+        <div class="case-body">
+          2026 年 2 月，RentAHuman.ai 上线。核心功能：让 AI Agent 通过 API 雇用真实人类，去做物理世界中的任务。<br/><br/>
+          截至 2026 年 5 月，全球注册量超过 <strong>70 万</strong>，覆盖 100+ 国家。<strong>约 32% 的任务委托直接来自 API 调用</strong>——即真正由 AI Agent 自主发出的委托，没有任何人类决策者参与。<br/><br/>
+          注册者不只是低技能工人。Nature 的报道指出，计算机科学、物理学、生物学、数学、免疫学方向的科研人员，也开始把自己的专业技能标注为"可租用资源"。
+        </div>
+        <div class="case-verdict">劳动关系史上的首次结构性反转：委托方从人类变成了 AI Agent，人类变成了"生物执行层"（biological actuator）。</div>
+      </div>
+
+      <div class="section-break">· · ·</div>
+
+      <h2>入口在消失</h2>
+
+      <p>对大多数工作者来说，最直接的感受不是"被裁员"，而是<strong>根本找不到第一份工作</strong>。</p>
+
+      <div class="stat-callout">
+        <div class="stat-callout-num blue">−13%</div>
+        <div class="stat-callout-text">Brynjolfsson（斯坦福）2025 年研究发现：<strong>22-25 岁</strong>在高 AI 暴露岗位的就业率相对下降了 13%，软件开发岗位下降近 20%。他把这群年轻人称为"煤矿里的金丝雀"。</div>
+      </div>
+
+      <p>讽刺的是：Brynjolfsson 在 2023 年的研究（基于 5,179 名 Fortune 500 客服员工）表明，AI 助手让初级员工生产率提升了 <strong>34%</strong>，让新手受益最大。</p>
+
+      <p>两年后，他自己的研究显示年轻人的入职率在急剧下滑。</p>
+
+      <p><strong>这不是矛盾，而是时序：当年受益是因为有岗位，现在岗位本身在消失。</strong></p>
+
+      <p>CS 和计算机工程专业应届毕业生失业率分别达到 <strong>7.0%</strong> 和 <strong>7.8%</strong>——在所有专业中位居最高区间，几乎是全国平均水平的两倍。</p>
+
+      <p>最残酷的画面来自 Anthropic 内部的两种声音：CEO Dario Amodei 公开警告，在金融、咨询、科技三个行业，初级白领岗位将在 1-5 年内被 AI 取代，并呼吁对 AI 企业征重税——而同时，Anthropic 的 CPO 坦承，Anthropic 很少招应届毕业生，没有暑期实习项目，因为 AI 已经可以完成大量初级任务。</p>
+
+      <p><strong>制造 AI 的公司，自己就是第一批不再需要初级工人的雇主。</strong></p>
+
+      <div class="section-break">· · ·</div>
+
+      <h2>80% 的人在抵制</h2>
+
+      <p>这场变革不是没有遭遇阻力。</p>
+
+      <div class="stat-callout">
+        <div class="stat-callout-num">80%</div>
+        <div class="stat-callout-text"><strong>白领工人对雇主强制要求的 AI 工具</strong>表现出主动或被动的抵制。员工把这种抵制描述为类似"安静离职"的现象，并发明了一个新词——"AI tax"：那些被要求核查、纠错、向 AI 输出解释的隐性工时。</div>
+      </div>
+
+      <div class="stat-callout">
+        <div class="stat-callout-num">29%</div>
+        <div class="stat-callout-text"><strong>工人承认正在主动破坏公司的 AI 战略</strong>——忽视指令、拒绝培训、故意扭曲 AI 绩效数据。在 Z 世代中，这一比例跳升到 44%。</div>
+      </div>
+
+      <div class="section-break">· · ·</div>
+
+      <h2>哲学家们在说什么</h2>
+
+      <p>数字描述"发生了什么"，哲学家描述"这意味着什么"。</p>
+
+      <div class="voice-row">
+        <div class="voice-card">
+          <div class="voice-name">Acemoglu · MIT 诺奖得主</div>
+          <div class="voice-text">"Don't think of your labor as a cost to be cut. Think of your labor as a <em>human resource to be used better</em>."</div>
+        </div>
+        <div class="voice-card">
+          <div class="voice-name">Harari · 《Nexus》</div>
+          <div class="voice-text">"21 世纪可能见证一个庞大的<em>'无用阶级'</em>诞生——不仅是失业，而是不可雇佣，既无经济价值，也无政治或艺术价值。"</div>
+        </div>
+        <div class="voice-card">
+          <div class="voice-name">刘擎 · 哲学家</div>
+          <div class="voice-text">"我们在制造<em>越来越像人的机器</em>，同时我们也越来越像我们自己制造出来的机器。"</div>
+        </div>
+        <div class="voice-card">
+          <div class="voice-name">庄子 · 公元前 4 世纪</div>
+          <div class="voice-text">"有机械者必有机事，有机事者必有<em>机心</em>——有机心存于胸中，则纯白不备。"</div>
+        </div>
+      </div>
+
+      <p>Bostrom 的比喻最让我停下来想：当机械兔被赛狗终于追上，<strong>狗会拿那只兔子怎么办？它有想过这个吗？</strong></p>
+
+      <div class="section-break">· · ·</div>
+
+      <h2>这不是命定的</h2>
+
+      <p>这篇文章最后要说的，不是悲观，也不是虚假乐观。</p>
+
+      <p>经济学家 Acemoglu 和 Johnson 在《权力与进步》（2023）里考察了一千年的技术史，得出一个反直觉的结论：<strong>技术从未自动惠及大多数人。</strong></p>
+
+      <p>印刷机创造了新精英阶层。工厂机械化让纺织工人的实际工资下降了数十年。电气化的果实先被资本拿走数十年，才通过工会斗争和劳动立法流向工人。</p>
+
+      <p>他的关键论点是："<strong>生产率提升落入劳动者口袋，不是因为技术慷慨，而是因为劳动者组织起来并拥有了足够的政治权力。</strong>"</p>
+
+      <p>这意味着 2026 年的劳动图景，是<strong>技术选择与政策真空共同作用的结果</strong>，而非 AI 的物理必然。有几个具体的命题值得认真对待：</p>
+
+      <div class="thesis-grid">
+        <div class="thesis-item">
+          <div class="thesis-num">01</div>
+          <div class="thesis-content">
+            <h4>技术方向是政治选择，不是自然规律</h4>
+            <p>当前 AI 税收结构（资本设备可快速折旧，雇用工人需缴工资税）在制度上系统性地激励了替代而非增强。Acemoglu 主张通过税收政策、研究资助方向、监管框架，激励"增强人类"而非"替代人类"的 AI 系统。</p>
+          </div>
+        </div>
+        <div class="thesis-item">
+          <div class="thesis-num">02</div>
+          <div class="thesis-content">
+            <h4>AI 可以民主化专家知识，重建中产</h4>
+            <p>MIT 经济学家 David Autor（2024）：区别在于 AI 被设计为直接输出结论（替代专家），还是辅助判断（增强非专家）。社区护理员借助 AI 提供更精准的诊断建议；法律助理借助 AI 提供高级律师的分析。两种设计都在技术上可行，哪种被部署是市场激励的结果。</p>
+          </div>
+        </div>
+        <div class="thesis-item">
+          <div class="thesis-num">03</div>
+          <div class="thesis-content">
+            <h4>"图灵陷阱"——模仿人类是错误的目标</h4>
+            <p>Brynjolfsson（2022）：图灵测试让 AI 开发者以"通过人类测试"为目标——这意味着构建替代品，而非补充物。当 AI 被设计为补充人类所不擅长的事情，人类的稀缺性随 AI 能力提升而增加，而非减少。</p>
+          </div>
+        </div>
+        <div class="thesis-item">
+          <div class="thesis-num">04</div>
+          <div class="thesis-content">
+            <h4>劳动数据红利——异化的逆向补偿</h4>
+            <p>AI 公司用人类生产的数据（写作、代码、决策）训练模型，但从未支付报酬。提议中的"Worker Data Dividend"机制：对使用未授权人类创作数据征收"知识使用税"，以"AI 红利"形式分配给受影响的劳动群体。</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="section-break">· · ·</div>
+
+      <div class="pullquote">
+        <p>"技术进步是充分条件，但不是必要条件。共享繁荣需要社会选择，而社会选择需要政治意志。"</p>
+        <cite>— Daron Acemoglu，2024 年诺贝尔经济学奖演讲</cite>
+      </div>
+
+      <div class="section-break">· · ·</div>
+
+      <h2>收尾</h2>
+
+      <div class="article-end">
+        <p>1886 年的五一，工人用罢工逼出了八小时工作制。那一次，谈判的对象是有血有肉的工厂主。</p>
+        <p>2026 年的五一，出现了一种新型的雇主——没有身份证，没有道德直觉，没有人可以向它谈判，24 小时运行，按任务结算，不受劳动法约束。</p>
+        <p>庄子说：有机心存于胸中，则纯白不备。有效进步主义者会说：<em>机心不是问题，机制才是。</em></p>
+        <p>劳动节的意义，不是庆祝，而是记录。</p>
+      </div>
+
+    </div>
+
+    <!-- Engagement -->
+    <div class="engagement-bar">
+      <div class="engagement-actions">
+        <button class="eng-btn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75">
+            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+          </svg>
+          <span>评论</span>
+        </button>
+        <button class="eng-btn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75">
+            <polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/>
+          </svg>
+          <span>转发</span>
+        </button>
+        <button class="eng-btn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75">
+            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+          </svg>
+          <span>喜欢</span>
+        </button>
+      </div>
+      <button class="eng-btn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75">
+          <circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/>
+          <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/>
+        </svg>
+        <span>分享</span>
+      </button>
+    </div>
+
+    <!-- Related -->
+    <div class="related-section">
+      <div class="related-title">相关研究</div>
+      <div class="related-item">
+        <div class="related-dot"></div>
+        <div>
+          <div class="related-text">白领初级岗的终局加速</div>
+          <div class="related-sub">入职门槛抬高的结构性逻辑 · DeepDive</div>
+        </div>
+      </div>
+      <div class="related-item">
+        <div class="related-dot"></div>
+        <div>
+          <div class="related-text">当 AI 成为雇主：RentAHuman 与 Meatspace 经济的范式反转</div>
+          <div class="related-sub">AI Agent 作为经济委托主体的法律与伦理空白 · DeepDive</div>
+        </div>
+      </div>
+      <div class="related-item">
+        <div class="related-dot"></div>
+        <div>
+          <div class="related-text">AI 同事上岗：企业工作流 Agent 化的临界点</div>
+          <div class="related-sub">从 Block 到 Ramp，组织结构在重写 · DeepDive EP.82</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="article-footer">
+      本文基于 DeepDive 系列过去三个月研究积累，整合 IMF、WEF、Goldman Sachs、Tom's Hardware、PwC、Bloomberg、Stanford/ADP、Anthropic Research 等公开数据，于 2026 年 5 月 1 日完成数据核查。<br/>
+      核查说明：Klarna 认错时间已从"9 月"更正为"5 月"；RentAHuman 数据从 64.5 万更新为 70 万+；PwC"几乎翻倍"已更正为"翻倍有余（25%→56%）"。
+    </footer>
+
+  </article>
+</main>
+
+</body>
+</html>

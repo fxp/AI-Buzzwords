@@ -1,0 +1,1694 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Buddy 协议深潜 — 从 BLE 比特流看 Agent 硬件通信协议的未来</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: {
+          bg: '#0e0d0a',
+          'bg-2': '#161410',
+          'bg-3': '#1f1c16',
+          fg: '#e8e4dc',
+          'fg-dim': '#a8a298',
+          'fg-mute': '#6e6960',
+          line: '#2a2620',
+          'line-bright': '#3a352d',
+          amber: '#f5a524',
+          'amber-soft': 'rgba(245,165,36,0.08)',
+          cyan: '#22d3ee',
+          'cyan-soft': 'rgba(34,211,238,0.08)',
+        },
+        fontFamily: {
+          serif: ["'Fraunces'", "serif"],
+          mono: ["'JetBrains Mono'", "monospace"],
+        },
+        maxWidth: { prose: '820px', content: '1020px', wrap: '1320px' },
+      }
+    }
+  }
+  </script>
+  <style>
+    em, i { font-style: normal; }
+    body {
+      font-feature-settings: 'ss01','ss02','kern';
+      -webkit-font-smoothing: antialiased;
+      background: #0e0d0a;
+      color: #e8e4dc;
+      font-family: 'Fraunces', serif;
+      position: relative;
+      overflow-x: hidden;
+    }
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      pointer-events: none; z-index: 1;
+      background-image:
+        linear-gradient(rgba(245,165,36,0.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(245,165,36,0.025) 1px, transparent 1px);
+      background-size: 64px 64px;
+    }
+    body::after {
+      content: '';
+      position: fixed; inset: 0;
+      pointer-events: none; z-index: 1;
+      opacity: 0.35;
+      mix-blend-mode: overlay;
+      background-image: url("data:image/svg+xml;utf8,<svg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.4 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+    }
+    .lamp {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: #f5a524;
+      box-shadow: 0 0 12px #f5a524, 0 0 24px rgba(245,165,36,0.5);
+      animation: pulse 2.4s ease-in-out infinite;
+      display: inline-block;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(0.85); }
+    }
+    .cursor::after {
+      content: '_';
+      color: #f5a524;
+      animation: blink 1.1s steps(1) infinite;
+      margin-left: 4px;
+    }
+    @keyframes blink { 50% { opacity: 0; } }
+    .hero-anim > * {
+      opacity: 0;
+      animation: fadeUp .9s ease forwards;
+    }
+    .hero-anim > *:nth-child(1) { animation-delay: 0.05s; }
+    .hero-anim > *:nth-child(2) { animation-delay: 0.2s; }
+    .hero-anim > *:nth-child(3) { animation-delay: 0.4s; }
+    .hero-anim > *:nth-child(4) { animation-delay: 0.6s; }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(14px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .pullquote-mark::before {
+      content: '\201C';
+      font-family: 'Fraunces', serif;
+      font-size: 8rem;
+      line-height: 0.8;
+      color: #f5a524;
+      opacity: 0.3;
+      display: block;
+      margin-bottom: -2rem;
+    }
+    .glow-marker {
+      width: 14px; height: 14px;
+      border-radius: 50%;
+      background: #f5a524;
+      box-shadow: 0 0 16px #f5a524, 0 0 32px rgba(245,165,36,0.6);
+      animation: pulse 2s ease-in-out infinite;
+    }
+    pre.code-block {
+      background: #161410;
+      border: 1px solid #2a2620;
+      padding: 16px 20px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12.5px;
+      line-height: 1.7;
+      color: #e8e4dc;
+      overflow-x: auto;
+      white-space: pre;
+    }
+    @media (min-width: 1024px) {
+      pre.code-block { padding: 22px 28px; font-size: 13px; }
+    }
+    .tk-key { color: #f5a524; }
+    .tk-str { color: #a8a298; }
+    .tk-num { color: #e8e4dc; }
+    .tk-com { color: #6e6960; font-style: italic; }
+    .tk-pun { color: #6e6960; }
+    .tk-arrow { color: #22d3ee; }
+    /* part divider */
+    .part-divider {
+      position: relative;
+      padding: 100px 0 60px;
+      text-align: center;
+    }
+    .part-divider::before {
+      content: '';
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      width: 60vw; max-width: 600px;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, #f5a524 50%, transparent);
+    }
+    .part-divider .label {
+      position: relative;
+      display: inline-block;
+      background: #0e0d0a;
+      padding: 0 28px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.32em;
+      text-transform: uppercase;
+      color: #f5a524;
+    }
+    .part-divider .title {
+      font-family: 'Fraunces', serif;
+      font-weight: 300;
+      font-size: clamp(40px, 9vw, 96px);
+      line-height: 1.0;
+      margin-top: 28px;
+      letter-spacing: -0.01em;
+    }
+    .part-divider .title em {
+      font-style: normal;
+      color: #f5a524;
+    }
+    .stack-diagram {
+      background: #161410;
+      border: 1px solid #2a2620;
+      padding: 28px 32px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 13px;
+      line-height: 2;
+      overflow-x: auto;
+    }
+    .stack-diagram .layer-name { color: #f5a524; display: inline-block; min-width: 110px; }
+    .stack-diagram .layer-content { color: #e8e4dc; }
+    .stack-diagram .arrow { color: #6e6960; display: block; text-align: center; padding: 4px 0; font-size: 11px; }
+    .arrow-flow {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11.5px;
+      line-height: 1.9;
+      color: #a8a298;
+    }
+    .arrow-flow .who { color: #f5a524; display: inline-block; min-width: 56px; }
+    .arrow-flow .ev  { color: #e8e4dc; }
+  </style>
+</head>
+<body>
+
+  <!-- TOP STRIP -->
+  <div class="max-w-wrap mx-auto px-[5vw] lg:px-12 relative z-[2] pt-6 lg:pt-10 pb-3 border-b border-line">
+    <div class="flex flex-wrap items-center justify-between gap-3 font-mono text-[10px] tracking-[0.22em] uppercase text-fg-mute">
+      <span class="flex items-center gap-3">
+        <span class="lamp"></span>
+        <span class="text-amber">DEEP DIVE / № 01</span>
+        <span class="text-fg-dim hidden lg:inline">— PROTOCOL ARCHAEOLOGY</span>
+      </span>
+      <span class="text-fg-dim">2026.05.06</span>
+    </div>
+  </div>
+
+  <!-- HERO -->
+  <section class="max-w-wrap mx-auto px-[5vw] lg:px-12 relative z-[2] pt-12 lg:pt-24 pb-14 lg:pb-28 border-b border-line">
+    <div class="hero-anim">
+      <div class="font-mono text-[11px] tracking-[0.2em] text-amber uppercase mb-6 cursor">PROTOCOL ARCHAEOLOGY / 协议考古</div>
+      <h1 class="font-serif font-light text-[clamp(36px,8.5vw,108px)] leading-[0.98] tracking-tight max-w-content">
+        Buddy<br/>
+        <em class="text-amber">协议深潜</em>
+      </h1>
+      <p class="lg:ml-[168px] max-w-prose font-serif text-[clamp(20px,2.6vw,32px)] leading-[1.3] text-fg-dim mt-6 lg:mt-8 font-light">
+        从 BLE 比特流看<br/>
+        <em class="text-amber">agent 硬件通信协议</em>的未来
+      </p>
+
+      <p class="lg:ml-[168px] max-w-prose text-[15px] lg:text-lg leading-relaxed lg:leading-[1.75] font-light text-fg-dim mt-12 lg:mt-16">
+        一份关于 claude-desktop-buddy 协议的逐层拆解，外加一个关于 agent-hardware 通信协议会怎么演进的预测。<em class="text-amber">先解构现实，再推演未来。</em>
+      </p>
+
+      <!-- stats grid -->
+      <div class="lg:ml-[168px] max-w-content mt-14 lg:mt-20 grid grid-cols-2 lg:grid-cols-4 gap-px bg-line">
+        <div class="bg-bg p-5 lg:p-7">
+          <div class="font-mono text-[10px] tracking-[0.18em] text-fg-mute uppercase mb-2">PARTS</div>
+          <div class="font-serif text-3xl lg:text-5xl font-light"><em class="text-amber">4</em></div>
+          <div class="text-[12px] text-fg-dim mt-1 font-mono">比特流 → 未来</div>
+        </div>
+        <div class="bg-bg p-5 lg:p-7">
+          <div class="font-mono text-[10px] tracking-[0.18em] text-fg-mute uppercase mb-2">协议层</div>
+          <div class="font-serif text-3xl lg:text-5xl font-light"><em class="text-amber">17</em></div>
+          <div class="text-[12px] text-fg-dim mt-1 font-mono">sections / 决策表</div>
+        </div>
+        <div class="bg-bg p-5 lg:p-7">
+          <div class="font-mono text-[10px] tracking-[0.18em] text-fg-mute uppercase mb-2">Anthropic 协议</div>
+          <div class="font-serif text-3xl lg:text-5xl font-light"><em class="text-amber">6</em></div>
+          <div class="text-[12px] text-fg-dim mt-1 font-mono">MCP → Buddy</div>
+        </div>
+        <div class="bg-bg p-5 lg:p-7">
+          <div class="font-mono text-[10px] tracking-[0.18em] text-fg-mute uppercase mb-2">未来提案</div>
+          <div class="font-serif text-3xl lg:text-5xl font-light"><em class="text-amber">3</em></div>
+          <div class="text-[12px] text-fg-dim mt-1 font-mono">should exist</div>
+        </div>
+      </div>
+
+      <!-- prerequisite link -->
+      <div class="lg:ml-[168px] max-w-prose mt-12 lg:mt-16 p-5 bg-amber-soft border-l-2 border-amber">
+        <span class="font-mono text-[10px] tracking-[0.22em] text-amber uppercase block mb-3">姊妹篇</span>
+        <p class="text-[14px] text-fg-dim font-light leading-relaxed">
+          产品角度的姐妹篇：<a href="../%5BPRD%5D%20Claude%20Desktop%20Buddy/Claude%20Desktop%20Buddy%20%E5%AF%B9%E5%BC%80%E5%8F%91%E8%80%85%E7%9A%84%E4%BB%B7%E5%80%BC.html" class="text-amber hover:underline">价值篇 — Buddy 对开发者意味着什么</a>。这篇深潜是技术角度的全量拆解，从 BLE 物理层到协议未来一条龙。
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- INTRO -->
+  <section class="max-w-wrap mx-auto px-[5vw] lg:px-12 relative z-[2] py-14 lg:py-28 border-b border-line">
+    <header class="grid grid-cols-1 lg:grid-cols-[120px_1fr] gap-4 lg:gap-12 items-baseline mb-10 lg:mb-[72px]">
+      <div class="cursor font-mono text-[10px] lg:text-[11px] tracking-[0.2em] text-amber pt-3 border-t border-amber uppercase">PROLOGUE</div>
+      <h2 class="font-serif font-light text-[clamp(24px,7vw,68px)] leading-[1.05] tracking-tight">
+        这篇文章<em class="text-amber">想做什么</em>
+      </h2>
+    </header>
+    <div class="lg:ml-[168px] max-w-prose text-[15px] lg:text-lg leading-relaxed lg:leading-[1.75] font-light space-y-5 text-fg">
+      <p>Buddy 协议表面是一个 maker 玩具的接口规范。往下挖会发现三件值得讨论的事：</p>
+      <ol class="space-y-4 lg:ml-2">
+        <li class="grid grid-cols-[28px_1fr] gap-4">
+          <span class="font-mono text-amber text-[14px]">01</span>
+          <span>它是 <em class="text-amber">Anthropic 的第六份对外协议</em>——前五份分别是 MCP、Skills、Hooks、Permissions、Remote Control。每份对应 agent 工作流的一层。</span>
+        </li>
+        <li class="grid grid-cols-[28px_1fr] gap-4">
+          <span class="font-mono text-amber text-[14px]">02</span>
+          <span>它是其中<em class="text-amber">唯一的物理近场协议</em>。其他五份都是软件接口或网络协议；Buddy 是这家公司第一次划定 agent 与"实体硬件"之间的合约。</span>
+        </li>
+        <li class="grid grid-cols-[28px_1fr] gap-4">
+          <span class="font-mono text-amber text-[14px]">03</span>
+          <span>它的设计选择反映了一个尚未公开声明的判断：<em class="text-amber">agent 的"物理在场感"是一个产品维度</em>，值得用一份独立协议去支持。</span>
+        </li>
+      </ol>
+      <p class="mt-8">这篇文章分四部分：</p>
+    </div>
+    <div class="lg:ml-[168px] max-w-content mt-8 grid grid-cols-1 lg:grid-cols-2 gap-px bg-line">
+      <div class="bg-bg p-5 lg:p-7">
+        <div class="font-mono text-[10px] tracking-[0.18em] text-amber uppercase mb-2">PART I</div>
+        <h3 class="font-serif text-xl lg:text-2xl font-normal mb-2">比特流层</h3>
+        <p class="text-[14px] text-fg-dim font-light leading-relaxed">协议从 BLE 物理层到 JSON 应用语义的逐层拆解</p>
+      </div>
+      <div class="bg-bg p-5 lg:p-7">
+        <div class="font-mono text-[10px] tracking-[0.18em] text-amber uppercase mb-2">PART II</div>
+        <h3 class="font-serif text-xl lg:text-2xl font-normal mb-2">设计分析</h3>
+        <p class="text-[14px] text-fg-dim font-light leading-relaxed">6 个关键决策、4 处聪明、5 个缺口、威胁模型</p>
+      </div>
+      <div class="bg-bg p-5 lg:p-7">
+        <div class="font-mono text-[10px] tracking-[0.18em] text-amber uppercase mb-2">PART III</div>
+        <h3 class="font-serif text-xl lg:text-2xl font-normal mb-2">协议栈定位</h3>
+        <p class="text-[14px] text-fg-dim font-light leading-relaxed">Anthropic 6 份协议横向对比、Buddy 占哪一格</p>
+      </div>
+      <div class="bg-bg p-5 lg:p-7">
+        <div class="font-mono text-[10px] tracking-[0.18em] text-amber uppercase mb-2">PART IV</div>
+        <h3 class="font-serif text-xl lg:text-2xl font-normal mb-2">未来</h3>
+        <p class="text-[14px] text-fg-dim font-light leading-relaxed">5 个演化方向 + 3 个应该存在的协议提案</p>
+      </div>
+    </div>
+    <p class="lg:ml-[168px] max-w-prose mt-10 text-[14px] text-fg-dim font-light italic">
+      写给：协议设计者、做 agent 工具链的工程师、想做硬件接 AI 的 maker、对 protocol-as-product 感兴趣的产品人。
+    </p>
+  </section>
+
+  <!-- § 01 — WHAT -->
+  <section class="max-w-wrap mx-auto px-[5vw] lg:px-12 relative z-[2] py-14 lg:py-24 border-b border-line">
+    <header class="grid grid-cols-1 lg:grid-cols-[120px_1fr] gap-4 lg:gap-12 items-baseline mb-10 lg:mb-[72px]">
+      <div class="cursor font-mono text-[10px] lg:text-[11px] tracking-[0.2em] text-amber pt-3 border-t border-amber uppercase">§ 01 / WHAT</div>
+      <h2 class="font-serif font-light text-[clamp(24px,7vw,68px)] leading-[1.05] tracking-tight">
+        这是<em class="text-amber">什么</em>
+      </h2>
+    </header>
+    <div class="lg:ml-[168px] max-w-prose text-[15px] lg:text-lg leading-relaxed lg:leading-[1.75] font-light space-y-5 text-fg">
+      <p><a href="https://github.com/anthropics/claude-desktop-buddy" target="_blank" rel="noopener" class="text-amber hover:underline">claude-desktop-buddy</a> 是 Anthropic 开源的一个参考实现，包括两件东西：</p>
+      <ul class="space-y-2 lg:ml-4 text-fg-dim">
+        <li><span class="text-amber font-mono text-[12px] tracking-wider">PROTOCOL</span> &nbsp;Claude 桌面版（macOS / Windows）通过蓝牙 LE 对外暴露的 BLE 接口规范</li>
+        <li><span class="text-amber font-mono text-[12px] tracking-wider">FIRMWARE</span> &nbsp;运行在 M5StickCPlus（ESP32）上的桌面宠物固件，是协议的具体消费方</li>
+      </ul>
+      <p>你不需要这个仓库里的<em class="text-amber">任何代码</em>就能接入这个 API——只要一块能广播 Nordic UART Service 的开发板和这份协议文档。仓库的存在是给 Maker 社区一个可以直接 fork 和刷机的起点。</p>
+    </div>
+
+    <div class="lg:ml-[168px] max-w-prose mt-12 p-5 lg:p-6 bg-amber-soft border-l-2 border-amber">
+      <span class="font-mono text-[10px] tracking-[0.18em] text-amber uppercase mb-2 block">REPO ARCHAEOLOGY / 仓库考古</span>
+      <p class="text-[15px] lg:text-base text-fg leading-relaxed font-light">
+        1.6k Stars，218 Forks，Contributors 只有<em class="text-amber">一位</em>：<span class="font-mono text-[13px] text-amber">Felix Rieseberg</span>（Electron 核心维护者，前 Slack 桌面客户端主作者）。全仓库只有 <em class="text-amber">2 个 commit</em>。这不是有机生长的开源项目——是某个内部项目<em class="text-amber">清理后开源</em>的清白版本。这个细节在 § 17 谈策略时再回来。
+      </p>
+    </div>
+
+    <figure class="lg:ml-[168px] max-w-content mt-12 lg:mt-16">
+      <div class="border border-line p-2 lg:p-3 bg-bg-2">
+        <img src="https://raw.githubusercontent.com/anthropics/claude-desktop-buddy/main/docs/device.jpg"
+             alt="M5StickC Plus running buddy firmware"
+             class="w-full h-auto block" loading="lazy">
+      </div>
+      <figcaption class="mt-3 font-mono text-[10px] tracking-[0.22em] text-fg-mute uppercase flex flex-wrap gap-3">
+        <span class="text-amber">FIG / 01</span>
+        <span>M5StickC Plus running buddy firmware — 协议的参考目标</span>
+      </figcaption>
+    </figure>
+  </section>
+
+  <!-- § 02 — DOES -->
+  <section class="max-w-wrap mx-auto px-[5vw] lg:px-12 relative z-[2] py-14 lg:py-24 border-b border-line">
+    <header class="grid grid-cols-1 lg:grid-cols-[120px_1fr] gap-4 lg:gap-12 items-baseline mb-10 lg:mb-[72px]">
+      <div class="cursor font-mono text-[10px] lg:text-[11px] tracking-[0.2em] text-amber pt-3 border-t border-amber uppercase">§ 02 / DOES</div>
+      <h2 class="font-serif font-light text-[clamp(24px,7vw,68px)] leading-[1.05] tracking-tight">
+        它<em class="text-amber">能做什么</em>
+      </h2>
+    </header>
+    <div class="lg:ml-[168px] max-w-prose text-[15px] lg:text-lg leading-relaxed lg:leading-[1.75] font-light text-fg space-y-5">
+      <p>连接后，硬件实时获取 Claude 的工作状态——会话数、运行/等待数、token 累计、当前权限请求。状态映射到设备上的 7 种动画（详见 <a href="../%5BPRD%5D%20Claude%20Desktop%20Buddy/Claude%20Desktop%20Buddy%20%E5%AF%B9%E5%BC%80%E5%8F%91%E8%80%85%E7%9A%84%E4%BB%B7%E5%80%BC.html" class="text-amber hover:underline">价值篇 № 01 状态表</a>）。</p>
+      <p>关键交互是<em class="text-amber">审批流程</em>：Claude 执行 Bash 命令、文件操作等需要用户确认的工具调用时，设备屏幕显示 <span class="font-mono text-[13px] text-amber">approve: Bash</span> 附具体命令预览。<em class="text-amber">按 A 批准、按 B 拒绝</em>。整个过程不需要看电脑屏幕。</p>
+      <p>这解决一个真实痛点：Claude Code 跑长任务时偶尔会停下等审批，你需要切回电脑窗口点击。有了这块设备，你可以继续做别的事，等宠物不耐烦了再瞥一眼按键。</p>
+      <p>这件小事的产品意义在 № 01 价值篇讲过。<em class="text-amber">这篇文章关心的是：这件小事用什么协议实现，为什么这么实现。</em></p>
+    </div>
+  </section>
+
+  <!-- =============================== PART I =============================== -->
+  <div class="part-divider">
+    <span class="label">PART I — 协议形态</span>
+    <div class="title">比特流<em>层</em></div>
+  </div>
+
+  <!-- § 03 -->
+  <section class="max-w-wrap mx-auto px-[5vw] lg:px-12 relative z-[2] py-14 lg:py-24 border-b border-line">
+    <header class="grid grid-cols-1 lg:grid-cols-[120px_1fr] gap-4 lg:gap-12 items-baseline mb-10 lg:mb-[72px]">
+      <div class="cursor font-mono text-[10px] lg:text-[11px] tracking-[0.2em] text-amber pt-3 border-t border-amber uppercase">§ 03 / STACK</div>
+      <h2 class="font-serif font-light text-[clamp(24px,7vw,68px)] leading-[1.05] tracking-tight">
+        协议栈<em class="text-amber">结构</em>
+      </h2>
+    </header>
+    <div class="lg:ml-[168px] max-w-prose text-[15px] lg:text-lg leading-relaxed lg:leading-[1.75] font-light text-fg mb-10">
+      Buddy 协议有四层。每一层都有故事。从下往上看。
+    </div>
+    <div class="lg:ml-[168px] max-w-content stack-diagram">
+      <div><span class="layer-name">应用语义层</span> <span class="layer-content">JSON 消息（heartbeat / permission / turn / status / char_*）</span></div>
+      <div class="arrow">▲ ▼</div>
+      <div><span class="layer-name">帧层</span> <span class="layer-content">UTF-8、\n 分隔的行（line-buffered）</span></div>
+      <div class="arrow">▲ ▼</div>
+      <div><span class="layer-name">传输层</span> <span class="layer-content">Nordic UART Service (NUS) over BLE GATT</span></div>
+      <div class="arrow">▲ ▼</div>
+      <div><span class="layer-name">物理层</span> <span class="layer-content">Bluetooth Low Energy 4.2+ / 5.0</span></div>
+    </div>
+  </section>
+
+  <!-- § 02 -->
+  <section class="max-w-wrap mx-auto px-[5vw] lg:px-12 relative z-[2] py-14 lg:py-24 border-b border-line">
+    <header class="grid grid-cols-1 lg:grid-cols-[120px_1fr] gap-4 lg:gap-12 items-baseline mb-10 lg:mb-[72px]">
+      <div class="cursor font-mono text-[10px] lg:text-[11px] tracking-[0.2em] text-amber pt-3 border-t border-amber uppercase">§ 04 / TRANSPORT</div>
+      <h2 class="font-serif font-light text-[clamp(24px,7vw,68px)] leading-[1.05] tracking-tight">
+        物理 + 传输层
+      </h2>
+    </header>
+
+    <!-- 2.1 -->
+    <article class="lg:ml-[168px] max-w-content py-6 border-t border-line">
+      <h3 class="font-mono text-[11px] tracking-[0.22em] text-amber uppercase mb-4">4.1 / 为什么是 BLE 而不是 WiFi / USB / UWB</h3>
+      <p class="text-[15px] lg:text-base text-fg-dim leading-relaxed font-light max-w-prose mb-5">候选方案对比：</p>
+      <div class="grid grid-cols-[1fr_70px_70px_70px_50px_50px] lg:grid-cols-[140px_90px_120px_60px_70px_70px] gap-px bg-line text-[12px] lg:text-[13px]">
+        <div class="bg-bg-2 p-2.5 lg:p-3 font-mono text-[10px] tracking-[0.18em] text-fg-mute uppercase">候选</div>
+        <div class="bg-bg-2 p-2.5 lg:p-3 font-mono text-[10px] tracking-[0.18em] text-fg-mute uppercase">距离</div>
+        <div class="bg-bg-2 p-2.5 lg:p-3 font-mono text-[10px] tracking-[0.18em] text-fg-mute uppercase">配对</div>
+        <div class="bg-bg-2 p-2.5 lg:p-3 font-mono text-[10px] tracking-[0.18em] text-fg-mute uppercase">功耗</div>
+        <div class="bg-bg-2 p-2.5 lg:p-3 font-mono text-[10px] tracking-[0.18em] text-fg-mute uppercase">调试</div>
+        <div class="bg-bg-2 p-2.5 lg:p-3 font-mono text-[10px] tracking-[0.18em] text-fg-mute uppercase">成本</div>
+
+        <div class="bg-bg p-2.5 lg:p-3 font-mono text-amber">BLE</div>
+        <div class="bg-bg p-2.5 lg:p-3 text-fg">~10m</div>
+        <div class="bg-bg p-2.5 lg:p-3 text-fg-dim">一次</div>
+        <div class="bg-bg p-2.5 lg:p-3 text-fg">极低</div>
+        <div class="bg-bg p-2.5 lg:p-3 text-fg">高</div>
+        <div class="bg-bg p-2.5 lg:p-3 text-fg">$</div>
+
+        <div class="bg-bg p-2.5 lg:p-3 font-mono text-fg-dim">WiFi</div>
+        <div class="bg-bg p-2.5 lg:p-3 text-fg-dim">~30m</div>
+        <div class="bg-bg p-2.5 lg:p-3 text-fg-dim">路由</div>
+        <div class="bg-bg p-2.5 lg:p-3 text-fg-dim">中</div>
+        <div class="bg-bg p-2.5 lg:p-3 text-fg-dim">中</div>
+        <div class="bg-bg p-2.5 lg:p-3 text-fg-dim">$</div>
+
+        <div class="bg-bg p-2.5 lg:p-3 font-mono text-fg-dim">USB</div>
+        <div class="bg-bg p-2.5 lg:p-3 text-fg-dim">接触</div>
+        <div class="bg-bg p-2.5 lg:p-3 text-fg-dim">即插</div>
+        <div class="bg-bg p-2.5 lg:p-3 text-fg-dim">总线</div>
+        <div class="bg-bg p-2.5 lg:p-3 text-fg-dim">高</div>
+        <div class="bg-bg p-2.5 lg:p-3 text-fg-dim">$</div>
+
+        <div class="bg-bg p-2.5 lg:p-3 font-mono text-fg-dim">UWB</div>
+        <div class="bg-bg p-2.5 lg:p-3 text-fg-dim">~10m</div>
+        <div class="bg-bg p-2.5 lg:p-3 text-fg-dim">复杂</div>
+        <div class="bg-bg p-2.5 lg:p-3 text-fg-dim">中</div>
+        <div class="bg-bg p-2.5 lg:p-3 text-fg-dim">低</div>
+        <div class="bg-bg p-2.5 lg:p-3 text-fg-dim">$$</div>
+
+        <div class="bg-bg p-2.5 lg:p-3 font-mono text-fg-dim">5G</div>
+        <div class="bg-bg p-2.5 lg:p-3 text-fg-dim">全球</div>
+        <div class="bg-bg p-2.5 lg:p-3 text-fg-dim">SIM</div>
+        <div class="bg-bg p-2.5 lg:p-3 text-fg-dim">高</div>
+        <div class="bg-bg p-2.5 lg:p-3 text-fg-dim">低</div>
+        <div class="bg-bg p-2.5 lg:p-3 text-fg-dim">$$$</div>
+      </div>
+      <p class="mt-6 text-[15px] text-fg-dim leading-relaxed font-light max-w-prose">Buddy 选 BLE 的理由可以反推：</p>
+      <ul class="mt-3 space-y-1.5 text-[14px] text-fg-dim font-light max-w-prose">
+        <li>· <em class="text-amber">桌面级范围正好</em>——既不限制在物理接触（USB），也不会无意中被楼下办公室嗅到（WiFi）</li>
+        <li>· <em class="text-amber">配对一次，重连自动</em>——符合"放工位上不管它"的交互</li>
+        <li>· <em class="text-amber">极低功耗</em>——纽扣电池 / USB-C 待机几天没问题</li>
+        <li>· <em class="text-amber">现成生态</em>——任何 ESP32 / nRF52 / 树莓派+dongle 都能广播</li>
+        <li>· <em class="text-amber">物理半径即信任半径</em>（§ 11 详述）</li>
+      </ul>
+      <p class="mt-5 text-[14px] text-fg-dim leading-relaxed font-light max-w-prose">USB 也是合理候选，但要求设备线连主机；BLE 让设备自由放置——这个自由度对 ambient device 很重要。</p>
+    </article>
+
+    <!-- 2.2 -->
+    <article class="lg:ml-[168px] max-w-content py-8 border-t border-line">
+      <h3 class="font-mono text-[11px] tracking-[0.22em] text-amber uppercase mb-4">4.2 / Nordic UART Service —— 为什么不发明新 GATT</h3>
+      <p class="text-[15px] lg:text-base text-fg-dim leading-relaxed font-light max-w-prose mb-5">NUS 是事实标准，三个 GATT 特征：</p>
+<pre class="code-block">Service:  <span class="tk-key">6e400001</span>-b5a3-f393-e0a9-e50e24dcca9e
+RX (W):   <span class="tk-key">6e400002</span>-b5a3-f393-e0a9-e50e24dcca9e   <span class="tk-com">// 主机→设备 Write</span>
+TX (N):   <span class="tk-key">6e400003</span>-b5a3-f393-e0a9-e50e24dcca9e   <span class="tk-com">// 设备→主机 Notify</span></pre>
+      <p class="mt-5 text-[15px] text-fg-dim leading-relaxed font-light max-w-prose mb-3">为什么用 NUS 而不是设计 Buddy-specific 的 GATT profile？</p>
+      <ul class="space-y-2 text-[14px] text-fg-dim font-light max-w-prose">
+        <li>· <em class="text-amber">生态一致性</em>：NUS 在 Nordic SoftDevice、ESP32 NimBLE、Apple CoreBluetooth、Linux BlueZ、Python <span class="font-mono text-amber">bleak</span> 都是 first-class</li>
+        <li>· <em class="text-amber">调试可观测性</em>：nRF Connect、<span class="font-mono text-amber">bluetoothctl</span>、<span class="font-mono text-amber">hcitool</span> 都能直接订阅。设计者主动让协议变得容易嗅探——开放性信号</li>
+        <li>· <em class="text-amber">范式天然匹配</em>：NUS 本质就是双向"串口"，正好对应"主机推状态、设备回决策"的对称结构</li>
+        <li>· <em class="text-amber">姿态信号</em>：选事实标准而不是发明——表明这份协议定位在"应用层规范"，基础设施留给生态</li>
+      </ul>
+      <p class="mt-5 text-[14px] text-fg-dim leading-relaxed font-light max-w-prose">和 MCP 的 JSON-RPC 2.0 over stdio/SSE 一致——都是<em class="text-amber">复用现有标准当传输底座，把新意全部投入应用语义层</em>。</p>
+    </article>
+
+    <!-- 2.3 -->
+    <article class="lg:ml-[168px] max-w-content py-8 border-t border-line">
+      <h3 class="font-mono text-[11px] tracking-[0.22em] text-amber uppercase mb-4">4.3 / 广播命名前缀：Claude*</h3>
+      <p class="text-[15px] lg:text-base text-fg-dim leading-relaxed font-light max-w-prose mb-4">设备广播名字必须以 <span class="font-mono text-amber">Claude</span> 开头。这是个简单约定，代替了几种更复杂方案：</p>
+      <ul class="space-y-2 text-[14px] text-fg-dim font-light max-w-prose">
+        <li>❌ Manufacturer-specific data（要去 Bluetooth SIG 注册 16-bit Company ID）</li>
+        <li>❌ 自定义 Service UUID 用于 advertise（占 advertising payload，128-bit 占 16 字节）</li>
+        <li>✅ <em class="text-amber">名字前缀</em>——零注册成本，扫描时一行代码过滤</li>
+      </ul>
+      <p class="mt-5 text-[14px] text-fg-dim leading-relaxed font-light max-w-prose">副作用：任何人都可以广播 <span class="font-mono text-amber">Claude_xxx</span> 假冒设备。但这在 BLE 范围内本来就要靠加密层防护（§ 11），不是命名约定该解决的。<em class="text-amber">用对工具</em>。</p>
+    </article>
+
+    <!-- 2.4 -->
+    <article class="lg:ml-[168px] max-w-content py-8 border-t border-b border-line">
+      <h3 class="font-mono text-[11px] tracking-[0.22em] text-amber uppercase mb-4">4.4 / MTU 限制 —— 协议层不感知 MTU</h3>
+      <p class="text-[15px] lg:text-base text-fg-dim leading-relaxed font-light max-w-prose mb-4">
+        BLE 4.0 ATT_MTU 默认 23 字节，扣头后 Notify 一次只能发 20 字节。BLE 5.0 协商后可到 247 字节。但你不能假设客户端协商了大 MTU。
+      </p>
+      <p class="text-[15px] lg:text-base text-fg leading-relaxed font-light max-w-prose mb-4">
+        Buddy 的处理方式很聪明：<em class="text-amber">协议层不感知 MTU</em>。
+      </p>
+<pre class="code-block"><span class="tk-com">// 发送方</span>
+将 JSON 序列化成 UTF-8 → 逐字节写入 NUS RX/TX → 自然分包
+
+<span class="tk-com">// 接收方</span>
+缓冲所有收到的字节 → 遇到 \n 就解析一行</pre>
+      <p class="mt-5 text-[15px] text-fg-dim leading-relaxed font-light max-w-prose mb-3">这意味着：</p>
+      <ul class="space-y-2 text-[14px] text-fg-dim font-light max-w-prose">
+        <li>· 协议在 BLE 4.0（20-byte 包）和 BLE 6.0（如果 MTU 推到 4096）下行为一致</li>
+        <li>· 任何能模拟 NUS 的传输（USB CDC、TCP socket）都能跑同样的协议</li>
+        <li>· 调试时 <span class="font-mono text-amber">cat</span> 重定向到 NUS 设备文件就能模拟客户端</li>
+      </ul>
+      <p class="mt-5 text-[14px] text-fg leading-relaxed font-light max-w-prose"><em class="text-amber">抗 MTU 漂移 + 抗传输替换</em>。下层任何变化都不需要改协议。这是值钱的设计冗余。</p>
+    </article>
+  </section>
+
+  <!-- § 03 -->
+  <section class="max-w-wrap mx-auto px-[5vw] lg:px-12 relative z-[2] py-14 lg:py-24 border-b border-line">
+    <header class="grid grid-cols-1 lg:grid-cols-[120px_1fr] gap-4 lg:gap-12 items-baseline mb-10 lg:mb-[72px]">
+      <div class="cursor font-mono text-[10px] lg:text-[11px] tracking-[0.2em] text-amber pt-3 border-t border-amber uppercase">§ 05 / FRAMING</div>
+      <h2 class="font-serif font-light text-[clamp(24px,7vw,68px)] leading-[1.05] tracking-tight">
+        帧层 — 为什么 <em class="text-amber">\n 分隔的 JSON</em>
+      </h2>
+    </header>
+    <div class="lg:ml-[168px] max-w-content">
+      <p class="text-[15px] lg:text-base text-fg-dim leading-relaxed font-light max-w-prose mb-6">候选方案：</p>
+      <div class="grid grid-cols-[1fr_1fr_1fr] gap-px bg-line text-[13px]">
+        <div class="bg-bg-2 p-3 lg:p-4 font-mono text-[10px] tracking-[0.18em] text-fg-mute uppercase">框架方式</div>
+        <div class="bg-bg-2 p-3 lg:p-4 font-mono text-[10px] tracking-[0.18em] text-fg-mute uppercase">优点</div>
+        <div class="bg-bg-2 p-3 lg:p-4 font-mono text-[10px] tracking-[0.18em] text-fg-mute uppercase">缺点</div>
+
+        <div class="bg-bg p-3 lg:p-4 font-mono text-amber"><em>\n 分隔行</em></div>
+        <div class="bg-bg p-3 lg:p-4 text-fg-dim font-light">易调试、零开销、telnet 都能验</div>
+        <div class="bg-bg p-3 lg:p-4 text-fg-dim font-light">payload 不能含 \n</div>
+
+        <div class="bg-bg p-3 lg:p-4 font-mono text-fg-dim">长度前缀</div>
+        <div class="bg-bg p-3 lg:p-4 text-fg-dim font-light">严格、二进制安全</div>
+        <div class="bg-bg p-3 lg:p-4 text-fg-dim font-light">需解析器，调试要工具</div>
+
+        <div class="bg-bg p-3 lg:p-4 font-mono text-fg-dim">LTV</div>
+        <div class="bg-bg p-3 lg:p-4 text-fg-dim font-light">多类型分发清晰</div>
+        <div class="bg-bg p-3 lg:p-4 text-fg-dim font-light">复杂度高</div>
+
+        <div class="bg-bg p-3 lg:p-4 font-mono text-fg-dim">WebSocket frame</div>
+        <div class="bg-bg p-3 lg:p-4 text-fg-dim font-light">已成熟</div>
+        <div class="bg-bg p-3 lg:p-4 text-fg-dim font-light">头部开销</div>
+      </div>
+
+      <p class="mt-8 text-[15px] text-fg-dim leading-relaxed font-light max-w-prose mb-3">
+        Buddy 选 \n。这要求 JSON 序列化时不产生原始换行——所有 JSON 是单行（minified）。
+      </p>
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-px bg-line max-w-prose mt-5">
+        <div class="bg-bg p-5">
+          <div class="font-mono text-[10px] tracking-[0.18em] text-amber uppercase mb-3">收益</div>
+          <ul class="text-[13px] text-fg-dim font-light space-y-1.5">
+            <li>· 调试无敌——bluetoothctl 直接读到 JSON</li>
+            <li>· 流处理简单——任何语言 readline()</li>
+            <li>· 错误恢复——一行解析失败不影响下一行</li>
+          </ul>
+        </div>
+        <div class="bg-bg p-5">
+          <div class="font-mono text-[10px] tracking-[0.18em] text-amber uppercase mb-3">代价</div>
+          <ul class="text-[13px] text-fg-dim font-light space-y-1.5">
+            <li>· 二进制必须 base64（每 chunk +33%）</li>
+            <li>· 没有原生消息边界保证</li>
+          </ul>
+        </div>
+      </div>
+
+      <p class="mt-8 text-[14px] text-fg leading-relaxed font-light max-w-prose">
+        这是<em class="text-amber">调试性优先于带宽</em>的选择。Buddy 吞吐需求很低（心跳 10s 一次、状态推送几秒一次），调试性的收益远超带宽损失。
+      </p>
+    </div>
+  </section>
+
+  <!-- § 04 -->
+  <section class="max-w-wrap mx-auto px-[5vw] lg:px-12 relative z-[2] py-14 lg:py-24 border-b border-line">
+    <header class="grid grid-cols-1 lg:grid-cols-[120px_1fr] gap-4 lg:gap-12 items-baseline mb-10 lg:mb-[72px]">
+      <div class="cursor font-mono text-[10px] lg:text-[11px] tracking-[0.2em] text-amber pt-3 border-t border-amber uppercase">§ 06 / MESSAGES</div>
+      <h2 class="font-serif font-light text-[clamp(24px,7vw,68px)] leading-[1.05] tracking-tight">
+        应用语义层 — <em class="text-amber">五种消息</em>
+      </h2>
+    </header>
+    <div class="lg:ml-[168px] max-w-prose text-[15px] lg:text-lg leading-relaxed lg:leading-[1.75] font-light text-fg mb-12">
+      Buddy 协议在应用层只有 5 种消息族。一一拆解。
+    </div>
+
+    <figure class="lg:ml-[168px] max-w-content mt-8 mb-14">
+      <div class="border border-line p-2 lg:p-3 bg-bg-2 overflow-x-auto">
+        <svg width="640" height="460" viewBox="0 0 640 460" xmlns="http://www.w3.org/2000/svg" style="max-width:100%;height:auto;display:block">
+        <defs>
+        <marker id="seq-ah" viewBox="0 0 8 6" refX="7.5" refY="3" markerWidth="8" markerHeight="6" orient="auto"><path d="M0,0 L8,3 L0,6 Z" fill="#2c2620"/></marker>
+        <marker id="seq-aha" viewBox="0 0 8 6" refX="7.5" refY="3" markerWidth="8" markerHeight="6" orient="auto"><path d="M0,0 L8,3 L0,6 Z" fill="#c4850a"/></marker>
+        <marker id="seq-ahg" viewBox="0 0 8 6" refX="7.5" refY="3" markerWidth="8" markerHeight="6" orient="auto"><path d="M0,0 L8,3 L0,6 Z" fill="#aaa"/></marker>
+        </defs>
+        <rect width="640" height="460" fill="var(--bg,#faf6ef)" rx="6"/>
+        <rect x="10" y="14" width="220" height="36" rx="4" fill="var(--bg,#fff)" stroke="#c4850a" stroke-width="1.5"/>
+        <text x="120" y="37" text-anchor="middle" fill="var(--fg,#2c2620)" font-size="12" font-weight="700" font-family="monospace">Claude Desktop（主机）</text>
+        <rect x="410" y="14" width="220" height="36" rx="4" fill="var(--bg,#fff)" stroke="#c4850a" stroke-width="1.5"/>
+        <text x="520" y="37" text-anchor="middle" fill="var(--fg,#2c2620)" font-size="12" font-weight="700" font-family="monospace">Device（M5StickC）</text>
+        <line x1="120" y1="50" x2="120" y2="440" stroke="#e6d9bf" stroke-width="1.5" stroke-dasharray="5,4"/>
+        <line x1="520" y1="50" x2="520" y2="440" stroke="#e6d9bf" stroke-width="1.5" stroke-dasharray="5,4"/>
+        <text x="320" y="72" text-anchor="middle" fill="#aaa" font-size="10.5" font-family="monospace">BLE scan · pair · connect</text>
+        <line x1="124" y1="78" x2="512" y2="78" stroke="var(--fg,#2c2620)" stroke-width="1.5" marker-end="url(#seq-ah)"/>
+        <line x1="512" y1="96" x2="128" y2="96" stroke="#c4850a" stroke-width="1.5" stroke-dasharray="5,3" marker-end="url(#seq-aha)"/>
+        <text x="320" y="110" text-anchor="middle" fill="#c4850a" font-size="10.5" font-family="monospace">Connected · Encrypted</text>
+        <line x1="36" y1="122" x2="604" y2="122" stroke="#e6d9bf" stroke-width="0.5" stroke-dasharray="2,5"/>
+        <text x="278" y="136" text-anchor="middle" fill="#aaa" font-size="10.5" font-family="monospace">heartbeat (idle)   t=0s</text>
+        <line x1="124" y1="142" x2="512" y2="142" stroke="var(--fg,#2c2620)" stroke-width="1.5" marker-end="url(#seq-ah)"/>
+        <rect x="532" y="131" width="88" height="20" rx="3" fill="rgba(196,133,10,0.12)"/>
+        <text x="576" y="145" text-anchor="middle" fill="#c4850a" font-size="10" font-family="sans-serif">👀 idle</text>
+        <text x="278" y="169" text-anchor="middle" fill="#aaa" font-size="10.5" font-family="monospace">heartbeat (busy)   t+10s</text>
+        <line x1="124" y1="175" x2="512" y2="175" stroke="var(--fg,#2c2620)" stroke-width="1.5" marker-end="url(#seq-ah)"/>
+        <rect x="532" y="164" width="88" height="20" rx="3" fill="rgba(196,133,10,0.12)"/>
+        <text x="576" y="178" text-anchor="middle" fill="#c4850a" font-size="10" font-family="sans-serif">💦 busy</text>
+        <text x="278" y="208" text-anchor="middle" fill="#c4850a" font-size="10.5" font-weight="700" font-family="monospace">heartbeat (attention + prompt)</text>
+        <line x1="124" y1="214" x2="512" y2="214" stroke="#c4850a" stroke-width="2" marker-end="url(#seq-aha)"/>
+        <rect x="532" y="202" width="88" height="22" rx="3" fill="rgba(196,133,10,0.28)"/>
+        <text x="576" y="217" text-anchor="middle" fill="#c4850a" font-size="10" font-weight="700" font-family="sans-serif">❗ LED 闪</text>
+        <text x="576" y="237" text-anchor="middle" fill="#aaa" font-size="9.5" font-family="monospace">余光扫到</text>
+        <text x="576" y="249" text-anchor="middle" fill="#aaa" font-size="9.5" font-family="monospace">→ 按下 A</text>
+        <line x1="512" y1="262" x2="128" y2="262" stroke="#c4850a" stroke-width="2" marker-end="url(#seq-aha)"/>
+        <text x="320" y="256" text-anchor="middle" fill="#c4850a" font-size="10.5" font-weight="700" font-family="monospace">{cmd:"permission", decision:"once"}</text>
+        <text x="278" y="289" text-anchor="middle" fill="#aaa" font-size="10.5" font-family="monospace">heartbeat (heart)   &lt;5s later</text>
+        <line x1="124" y1="295" x2="512" y2="295" stroke="var(--fg,#2c2620)" stroke-width="1.5" marker-end="url(#seq-ah)"/>
+        <rect x="532" y="284" width="88" height="20" rx="3" fill="rgba(196,133,10,0.12)"/>
+        <text x="576" y="298" text-anchor="middle" fill="#c4850a" font-size="10" font-family="sans-serif">💖 heart</text>
+        <text x="278" y="322" text-anchor="middle" fill="#aaa" font-size="10.5" font-family="monospace">heartbeat (busy)   t+10s</text>
+        <line x1="124" y1="328" x2="512" y2="328" stroke="var(--fg,#2c2620)" stroke-width="1.5" marker-end="url(#seq-ah)"/>
+        <rect x="532" y="317" width="88" height="20" rx="3" fill="rgba(196,133,10,0.12)"/>
+        <text x="576" y="331" text-anchor="middle" fill="#c4850a" font-size="10" font-family="sans-serif">💦 busy</text>
+        <line x1="36" y1="350" x2="604" y2="350" stroke="#e6d9bf" stroke-width="0.5" stroke-dasharray="2,5"/>
+        <text x="278" y="369" text-anchor="middle" fill="#aaa" font-size="10.5" font-family="monospace">（30s 无心跳 → 断线）</text>
+        <line x1="124" y1="375" x2="512" y2="375" stroke="#bbb" stroke-width="1" stroke-dasharray="6,4" marker-end="url(#seq-ahg)"/>
+        <rect x="532" y="363" width="88" height="22" rx="3" fill="rgba(0,0,0,0.05)"/>
+        <text x="576" y="378" text-anchor="middle" fill="#aaa" font-size="10" font-family="sans-serif">😴 sleep</text>
+        <text x="320" y="415" text-anchor="middle" fill="#bbb" font-size="9.5" font-family="monospace">→ 主机推送   ← 设备回复   橙色 = 审批关键路径</text>
+        <text x="320" y="430" text-anchor="middle" fill="#bbb" font-size="9.5" font-family="monospace">心跳每 10s 一次 · 30s 无心跳超时 · 消息均为 \n 分隔的 JSON</text>
+        </svg>
+      </div>
+      <figcaption class="mt-3 font-mono text-[10px] tracking-[0.22em] text-fg-mute uppercase flex flex-wrap gap-3">
+        <span class="text-amber">FIG / SEQ</span>
+        <span>审批流完整时序（典型场景）</span>
+        <span class="text-fg-mute">— heartbeat · permission · state transitions</span>
+      </figcaption>
+    </figure>
+
+    <!-- 4.1 -->
+    <article class="lg:ml-[168px] max-w-content py-6 border-t border-line">
+      <h3 class="font-mono text-[11px] tracking-[0.22em] text-amber uppercase mb-4">6.1 / 心跳快照（设备 ← 桌面）</h3>
+<pre class="code-block">{
+  <span class="tk-key">"total"</span><span class="tk-pun">:</span> <span class="tk-num">3</span><span class="tk-pun">,</span>
+  <span class="tk-key">"running"</span><span class="tk-pun">:</span> <span class="tk-num">1</span><span class="tk-pun">,</span>
+  <span class="tk-key">"waiting"</span><span class="tk-pun">:</span> <span class="tk-num">1</span><span class="tk-pun">,</span>
+  <span class="tk-key">"msg"</span><span class="tk-pun">:</span> <span class="tk-str">"approve: Bash"</span><span class="tk-pun">,</span>
+  <span class="tk-key">"entries"</span><span class="tk-pun">:</span> <span class="tk-pun">[</span><span class="tk-str">"10:42 git push"</span><span class="tk-pun">,</span> <span class="tk-str">"10:41 yarn test"</span><span class="tk-pun">,</span> <span class="tk-str">"10:39 reading file..."</span><span class="tk-pun">]</span><span class="tk-pun">,</span>
+  <span class="tk-key">"tokens"</span><span class="tk-pun">:</span> <span class="tk-num">184502</span><span class="tk-pun">,</span>
+  <span class="tk-key">"tokens_today"</span><span class="tk-pun">:</span> <span class="tk-num">31200</span><span class="tk-pun">,</span>
+  <span class="tk-key">"prompt"</span><span class="tk-pun">:</span> <span class="tk-pun">{</span>
+    <span class="tk-key">"id"</span><span class="tk-pun">:</span> <span class="tk-str">"req_abc123"</span><span class="tk-pun">,</span>
+    <span class="tk-key">"tool"</span><span class="tk-pun">:</span> <span class="tk-str">"Bash"</span><span class="tk-pun">,</span>
+    <span class="tk-key">"hint"</span><span class="tk-pun">:</span> <span class="tk-str">"rm -rf /tmp/foo"</span>
+  <span class="tk-pun">}</span>
+}</pre>
+      <h4 class="font-mono text-[10px] tracking-[0.22em] text-amber uppercase mt-6 mb-3">关键合约</h4>
+      <div class="space-y-3">
+        <div class="bg-amber-soft border-l-2 border-amber p-4">
+          <span class="font-mono text-[10px] tracking-[0.18em] text-amber uppercase block mb-1">频率合约</span>
+          <p class="text-[14px] text-fg leading-relaxed font-light">状态变化时发，最长 10 秒一次保活。30 秒收不到当连接断。设备必须做"30s 没数据"超时逻辑，<em class="text-amber">不能依赖 BLE 链路状态</em>。</p>
+        </div>
+        <div class="bg-amber-soft border-l-2 border-amber p-4">
+          <span class="font-mono text-[10px] tracking-[0.18em] text-amber uppercase block mb-1">幂等合约</span>
+          <p class="text-[14px] text-fg leading-relaxed font-light">每次心跳是<em class="text-amber">完整快照</em>，不是增量。设备可以丢弃旧心跳，只看最新一条。极大简化了状态机——不需要 reconcile，直接覆盖。</p>
+        </div>
+        <div class="bg-amber-soft border-l-2 border-amber p-4">
+          <span class="font-mono text-[10px] tracking-[0.18em] text-amber uppercase block mb-1">预聚合合约</span>
+          <p class="text-[14px] text-fg leading-relaxed font-light"><span class="font-mono text-amber">entries</span> 已是字符串、不是结构化日志；<span class="font-mono text-amber">tokens</span> 已累加；<span class="font-mono text-amber">prompt.hint</span> 已截断。<em class="text-amber">所有聚合在桌面端做</em>，设备只显示。把复杂度推给主机端，设备只做"哑终端"。</p>
+        </div>
+      </div>
+    </article>
+
+    <!-- 4.2 -->
+    <article class="lg:ml-[168px] max-w-content py-8 border-t border-line">
+      <h3 class="font-mono text-[11px] tracking-[0.22em] text-amber uppercase mb-4">6.2 / 权限审批（设备 → 桌面）</h3>
+<pre class="code-block"><span class="tk-pun">{</span><span class="tk-key">"cmd"</span><span class="tk-pun">:</span><span class="tk-str">"permission"</span><span class="tk-pun">,</span><span class="tk-key">"id"</span><span class="tk-pun">:</span><span class="tk-str">"req_abc123"</span><span class="tk-pun">,</span><span class="tk-key">"decision"</span><span class="tk-pun">:</span><span class="tk-str">"once"</span><span class="tk-pun">}</span>
+<span class="tk-pun">{</span><span class="tk-key">"cmd"</span><span class="tk-pun">:</span><span class="tk-str">"permission"</span><span class="tk-pun">,</span><span class="tk-key">"id"</span><span class="tk-pun">:</span><span class="tk-str">"req_abc123"</span><span class="tk-pun">,</span><span class="tk-key">"decision"</span><span class="tk-pun">:</span><span class="tk-str">"deny"</span><span class="tk-pun">}</span></pre>
+      <p class="mt-5 text-[15px] lg:text-base text-fg-dim leading-relaxed font-light max-w-prose mb-3">合约：</p>
+      <ul class="space-y-2 text-[14px] text-fg-dim font-light max-w-prose">
+        <li>· <span class="font-mono text-amber">id</span> 必须 byte-for-byte 等于上一条心跳的 <span class="font-mono text-amber">prompt.id</span></li>
+        <li>· <span class="font-mono text-amber">decision</span> 只有两个值：<em class="text-amber">once</em> 或 <em class="text-amber">deny</em></li>
+        <li>· 没有 <span class="font-mono text-fg-mute">always</span> / <span class="font-mono text-fg-mute">forever</span> / <span class="font-mono text-fg-mute">whitelist</span>——<em class="text-amber">协议层主动不暴露持久授权</em></li>
+      </ul>
+      <p class="mt-5 text-[15px] text-fg leading-relaxed font-light max-w-prose">
+        最后一点是关键。Claude Code 桌面端本身有"始终允许"模式，Buddy 故意不让设备触发。
+      </p>
+      <div class="mt-5 p-5 bg-amber-soft border-l-2 border-amber max-w-prose">
+        <span class="font-mono text-[10px] tracking-[0.18em] text-amber uppercase block mb-2">设计意图</span>
+        <p class="text-[14px] text-fg leading-relaxed font-light">
+          物理摩擦是 <em class="text-amber">feature</em>，不是 bug。如果允许"在 Buddy 上点一次永久允许 git push"，设备就从"审批员"退化成"麻木盖章机"。Buddy 的产品价值在于每次审批的"瞥一眼 + 按一次"轻摩擦——这个摩擦本身在阻止一类错误。一旦允许 always，整个产品价值就垮了。
+        </p>
+        <p class="mt-3 text-[14px] text-fg-dim leading-relaxed font-light italic">
+          这种"协议刻意不暴露能力"的克制设计很少见。多数协议设计者会想"提供给客户端，让客户端选要不要用"——Buddy 反过来：<em class="text-amber">禁止客户端拥有这个选择</em>。这是产品决策固化在协议里的例子。
+        </p>
+      </div>
+    </article>
+
+    <!-- 4.3 -->
+    <article class="lg:ml-[168px] max-w-content py-8 border-t border-line">
+      <h3 class="font-mono text-[11px] tracking-[0.22em] text-amber uppercase mb-4">6.3 / Turn 事件（设备 ← 桌面，异步）</h3>
+<pre class="code-block">{
+  <span class="tk-key">"evt"</span><span class="tk-pun">:</span> <span class="tk-str">"turn"</span><span class="tk-pun">,</span>
+  <span class="tk-key">"role"</span><span class="tk-pun">:</span> <span class="tk-str">"assistant"</span><span class="tk-pun">,</span>
+  <span class="tk-key">"content"</span><span class="tk-pun">:</span> <span class="tk-pun">[{</span><span class="tk-key">"type"</span><span class="tk-pun">:</span> <span class="tk-str">"text"</span><span class="tk-pun">,</span> <span class="tk-key">"text"</span><span class="tk-pun">:</span> <span class="tk-str">"..."</span><span class="tk-pun">}]</span>
+}</pre>
+      <p class="mt-5 text-[15px] text-fg-dim leading-relaxed font-light max-w-prose">
+        每个 Claude 回复完成后触发一次。<span class="font-mono text-amber">content</span> 数组是 SDK 原生格式（text / tool_use / tool_result）。<em class="text-amber">超过 4 KB 的事件被丢弃</em>。
+      </p>
+      <p class="mt-5 text-[15px] text-fg-dim leading-relaxed font-light max-w-prose mb-3">为什么 4 KB？工程约束驱动：</p>
+      <ul class="space-y-2 text-[14px] text-fg-dim font-light max-w-prose">
+        <li>· BLE Notify 实测吞吐 ~10–20 KB/s（取决于连接参数）</li>
+        <li>· 4 KB 一帧约 <em class="text-amber">200–400 ms</em> 传输完</li>
+        <li>· 超过 4 KB 的回复一般是大段代码或长解释，反正小屏幕展示不下</li>
+        <li>· 4 KB 也够 ESP32 RAM 缓冲一帧（这块 SoC 默认 RAM 320 KB）</li>
+      </ul>
+      <p class="mt-5 text-[14px] text-fg leading-relaxed font-light max-w-prose">
+        设计意图：<em class="text-amber">Turn 不是为了让设备完整复制对话，是为了触发"Claude 说话了"动画</em>。如果想要完整记录，应该用别的传输（USB 直连、WiFi）。Buddy 在 BLE 上的角色是"状态指示器"，不是"日志同步器"。
+      </p>
+    </article>
+
+    <!-- 4.4 -->
+    <article class="lg:ml-[168px] max-w-content py-8 border-t border-line">
+      <h3 class="font-mono text-[11px] tracking-[0.22em] text-amber uppercase mb-4">6.4 / 状态上报 ack（桌面 ← 设备）</h3>
+<pre class="code-block">{
+  <span class="tk-key">"ack"</span><span class="tk-pun">:</span> <span class="tk-str">"status"</span><span class="tk-pun">,</span>
+  <span class="tk-key">"ok"</span><span class="tk-pun">:</span> <span class="tk-str">true</span><span class="tk-pun">,</span>
+  <span class="tk-key">"data"</span><span class="tk-pun">:</span> <span class="tk-pun">{</span>
+    <span class="tk-key">"name"</span><span class="tk-pun">:</span> <span class="tk-str">"Clawd"</span><span class="tk-pun">,</span>
+    <span class="tk-key">"sec"</span><span class="tk-pun">:</span> <span class="tk-str">true</span><span class="tk-pun">,</span>
+    <span class="tk-key">"bat"</span><span class="tk-pun">:</span> <span class="tk-pun">{</span><span class="tk-key">"pct"</span><span class="tk-pun">:</span> <span class="tk-num">87</span><span class="tk-pun">,</span> <span class="tk-key">"mV"</span><span class="tk-pun">:</span> <span class="tk-num">4012</span><span class="tk-pun">,</span> <span class="tk-key">"mA"</span><span class="tk-pun">:</span> <span class="tk-num">-120</span><span class="tk-pun">,</span> <span class="tk-key">"usb"</span><span class="tk-pun">:</span> <span class="tk-str">true</span><span class="tk-pun">},</span>
+    <span class="tk-key">"sys"</span><span class="tk-pun">:</span> <span class="tk-pun">{</span><span class="tk-key">"up"</span><span class="tk-pun">:</span> <span class="tk-num">8412</span><span class="tk-pun">,</span> <span class="tk-key">"heap"</span><span class="tk-pun">:</span> <span class="tk-num">84200</span><span class="tk-pun">},</span>
+    <span class="tk-key">"stats"</span><span class="tk-pun">:</span> <span class="tk-pun">{</span><span class="tk-key">"appr"</span><span class="tk-pun">:</span> <span class="tk-num">42</span><span class="tk-pun">,</span> <span class="tk-key">"deny"</span><span class="tk-pun">:</span> <span class="tk-num">3</span><span class="tk-pun">,</span> <span class="tk-key">"vel"</span><span class="tk-pun">:</span> <span class="tk-num">8</span><span class="tk-pun">,</span> <span class="tk-key">"nap"</span><span class="tk-pun">:</span> <span class="tk-num">12</span><span class="tk-pun">,</span> <span class="tk-key">"lvl"</span><span class="tk-pun">:</span> <span class="tk-num">5</span><span class="tk-pun">}</span>
+  <span class="tk-pun">}</span>
+}</pre>
+      <p class="mt-5 text-[15px] text-fg-dim leading-relaxed font-light max-w-prose">
+        桌面 poll，设备答。<em class="text-amber">协议里最弱合约的部分</em>——每个字段都是可选，设备不支持就不填。
+      </p>
+      <p class="mt-4 text-[14px] text-fg-dim leading-relaxed font-light max-w-prose">
+        <span class="font-mono text-amber">stats.lvl</span> 是设备自己跟踪的"等级"（每 5 万 token 升一级），上报给桌面。这个状态<em class="text-amber">桌面不维护</em>——<em class="text-amber">设备的 NVS 是单一真相源</em>。又一个克制设计：让设备拥有它显示的状态，桌面只是消费方。
+      </p>
+    </article>
+
+    <!-- 6.5 -->
+    <article class="lg:ml-[168px] max-w-content py-8 border-t border-line">
+      <h3 class="font-mono text-[11px] tracking-[0.22em] text-amber uppercase mb-4">6.5 / Folder Push — 流式角色包传输</h3>
+      <p class="text-[15px] lg:text-base text-fg-dim leading-relaxed font-light max-w-prose mb-5">协议里最复杂的部分。Hardware Buddy 窗口的 drop target 收到一个文件夹后触发：</p>
+      <div class="bg-bg-2 border border-line p-4 lg:p-6 max-w-content">
+        <div class="arrow-flow space-y-1">
+          <div><span class="who">桌面:</span> <span class="ev">{<span class="tk-key">"cmd"</span>:<span class="tk-str">"char_begin"</span>,<span class="tk-key">"name"</span>:<span class="tk-str">"bufo"</span>,<span class="tk-key">"total"</span>:<span class="tk-num">184320</span>}</span></div>
+          <div><span class="who">设备:</span> <span class="ev">{<span class="tk-key">"ack"</span>:<span class="tk-str">"char_begin"</span>,<span class="tk-key">"ok"</span>:<span class="tk-str">true</span>}</span></div>
+          <div class="text-fg-mute italic">— 每个文件 —</div>
+          <div><span class="who">桌面:</span> <span class="ev">{<span class="tk-key">"cmd"</span>:<span class="tk-str">"file"</span>,<span class="tk-key">"path"</span>:<span class="tk-str">"manifest.json"</span>,<span class="tk-key">"size"</span>:<span class="tk-num">412</span>}</span></div>
+          <div><span class="who">设备:</span> <span class="ev">{<span class="tk-key">"ack"</span>:<span class="tk-str">"file"</span>,<span class="tk-key">"ok"</span>:<span class="tk-str">true</span>}</span></div>
+          <div><span class="who">桌面:</span> <span class="ev">{<span class="tk-key">"cmd"</span>:<span class="tk-str">"chunk"</span>,<span class="tk-key">"d"</span>:<span class="tk-str">"&lt;base64&gt;"</span>}</span></div>
+          <div><span class="who">设备:</span> <span class="ev">{<span class="tk-key">"ack"</span>:<span class="tk-str">"chunk"</span>,<span class="tk-key">"ok"</span>:<span class="tk-str">true</span>,<span class="tk-key">"n"</span>:<span class="tk-num">4096</span>}</span></div>
+          <div class="text-fg-mute italic">… 重复 chunk 直到 size 字节传完 …</div>
+          <div><span class="who">桌面:</span> <span class="ev">{<span class="tk-key">"cmd"</span>:<span class="tk-str">"file_end"</span>}</span></div>
+          <div><span class="who">设备:</span> <span class="ev">{<span class="tk-key">"ack"</span>:<span class="tk-str">"file_end"</span>,<span class="tk-key">"ok"</span>:<span class="tk-str">true</span>,<span class="tk-key">"n"</span>:<span class="tk-num">412</span>}</span></div>
+          <div class="text-fg-mute italic">— 包结束 —</div>
+          <div><span class="who">桌面:</span> <span class="ev">{<span class="tk-key">"cmd"</span>:<span class="tk-str">"char_end"</span>}</span></div>
+          <div><span class="who">设备:</span> <span class="ev">{<span class="tk-key">"ack"</span>:<span class="tk-str">"char_end"</span>,<span class="tk-key">"ok"</span>:<span class="tk-str">true</span>}</span></div>
+        </div>
+      </div>
+
+      <h4 class="font-mono text-[10px] tracking-[0.22em] text-amber uppercase mt-8 mb-4">设计要点</h4>
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-px bg-line">
+        <div class="bg-bg p-5">
+          <div class="font-mono text-[10px] tracking-[0.18em] text-amber uppercase mb-2">CHUNK 级 ACK = 流控</div>
+          <p class="text-[13px] text-fg-dim font-light leading-relaxed">桌面不发下个 chunk 直到拿到上个 ack——应用层 stop-and-wait。BLE 链路层有 ACK，但应用层这一层让协议感知"设备 flash 写慢了"——设备只要拖延 ack，桌面自然降速。</p>
+        </div>
+        <div class="bg-bg p-5">
+          <div class="font-mono text-[10px] tracking-[0.18em] text-amber uppercase mb-2">n 字段 = 进度</div>
+          <p class="text-[13px] text-fg-dim font-light leading-relaxed">返回累积字节数，给桌面提供 progress bar 数据源——不用单独算。</p>
+        </div>
+        <div class="bg-bg p-5">
+          <div class="font-mono text-[10px] tracking-[0.18em] text-amber uppercase mb-2">PATH 校验 = 接收方责任</div>
+          <p class="text-[13px] text-fg-dim font-light leading-relaxed">协议规范要求接收方拒绝 <span class="font-mono text-amber">..</span> 和绝对路径。<em class="text-amber">防御纵深做成协议合规</em>——桌面被攻破往设备发恶意 path 时，设备自身仍要拒绝。</p>
+        </div>
+        <div class="bg-bg p-5">
+          <div class="font-mono text-[10px] tracking-[0.18em] text-amber uppercase mb-2">内容无关 = 协议复用</div>
+          <p class="text-[13px] text-fg-dim font-light leading-relaxed">GIF、配置、固件镜像都行。意味着协议未来可以在不修改 wire format 的情况下扩展支持新内容类型——OTA、wallpaper、sound pack。<em class="text-amber">协议 = 抽象</em>，不是具体功能。</p>
+        </div>
+      </div>
+    </article>
+
+    <!-- 6.6 manifest schema -->
+    <article class="lg:ml-[168px] max-w-content py-8 border-t border-b border-line">
+      <h3 class="font-mono text-[11px] tracking-[0.22em] text-amber uppercase mb-4">6.6 / 角色包 manifest 格式</h3>
+      <p class="text-[15px] lg:text-base text-fg-dim leading-relaxed font-light max-w-prose mb-5">
+        Folder Push 传输的内容里，<span class="font-mono text-amber">manifest.json</span> 的 schema：
+      </p>
+<pre class="code-block">{
+  <span class="tk-key">"name"</span><span class="tk-pun">:</span> <span class="tk-str">"bufo"</span><span class="tk-pun">,</span>
+  <span class="tk-key">"colors"</span><span class="tk-pun">:</span> <span class="tk-pun">{</span>
+    <span class="tk-key">"body"</span><span class="tk-pun">:</span> <span class="tk-str">"#6B8E23"</span><span class="tk-pun">,</span>
+    <span class="tk-key">"bg"</span><span class="tk-pun">:</span> <span class="tk-str">"#000000"</span><span class="tk-pun">,</span>
+    <span class="tk-key">"text"</span><span class="tk-pun">:</span> <span class="tk-str">"#FFFFFF"</span><span class="tk-pun">,</span>
+    <span class="tk-key">"textDim"</span><span class="tk-pun">:</span> <span class="tk-str">"#808080"</span><span class="tk-pun">,</span>
+    <span class="tk-key">"ink"</span><span class="tk-pun">:</span> <span class="tk-str">"#000000"</span>
+  <span class="tk-pun">}</span><span class="tk-pun">,</span>
+  <span class="tk-key">"states"</span><span class="tk-pun">:</span> <span class="tk-pun">{</span>
+    <span class="tk-key">"sleep"</span><span class="tk-pun">:</span> <span class="tk-str">"sleep.gif"</span><span class="tk-pun">,</span>
+    <span class="tk-key">"idle"</span><span class="tk-pun">:</span> <span class="tk-pun">[</span><span class="tk-str">"idle_0.gif"</span><span class="tk-pun">,</span> <span class="tk-str">"idle_1.gif"</span><span class="tk-pun">,</span> <span class="tk-str">"idle_2.gif"</span><span class="tk-pun">]</span><span class="tk-pun">,</span>
+    <span class="tk-key">"busy"</span><span class="tk-pun">:</span> <span class="tk-str">"busy.gif"</span><span class="tk-pun">,</span>
+    <span class="tk-key">"attention"</span><span class="tk-pun">:</span> <span class="tk-str">"attention.gif"</span><span class="tk-pun">,</span>
+    <span class="tk-key">"celebrate"</span><span class="tk-pun">:</span> <span class="tk-str">"celebrate.gif"</span><span class="tk-pun">,</span>
+    <span class="tk-key">"dizzy"</span><span class="tk-pun">:</span> <span class="tk-str">"dizzy.gif"</span><span class="tk-pun">,</span>
+    <span class="tk-key">"heart"</span><span class="tk-pun">:</span> <span class="tk-str">"heart.gif"</span>
+  <span class="tk-pun">}</span>
+}</pre>
+      <ul class="mt-5 space-y-1.5 text-[14px] text-fg-dim font-light max-w-prose">
+        <li>· GIF 宽度固定 96px、高度上限 ~140px（M5StickCPlus 屏幕 135×240 竖屏）</li>
+        <li>· 整包 &lt; 1.8 MB；<span class="font-mono text-amber">gifsicle --lossy=80 -O3 --colors 64</span> 一般压 40–60%</li>
+        <li>· <span class="font-mono text-amber">idle</span> 可以是数组——每次循环结束切换到下一个 GIF（待机轮播）</li>
+        <li>· <span class="font-mono text-amber">tools/prep_character.py</span> 批量调整尺寸；<span class="font-mono text-amber">tools/flash_character.py</span> 跳过 BLE 直接 USB 烧录</li>
+      </ul>
+      <p class="mt-5 text-[14px] text-fg leading-relaxed font-light max-w-prose">
+        这个 manifest 是 Buddy 协议里<em class="text-amber">唯一一处具体内容格式的强约束</em>。其他所有 wire format 都是结构（消息族），manifest 是数据（资产）。把内容格式独立成一份小 schema 的好处：<em class="text-amber">协议不变，资产可以独立演化</em>——v2 加 <span class="font-mono text-amber">sound</span> 字段挂音效文件，老设备读到忽略，新设备启用。
+      </p>
+    </article>
+  </section>
+
+  <!-- § 07 — HARDWARE REFERENCE -->
+  <section class="max-w-wrap mx-auto px-[5vw] lg:px-12 relative z-[2] py-14 lg:py-24 border-b border-line">
+    <header class="grid grid-cols-1 lg:grid-cols-[120px_1fr] gap-4 lg:gap-12 items-baseline mb-10 lg:mb-[72px]">
+      <div class="cursor font-mono text-[10px] lg:text-[11px] tracking-[0.2em] text-amber pt-3 border-t border-amber uppercase">§ 07 / HARDWARE</div>
+      <h2 class="font-serif font-light text-[clamp(24px,7vw,68px)] leading-[1.05] tracking-tight">
+        硬件<em class="text-amber">参考实现</em>
+      </h2>
+    </header>
+    <div class="lg:ml-[168px] max-w-prose text-[15px] lg:text-lg leading-relaxed lg:leading-[1.75] font-light text-fg mb-12">
+      协议规范是抽象的。Anthropic 提供了一份具体硬件参考实现：M5StickC Plus。
+    </div>
+
+    <article class="lg:ml-[168px] max-w-content py-6 border-t border-line">
+      <h3 class="font-mono text-[11px] tracking-[0.22em] text-amber uppercase mb-4">7.1 / M5StickC Plus 按键映射</h3>
+      <div class="grid grid-cols-[1fr_1fr_1fr_1fr] gap-px bg-line text-[13px]">
+        <div class="bg-bg-2 p-3 lg:p-4 font-mono text-[10px] tracking-[0.18em] text-fg-mute uppercase">按键</div>
+        <div class="bg-bg-2 p-3 lg:p-4 font-mono text-[10px] tracking-[0.18em] text-fg-mute uppercase">普通</div>
+        <div class="bg-bg-2 p-3 lg:p-4 font-mono text-[10px] tracking-[0.18em] text-fg-mute uppercase">宠物页</div>
+        <div class="bg-bg-2 p-3 lg:p-4 font-mono text-[10px] tracking-[0.18em] text-fg-mute uppercase">审批页</div>
+
+        <div class="bg-bg p-3 lg:p-4 font-mono text-amber tracking-wider">A 正面</div>
+        <div class="bg-bg p-3 lg:p-4 text-fg-dim font-light">切换屏幕</div>
+        <div class="bg-bg p-3 lg:p-4 text-fg-dim font-light">切换屏幕</div>
+        <div class="bg-bg p-3 lg:p-4 text-fg font-light">批准 ✓</div>
+
+        <div class="bg-bg p-3 lg:p-4 font-mono text-amber tracking-wider">B 侧面</div>
+        <div class="bg-bg p-3 lg:p-4 text-fg-dim font-light">滚动对话</div>
+        <div class="bg-bg p-3 lg:p-4 text-fg-dim font-light">翻页</div>
+        <div class="bg-bg p-3 lg:p-4 text-fg font-light">拒绝 ✗</div>
+
+        <div class="bg-bg p-3 lg:p-4 font-mono text-amber tracking-wider">长按 A</div>
+        <div class="bg-bg p-3 lg:p-4 text-fg-dim font-light">进入菜单</div>
+        <div class="bg-bg p-3 lg:p-4 text-fg-dim font-light">进入菜单</div>
+        <div class="bg-bg p-3 lg:p-4 text-fg-dim font-light">进入菜单</div>
+
+        <div class="bg-bg p-3 lg:p-4 font-mono text-amber tracking-wider">电源短按</div>
+        <div class="bg-bg p-3 lg:p-4 text-fg-dim font-light">关屏</div>
+        <div class="bg-bg p-3 lg:p-4 text-fg-mute font-light">—</div>
+        <div class="bg-bg p-3 lg:p-4 text-fg-mute font-light">—</div>
+
+        <div class="bg-bg p-3 lg:p-4 font-mono text-amber tracking-wider">电源长按 6s</div>
+        <div class="bg-bg p-3 lg:p-4 text-fg-dim font-light">硬关机</div>
+        <div class="bg-bg p-3 lg:p-4 text-fg-mute font-light">—</div>
+        <div class="bg-bg p-3 lg:p-4 text-fg-mute font-light">—</div>
+
+        <div class="bg-bg p-3 lg:p-4 font-mono text-amber tracking-wider">晃动</div>
+        <div class="bg-bg p-3 lg:p-4 text-fg-dim font-light">触发眩晕</div>
+        <div class="bg-bg p-3 lg:p-4 text-fg-mute font-light">—</div>
+        <div class="bg-bg p-3 lg:p-4 text-fg-mute font-light">—</div>
+
+        <div class="bg-bg p-3 lg:p-4 font-mono text-amber tracking-wider">倒扣</div>
+        <div class="bg-bg p-3 lg:p-4 text-fg-dim font-light">休眠回血</div>
+        <div class="bg-bg p-3 lg:p-4 text-fg-mute font-light">—</div>
+        <div class="bg-bg p-3 lg:p-4 text-fg-mute font-light">—</div>
+      </div>
+      <p class="mt-5 text-[14px] text-fg-dim leading-relaxed font-light max-w-prose">
+        屏幕 30 秒无操作自动关闭，<em class="text-amber">有审批待处理时保持常亮</em>。
+      </p>
+      <p class="mt-4 text-[14px] text-fg-dim leading-relaxed font-light max-w-prose">
+        注意"按键含义随状态变化"——同一个按钮在不同 page 下意思完全不同。这是协议设计上<em class="text-amber">让设备自己决定按键语义</em>的体现：协议只规定"设备发 once/deny"，不规定"哪个按键发哪个"。设备开发者完全自由。
+      </p>
+    </article>
+
+    <article class="lg:ml-[168px] max-w-content py-8 border-t border-line">
+      <h3 class="font-mono text-[11px] tracking-[0.22em] text-amber uppercase mb-4">7.2 / 刷机方法</h3>
+<pre class="code-block"><span class="tk-com"># 安装 PlatformIO Core，然后：</span>
+pio run -t upload
+
+<span class="tk-com"># 从全新设备开始先清除：</span>
+pio run -t erase <span class="tk-pun">&amp;&amp;</span> pio run -t upload</pre>
+      <p class="mt-5 text-[14px] text-fg-dim leading-relaxed font-light max-w-prose">
+        仓库 <span class="font-mono text-amber">platformio.ini</span> 已经把 board、partitions、文件系统都配好。<span class="font-mono text-amber">uploadfs</span> target 单独写文件系统（用于角色包热更新）。
+      </p>
+    </article>
+
+    <article class="lg:ml-[168px] max-w-content py-8 border-t border-b border-line">
+      <h3 class="font-mono text-[11px] tracking-[0.22em] text-amber uppercase mb-4">7.3 / 适配其他硬件</h3>
+      <p class="text-[15px] lg:text-base text-fg-dim leading-relaxed font-light max-w-prose mb-5">
+        固件核心 <span class="font-mono text-[12.5px] text-amber">ble_bridge.cpp</span> 只依赖 Nordic UART Service，<em class="text-amber">与硬件无关</em>。M5StickCPlus 特定代码集中在 <span class="font-mono text-[12.5px] text-amber">buddy.cpp</span> 和显示驱动层。
+      </p>
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-px bg-line max-w-content">
+        <div class="bg-bg p-5 lg:p-6">
+          <div class="font-mono text-[10px] tracking-[0.18em] text-amber uppercase mb-3">需要换</div>
+          <ul class="text-[13px] text-fg-dim font-light space-y-1.5">
+            <li>· 显示驱动</li>
+            <li>· 按键 GPIO 映射</li>
+            <li>· IMU 接口（可选）</li>
+          </ul>
+        </div>
+        <div class="bg-bg p-5 lg:p-6">
+          <div class="font-mono text-[10px] tracking-[0.18em] text-amber uppercase mb-3">不用动</div>
+          <ul class="text-[13px] text-fg-dim font-light space-y-1.5">
+            <li>· BLE 层</li>
+            <li>· JSON 协议解析</li>
+            <li>· 状态机</li>
+          </ul>
+        </div>
+        <div class="bg-bg p-5 lg:p-6">
+          <div class="font-mono text-[10px] tracking-[0.18em] text-amber uppercase mb-3">备选硬件</div>
+          <ul class="text-[13px] text-fg-dim font-light space-y-1.5">
+            <li>· nRF52 系列</li>
+            <li>· ESP32-S3</li>
+            <li>· 树莓派 + BLE</li>
+            <li>· PC + USB BLE dongle</li>
+          </ul>
+        </div>
+      </div>
+      <p class="mt-5 text-[14px] text-fg leading-relaxed font-light max-w-prose">
+        任何能广播 Nordic UART Service 的设备都能接入。<em class="text-amber">协议的硬件无关性</em>是设计的核心承诺——这也是为什么 NUS 选择如此重要（§ 4.2）。
+      </p>
+    </article>
+  </section>
+
+  <!-- =============================== PART II =============================== -->
+  <div class="part-divider">
+    <span class="label">PART II</span>
+    <div class="title">设计<em>分析</em></div>
+  </div>
+
+  <!-- § 05 -->
+  <section class="max-w-wrap mx-auto px-[5vw] lg:px-12 relative z-[2] py-14 lg:py-24 border-b border-line">
+    <header class="grid grid-cols-1 lg:grid-cols-[120px_1fr] gap-4 lg:gap-12 items-baseline mb-10 lg:mb-[72px]">
+      <div class="cursor font-mono text-[10px] lg:text-[11px] tracking-[0.2em] text-amber pt-3 border-t border-amber uppercase">§ 08 / DECISIONS</div>
+      <h2 class="font-serif font-light text-[clamp(24px,7vw,68px)] leading-[1.05] tracking-tight">
+        六个<em class="text-amber">关键决策</em>
+      </h2>
+    </header>
+    <div class="lg:ml-[168px] max-w-content overflow-x-auto">
+      <div class="grid grid-cols-[40px_1.2fr_1fr_1.4fr_1fr] gap-px bg-line text-[12px] lg:text-[13px] min-w-[700px]">
+        <div class="bg-bg-2 p-3 lg:p-4 font-mono text-[10px] tracking-[0.18em] text-fg-mute uppercase">#</div>
+        <div class="bg-bg-2 p-3 lg:p-4 font-mono text-[10px] tracking-[0.18em] text-fg-mute uppercase">决策</div>
+        <div class="bg-bg-2 p-3 lg:p-4 font-mono text-[10px] tracking-[0.18em] text-fg-mute uppercase">替代方案</div>
+        <div class="bg-bg-2 p-3 lg:p-4 font-mono text-[10px] tracking-[0.18em] text-fg-mute uppercase">为什么选这个</div>
+        <div class="bg-bg-2 p-3 lg:p-4 font-mono text-[10px] tracking-[0.18em] text-fg-mute uppercase">代价</div>
+
+        <div class="bg-bg p-3 lg:p-4 font-mono text-amber">1</div>
+        <div class="bg-bg p-3 lg:p-4 text-fg font-light">NUS over BLE</div>
+        <div class="bg-bg p-3 lg:p-4 text-fg-dim font-light">自定义 GATT</div>
+        <div class="bg-bg p-3 lg:p-4 text-fg-dim font-light">生态、调试、姿态</div>
+        <div class="bg-bg p-3 lg:p-4 text-fg-dim font-light">无</div>
+
+        <div class="bg-bg p-3 lg:p-4 font-mono text-amber">2</div>
+        <div class="bg-bg p-3 lg:p-4 text-fg font-light">JSON</div>
+        <div class="bg-bg p-3 lg:p-4 text-fg-dim font-light">CBOR / MsgPack</div>
+        <div class="bg-bg p-3 lg:p-4 text-fg-dim font-light">调试、可读、任意语言</div>
+        <div class="bg-bg p-3 lg:p-4 text-fg-dim font-light">带宽 + base64</div>
+
+        <div class="bg-bg p-3 lg:p-4 font-mono text-amber">3</div>
+        <div class="bg-bg p-3 lg:p-4 text-fg font-light">行分隔</div>
+        <div class="bg-bg p-3 lg:p-4 text-fg-dim font-light">长度前缀 / LTV</div>
+        <div class="bg-bg p-3 lg:p-4 text-fg-dim font-light">文本可读、零解析器</div>
+        <div class="bg-bg p-3 lg:p-4 text-fg-dim font-light">payload 不能含 \n</div>
+
+        <div class="bg-bg p-3 lg:p-4 font-mono text-amber">4</div>
+        <div class="bg-bg p-3 lg:p-4 text-fg font-light">单次决策</div>
+        <div class="bg-bg p-3 lg:p-4 text-fg-dim font-light">once/always/whitelist</div>
+        <div class="bg-bg p-3 lg:p-4 text-fg-dim font-light">保护审批的物理摩擦</div>
+        <div class="bg-bg p-3 lg:p-4 text-fg-dim font-light">设备无法 cache 规则</div>
+
+        <div class="bg-bg p-3 lg:p-4 font-mono text-amber">5</div>
+        <div class="bg-bg p-3 lg:p-4 text-fg font-light">无版本字段</div>
+        <div class="bg-bg p-3 lg:p-4 text-fg-dim font-light">v: "1.0"</div>
+        <div class="bg-bg p-3 lg:p-4 text-fg-dim font-light">现在简单</div>
+        <div class="bg-bg p-3 lg:p-4 text-fg-dim font-light">未来 schema 演化痛苦</div>
+
+        <div class="bg-bg p-3 lg:p-4 font-mono text-amber">6</div>
+        <div class="bg-bg p-3 lg:p-4 text-fg font-light">4 KB Turn 上限</div>
+        <div class="bg-bg p-3 lg:p-4 text-fg-dim font-light">大帧分片传输</div>
+        <div class="bg-bg p-3 lg:p-4 text-fg-dim font-light">防滥用、保 BLE 带宽</div>
+        <div class="bg-bg p-3 lg:p-4 text-fg-dim font-light">长回复无法完整传</div>
+      </div>
+    </div>
+    <div class="lg:ml-[168px] max-w-prose mt-10 p-5 bg-amber-soft border-l-2 border-amber">
+      <span class="font-mono text-[10px] tracking-[0.18em] text-amber uppercase block mb-2">SYNTHESIS / 综合判断</span>
+      <p class="text-[14px] lg:text-base text-fg leading-relaxed font-light">
+        每个决策单看都合理。串起来读会发现一个模式：<em class="text-amber">Buddy 在"现在简单"和"未来灵活"之间，反复倒向"现在简单"</em>。这是早期产品的合理选择——但它意味着 v2 必然要做破坏性升级。设计者对此显然心知肚明（仓库 2 commits、文档明确说"还没有版本协商"）。
+      </p>
+    </div>
+  </section>
+
+  <!-- § 06 -->
+  <section class="max-w-wrap mx-auto px-[5vw] lg:px-12 relative z-[2] py-14 lg:py-24 border-b border-line">
+    <header class="grid grid-cols-1 lg:grid-cols-[120px_1fr] gap-4 lg:gap-12 items-baseline mb-10 lg:mb-[72px]">
+      <div class="cursor font-mono text-[10px] lg:text-[11px] tracking-[0.2em] text-amber pt-3 border-t border-amber uppercase">§ 09 / DESIGN</div>
+      <h2 class="font-serif font-light text-[clamp(24px,7vw,68px)] leading-[1.05] tracking-tight">
+        四个值得<em class="text-amber">注意的设计</em>
+      </h2>
+    </header>
+    <div class="lg:ml-[168px] max-w-content grid grid-cols-1 lg:grid-cols-2 gap-px bg-line">
+      <div class="bg-bg p-6 lg:p-8">
+        <div class="font-mono text-[11px] text-amber tracking-[0.16em] mb-3">9.1</div>
+        <h4 class="font-serif text-xl lg:text-2xl font-normal mb-3">协议层不感知 MTU</h4>
+        <p class="text-[14px] text-fg-dim font-light leading-relaxed">通过 \n 分隔 + 字节流写入，把 BLE MTU、分包、重组推给两端缓冲。让协议<em class="text-amber">在传输层升级时零修改</em>。</p>
+      </div>
+      <div class="bg-bg p-6 lg:p-8">
+        <div class="font-mono text-[11px] text-amber tracking-[0.16em] mb-3">9.2</div>
+        <h4 class="font-serif text-xl lg:text-2xl font-normal mb-3">Path 校验责任放接收端</h4>
+        <p class="text-[14px] text-fg-dim font-light leading-relaxed">不是简单的"双端都校验"——是明确把校验<em class="text-amber">责任写进协议规范</em>。任何接 Buddy 的设备必须实现，否则"协议合规"不成立。</p>
+      </div>
+      <div class="bg-bg p-6 lg:p-8">
+        <div class="font-mono text-[11px] text-amber tracking-[0.16em] mb-3">9.3</div>
+        <h4 class="font-serif text-xl lg:text-2xl font-normal mb-3">Chunk-by-Chunk ACK 天然流控</h4>
+        <p class="text-[14px] text-fg-dim font-light leading-relaxed">应用层 ack/n 既是确认、又是 progress 数据源、又是流控信号。<em class="text-amber">一个字段三种用途</em>。比拆成 ack + progress + flow_control 干净得多。</p>
+      </div>
+      <div class="bg-bg p-6 lg:p-8">
+        <div class="font-mono text-[11px] text-amber tracking-[0.16em] mb-3">9.4</div>
+        <h4 class="font-serif text-xl lg:text-2xl font-normal mb-3">主机预聚合 + 设备哑显示</h4>
+        <p class="text-[14px] text-fg-dim font-light leading-relaxed">entries 是字符串、tokens 是累加值——设备拿到的就是"最终展示形态"，零计算开销。<em class="text-amber">设备固件可以很小</em>，evolution 路径主要在主机侧。</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- § 07 -->
+  <section class="max-w-wrap mx-auto px-[5vw] lg:px-12 relative z-[2] py-14 lg:py-24 border-b border-line">
+    <header class="grid grid-cols-1 lg:grid-cols-[120px_1fr] gap-4 lg:gap-12 items-baseline mb-10 lg:mb-[72px]">
+      <div class="cursor font-mono text-[10px] lg:text-[11px] tracking-[0.2em] text-amber pt-3 border-t border-amber uppercase">§ 10 / GAPS</div>
+      <h2 class="font-serif font-light text-[clamp(24px,7vw,68px)] leading-[1.05] tracking-tight">
+        五个<em class="text-amber">明显缺口</em>
+      </h2>
+    </header>
+    <p class="lg:ml-[168px] max-w-prose text-[15px] lg:text-base text-fg-dim leading-relaxed font-light mb-10">公平起见，把缺口也列清楚。</p>
+    <ol class="lg:ml-[168px] max-w-content space-y-px bg-line">
+      <li class="bg-bg grid grid-cols-[44px_1fr] lg:grid-cols-[60px_1fr] gap-4 lg:gap-8 p-5 lg:p-7 hover:bg-bg-2 transition-colors">
+        <span class="font-mono text-amber text-[13px] tracking-[0.16em]">10.1</span>
+        <div>
+          <h4 class="font-serif text-lg lg:text-xl font-normal mb-2">没有版本协商</h4>
+          <p class="text-[14px] text-fg-dim font-light leading-relaxed">协议没有 <span class="font-mono text-amber">version</span> 字段。schema 加新字段还能容忍（JSON 容忍未知 key），但语义变化（如 <span class="font-mono text-amber">decision: "once"</span> 改名）会直接挂掉，无告警。</p>
+          <p class="mt-3 text-[13px] text-fg-mute font-light italic">修复路径：在 status ack 加 <span class="font-mono">proto: "1.0.0"</span>，桌面据此降级。</p>
+        </div>
+      </li>
+      <li class="bg-bg grid grid-cols-[44px_1fr] lg:grid-cols-[60px_1fr] gap-4 lg:gap-8 p-5 lg:p-7 hover:bg-bg-2 transition-colors">
+        <span class="font-mono text-amber text-[13px] tracking-[0.16em]">10.2</span>
+        <div>
+          <h4 class="font-serif text-lg lg:text-xl font-normal mb-2">单决策权限模型缺规则引擎接口</h4>
+          <p class="text-[14px] text-fg-dim font-light leading-relaxed">协议禁止 always 是合理设计（§ 6.2），但意味着无法在协议层做规则引擎——比如"读操作自动批 / 写操作要人工"。要做这个必须在桌面外加中间代理。</p>
+          <p class="mt-3 text-[13px] text-fg-mute font-light italic">这是有意的——Buddy 强调"人在回路"。但规则引擎用例应该有<em>另一份</em>协议覆盖，Buddy 不该做。</p>
+        </div>
+      </li>
+      <li class="bg-bg grid grid-cols-[44px_1fr] lg:grid-cols-[60px_1fr] gap-4 lg:gap-8 p-5 lg:p-7 hover:bg-bg-2 transition-colors">
+        <span class="font-mono text-amber text-[13px] tracking-[0.16em]">10.3</span>
+        <div>
+          <h4 class="font-serif text-lg lg:text-xl font-normal mb-2">无工具调用进度事件</h4>
+          <p class="text-[14px] text-fg-dim font-light leading-relaxed">设备只看到"有 N 个 running"，看不到具体执行到哪一步。Bash 命令跑 3 分钟，设备无法显示"已执行 1m20s"。</p>
+          <p class="mt-3 text-[13px] text-fg-mute font-light italic">修复路径：加 <span class="font-mono">evt: "tool_progress"</span> 事件流，每 5s 推一次。</p>
+        </div>
+      </li>
+      <li class="bg-bg grid grid-cols-[44px_1fr] lg:grid-cols-[60px_1fr] gap-4 lg:gap-8 p-5 lg:p-7 hover:bg-bg-2 transition-colors">
+        <span class="font-mono text-amber text-[13px] tracking-[0.16em]">10.4</span>
+        <div>
+          <h4 class="font-serif text-lg lg:text-xl font-normal mb-2">不能区分多会话</h4>
+          <p class="text-[14px] text-fg-dim font-light leading-relaxed">设备看到聚合后的 <span class="font-mono text-amber">total / running / waiting</span>。如果同时开 5 个 Claude Code 会话、3 个要审批，无法精确点到具体会话。单设备单用户 OK，团队场景废。</p>
+          <p class="mt-3 text-[13px] text-fg-mute font-light italic">修复路径：心跳里加 <span class="font-mono">sessions: [...]</span> 数组。</p>
+        </div>
+      </li>
+      <li class="bg-bg grid grid-cols-[44px_1fr] lg:grid-cols-[60px_1fr] gap-4 lg:gap-8 p-5 lg:p-7 hover:bg-bg-2 transition-colors">
+        <span class="font-mono text-amber text-[13px] tracking-[0.16em]">10.5</span>
+        <div>
+          <h4 class="font-serif text-lg lg:text-xl font-normal mb-2">单向（设备不能 push 内容回去）</h4>
+          <p class="text-[14px] text-fg-dim font-light leading-relaxed">设备只能：① 回审批决策、② 上报状态。<em class="text-amber">不能 push prompt、不能评论 Claude 回复、不能触发模式切换</em>。基于 Buddy 协议你做不出"按 B 让 Claude 总结当前会话"。</p>
+          <p class="mt-3 text-[13px] text-fg-mute font-light italic">这是当前定位决定——是"指示器+开关"，不是"输入设备"。Anthropic 现在不放是合理的克制，§ 15 会展开。</p>
+        </div>
+      </li>
+    </ol>
+  </section>
+
+  <!-- § 08 -->
+  <section class="max-w-wrap mx-auto px-[5vw] lg:px-12 relative z-[2] py-14 lg:py-24 border-b border-line">
+    <header class="grid grid-cols-1 lg:grid-cols-[120px_1fr] gap-4 lg:gap-12 items-baseline mb-10 lg:mb-[72px]">
+      <div class="cursor font-mono text-[10px] lg:text-[11px] tracking-[0.2em] text-amber pt-3 border-t border-amber uppercase">§ 11 / SECURITY</div>
+      <h2 class="font-serif font-light text-[clamp(24px,7vw,68px)] leading-[1.05] tracking-tight">
+        威胁模型 +<br/><em class="text-amber">LE Secure Connections</em> 的取舍
+      </h2>
+    </header>
+
+    <article class="lg:ml-[168px] max-w-content py-6 border-t border-line">
+      <h3 class="font-mono text-[11px] tracking-[0.22em] text-amber uppercase mb-4">攻击面</h3>
+      <p class="text-[15px] lg:text-base text-fg-dim leading-relaxed font-light max-w-prose mb-3">Buddy 协议传输：</p>
+      <ul class="space-y-1.5 text-[14px] text-fg-dim font-light max-w-prose">
+        <li>· 工具调用预览（<span class="font-mono text-amber">prompt.hint</span>）—— 含路径、命令、URL</li>
+        <li>· 对话片段（Turn 事件 4 KB）</li>
+        <li>· token 累计、会话计数</li>
+      </ul>
+      <p class="mt-5 text-[15px] text-fg leading-relaxed font-light max-w-prose">
+        <em class="text-amber">未加密的 BLE 链路在 ~10m 范围内可被廉价 nRF 嗅探器（&lt; $30）实时记录</em>。文档明确建议实现 LE Secure Connections bonding，但<em class="text-amber">没有强制</em>。
+      </p>
+    </article>
+
+    <article class="lg:ml-[168px] max-w-content py-6 border-t border-line">
+      <h3 class="font-mono text-[11px] tracking-[0.22em] text-amber uppercase mb-4">为什么不强制加密？</h3>
+      <ol class="space-y-3 text-[14px] text-fg-dim font-light max-w-prose">
+        <li>1. <em class="text-amber">Maker 友好</em>：很多 maker 用的开发板默认不开 BLE 加密。强制会大幅提高接入门槛</li>
+        <li>2. <em class="text-amber">配对 UX 痛</em>：BLE bonding 需要用户输入 6 位 passkey 或 yes/no——没屏幕的设备很麻烦</li>
+        <li>3. <em class="text-amber">威胁模型现实主义</em>：能物理接近你工位的人，多半已经能看到屏幕——加密 BLE 不能阻止 over-the-shoulder</li>
+      </ol>
+      <p class="mt-5 text-[15px] text-fg leading-relaxed font-light max-w-prose">
+        我的判断：<em class="text-amber">对个人 dev 桌面 OK，对企业环境完全不 OK</em>。Anthropic 想推 Buddy 进 SOC2/HIPAA 合规环境，bonding 必须强制。这就需要协议层加 <span class="font-mono text-amber">sec: required</span> 字段。
+      </p>
+    </article>
+
+    <article class="lg:ml-[168px] max-w-content py-6 border-t border-b border-line">
+      <h3 class="font-mono text-[11px] tracking-[0.22em] text-amber uppercase mb-4">防御层级</h3>
+      <p class="text-[15px] text-fg-dim leading-relaxed font-light max-w-prose mb-5">实现 production-grade 的 Buddy 设备应该：</p>
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-px bg-line max-w-content">
+        <div class="bg-bg p-5">
+          <div class="font-mono text-[10px] tracking-[0.18em] text-amber uppercase mb-3">必须</div>
+          <ul class="text-[13px] text-fg-dim font-light space-y-1.5">
+            <li>1. 实现 path traversal 校验</li>
+            <li>2. prompt.id 严格匹配（拒 echo 旧 id）</li>
+          </ul>
+        </div>
+        <div class="bg-bg p-5">
+          <div class="font-mono text-[10px] tracking-[0.18em] text-amber uppercase mb-3">建议</div>
+          <ul class="text-[13px] text-fg-dim font-light space-y-1.5">
+            <li>3. LE Secure Connections + DisplayOnly + 6-digit passkey</li>
+            <li>4. NUS Char + TX CCCD 标 <span class="font-mono">encrypt-only</span></li>
+            <li>5. 广播只在用户按按钮后开启 60 秒</li>
+          </ul>
+        </div>
+        <div class="bg-bg p-5 lg:col-span-2">
+          <div class="font-mono text-[10px] tracking-[0.18em] text-amber uppercase mb-3">可选 — 但有意思</div>
+          <p class="text-[13px] text-fg-dim font-light leading-relaxed">
+            6. 在 device 上加 deny 黑名单——某些 tool name（比如 Bash 含 <span class="font-mono">rm -rf /</span>）即使用户按 A 也拒绝执行。<em class="text-amber">让设备拥有否决权</em>而不只是批准权。这超出了协议明文规定，但合规——协议允许设备 deny，没规定 deny 依据必须是用户按键。
+          </p>
+        </div>
+      </div>
+    </article>
+  </section>
+
+  <!-- =============================== PART III =============================== -->
+  <div class="part-divider">
+    <span class="label">PART III</span>
+    <div class="title">协议栈<em>定位</em></div>
+  </div>
+
+  <!-- § 09 -->
+  <section class="max-w-wrap mx-auto px-[5vw] lg:px-12 relative z-[2] py-14 lg:py-24 border-b border-line">
+    <header class="grid grid-cols-1 lg:grid-cols-[120px_1fr] gap-4 lg:gap-12 items-baseline mb-10 lg:mb-[72px]">
+      <div class="cursor font-mono text-[10px] lg:text-[11px] tracking-[0.2em] text-amber pt-3 border-t border-amber uppercase">§ 12 / ECOSYSTEM</div>
+      <h2 class="font-serif font-light text-[clamp(24px,7vw,68px)] leading-[1.05] tracking-tight">
+        Anthropic 的<em class="text-amber">六份协议</em>
+      </h2>
+    </header>
+    <p class="lg:ml-[168px] max-w-prose text-[15px] lg:text-base text-fg-dim leading-relaxed font-light mb-10">
+      到 2026 年，Anthropic 已经有六份对外、面向开发者的协议规范。它们一起构成围绕 Claude agent 的开放接口表面。
+    </p>
+
+    <div class="lg:ml-[168px] max-w-content overflow-x-auto">
+      <div class="grid grid-cols-[110px_1.4fr_1.2fr_1fr_1fr_60px] gap-px bg-line text-[12px] lg:text-[13px] min-w-[800px]">
+        <div class="bg-bg-2 p-3 lg:p-4 font-mono text-[10px] tracking-[0.18em] text-fg-mute uppercase">协议</div>
+        <div class="bg-bg-2 p-3 lg:p-4 font-mono text-[10px] tracking-[0.18em] text-fg-mute uppercase">范围</div>
+        <div class="bg-bg-2 p-3 lg:p-4 font-mono text-[10px] tracking-[0.18em] text-fg-mute uppercase">传输</div>
+        <div class="bg-bg-2 p-3 lg:p-4 font-mono text-[10px] tracking-[0.18em] text-fg-mute uppercase">序列化</div>
+        <div class="bg-bg-2 p-3 lg:p-4 font-mono text-[10px] tracking-[0.18em] text-fg-mute uppercase">主导方</div>
+        <div class="bg-bg-2 p-3 lg:p-4 font-mono text-[10px] tracking-[0.18em] text-fg-mute uppercase">推出</div>
+
+        <div class="bg-bg p-3 lg:p-4 font-mono text-amber">MCP</div>
+        <div class="bg-bg p-3 lg:p-4 text-fg font-light">agent ↔ 外部数据/工具</div>
+        <div class="bg-bg p-3 lg:p-4 text-fg-dim font-light">stdio · SSE · HTTP</div>
+        <div class="bg-bg p-3 lg:p-4 text-fg-dim font-light">JSON-RPC 2.0</div>
+        <div class="bg-bg p-3 lg:p-4 text-fg-dim font-light">第三方工具方</div>
+        <div class="bg-bg p-3 lg:p-4 text-fg-dim font-light font-mono">'24-11</div>
+
+        <div class="bg-bg p-3 lg:p-4 font-mono text-amber">Skills</div>
+        <div class="bg-bg p-3 lg:p-4 text-fg font-light">agent ↔ 用户脚本</div>
+        <div class="bg-bg p-3 lg:p-4 text-fg-dim font-light">文件系统约定</div>
+        <div class="bg-bg p-3 lg:p-4 text-fg-dim font-light">MD + YAML frontmatter</div>
+        <div class="bg-bg p-3 lg:p-4 text-fg-dim font-light">用户/插件作者</div>
+        <div class="bg-bg p-3 lg:p-4 text-fg-dim font-light font-mono">'25</div>
+
+        <div class="bg-bg p-3 lg:p-4 font-mono text-amber">Hooks</div>
+        <div class="bg-bg p-3 lg:p-4 text-fg font-light">agent ↔ 用户钩子</div>
+        <div class="bg-bg p-3 lg:p-4 text-fg-dim font-light">stdin / HTTP / MCP</div>
+        <div class="bg-bg p-3 lg:p-4 text-fg-dim font-light">JSON</div>
+        <div class="bg-bg p-3 lg:p-4 text-fg-dim font-light">用户</div>
+        <div class="bg-bg p-3 lg:p-4 text-fg-dim font-light font-mono">'25</div>
+
+        <div class="bg-bg p-3 lg:p-4 font-mono text-amber">Permissions</div>
+        <div class="bg-bg p-3 lg:p-4 text-fg font-light">agent ↔ 安全策略</div>
+        <div class="bg-bg p-3 lg:p-4 text-fg-dim font-light">配置文件</div>
+        <div class="bg-bg p-3 lg:p-4 text-fg-dim font-light">JSON DSL</div>
+        <div class="bg-bg p-3 lg:p-4 text-fg-dim font-light">用户/管理员</div>
+        <div class="bg-bg p-3 lg:p-4 text-fg-dim font-light font-mono">'24-25</div>
+
+        <div class="bg-bg p-3 lg:p-4 font-mono text-amber">Remote Ctrl</div>
+        <div class="bg-bg p-3 lg:p-4 text-fg font-light">agent ↔ 远程人类</div>
+        <div class="bg-bg p-3 lg:p-4 text-fg-dim font-light">HTTPS over 云</div>
+        <div class="bg-bg p-3 lg:p-4 text-fg-dim font-light">（未公开）</div>
+        <div class="bg-bg p-3 lg:p-4 text-fg-dim font-light">Anthropic</div>
+        <div class="bg-bg p-3 lg:p-4 text-fg-dim font-light font-mono">'26-02</div>
+
+        <div class="bg-amber-soft p-3 lg:p-4 font-mono text-amber border-l-2 border-amber"><em class="font-bold">Buddy BLE</em></div>
+        <div class="bg-amber-soft p-3 lg:p-4 text-fg font-light"><em class="text-amber">agent ↔ 物理近场</em></div>
+        <div class="bg-amber-soft p-3 lg:p-4 text-fg-dim font-light">NUS / BLE</div>
+        <div class="bg-amber-soft p-3 lg:p-4 text-fg-dim font-light">JSON · line</div>
+        <div class="bg-amber-soft p-3 lg:p-4 text-fg-dim font-light">任意 maker</div>
+        <div class="bg-amber-soft p-3 lg:p-4 text-fg-dim font-light font-mono">'26</div>
+      </div>
+    </div>
+
+    <p class="lg:ml-[168px] max-w-prose mt-10 text-[15px] text-fg leading-relaxed font-light">
+      每份协议覆盖 agent 工作流的不同切面：
+    </p>
+<pre class="lg:ml-[168px] max-w-content mt-6 code-block">                <span class="tk-arrow">┌─</span> 工具发现/调用       <span class="tk-key">MCP</span>
+                <span class="tk-arrow">├─</span> 用户编排/playbook   <span class="tk-key">Skills</span>
+agent 工作流  <span class="tk-arrow">←──┼─</span> 事件/钩子           <span class="tk-key">Hooks</span>
+                <span class="tk-arrow">├─</span> 边界/策略           <span class="tk-key">Permissions</span>
+                <span class="tk-arrow">├─</span> 远程控制           <span class="tk-key">Remote Control</span>
+                <span class="tk-arrow">└─</span> 物理近场指示       <span class="tk-key">Buddy BLE</span>  <span class="tk-com">← Buddy 占的格</span></pre>
+  </section>
+
+  <!-- § 10 -->
+  <section class="max-w-wrap mx-auto px-[5vw] lg:px-12 relative z-[2] py-14 lg:py-24 border-b border-line">
+    <header class="grid grid-cols-1 lg:grid-cols-[120px_1fr] gap-4 lg:gap-12 items-baseline mb-10 lg:mb-[72px]">
+      <div class="cursor font-mono text-[10px] lg:text-[11px] tracking-[0.2em] text-amber pt-3 border-t border-amber uppercase">§ 13 / NICHE</div>
+      <h2 class="font-serif font-light text-[clamp(24px,7vw,68px)] leading-[1.05] tracking-tight">
+        Buddy 唯一覆盖的层<br/>—— <em class="text-amber">物理近场</em>
+      </h2>
+    </header>
+    <div class="lg:ml-[168px] max-w-prose text-[15px] lg:text-lg leading-relaxed lg:leading-[1.75] font-light text-fg space-y-5">
+      <p>前五份协议都是软件接口或网络协议——你用代码、配置、HTTPS 跟 agent 交互。Buddy 是<em class="text-amber">第一份明确把"物理近场设备"作为协议合作方</em>的规范。</p>
+      <p>为什么这层值得独立协议？软件接口（MCP、Hooks）可以在 agent 运行时注入工具或钩子，但解决不了"agent 在后台跑你怎么知道"的问题——你得切窗口去看。物理近场设备正好补这个缺口：<em class="text-amber">不夺焦点地让 agent 状态可被感知</em>。</p>
+    </div>
+    <div class="lg:ml-[168px] max-w-content mt-10 grid grid-cols-1 lg:grid-cols-3 gap-px bg-line">
+      <div class="bg-bg p-6">
+        <div class="font-mono text-[10px] tracking-[0.18em] text-amber uppercase mb-3">永远在视线内</div>
+        <p class="text-[14px] text-fg-dim font-light leading-relaxed">不需要打开窗口</p>
+      </div>
+      <div class="bg-bg p-6">
+        <div class="font-mono text-[10px] tracking-[0.18em] text-amber uppercase mb-3">动态吸引余光</div>
+        <p class="text-[14px] text-fg-dim font-light leading-relaxed">人眼对动态比静态敏感得多</p>
+      </div>
+      <div class="bg-bg p-6">
+        <div class="font-mono text-[10px] tracking-[0.18em] text-amber uppercase mb-3">物理交互摩擦</div>
+        <p class="text-[14px] text-fg-dim font-light leading-relaxed">按一下硬件按钮 ≠ 点击 OK</p>
+      </div>
+    </div>
+    <div class="lg:ml-[168px] max-w-prose mt-10 text-[15px] lg:text-base text-fg leading-relaxed font-light">
+      <p>Buddy 是为这三件事设计的。它不能<em>替代</em>屏幕，但<em class="text-amber">补充</em>屏幕——专门服务"agent 状态需要被余光感知"这个特定场景。</p>
+      <p class="mt-5">这是一个<em class="text-amber">新的 surface area</em>。Anthropic 用一份小协议占住它，让 maker 社区先填内容。等三年后这个 surface 被验证有产品价值，他们再决定要不要发自己的官方硬件。</p>
+    </div>
+  </section>
+
+  <!-- § 11 -->
+  <section class="max-w-wrap mx-auto px-[5vw] lg:px-12 relative z-[2] py-14 lg:py-24 border-b border-line">
+    <header class="grid grid-cols-1 lg:grid-cols-[120px_1fr] gap-4 lg:gap-12 items-baseline mb-10 lg:mb-[72px]">
+      <div class="cursor font-mono text-[10px] lg:text-[11px] tracking-[0.2em] text-amber pt-3 border-t border-amber uppercase">§ 14 / DIFF</div>
+      <h2 class="font-serif font-light text-[clamp(24px,7vw,68px)] leading-[1.05] tracking-tight">
+        横向<em class="text-amber">对比深度</em>
+      </h2>
+    </header>
+
+    <!-- vs MCP -->
+    <article class="lg:ml-[168px] max-w-content py-6 border-t border-line">
+      <h3 class="font-mono text-[11px] tracking-[0.22em] text-amber uppercase mb-4">vs MCP — 都是 JSON 但目标受众相反</h3>
+      <div class="grid grid-cols-[1fr_1fr_1fr] gap-px bg-line text-[13px]">
+        <div class="bg-bg-2 p-3 lg:p-4 font-mono text-[10px] tracking-[0.18em] text-fg-mute uppercase">维度</div>
+        <div class="bg-bg-2 p-3 lg:p-4 font-mono text-[10px] tracking-[0.18em] text-fg-mute uppercase">MCP</div>
+        <div class="bg-bg-2 p-3 lg:p-4 font-mono text-[10px] tracking-[0.18em] text-fg-mute uppercase">Buddy</div>
+
+        <div class="bg-bg p-3 lg:p-4 text-fg-dim font-light">调用模式</div>
+        <div class="bg-bg p-3 lg:p-4 text-fg font-light">RPC（请求-响应）</div>
+        <div class="bg-bg p-3 lg:p-4 text-amber font-light">event stream + 单点回应</div>
+
+        <div class="bg-bg p-3 lg:p-4 text-fg-dim font-light">谁主动</div>
+        <div class="bg-bg p-3 lg:p-4 text-fg font-light">agent 主动调工具</div>
+        <div class="bg-bg p-3 lg:p-4 text-amber font-light">桌面主动推状态</div>
+
+        <div class="bg-bg p-3 lg:p-4 text-fg-dim font-light">实现方</div>
+        <div class="bg-bg p-3 lg:p-4 text-fg font-light">工具开发者</div>
+        <div class="bg-bg p-3 lg:p-4 text-amber font-light">硬件 maker</div>
+
+        <div class="bg-bg p-3 lg:p-4 text-fg-dim font-light">接入门槛</div>
+        <div class="bg-bg p-3 lg:p-4 text-fg font-light">写一个 npm/pip 包</div>
+        <div class="bg-bg p-3 lg:p-4 text-amber font-light">烧一段固件</div>
+
+        <div class="bg-bg p-3 lg:p-4 text-fg-dim font-light">编程范式</div>
+        <div class="bg-bg p-3 lg:p-4 text-fg font-light">服务端</div>
+        <div class="bg-bg p-3 lg:p-4 text-amber font-light">嵌入式</div>
+      </div>
+      <p class="mt-5 text-[14px] text-fg leading-relaxed font-light max-w-prose">
+        虽然都用 JSON、都被 Anthropic 设计、传输层都可能是 stdio/socket——<em class="text-amber">面向的人和场景天差地别</em>。把它们合并是错误——协议设计要适配读者，不是追求统一。
+      </p>
+    </article>
+
+    <!-- vs Remote Control -->
+    <article class="lg:ml-[168px] max-w-content py-8 border-t border-line">
+      <h3 class="font-mono text-[11px] tracking-[0.22em] text-amber uppercase mb-4">vs Remote Control — 同样的问题，相反的解</h3>
+      <p class="text-[14px] text-fg-dim leading-relaxed font-light max-w-prose mb-5">
+        Remote Control（2026-02 推出）和 Buddy 都解决"如何不在主机前操作 agent"。但解法相反：
+      </p>
+      <div class="grid grid-cols-[1fr_1fr_1fr] gap-px bg-line text-[13px]">
+        <div class="bg-bg-2 p-3 lg:p-4 font-mono text-[10px] tracking-[0.18em] text-fg-mute uppercase">维度</div>
+        <div class="bg-bg-2 p-3 lg:p-4 font-mono text-[10px] tracking-[0.18em] text-fg-mute uppercase">Remote Control</div>
+        <div class="bg-bg-2 p-3 lg:p-4 font-mono text-[10px] tracking-[0.18em] text-fg-mute uppercase">Buddy</div>
+
+        <div class="bg-bg p-3 lg:p-4 text-fg-dim font-light">网络拓扑</div>
+        <div class="bg-bg p-3 lg:p-4 text-fg font-light">客户端 → 云 ← 主机</div>
+        <div class="bg-bg p-3 lg:p-4 text-amber font-light">设备 ↔ 主机（直连）</div>
+
+        <div class="bg-bg p-3 lg:p-4 text-fg-dim font-light">传输</div>
+        <div class="bg-bg p-3 lg:p-4 text-fg font-light">HTTPS over TLS</div>
+        <div class="bg-bg p-3 lg:p-4 text-amber font-light">BLE NUS</div>
+
+        <div class="bg-bg p-3 lg:p-4 text-fg-dim font-light">范围</div>
+        <div class="bg-bg p-3 lg:p-4 text-fg font-light">全球</div>
+        <div class="bg-bg p-3 lg:p-4 text-amber font-light">~10m</div>
+
+        <div class="bg-bg p-3 lg:p-4 text-fg-dim font-light">认证</div>
+        <div class="bg-bg p-3 lg:p-4 text-fg font-light">claude.ai 账号</div>
+        <div class="bg-bg p-3 lg:p-4 text-amber font-light">BLE 配对</div>
+
+        <div class="bg-bg p-3 lg:p-4 text-fg-dim font-light">数据流</div>
+        <div class="bg-bg p-3 lg:p-4 text-fg font-light">经过云</div>
+        <div class="bg-bg p-3 lg:p-4 text-amber font-light">完全本地</div>
+
+        <div class="bg-bg p-3 lg:p-4 text-fg-dim font-light">适用场景</div>
+        <div class="bg-bg p-3 lg:p-4 text-fg font-light">出差、跨机器</div>
+        <div class="bg-bg p-3 lg:p-4 text-amber font-light">桌面、ambient、低延迟</div>
+      </div>
+      <div class="mt-5 p-5 bg-amber-soft border-l-2 border-amber max-w-prose">
+        <p class="text-[14px] text-fg leading-relaxed font-light">
+          这两个协议<em class="text-amber">互补</em>，不是竞争。Remote Control 解决"我不在电脑前但需要继续 agent 工作"，Buddy 解决"我在电脑前但不想被弹窗打断"。
+        </p>
+        <p class="mt-3 text-[14px] text-fg leading-relaxed font-light">
+          Anthropic 同时有这两条协议——一条云中转、一条本地直连。不同问题用<em class="text-amber">不同物理拓扑</em>解，互补，不竞争。
+        </p>
+      </div>
+    </article>
+
+    <!-- vs Computer Use -->
+    <article class="lg:ml-[168px] max-w-content py-8 border-t border-line">
+      <h3 class="font-mono text-[11px] tracking-[0.22em] text-amber uppercase mb-4">vs Computer Use — 方向相反的可见性</h3>
+      <p class="text-[14px] text-fg-dim leading-relaxed font-light max-w-prose mb-5">
+        Computer Use 让 agent <em class="text-amber">看到屏幕、操作鼠标</em>——agent 看见桌面。Buddy 让桌面<em class="text-amber">看到 agent 的内部状态</em>——桌面看见 agent。
+      </p>
+<pre class="code-block">Computer Use:    agent <span class="tk-arrow">──观察 / 操作──→</span> desktop   <span class="tk-com">// agent 是主动方</span>
+Buddy:           desktop <span class="tk-arrow">──状态 / 决策──→</span> agent     <span class="tk-com">// 人/物理设备是主动方</span></pre>
+      <p class="mt-5 text-[14px] text-fg leading-relaxed font-light max-w-prose">
+        两者都是 agent 与物理世界的接口，但方向相反。组合起来——<em class="text-amber">agent 看屏幕调试代码、人在 ambient 设备上批准 git push</em>——是 2026 年 agent 工作流的完整形态。
+      </p>
+    </article>
+
+    <!-- vs Hooks -->
+    <article class="lg:ml-[168px] max-w-content py-8 border-t border-b border-line">
+      <h3 class="font-mono text-[11px] tracking-[0.22em] text-amber uppercase mb-4">vs Hooks — 协议形态对比</h3>
+      <p class="text-[14px] text-fg-dim leading-relaxed font-light max-w-prose mb-5">
+        Hooks 是 in-process 的事件钩子——<span class="font-mono text-amber">PreToolUse</span> / <span class="font-mono text-amber">PostToolUse</span> / <span class="font-mono text-amber">PermissionRequest</span> 在 agent 执行流里同步触发。Buddy 在概念上类似 <span class="font-mono text-amber">PermissionRequest</span> 钩子的"硬件实现版"。
+      </p>
+      <div class="grid grid-cols-[1fr_1fr_1fr] gap-px bg-line text-[13px]">
+        <div class="bg-bg-2 p-3 lg:p-4 font-mono text-[10px] tracking-[0.18em] text-fg-mute uppercase">维度</div>
+        <div class="bg-bg-2 p-3 lg:p-4 font-mono text-[10px] tracking-[0.18em] text-fg-mute uppercase">Hooks</div>
+        <div class="bg-bg-2 p-3 lg:p-4 font-mono text-[10px] tracking-[0.18em] text-fg-mute uppercase">Buddy</div>
+
+        <div class="bg-bg p-3 lg:p-4 text-fg-dim font-light">部署</div>
+        <div class="bg-bg p-3 lg:p-4 text-fg font-light">用户配置文件</div>
+        <div class="bg-bg p-3 lg:p-4 text-amber font-light">物理设备</div>
+
+        <div class="bg-bg p-3 lg:p-4 text-fg-dim font-light">延迟</div>
+        <div class="bg-bg p-3 lg:p-4 text-fg font-light">&lt; 100 ms</div>
+        <div class="bg-bg p-3 lg:p-4 text-amber font-light">100 ms – 2 s</div>
+
+        <div class="bg-bg p-3 lg:p-4 text-fg-dim font-light">信任</div>
+        <div class="bg-bg p-3 lg:p-4 text-fg font-light">同主机进程</div>
+        <div class="bg-bg p-3 lg:p-4 text-amber font-light">BLE 链路（需加密）</div>
+
+        <div class="bg-bg p-3 lg:p-4 text-fg-dim font-light">写在哪</div>
+        <div class="bg-bg p-3 lg:p-4 text-fg font-light">shell / Python / HTTP</div>
+        <div class="bg-bg p-3 lg:p-4 text-amber font-light">C++ 固件</div>
+      </div>
+      <p class="mt-5 text-[14px] text-fg leading-relaxed font-light max-w-prose">
+        Anthropic 没把 Buddy 合并进 Hooks 是对的——<em class="text-amber">Hooks 给开发者写代码，Buddy 给 maker 接硬件</em>。两类受众的协议形态需要不同。
+      </p>
+    </article>
+  </section>
+
+  <!-- =============================== PART IV =============================== -->
+  <div class="part-divider">
+    <span class="label">PART IV</span>
+    <div class="title"><em>未来</em></div>
+  </div>
+
+  <!-- § 12 -->
+  <section class="max-w-wrap mx-auto px-[5vw] lg:px-12 relative z-[2] py-14 lg:py-24 border-b border-line">
+    <header class="grid grid-cols-1 lg:grid-cols-[120px_1fr] gap-4 lg:gap-12 items-baseline mb-10 lg:mb-[72px]">
+      <div class="cursor font-mono text-[10px] lg:text-[11px] tracking-[0.2em] text-amber pt-3 border-t border-amber uppercase">§ 15 / EVOLUTION</div>
+      <h2 class="font-serif font-light text-[clamp(24px,7vw,68px)] leading-[1.05] tracking-tight">
+        五个<em class="text-amber">演化方向</em>
+      </h2>
+    </header>
+    <p class="lg:ml-[168px] max-w-prose text-[15px] lg:text-base text-fg-dim leading-relaxed font-light mb-10">
+      未来 5 年，agent ↔ hardware 通信协议会朝哪几个方向演化？
+    </p>
+
+    <ol class="lg:ml-[168px] max-w-content space-y-px bg-line">
+      <li class="bg-bg p-6 lg:p-8">
+        <div class="grid grid-cols-[44px_1fr] lg:grid-cols-[60px_1fr] gap-4 lg:gap-8 mb-3">
+          <span class="font-mono text-amber text-[13px] tracking-[0.16em]">15.1</span>
+          <h4 class="font-serif text-xl lg:text-2xl font-normal">双向意图</h4>
+        </div>
+        <div class="lg:ml-[68px] text-[14px] text-fg-dim font-light leading-relaxed space-y-3">
+          <p>当前 Buddy 是"主机推 + 设备回审批"的单向偏向。下一步是<em class="text-amber">让设备能主动 push 给 agent</em>：</p>
+          <ul class="space-y-1.5 text-fg-dim">
+            <li>· 桌上一个语音按钮，按住说话 → 转 prompt → push 到当前 Claude 会话</li>
+            <li>· 一个温湿度传感器，每小时把环境数据 push 给 agent 当上下文</li>
+            <li>· 一个 NFC 卡贴在文件夹上，刷一下让 agent 读取那个文件夹</li>
+          </ul>
+          <p>需要在协议里加 <span class="font-mono text-amber">cmd: "user_input"</span> 通道。安全模型变得复杂——需加 push 频率限制、内容长度限制、主机端 user-confirm 弹窗。</p>
+        </div>
+      </li>
+
+      <li class="bg-bg p-6 lg:p-8">
+        <div class="grid grid-cols-[44px_1fr] lg:grid-cols-[60px_1fr] gap-4 lg:gap-8 mb-3">
+          <span class="font-mono text-amber text-[13px] tracking-[0.16em]">15.2</span>
+          <h4 class="font-serif text-xl lg:text-2xl font-normal">本地优先 / 无中介</h4>
+        </div>
+        <div class="lg:ml-[68px] text-[14px] text-fg-dim font-light leading-relaxed space-y-3">
+          <p>Buddy 已经本地直连。Remote Control 是云中转。未来会有<em class="text-amber">第三种</em>：本地多台设备组网，不需要任何一台访问云。</p>
+          <p>具体形态：一台 Mac + 一个 iPad + 一个桌面 ambient + 一个手腕震动器，全部 BLE 互联，agent 状态在四个 surface 上同步、任何一个的决策被另外三个看到。</p>
+          <p>技术底座：<em class="text-amber">Matter / Thread / BLE Mesh / UWB</em>。这些标准已成熟，缺的是"agent 状态"的语义层标准化——Buddy 协议就是这个 schema 的雏形。</p>
+        </div>
+      </li>
+
+      <li class="bg-bg p-6 lg:p-8">
+        <div class="grid grid-cols-[44px_1fr] lg:grid-cols-[60px_1fr] gap-4 lg:gap-8 mb-3">
+          <span class="font-mono text-amber text-[13px] tracking-[0.16em]">15.3</span>
+          <h4 class="font-serif text-xl lg:text-2xl font-normal">多设备 fan-out</h4>
+        </div>
+        <div class="lg:ml-[68px] text-[14px] text-fg-dim font-light leading-relaxed space-y-3">
+          <p>一个 agent 状态推给多个 ambient peripheral。1:1 → <em class="text-amber">1:N</em>：</p>
+          <ul class="space-y-1.5">
+            <li>· 一台 Mac → buddy + LED 灯条 + e-ink 仪表盘 + 手腕震动器</li>
+            <li>· 不同 surface 显示不同抽象层级</li>
+          </ul>
+          <p>需要协议加<em class="text-amber">订阅/过滤机制</em>——设备告诉主机"我只关心 attention 事件"，主机就只对它推这类事件。</p>
+        </div>
+      </li>
+
+      <li class="bg-bg p-6 lg:p-8">
+        <div class="grid grid-cols-[44px_1fr] lg:grid-cols-[60px_1fr] gap-4 lg:gap-8 mb-3">
+          <span class="font-mono text-amber text-[13px] tracking-[0.16em]">15.4</span>
+          <h4 class="font-serif text-xl lg:text-2xl font-normal">能力协商</h4>
+        </div>
+        <div class="lg:ml-[68px] text-[14px] text-fg-dim font-light leading-relaxed space-y-3">
+          <p>未来必须加<em class="text-amber">握手阶段</em>：</p>
+<pre class="code-block">device → host: <span class="tk-pun">{</span><span class="tk-key">"hello"</span><span class="tk-pun">:</span><span class="tk-pun">{</span><span class="tk-key">"proto"</span><span class="tk-pun">:</span><span class="tk-str">"1.2"</span><span class="tk-pun">,</span><span class="tk-key">"caps"</span><span class="tk-pun">:</span><span class="tk-pun">[</span><span class="tk-str">"nus"</span><span class="tk-pun">,</span><span class="tk-str">"char_push"</span><span class="tk-pun">,</span><span class="tk-str">"voice_in"</span><span class="tk-pun">]}}</span>
+host → device: <span class="tk-pun">{</span><span class="tk-key">"hello_ack"</span><span class="tk-pun">:</span><span class="tk-pun">{</span><span class="tk-key">"proto"</span><span class="tk-pun">:</span><span class="tk-str">"1.2"</span><span class="tk-pun">,</span><span class="tk-key">"negotiated"</span><span class="tk-pun">:</span><span class="tk-pun">[</span><span class="tk-str">"nus"</span><span class="tk-pun">,</span><span class="tk-str">"char_push"</span><span class="tk-pun">]}}</span></pre>
+          <p>HTTP/SMTP/TLS 都解决过。Buddy 现在简单是因为只有一个参考实现；一旦 maker 社区做出 100 种设备，capability negotiation 就是必需。</p>
+        </div>
+      </li>
+
+      <li class="bg-bg p-6 lg:p-8">
+        <div class="grid grid-cols-[44px_1fr] lg:grid-cols-[60px_1fr] gap-4 lg:gap-8 mb-3">
+          <span class="font-mono text-amber text-[13px] tracking-[0.16em]">15.5</span>
+          <h4 class="font-serif text-xl lg:text-2xl font-normal">分级信任传输</h4>
+        </div>
+        <div class="lg:ml-[68px] text-[14px] text-fg-dim font-light leading-relaxed space-y-3">
+          <p>不同决策权重应该走不同物理通道：</p>
+        </div>
+        <div class="lg:ml-[68px] mt-4 grid grid-cols-[1.5fr_2fr_1.5fr] gap-px bg-line text-[12.5px]">
+          <div class="bg-bg-2 p-3 font-mono text-[10px] tracking-[0.18em] text-fg-mute uppercase">决策类型</div>
+          <div class="bg-bg-2 p-3 font-mono text-[10px] tracking-[0.18em] text-fg-mute uppercase">推荐传输</div>
+          <div class="bg-bg-2 p-3 font-mono text-[10px] tracking-[0.18em] text-fg-mute uppercase">信任根</div>
+
+          <div class="bg-bg-3 p-3 text-fg-dim font-light">看状态（只读）</div>
+          <div class="bg-bg-3 p-3 text-fg-dim font-light">BLE / WiFi / 云</div>
+          <div class="bg-bg-3 p-3 text-fg-dim font-light">任意</div>
+
+          <div class="bg-bg-3 p-3 text-fg-dim font-light">批准只读工具</div>
+          <div class="bg-bg-3 p-3 text-fg-dim font-light">BLE 配对设备</div>
+          <div class="bg-bg-3 p-3 text-fg-dim font-light">一次配对</div>
+
+          <div class="bg-bg-3 p-3 text-fg-dim font-light">批准写文件</div>
+          <div class="bg-bg-3 p-3 text-fg-dim font-light">BLE + 设备 PIN</div>
+          <div class="bg-bg-3 p-3 text-fg-dim font-light">配对 + 本地认证</div>
+
+          <div class="bg-bg-3 p-3 text-fg-dim font-light">批准 prod 部署</div>
+          <div class="bg-bg-3 p-3 text-fg-dim font-light">USB + 物理键 + 第二人</div>
+          <div class="bg-bg-3 p-3 text-fg-dim font-light">接触 + 多方</div>
+
+          <div class="bg-bg-3 p-3 text-amber font-light">批准转账/删数据</div>
+          <div class="bg-bg-3 p-3 text-amber font-light">NFC + 生物识别</div>
+          <div class="bg-bg-3 p-3 text-amber font-light">物理 token + 生物</div>
+        </div>
+        <p class="lg:ml-[68px] mt-5 text-[14px] text-fg-dim font-light leading-relaxed">不同操作的 blast radius 不同，认证强度应该成比例。当前 Buddy 把所有 permission 当一类——是早期合理简化，未来必然要拆分。</p>
+      </li>
+    </ol>
+  </section>
+
+  <!-- § 13 -->
+  <section class="max-w-wrap mx-auto px-[5vw] lg:px-12 relative z-[2] py-14 lg:py-24 border-b border-line">
+    <header class="grid grid-cols-1 lg:grid-cols-[120px_1fr] gap-4 lg:gap-12 items-baseline mb-10 lg:mb-[72px]">
+      <div class="cursor font-mono text-[10px] lg:text-[11px] tracking-[0.2em] text-amber pt-3 border-t border-amber uppercase">§ 16 / PROPOSALS</div>
+      <h2 class="font-serif font-light text-[clamp(24px,7vw,68px)] leading-[1.05] tracking-tight">
+        三个<em class="text-amber">应该存在</em>的协议
+      </h2>
+    </header>
+    <p class="lg:ml-[168px] max-w-prose text-[15px] lg:text-base text-fg-dim leading-relaxed font-light italic mb-10">
+      这一节是个人意见。基于上面的分析，我觉得有三个 agent-hardware 协议值得存在但还没人做。
+    </p>
+
+    <article class="lg:ml-[168px] max-w-content py-7 lg:py-10 border-t border-line">
+      <div class="grid grid-cols-1 lg:grid-cols-[180px_1fr] gap-4 lg:gap-12">
+        <div class="font-mono text-[11px] text-fg-mute flex lg:flex-col flex-wrap gap-1.5 lg:gap-0">
+          <span class="text-amber text-[13px] tracking-[0.1em] block lg:mb-2.5">PROPOSAL / 01</span>
+          <span class="text-fg-dim block">VOICE / GESTURE</span>
+          <span class="inline-block border border-line-bright py-0.5 px-2 mt-1.5 mr-1 text-[10px] text-fg-dim">~$30</span>
+        </div>
+        <div>
+          <h3 class="font-serif text-2xl lg:text-[32px] font-normal leading-snug">Agent Wake</h3>
+          <p class="text-[15px] lg:text-base text-fg leading-relaxed font-light mt-3"><em class="text-amber">给 agent 一个物理唤醒入口</em></p>
+          <p class="text-[14px] text-fg-dim leading-relaxed font-light mt-4"><em class="text-amber">问题</em>：现在调起 Claude 必须开电脑、打开窗口、敲字符。如果只想说一句"帮我查下今天天气"，全套流程过重。</p>
+          <p class="text-[14px] text-fg-dim leading-relaxed font-light mt-4"><em class="text-amber">协议</em>：BLE 设备广播 <span class="font-mono text-amber">Wake_*</span>，主机连上后接收 PCM 音频流（<span class="font-mono text-amber">{cmd:"audio", d:"&lt;base64&gt;"}</span>）。设备有按键、麦克风、可能小屏。按住说话，松开就把整段音频 push 给 agent。</p>
+          <p class="text-[14px] text-fg-dim leading-relaxed font-light mt-4"><em class="text-amber">对比 Echo</em>：Echo 是云路由——你说"Alexa..."全程在 AWS。Wake 协议要求<em class="text-amber">音频本地处理</em>，只在 BLE 范围内传输。</p>
+          <p class="text-[14px] text-fg-dim leading-relaxed font-light mt-4"><em class="text-amber">实现门槛</em>：~30 美元（ESP32 + I2S 麦 + 按键 + 3D 打印外壳）。</p>
+        </div>
+      </div>
+    </article>
+
+    <article class="lg:ml-[168px] max-w-content py-7 lg:py-10 border-t border-line">
+      <div class="grid grid-cols-1 lg:grid-cols-[180px_1fr] gap-4 lg:gap-12">
+        <div class="font-mono text-[11px] text-fg-mute flex lg:flex-col flex-wrap gap-1.5 lg:gap-0">
+          <span class="text-amber text-[13px] tracking-[0.1em] block lg:mb-2.5">PROPOSAL / 02</span>
+          <span class="text-fg-dim block">QUORUM</span>
+          <span class="inline-block border border-line-bright py-0.5 px-2 mt-1.5 mr-1 text-[10px] text-fg-dim">FINSEC</span>
+        </div>
+        <div>
+          <h3 class="font-serif text-2xl lg:text-[32px] font-normal leading-snug">Distributed Approval</h3>
+          <p class="text-[15px] lg:text-base text-fg leading-relaxed font-light mt-3"><em class="text-amber">多设备投票</em></p>
+          <p class="text-[14px] text-fg-dim leading-relaxed font-light mt-4"><em class="text-amber">问题</em>：高风险操作（删数据库、prod 部署、大额转账）只让一个人在一个设备上批不够。但要求"两个人到一个房间双人确认"又太重。</p>
+          <p class="text-[14px] text-fg-dim leading-relaxed font-light mt-4"><em class="text-amber">协议</em>：高风险操作发出后，主机把审批请求广播到一组绑定的设备。<em class="text-amber">N 中 M 个设备批准（如 3 中 2）才执行</em>。每个设备独立运行 Buddy 协议，主机做投票聚合。</p>
+          <p class="text-[14px] text-fg-dim leading-relaxed font-light mt-4"><em class="text-amber">协议增量</em>：在 prompt 字段加 <span class="font-mono text-amber">quorum: {n: 3, m: 2}</span>，主机收到任一设备 <span class="font-mono text-amber">decision: "once"</span> 时计数，达到 m 就执行。</p>
+          <p class="text-[14px] text-fg-dim leading-relaxed font-light mt-4"><em class="text-amber">适用场景</em>：金融机构、医疗系统、生产部署。Yubikey 的 agent 形态。</p>
+        </div>
+      </div>
+    </article>
+
+    <article class="lg:ml-[168px] max-w-content py-7 lg:py-10 border-t border-b border-line">
+      <div class="grid grid-cols-1 lg:grid-cols-[180px_1fr] gap-4 lg:gap-12">
+        <div class="font-mono text-[11px] text-fg-mute flex lg:flex-col flex-wrap gap-1.5 lg:gap-0">
+          <span class="text-amber text-[13px] tracking-[0.1em] block lg:mb-2.5">PROPOSAL / 03</span>
+          <span class="text-fg-dim block">PEER-TO-PEER</span>
+          <span class="inline-block border border-line-bright py-0.5 px-2 mt-1.5 mr-1 text-[10px] text-fg-dim">A2A</span>
+        </div>
+        <div>
+          <h3 class="font-serif text-2xl lg:text-[32px] font-normal leading-snug">Agent-to-Agent BLE</h3>
+          <p class="text-[15px] lg:text-base text-fg leading-relaxed font-light mt-3"><em class="text-amber">邻近 agent 协作</em></p>
+          <p class="text-[14px] text-fg-dim leading-relaxed font-light mt-4"><em class="text-amber">问题</em>：你的 Mac 跑 Claude Code、你同事的 Mac 也跑——两个 agent 之间没有任何协作通道（除了让人在 Slack 转贴）。</p>
+          <p class="text-[14px] text-fg-dim leading-relaxed font-light mt-4"><em class="text-amber">协议</em>：两台 Mac 上的 Claude 互相广播 <span class="font-mono text-amber">ClaudePeer_*</span>，配对后建立反向 NUS 桥。每个 agent 可 query 对方的 session list、push prompt 到对方会话、订阅对方的 turn 事件。形成一个<em class="text-amber">桌面级 agent 局域网</em>。</p>
+          <p class="text-[14px] text-fg-dim leading-relaxed font-light mt-4"><em class="text-amber">为什么 BLE 而不是 WiFi/IP</em>：物理半径就是信任半径。BLE 范围内的是同一个房间的人，本身就是粗粒度访问控制。WiFi/IP 可让任何同 LAN 的攻击者扫描到你的 agent。</p>
+          <p class="text-[14px] text-fg-dim leading-relaxed font-light mt-4"><em class="text-amber">适用场景</em>：pair programming（双方 Claude 共享上下文）、code review（让对方 agent 检查你的 PR）、家庭多用户共享 agent。</p>
+        </div>
+      </div>
+    </article>
+  </section>
+
+  <!-- § 14 -->
+  <section class="max-w-wrap mx-auto px-[5vw] lg:px-12 relative z-[2] py-14 lg:py-24 border-b border-line">
+    <header class="grid grid-cols-1 lg:grid-cols-[120px_1fr] gap-4 lg:gap-12 items-baseline mb-10 lg:mb-[72px]">
+      <div class="cursor font-mono text-[10px] lg:text-[11px] tracking-[0.2em] text-amber pt-3 border-t border-amber uppercase">§ 17 / STYLE</div>
+      <h2 class="font-serif font-light text-[clamp(24px,7vw,68px)] leading-[1.05] tracking-tight">
+        Anthropic 的<em class="text-amber">协议风格</em>
+      </h2>
+    </header>
+    <div class="lg:ml-[168px] max-w-prose text-[15px] lg:text-lg leading-relaxed lg:leading-[1.75] font-light text-fg space-y-5">
+      <p>回看 § 12 那张协议表，这六份协议<em class="text-amber">没有一份是完整的产品级 SDK</em>。都是最小化规范：</p>
+      <ul class="space-y-2 text-fg-dim">
+        <li>· <em class="text-amber">MCP</em>：核心规范开放，参考实现简陋，社区做了真正的工具</li>
+        <li>· <em class="text-amber">Skills</em>：连标准目录都没，全靠约定 + frontmatter</li>
+        <li>· <em class="text-amber">Hooks</em>：JSON over stdin/HTTP——最朴素形态</li>
+        <li>· <em class="text-amber">Permissions</em>：DSL 简单到不能再简单</li>
+        <li>· <em class="text-amber">Remote Control</em>：research preview，没承诺 SLA</li>
+        <li>· <em class="text-amber">Buddy BLE</em>：只有 2 个 commit、1 个 contributor</li>
+      </ul>
+      <p>规律很明显：先定接口、不做工具链、让社区填实现。Buddy 是这个模式的最新一例——接口位置定住了，官方固件只是个参考起点。</p>
+    </div>
+
+    <div class="lg:ml-[168px] max-w-prose mt-10 text-[15px] lg:text-base text-fg leading-relaxed font-light space-y-4">
+      <p>对开发者来说，这意味着两件实际的事：</p>
+      <p>1. <em class="text-amber">别等 Anthropic 出完整工具链</em>——他们的协议是接口规范，不是平台，生态建设要自己来</p>
+      <p>2. <em class="text-amber">早做早有优势</em>——每份协议的早期生态都缺好的实现，这个窗口不会一直开着</p>
+    </div>
+  </section>
+
+  <!-- CODA -->
+  <section class="max-w-wrap mx-auto px-[5vw] lg:px-12 relative z-[2] py-20 lg:py-32 border-b border-line">
+    <div class="max-w-content mx-auto flex flex-col items-start gap-8">
+      <div class="glow-marker"></div>
+      <div class="font-mono text-[11px] tracking-[0.22em] text-amber uppercase">CODA</div>
+      <ul class="space-y-2 text-[14px] lg:text-[15px] text-fg-dim font-light max-w-content">
+        <li>· 一只 ESP32 玩具能不能批准 Claude 的 git push（<em class="text-amber">能</em>）</li>
+        <li>· 它能不能持久授权 git push（<em class="text-amber">不能</em>——故意的）</li>
+        <li>· 它能不能 push 内容回给 Claude（<em class="text-amber">不能</em>——目前）</li>
+        <li>· 它要不要加密（<em class="text-amber">建议但不强制</em>）</li>
+        <li>· 它能不能跟另一只 ESP32 直接通话（<em class="text-amber">不能</em>——没这条 wire）</li>
+      </ul>
+      <p class="text-[15px] lg:text-base text-fg leading-relaxed font-light max-w-content">
+        这些限制不是疏漏，是设计决策——审批有摩擦、协议足够简单能 fork、设备不能绕过人。
+      </p>
+      <p class="text-[15px] lg:text-base text-fg-dim leading-relaxed font-light max-w-content">
+        值得读这份协议的原因不是它现在能做什么，是它定住了一个此前没有协议的位置：agent 与物理近场硬件之间的接口。这个位置现在是空的，官方实现也只是个起点。
+      </p>
+    </div>
+  </section>
+
+  <!-- SERIES BAND -->
+  <section class="max-w-wrap mx-auto px-[5vw] lg:px-12 relative z-[2] py-14 lg:py-20 border-b border-line">
+    <div class="font-mono text-[10px] tracking-[0.22em] text-amber uppercase mb-6">CLAUDE DESKTOP BUDDY · 二部曲</div>
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-px bg-line max-w-content">
+      <a href="../%5BPRD%5D%20Claude%20Desktop%20Buddy/Claude%20Desktop%20Buddy%20%E5%AF%B9%E5%BC%80%E5%8F%91%E8%80%85%E7%9A%84%E4%BB%B7%E5%80%BC.html" class="bg-bg p-6 lg:p-8 hover:bg-bg-2 transition-colors block">
+        <div class="font-mono text-[10px] tracking-[0.22em] text-fg-mute uppercase mb-3">FIELD NOTE / № 01 — 产品视角</div>
+        <h3 class="font-serif text-xl lg:text-2xl font-normal leading-snug">价值篇</h3>
+        <p class="text-sm text-fg-dim mt-2 font-light">为什么 Buddy 重要、它指向什么 UX 趋势 · 状态表 + 一天叙事 + 行动梯度</p>
+        <span class="inline-block mt-4 font-mono text-[10px] text-amber tracking-[0.16em] uppercase">▢ 已发布</span>
+      </a>
+      <div class="bg-amber-soft p-6 lg:p-8 border border-amber">
+        <div class="font-mono text-[10px] tracking-[0.22em] text-amber uppercase mb-3">DEEP DIVE / № 01 — 技术视角</div>
+        <h3 class="font-serif text-xl lg:text-2xl font-normal leading-snug">协议深潜</h3>
+        <p class="text-sm text-fg-dim mt-2 font-light">协议拆解 + 设计分析 + 协议栈定位 + 未来预测 · BLE 到 agent-hardware 通信的全貌</p>
+        <span class="inline-block mt-4 font-mono text-[10px] text-amber tracking-[0.16em] uppercase">▣ 阅读中</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="max-w-wrap mx-auto px-[5vw] lg:px-12 relative z-[2] py-12 lg:py-16">
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12 mb-12">
+      <div>
+        <div class="font-mono text-[10px] tracking-[0.2em] text-amber uppercase mb-4">SOURCE</div>
+        <ul class="space-y-2 text-[13px] text-fg-dim font-light">
+          <li><a class="hover:text-amber transition" href="https://github.com/anthropics/claude-desktop-buddy" target="_blank" rel="noopener">github.com/anthropics/claude-desktop-buddy</a></li>
+          <li><a class="hover:text-amber transition" href="https://anthropic.com/news/model-context-protocol" target="_blank" rel="noopener">MCP — anthropic.com/news</a></li>
+          <li><a class="hover:text-amber transition" href="https://code.claude.com/docs/en/remote-control" target="_blank" rel="noopener">Remote Control — code.claude.com</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="font-mono text-[10px] tracking-[0.2em] text-amber uppercase mb-4">PROTOCOLS COVERED</div>
+        <ul class="space-y-2 text-[13px] text-fg-dim font-light">
+          <li>· MCP / Skills / Hooks</li>
+          <li>· Permissions / Remote Control</li>
+          <li>· Buddy BLE</li>
+        </ul>
+      </div>
+      <div>
+        <div class="font-mono text-[10px] tracking-[0.2em] text-amber uppercase mb-4">TECH</div>
+        <ul class="space-y-2 text-[13px] text-fg-dim font-light">
+          <li>BLE 4.2/5.0 / NUS</li>
+          <li>UTF-8 JSON line-buffered</li>
+          <li>LE Secure Connections</li>
+        </ul>
+      </div>
+      <div>
+        <div class="font-mono text-[10px] tracking-[0.2em] text-amber uppercase mb-4">PROPOSALS</div>
+        <ul class="space-y-2 text-[13px] text-fg-dim font-light">
+          <li>Agent Wake</li>
+          <li>Distributed Approval</li>
+          <li>Agent-to-Agent BLE</li>
+        </ul>
+      </div>
+    </div>
+    <div class="pt-8 border-t border-line flex flex-wrap items-center justify-between gap-4 font-mono text-[10px] tracking-[0.2em] uppercase text-fg-mute">
+      <span>DEEP DIVE / № 01 — END</span>
+      <span class="text-fg-dim">Filed 2026.05.06</span>
+    </div>
+  </footer>
+
+</body>
+</html>

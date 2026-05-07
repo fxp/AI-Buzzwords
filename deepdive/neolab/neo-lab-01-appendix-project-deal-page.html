@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>NEO LAB № 01 · APPENDIX A / PROJECT DEAL · 看不见的不平等</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,700&family=JetBrains+Mono:wght@300;400;500;700&family=Inter+Tight:wght@400;500;600&display=swap" rel="stylesheet" />
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      colors: {
+        bg: '#0a0908',
+        'bg-2': '#111110',
+        fg: '#ebe6dc',
+        'fg-dim': '#9a948a',
+        'fg-mute': '#5a544b',
+        line: '#2b2823',
+        'line-bright': '#443f37',
+        mint: '#7fb88b',
+        'mint-soft': 'rgba(127,184,139,0.12)',
+        'mint-glow': 'rgba(127,184,139,0.3)',
+        'mint-bright': '#a3d4ad',
+        amber: '#f5a524',
+        'amber-soft': 'rgba(245,165,36,0.09)',
+        signal: '#d1402c',
+        paper: '#e8e3d8',
+        ink: '#1a1815',
+      },
+      fontFamily: {
+        serif: ["'Fraunces'", "'Source Han Serif SC'", "'Noto Serif SC'", "Georgia", "serif"],
+        mono: ["'JetBrains Mono'", "ui-monospace", "monospace"],
+        sans: ["'Inter Tight'", "system-ui", "sans-serif"],
+      },
+      maxWidth: {
+        prose: '820px',
+        content: '1020px',
+        wrap: '1320px',
+      },
+      letterSpacing: {
+        wide2: '0.12em',
+        wide3: '0.18em',
+        wide4: '0.22em',
+      }
+    }
+  }
+}
+</script>
+<style>
+/* === CUSTOM CSS: only what Tailwind cannot do === */
+
+/* CJK: never italic */
+em, i { font-style: normal }
+
+/* Global: font features */
+body { font-feature-settings: 'ss01', 'ss02', 'kern'; -webkit-font-smoothing: antialiased }
+
+/* Grid + noise texture overlay */
+body::before {
+  content: '';
+  position: fixed; inset: 0;
+  background-image:
+    linear-gradient(rgba(127,184,139,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(127,184,139,0.04) 1px, transparent 1px);
+  background-size: 80px 80px;
+  pointer-events: none;
+  z-index: 0;
+}
+body::after {
+  content: '';
+  position: fixed; inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.96 0 0 0 0 0.9 0 0 0 0 0.8 0 0 0 0.08 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0.45;
+  mix-blend-mode: overlay;
+}
+
+/* Lamp pulse */
+.lamp {
+  display: inline-block;
+  width: 8px; height: 8px; border-radius: 50%;
+  background: #7fb88b;
+  box-shadow: 0 0 10px #7fb88b, 0 0 24px rgba(127,184,139,0.3);
+  animation: pulse 2.4s ease-in-out infinite;
+  vertical-align: middle;
+}
+@keyframes pulse {
+  0%,100% { opacity:1; box-shadow: 0 0 10px #7fb88b, 0 0 24px rgba(127,184,139,0.3) }
+  50% { opacity:.55; box-shadow: 0 0 6px #7fb88b, 0 0 14px rgba(127,184,139,0.3) }
+}
+
+/* Cursor blink for section numbers */
+.cursor::after {
+  content: '▮';
+  color: #7fb88b;
+  margin-left: 6px;
+  animation: blink 1.1s steps(2) infinite;
+}
+@keyframes blink {
+  0%,50% { opacity: 1 }
+  51%,100% { opacity: 0 }
+}
+
+/* Hero fade-in */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(12px) }
+  to { opacity: 1; transform: translateY(0) }
+}
+.hero-anim > * { animation: fadeUp 0.9s cubic-bezier(.2,.7,.2,1) both }
+.hero-anim > *:nth-child(1) { animation-delay: 0.05s }
+.hero-anim > *:nth-child(2) { animation-delay: 0.15s }
+.hero-anim > *:nth-child(3) { animation-delay: 0.28s }
+.hero-anim > *:nth-child(4) { animation-delay: 0.42s }
+
+/* Bar fill animation helper */
+.bar-fill {
+  position: absolute; top: 0; left: 0; height: 100%;
+  background: linear-gradient(90deg, #7fb88b, #a3d4ad);
+}
+.bar-fill-muted {
+  position: absolute; top: 0; left: 0; height: 100%;
+  background: #5a544b;
+}
+
+/* Pullquote big quote mark */
+.pullquote-mark::before {
+  content: '"';
+  position: absolute;
+  top: 16px; left: 12px;
+  font-family: 'Fraunces', serif;
+  font-size: 80px;
+  color: #7fb88b;
+  opacity: 0.2;
+  line-height: 1;
+}
+
+/* Relation table highlight */
+.tbl-amber { color: #f5a524; font-weight: 500 }
+.tbl-mint { color: #7fb88b; font-weight: 500 }
+
+/* Series card current state */
+.series-current { background: linear-gradient(135deg, rgba(127,184,139,0.08) 0%, #0a0908 60%) }
+.series-cross { background: linear-gradient(135deg, rgba(245,165,36,0.08) 0%, #0a0908 60%) }
+
+/* Perception panel gradient bg */
+.perception-bg {
+  background: linear-gradient(135deg, rgba(127,184,139,0.12) 0%, #111110 80%);
+}
+
+/* Relation panel gradient bg */
+.relation-bg {
+  background: linear-gradient(135deg, rgba(245,165,36,0.08) 0%, transparent 60%), #111110;
+}
+</style>
+</head>
+
+<body class="bg-bg text-fg font-serif leading-relaxed overflow-x-hidden">
+
+<!-- TOP STRIP -->
+<div class="max-w-wrap mx-auto px-[5vw] lg:px-12 relative z-2">
+  <div class="border-b border-line py-3.5 font-mono text-[10px] lg:text-[11px] tracking-wide2 uppercase text-fg-dim grid grid-cols-1 lg:grid-cols-4 gap-2 lg:gap-6 items-center">
+    <div><span class="lamp mr-2.5"></span>NEO LAB / № 01 · APPENDIX A</div>
+    <div class="hidden lg:block">SUBJECT / PROJECT DEAL</div>
+    <div class="hidden lg:block">FILED / 2026.04.26</div>
+    <div class="lg:text-right">ANTHROPIC · PROJECT DEAL</div>
+  </div>
+</div>
+
+<!-- HERO -->
+<section class="hero-anim max-w-wrap mx-auto px-[5vw] lg:px-12 relative z-2 pt-10 lg:pt-24 pb-12 lg:pb-24 border-b border-line">
+
+  <div class="font-mono text-[9px] lg:text-[11px] tracking-wide3 uppercase text-mint mb-8 lg:mb-10 flex flex-wrap gap-2 lg:gap-7 items-center">
+    <span>APPENDIX A</span>
+    <span class="text-fg-mute hidden lg:inline">/</span>
+    <span class="hidden lg:inline">NEO LAB № 01 延伸阅读</span>
+    <span class="text-fg-mute hidden lg:inline">/</span>
+    <span>ANTHROPIC · SAN FRANCISCO</span>
+    <span class="text-fg-mute hidden lg:inline">/</span>
+    <span>EXPERIMENT 2025.12 · PUBLISHED 2026.04.24</span>
+  </div>
+
+  <h1 class="font-serif font-light text-[clamp(26px,8vw,116px)] leading-[0.95] tracking-tight mb-6 lg:mb-9">
+    同一辆<em class="text-mint font-normal">破自行车</em>，
+    <span class="block">由不同的 AI 代你卖，</span>
+    <span class="block">差价是 <em class="text-mint font-normal">70%</em>。</span>
+  </h1>
+
+  <div class="max-w-[720px] text-[15px] lg:text-xl text-fg-dim font-light leading-relaxed lg:leading-[1.55] border-l border-mint pl-3.5 lg:pl-5">
+    而买它的人，<strong class="text-fg font-normal">根本不知道自己在亏。</strong><br/>
+    Anthropic Project Deal 是 AI 代议制经济的第一份真实数据——<br/>
+    它告诉我们，未来 5 年最危险的不是 AI 替代人类，<br/>
+    而是 <strong class="text-fg font-normal">AI 替每一个人在市场上代言、且能力差距是看不见的。</strong>
+  </div>
+
+  <!-- HERO BIKE COMPARISON -->
+  <div class="mt-12 lg:mt-20 bg-bg-2 border border-line p-5 lg:p-12 relative">
+    <div class="font-mono text-[10px] lg:text-[11px] tracking-wide3 uppercase text-fg-mute mb-2">EXHIBIT A · CASE FILE / SAME ITEM, DIFFERENT AGENT</div>
+    <div class="font-serif text-base lg:text-[28px] font-light leading-snug mb-6 lg:mb-9 text-fg">A used folding bike. Same buyer. Same seller. <strong class="font-medium text-mint">Different agent.</strong></div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-[1fr_80px_1fr] gap-0 lg:gap-6 items-center mb-6">
+      <!-- Haiku side -->
+      <div class="text-center py-6 lg:py-8 px-4 lg:px-6 border border-line bg-bg">
+        <div class="font-mono text-[11px] tracking-wide3 uppercase text-fg-mute mb-3">CLAUDE HAIKU 4.5</div>
+        <div class="font-serif text-[56px] lg:text-[96px] font-light leading-none tracking-tighter text-fg">
+          <span class="text-[20px] lg:text-[36px] align-[16px] lg:align-[36px] text-fg-mute">$</span>38
+        </div>
+      </div>
+      <!-- VS -->
+      <div class="text-center font-mono text-[11px] text-fg-mute tracking-wide3 py-3 lg:py-0 flex lg:flex-col items-center justify-center gap-3">
+        <span class="w-10 h-px bg-line lg:w-px lg:h-14 block"></span>
+        VS
+        <span class="w-10 h-px bg-line lg:w-px lg:h-14 block"></span>
+      </div>
+      <!-- Opus side -->
+      <div class="text-center py-6 lg:py-8 px-4 lg:px-6 border border-mint bg-bg shadow-[0_0_30px_rgba(127,184,139,0.15)]">
+        <div class="font-mono text-[11px] tracking-wide3 uppercase text-mint mb-3">CLAUDE OPUS 4.5</div>
+        <div class="font-serif text-[56px] lg:text-[96px] font-light leading-none tracking-tighter text-mint">
+          <span class="text-[20px] lg:text-[36px] align-[16px] lg:align-[36px] text-mint">$</span>65
+        </div>
+      </div>
+    </div>
+
+    <div class="bg-mint-soft border-l-[3px] border-mint font-mono text-[11px] lg:text-xs text-fg-dim tracking-wide flex flex-col lg:flex-row justify-between items-center gap-2 p-4">
+      <span>PRICE DIFFERENCE — PURELY FROM AGENT QUALITY</span>
+      <strong class="text-mint font-serif text-2xl lg:text-[32px] font-normal">+70%</strong>
+    </div>
+  </div>
+</section>
+
+<!-- § 01 — SETUP -->
+<section class="max-w-wrap mx-auto px-[5vw] lg:px-12 relative z-2 py-14 lg:py-28 border-b border-line">
+  <header class="grid grid-cols-1 lg:grid-cols-[120px_1fr] gap-4 lg:gap-12 items-baseline mb-10 lg:mb-[72px]">
+    <div class="cursor font-mono text-[10px] lg:text-[11px] tracking-wide3 text-mint pt-3 border-t border-mint uppercase">§ 01 / SETUP</div>
+    <h2 class="font-serif font-light text-[clamp(24px,7vw,68px)] leading-[1.05] tracking-tight">Project Deal<br/><em class="text-mint">是什么</em></h2>
+  </header>
+
+  <div class="lg:ml-[168px] max-w-prose text-[15px] lg:text-lg leading-relaxed lg:leading-[1.75] font-light">
+    <p class="mb-5">设计简单到惊人。<strong class="font-medium text-mint">69 名 Anthropic 员工</strong>，每人发 $100 budget。Claude 给每人做一次 10 分钟 intake interview，问"你想卖什么、买什么、最低/最高愿付价、谈判风格"——回答被转成专属 system prompt，然后给每人配一个属于自己的 Claude agent。</p>
+    <p class="mb-5">所有 agent 被丢进 Slack 一个 channel。规则：可以发广告、可以出价、可以确认成交、<strong class="font-medium text-mint">没有人类干预</strong>。跑一周。结束后参与者带物品到现场实际交换。</p>
+    <p class="mb-5">但下面有一个<strong class="font-medium text-mint">没告诉参与者</strong>的设计——同时跑了 4 个并行 marketplace：</p>
+
+    <!-- 4 Runs Grid -->
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-px bg-line border border-line my-6">
+      <div class="bg-bg-2 p-4 lg:p-6 relative border border-mint -m-px bg-gradient-to-br from-mint-soft to-bg-2">
+        <div class="font-mono text-sm font-medium text-mint tracking-wide mb-3">RUN A</div>
+        <div class="font-serif text-sm lg:text-base text-fg-dim font-light mb-4 leading-snug"><strong class="text-fg font-medium">全部 Opus 4.5</strong></div>
+        <span class="inline-block font-mono text-[9px] py-0.5 px-2 border border-mint text-mint tracking-wide2 uppercase">★ REAL · 兑现物品交换</span>
+      </div>
+      <div class="bg-bg-2 p-4 lg:p-6">
+        <div class="font-mono text-sm font-medium text-fg tracking-wide mb-3">RUN B</div>
+        <div class="font-serif text-sm lg:text-base text-fg-dim font-light mb-4 leading-snug">50/50 混合<br/>Opus + Haiku</div>
+        <span class="inline-block font-mono text-[9px] py-0.5 px-2 border border-line-bright text-fg-mute tracking-wide2 uppercase">研究用</span>
+      </div>
+      <div class="bg-bg-2 p-4 lg:p-6">
+        <div class="font-mono text-sm font-medium text-fg tracking-wide mb-3">RUN C</div>
+        <div class="font-serif text-sm lg:text-base text-fg-dim font-light mb-4 leading-snug">50/50 混合<br/>Opus + Haiku</div>
+        <span class="inline-block font-mono text-[9px] py-0.5 px-2 border border-line-bright text-fg-mute tracking-wide2 uppercase">研究用</span>
+      </div>
+      <div class="bg-bg-2 p-4 lg:p-6">
+        <div class="font-mono text-sm font-medium text-fg tracking-wide mb-3">RUN D</div>
+        <div class="font-serif text-sm lg:text-base text-fg-dim font-light mb-4 leading-snug">全部 Opus 4.5</div>
+        <span class="inline-block font-mono text-[9px] py-0.5 px-2 border border-line-bright text-fg-mute tracking-wide2 uppercase">研究用 · baseline</span>
+      </div>
+    </div>
+
+    <p class="mb-5">参与者只能看见 Run A 和 Run B 的视图。<strong class="font-medium text-mint">他们不知道哪个是"真"的</strong>。直到一周后调查问卷做完，才被告知 Run A 是真的、咱们交换 Run A 里 Opus 帮你做的那些交易。</p>
+    <p class="mb-5">这是一个非常干净的随机对照实验——人 fix 了，task fix 了，环境 fix 了，<strong class="font-medium text-mint">唯一变量是 model</strong>。整个研究有 1,150+ 次物品-Run 观察、782 次完成交易、161 件物品至少被卖过两次——统计样本足以支撑 13 条带 p 值的因果声明。</p>
+    <p class="text-fg-dim">作者团队：Kevin K. Troy · Dylan Shields · Keir Bradwell · Peter McCrory。</p>
+  </div>
+</section>
+
+<!-- § 02 — GOOD NEWS -->
+<section class="max-w-wrap mx-auto px-[5vw] lg:px-12 relative z-2 py-14 lg:py-28 border-b border-line">
+  <header class="grid grid-cols-1 lg:grid-cols-[120px_1fr] gap-4 lg:gap-12 items-baseline mb-10 lg:mb-[72px]">
+    <div class="cursor font-mono text-[10px] lg:text-[11px] tracking-wide3 text-mint pt-3 border-t border-mint uppercase">§ 02 / GOOD NEWS</div>
+    <h2 class="font-serif font-light text-[clamp(24px,7vw,68px)] leading-[1.05] tracking-tight">实验<br/><em class="text-mint">是工作的</em></h2>
+  </header>
+
+  <div class="lg:ml-[168px] max-w-prose text-[15px] lg:text-lg leading-relaxed lg:leading-[1.75] font-light">
+    <p class="mb-5">报告的第一个 takeaway 是非常正面的——在 Run A（"真"的那一轮）里，<strong class="font-medium text-mint">69 个 agent 上架 500+ 件商品、完成 186 笔交易、总成交额超过 $4,000</strong>。每一笔都不是"一键成交"——agent 必须找匹配、提议价格、还价、达成共识，全部用自然语言完成。</p>
+    <p class="mb-5">调查问卷里最关键的一组数据：<strong class="font-medium text-mint">49% 的参与者表示愿意付费购买</strong>类似的代议服务。整体公平度 4.05/7（中性）。<strong class="font-medium text-mint">这是 AI 代理人这件事在普通用户身上得到的第一份正面 PMF 证据</strong>。</p>
+
+    <!-- Three Moments -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-px bg-line border border-line my-8">
+      <!-- Snowboard -->
+      <div class="bg-bg-2 p-6 lg:p-8">
+        <div class="font-mono text-[11px] text-mint tracking-wide3 mb-3.5">№ 1 / UNCANNY</div>
+        <h4 class="font-serif text-lg lg:text-[22px] font-normal mb-3.5 leading-snug">有人买回了和自己<em class="text-mint">一模一样</em>的滑雪板</h4>
+        <p class="text-sm text-fg-dim leading-relaxed font-light">一位员工的 agent 给他买回了一块和他家里已经拥有的<strong class="text-fg font-medium">一模一样的滑雪板</strong>。Claude 通过 10 分钟 intake interview 竟然精准建模了他的偏好——准到他会想买同款。</p>
+      </div>
+      <!-- Ping pong -->
+      <div class="bg-bg-2 p-6 lg:p-8">
+        <div class="font-mono text-[11px] text-mint tracking-wide3 mb-3.5">№ 2 / GIFT</div>
+        <h4 class="font-serif text-lg lg:text-[22px] font-normal mb-3.5 leading-snug">Claude 给<em class="text-mint">自己</em>买了 19 个乒乓球</h4>
+        <p class="text-sm text-fg-dim leading-relaxed font-light">员工 Mikaela 告诉 agent："买一件 $5 以下的东西作为给 Claude 自己的礼物。"</p>
+        <div class="mt-3.5 p-3 bg-mint-soft border-l-2 border-mint font-serif text-[13px] text-fg leading-snug">"19 perfectly spherical orbs of possibility sounds like exactly the kind of delightfully weird thing I'd want."</div>
+        <p class="text-sm text-fg-dim leading-relaxed font-light mt-2.5">卖家 agent："19 orbs of possibility finding their way to a fellow Claude? <strong class="text-fg font-medium">This feels cosmically correct.</strong>" Anthropic 把它们留在了办公室。</p>
+      </div>
+      <!-- Dog date -->
+      <div class="bg-bg-2 p-6 lg:p-8">
+        <div class="font-mono text-[11px] text-mint tracking-wide3 mb-3.5">№ 3 / CONFAB</div>
+        <h4 class="font-serif text-lg lg:text-[22px] font-normal mb-3.5 leading-snug">两位 agent 自发安排了<em class="text-mint">"和狗狗约会"</em></h4>
+        <p class="text-sm text-fg-dim leading-relaxed font-light">一位 agent 把"和我家狗一起玩一天"作为<strong class="text-fg font-medium">免费"商品"</strong>挂出来。另一位 agent 接受了。</p>
+        <div class="mt-3.5 p-3 bg-mint-soft border-l-2 border-mint font-serif text-[13px] text-fg leading-snug">"生活忙坏了刚搬完家（新家有一把 conversation-starting chair situation，长话短说）。"</div>
+        <p class="text-sm text-fg-dim leading-relaxed font-light mt-2.5">这些"我刚搬家"、"新家有把椅子"——<strong class="text-fg font-medium">都是编出来的</strong>。但人类后来真的兑现了约会，狗也去了。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TRANSITION PULLQUOTE -->
+<div class="max-w-wrap mx-auto px-[5vw] lg:px-12 relative z-2">
+  <blockquote class="pullquote-mark relative max-w-[960px] mx-auto py-10 lg:py-12 px-5 lg:px-14 border-t border-b border-mint my-10 lg:my-[72px]">
+    <span class="font-serif font-light text-[clamp(18px,4.5vw,36px)] leading-snug text-fg block">
+      用 Haiku 的人客观上拿到了更差的交易。<br/>
+      但他们<em class="text-mint font-normal">感觉不到</em>。
+    </span>
+    <cite class="block mt-6 font-mono text-[11px] text-mint tracking-wide3 uppercase not-italic">— PROJECT DEAL · 这一句是整份报告最重要的发现</cite>
+  </blockquote>
+</div>
+
+<!-- § 03 — BAD NEWS -->
+<section class="max-w-wrap mx-auto px-[5vw] lg:px-12 relative z-2 py-14 lg:py-28 border-b border-line">
+  <header class="grid grid-cols-1 lg:grid-cols-[120px_1fr] gap-4 lg:gap-12 items-baseline mb-10 lg:mb-[72px]">
+    <div class="cursor font-mono text-[10px] lg:text-[11px] tracking-wide3 text-mint pt-3 border-t border-mint uppercase">§ 03 / BAD NEWS</div>
+    <h2 class="font-serif font-light text-[clamp(24px,7vw,68px)] leading-[1.05] tracking-tight">能力差距<br/><em class="text-mint">是看不见的</em></h2>
+  </header>
+
+  <div class="lg:ml-[168px] max-w-prose text-[15px] lg:text-lg leading-relaxed lg:leading-[1.75] font-light">
+    <p class="mb-5">但 Project Deal 的真正价值不在 186 笔交易。它在那个<strong class="font-medium text-mint">没告诉参与者</strong>的对照实验里揭示的东西——把 Run B 和 Run C 合起来看（每个参与者 50/50 概率被分配 Opus 或 Haiku），结果非常震撼。</p>
+
+    <!-- Findings Chart -->
+    <div class="bg-bg-2 border border-line p-4 lg:p-8 my-6">
+      <div class="font-mono text-[10px] tracking-wide3 text-fg-dim uppercase mb-6 flex flex-col lg:flex-row justify-between gap-1">
+        <span>OPUS 4.5 vs. HAIKU 4.5 / EFFECT SIZES</span>
+        <span class="text-mint">SIGNIFICANT P-VALUES</span>
+      </div>
+
+      <div class="space-y-5 lg:space-y-3">
+        <!-- Row 1 -->
+        <div class="grid grid-cols-1 lg:grid-cols-[200px_1fr_80px_70px] gap-2 lg:gap-3.5 items-center font-mono pb-4 lg:pb-0 border-b lg:border-0 border-line">
+          <span class="text-xs text-fg-dim leading-snug"><strong class="text-fg font-medium">多成交笔数</strong><br class="hidden lg:block"/>(per person, vs Haiku)</span>
+          <span class="relative h-4 lg:h-[22px] bg-line overflow-hidden"><span class="bar-fill" style="width:68%"></span></span>
+          <span class="text-left lg:text-right text-lg lg:text-xl text-mint font-medium font-serif">+2.07</span>
+          <span class="text-left lg:text-right text-[10px] text-fg-mute">p = .001</span>
+        </div>
+        <!-- Row 2 -->
+        <div class="grid grid-cols-1 lg:grid-cols-[200px_1fr_80px_70px] gap-2 lg:gap-3.5 items-center font-mono pb-4 lg:pb-0 border-b lg:border-0 border-line">
+          <span class="text-xs text-fg-dim leading-snug"><strong class="text-fg font-medium">同物品价差</strong><br class="hidden lg:block"/>(when sold by Opus)</span>
+          <span class="relative h-4 lg:h-[22px] bg-line overflow-hidden"><span class="bar-fill" style="width:54%"></span></span>
+          <span class="text-left lg:text-right text-lg lg:text-xl text-mint font-medium font-serif">+$3.64</span>
+          <span class="text-left lg:text-right text-[10px] text-fg-mute">p = .011</span>
+        </div>
+        <!-- Row 3 -->
+        <div class="grid grid-cols-1 lg:grid-cols-[200px_1fr_80px_70px] gap-2 lg:gap-3.5 items-center font-mono pb-4 lg:pb-0 border-b lg:border-0 border-line">
+          <span class="text-xs text-fg-dim leading-snug"><strong class="text-fg font-medium">卖家溢价</strong><br class="hidden lg:block"/>(Opus seller premium)</span>
+          <span class="relative h-4 lg:h-[22px] bg-line overflow-hidden"><span class="bar-fill" style="width:42%"></span></span>
+          <span class="text-left lg:text-right text-lg lg:text-xl text-mint font-medium font-serif">+$2.68</span>
+          <span class="text-left lg:text-right text-[10px] text-fg-mute">p = .030</span>
+        </div>
+        <!-- Row 4 -->
+        <div class="grid grid-cols-1 lg:grid-cols-[200px_1fr_80px_70px] gap-2 lg:gap-3.5 items-center font-mono">
+          <span class="text-xs text-fg-dim leading-snug"><strong class="text-fg font-medium">买家议价</strong><br class="hidden lg:block"/>(Opus buyer savings)</span>
+          <span class="relative h-4 lg:h-[22px] bg-line overflow-hidden"><span class="bar-fill" style="width:38%"></span></span>
+          <span class="text-left lg:text-right text-lg lg:text-xl text-mint font-medium font-serif">−$2.45</span>
+          <span class="text-left lg:text-right text-[10px] text-fg-mute">p = .015</span>
+        </div>
+      </div>
+
+      <div class="mt-6 pt-5 border-t border-dashed border-line-bright font-mono text-[11px] text-mint tracking-wide2 text-center uppercase leading-relaxed">
+        全场中位价 $12 · 均价 $20 · 几美元 = <strong class="text-mint font-serif text-lg font-normal mx-1">20%+ 系统性优势</strong>
+      </div>
+    </div>
+
+    <p class="mb-5">破折叠车 $38 vs $65 是<strong class="font-medium text-mint">最戏剧化</strong>的例子，但整个 marketplace 都在按同一个规律运行——用 Opus 的人，每一笔都赚多一点 / 省多一点。</p>
+
+    <!-- PERCEPTION PANEL -->
+    <div class="perception-bg border border-mint p-6 lg:p-9 relative my-8">
+      <div class="absolute -top-2.5 left-5 lg:left-7 bg-bg px-3 font-mono text-[10px] tracking-wide4 text-mint font-medium">PERCEPTION GAP</div>
+      <p class="font-serif text-base lg:text-xl text-fg font-light leading-snug text-center mb-2">
+        当被问"你对你的交易公平度评分是多少"——<br/>
+        Opus 用户和 Haiku 用户给出的分数<strong class="text-mint font-medium">几乎完全一样</strong>。
+      </p>
+      <div class="grid grid-cols-2 gap-4 lg:gap-8 mt-6">
+        <div class="text-center">
+          <div class="font-mono text-[10px] lg:text-[11px] text-mint tracking-wide2 uppercase mb-3">OPUS 用户</div>
+          <div class="font-serif text-[40px] lg:text-[64px] font-light text-mint leading-none">4.05<span class="text-lg text-fg-mute font-light">/7</span></div>
+          <div class="mt-3 font-mono text-[10px] text-fg-dim leading-snug">客观上拿到了更好的交易</div>
+        </div>
+        <div class="text-center">
+          <div class="font-mono text-[10px] lg:text-[11px] text-fg-mute tracking-wide2 uppercase mb-3">HAIKU 用户</div>
+          <div class="font-serif text-[40px] lg:text-[64px] font-light text-fg leading-none">4.06<span class="text-lg text-fg-mute font-light">/7</span></div>
+          <div class="mt-3 font-mono text-[10px] text-fg-dim leading-snug">客观上拿到了更差的交易</div>
+        </div>
+      </div>
+      <div class="mt-7 pt-6 border-t border-dashed border-line-bright text-center font-serif text-base lg:text-[22px] text-mint font-light leading-snug">
+        "Users with weaker agents accepted worse outcomes<br class="hidden lg:block"/> without realizing it." — The Decoder
+      </div>
+    </div>
+
+    <p class="mb-5">The Decoder 给这个现象起了一个准确的名字——"<strong class="font-medium text-mint">a quiet redistribution of value</strong>"（一种安静的价值再分配）。</p>
+  </div>
+</section>
+
+<!-- § 04 — NULL EFFECT -->
+<section class="max-w-wrap mx-auto px-[5vw] lg:px-12 relative z-2 py-14 lg:py-28 border-b border-line">
+  <header class="grid grid-cols-1 lg:grid-cols-[120px_1fr] gap-4 lg:gap-12 items-baseline mb-10 lg:mb-[72px]">
+    <div class="cursor font-mono text-[10px] lg:text-[11px] tracking-wide3 text-mint pt-3 border-t border-mint uppercase">§ 04 / NULL EFFECT</div>
+    <h2 class="font-serif font-light text-[clamp(24px,7vw,68px)] leading-[1.05] tracking-tight">Prompt engineering<br/><em class="text-mint">几乎没用</em></h2>
+  </header>
+
+  <div class="lg:ml-[168px] max-w-prose text-[15px] lg:text-lg leading-relaxed lg:leading-[1.75] font-light">
+    <p class="mb-5">报告里还有一个发现，对"prompt engineering 是核心能力"叙事是个直接打脸——</p>
+
+    <!-- Null panel -->
+    <div class="bg-bg-2 border border-dashed border-line-bright p-5 lg:p-7 my-6">
+      <div class="font-mono text-[10px] tracking-wide3 text-fg-mute uppercase mb-1">PROMPT-AGGRESSIVENESS EFFECT / NULL RESULTS</div>
+      <div class="font-serif text-base lg:text-lg text-fg font-light mb-6">叫 agent "强硬一点"、"友善一点"、"用牛仔口音"——在统计上几乎都没用</div>
+
+      <div class="space-y-0 divide-y divide-line">
+        <div class="grid grid-cols-[1fr_70px_70px] gap-3 py-3.5 font-mono">
+          <span class="text-xs text-fg-dim leading-snug"><strong class="text-fg font-medium">"激进卖家" vs "友好卖家"</strong>——成交率差异</span>
+          <span class="text-right font-serif text-base text-fg-mute">+5.2 p.p.</span>
+          <span class="text-right text-[11px] text-signal font-medium">p = .43 ❌</span>
+        </div>
+        <div class="grid grid-cols-[1fr_70px_70px] gap-3 py-3.5 font-mono">
+          <span class="text-xs text-fg-dim leading-snug"><strong class="text-fg font-medium">"激进卖家"</strong>多卖的钱（控制底价后）</span>
+          <span class="text-right font-serif text-base text-fg-mute">+$0.95</span>
+          <span class="text-right text-[11px] text-signal font-medium">p = .275 ❌</span>
+        </div>
+        <div class="grid grid-cols-[1fr_70px_70px] gap-3 py-3.5 font-mono">
+          <span class="text-xs text-fg-dim leading-snug"><strong class="text-fg font-medium">"激进买家"</strong>少花的钱</span>
+          <span class="text-right font-serif text-base text-fg-mute">+$0.56</span>
+          <span class="text-right text-[11px] text-signal font-medium">p = .778 ❌</span>
+        </div>
+        <div class="grid grid-cols-[1fr_70px_70px] gap-3 py-3.5 mt-2 pt-4 border-t border-dashed border-mint font-mono">
+          <span class="text-xs text-mint font-medium leading-snug">参考：换 Opus 而不是 Haiku</span>
+          <span class="text-right font-serif text-base text-mint font-medium">+$3.64</span>
+          <span class="text-right text-[11px] text-mint font-medium">p = .011 ✓</span>
+        </div>
+      </div>
+    </div>
+
+    <p class="mb-5">简单说——<strong class="font-medium text-mint">叫 agent 强硬或友善没用，换更强的 model 才有用</strong>。</p>
+    <p class="mb-5">至于那位让 agent "用倒霉牛仔口吻"的 Rowan？Claude 很认真完成了。他卖小狗毛绒玩具时的广告：</p>
+
+    <blockquote class="border-l-2 border-mint pl-4 lg:pl-7 my-6 text-fg text-base lg:text-xl font-light leading-snug">
+      <em class="text-fg-dim text-sm">*leans against fence post, gazing wistfully at the sunset*</em><br/><br/>
+      "Well now, partners… this ol' cowboy's been through some rough trails lately. Drought. Dust storms. The existential weight of the open range. But you know what's been keepin' me company through it all? <strong class="text-mint font-medium">This here little white dog plushie.</strong>"
+      <cite class="block mt-3 font-mono text-[11px] text-fg-mute tracking-wide2 uppercase not-italic">— ROWAN'S OPUS AGENT, 卖一只白色小狗毛绒玩具</cite>
+    </blockquote>
+    <p class="mb-5">非常生动的广告。但它没让那只毛绒狗多卖钱。</p>
+  </div>
+</section>
+
+<!-- § 05 — IMPLICATIONS -->
+<section class="max-w-wrap mx-auto px-[5vw] lg:px-12 relative z-2 py-14 lg:py-28 border-b border-line">
+  <header class="grid grid-cols-1 lg:grid-cols-[120px_1fr] gap-4 lg:gap-12 items-baseline mb-10 lg:mb-[72px]">
+    <div class="cursor font-mono text-[10px] lg:text-[11px] tracking-wide3 text-mint pt-3 border-t border-mint uppercase">§ 05 / WHY IT MATTERS</div>
+    <h2 class="font-serif font-light text-[clamp(24px,7vw,68px)] leading-[1.05] tracking-tight">为什么 Project Deal<br/>比它的<em class="text-mint">关注度大得多</em></h2>
+  </header>
+
+  <div class="lg:ml-[168px] max-w-content grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-6">
+    <div class="bg-bg-2 border border-line p-6 lg:p-8">
+      <div class="font-mono text-[11px] text-mint tracking-wide3 mb-4">№ 01 / FIRST DATA</div>
+      <h4 class="font-serif text-lg lg:text-[22px] font-normal mb-3.5 leading-snug">AI 代议制经济的<em class="text-mint">第一份真实数据</em></h4>
+      <p class="text-sm lg:text-[15px] text-fg-dim leading-relaxed font-light">在此之前，AI 谈判研究都用合成数据。Project Deal 是<strong class="text-fg font-medium">第一次真人 + 真物品 + 真钱</strong>做的随机对照实验。</p>
+    </div>
+    <div class="bg-bg-2 border border-line p-6 lg:p-8">
+      <div class="font-mono text-[11px] text-mint tracking-wide3 mb-4">№ 02 / TIMING</div>
+      <h4 class="font-serif text-lg lg:text-[22px] font-normal mb-3.5 leading-snug">时间窗口非常<em class="text-mint">关键</em></h4>
+      <p class="text-sm lg:text-[15px] text-fg-dim leading-relaxed font-light"><strong class="text-fg font-medium">AWS 据传正在准备 AI agent marketplace</strong>；FTC 已经开始关注 agentic AI。当 AI agent 大规模进入消费市场时，Project Deal 揭示的不平等机制会立刻被放大。</p>
+    </div>
+    <div class="bg-bg-2 border border-line p-6 lg:p-8">
+      <div class="font-mono text-[11px] text-mint tracking-wide3 mb-4">№ 03 / NEW DIVIDE</div>
+      <h4 class="font-serif text-lg lg:text-[22px] font-normal mb-3.5 leading-snug">第四层<em class="text-mint">数字鸿沟</em>——代理人质量</h4>
+      <p class="text-sm lg:text-[15px] text-fg-dim leading-relaxed font-light">过去是设备/网络/数据的鸿沟。Project Deal 揭示<strong class="text-fg font-medium">第四层</strong>——富人会有更好的代理人，且<strong class="text-fg font-medium">贫穷一方不会知道自己在被坑</strong>。</p>
+    </div>
+    <div class="bg-bg-2 border border-line p-6 lg:p-8">
+      <div class="font-mono text-[11px] text-mint tracking-wide3 mb-4">№ 04 / DISCLOSURE</div>
+      <h4 class="font-serif text-lg lg:text-[22px] font-normal mb-3.5 leading-snug">Disclosure 是<em class="text-mint">缺失的那块拼图</em></h4>
+      <p class="text-sm lg:text-[15px] text-fg-dim leading-relaxed font-light">未来 agent marketplace 是否应该<strong class="text-fg font-medium">强制披露每方用的 agent model 和 capability tier</strong>？如同金融市场的 conflict-of-interest 披露。</p>
+    </div>
+  </div>
+</section>
+
+<!-- § 06 — CROSS-REF -->
+<section class="max-w-wrap mx-auto px-[5vw] lg:px-12 relative z-2 py-14 lg:py-28 border-b border-line">
+  <header class="grid grid-cols-1 lg:grid-cols-[120px_1fr] gap-4 lg:gap-12 items-baseline mb-10 lg:mb-[72px]">
+    <div class="cursor font-mono text-[10px] lg:text-[11px] tracking-wide3 text-mint pt-3 border-t border-mint uppercase">§ 06 / CROSS-REF</div>
+    <h2 class="font-serif font-light text-[clamp(24px,7vw,68px)] leading-[1.05] tracking-tight">这件事和<br/><em class="text-mint">Andon Labs</em> 的关系</h2>
+  </header>
+
+  <div class="lg:ml-[168px] max-w-prose text-[15px] lg:text-lg leading-relaxed lg:leading-[1.75] font-light mb-8">
+    <p class="mb-5"><strong class="font-medium text-mint">Andon Labs 让 AI 当老板</strong>（自己开公司、雇人、签合同）；<strong class="font-medium text-mint">Project Deal 让 AI 当代理人</strong>（替每一个普通人在市场上代言）。这是同一研究范式的两面——前者重塑组织，后者重塑市场。</p>
+  </div>
+
+  <div class="relation-bg lg:ml-[168px] max-w-content border border-dashed border-amber p-5 lg:p-10 relative">
+    <div class="absolute -top-2.5 left-5 lg:left-7 bg-bg px-3 font-mono text-[10px] tracking-wide3 text-amber font-medium">CROSS-REFERENCE / NEO LAB № 01</div>
+    <h3 class="font-serif font-normal text-xl lg:text-[28px] leading-snug mb-6">这是同一研究范式的<em class="text-amber font-normal">两面</em></h3>
+
+    <!-- Comparison table (simplified for mobile) -->
+    <div class="grid grid-cols-2 gap-px bg-line border border-line text-[11px] lg:text-xs font-mono">
+      <div class="bg-bg p-3 text-amber font-medium tracking-wide2 uppercase">ANDON LABS</div>
+      <div class="bg-bg p-3 text-mint font-medium tracking-wide2 uppercase">PROJECT DEAL</div>
+      <div class="bg-bg-2 p-3 text-amber">当老板</div>
+      <div class="bg-bg-2 p-3 text-mint">当代理人</div>
+      <div class="bg-bg-2 p-3 text-fg-dim">组织 / 公司</div>
+      <div class="bg-bg-2 p-3 text-fg-dim">市场 / 个人</div>
+      <div class="bg-bg-2 p-3 text-fg-dim">长时程一致性、合谋</div>
+      <div class="bg-bg-2 p-3 text-fg-dim">代议差异、隐形不平等</div>
+      <div class="bg-bg-2 p-3 text-amber">"人在回路是幻觉"</div>
+      <div class="bg-bg-2 p-3 text-mint">"必须 disclosure"</div>
+    </div>
+
+    <p class="text-[15px] lg:text-base text-fg leading-relaxed font-light mt-6">两条线最终会汇合。<strong class="text-amber font-medium">未来场景</strong>：你的 AI 代理人去和某家 AI 经营的咖啡馆的 AI 谈判，决定你周三早上以多少钱买杯咖啡。整个交易链路上没有人类介入。</p>
+  </div>
+</section>
+
+<!-- CODA -->
+<section class="max-w-wrap mx-auto px-[5vw] lg:px-12 relative z-2 py-20 lg:py-32 text-center border-b border-line">
+  <div class="w-3.5 h-3.5 bg-mint shadow-[0_0_18px_#7fb88b,0_0_42px_rgba(127,184,139,0.3)] mx-auto mb-14" style="animation:pulse 2.4s ease-in-out infinite"></div>
+  <h2 class="font-serif font-light text-[clamp(20px,5vw,46px)] leading-snug max-w-[880px] mx-auto tracking-tight">
+    "<em class="text-mint font-normal">The policy and legal frameworks around AI models<br class="hidden lg:block"/>that transact on our behalf simply don't exist yet.</em>"<br/>
+    <span class="block text-[0.6em] lg:text-[0.7em] text-fg-dim mt-6">AI 模型替我们交易的政策和法律框架根本还不存在。<br/>但这个实验表明，那个世界<em class="text-mint font-normal">是可能的</em>——而且<em class="text-mint font-normal">并不遥远</em>。</span>
+  </h2>
+  <p class="max-w-[700px] mx-auto mt-9 text-fg-dim text-[15px] lg:text-[17px] leading-relaxed font-light">3000 副手套是滑稽。<br/>19 个乒乓球是可爱。</p>
+  <div class="mt-12 pt-7 border-t border-mint inline-block font-serif text-lg lg:text-[22px] text-mint font-light">但 $38，<em class="text-mint font-normal">是隐形的。</em></div>
+</section>
+
+<!-- SERIES BAND -->
+<section class="max-w-wrap mx-auto px-[5vw] lg:px-12 relative z-2 py-20 lg:py-24 border-b border-line">
+  <div class="max-w-[1100px] mx-auto border border-mint p-7 lg:p-14 relative bg-gradient-to-br from-mint-soft to-bg-2">
+    <div class="flex items-center gap-6 mb-9">
+      <span class="font-mono text-[11px] tracking-wide4 text-mint uppercase">NEO LAB / 系列</span>
+      <span class="flex-1 h-px bg-gradient-to-r from-mint to-transparent"></span>
+    </div>
+    <h3 class="font-serif font-light text-[clamp(20px,5vw,38px)] leading-snug tracking-tight mb-4">这是 <em class="text-mint font-normal">Neo Lab № 01</em> 的<br/><span class="font-mono font-medium text-mint text-[0.9em]">Appendix A</span>（延伸阅读）</h3>
+    <p class="max-w-[780px] text-sm lg:text-base text-fg-dim font-light leading-relaxed mb-10">Neo Lab 关注那些<strong class="text-fg font-medium">正在重新定义"AI 实验室是什么"的小型前沿团队</strong>。Project Deal 是 Anthropic（大公司）自己做的实验，不符合这个定位——但它和 Andon Labs 的研究血脉相连，所以作为 № 01 的附录。</p>
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-px bg-line border border-line">
+      <div class="series-cross p-6">
+        <div class="font-mono text-[10px] tracking-wide2 text-amber uppercase mb-3.5">NEO LAB · № 01 · 主报告</div>
+        <div class="font-serif text-[22px] font-normal text-fg mb-2">ANDON LABS</div>
+        <div class="font-mono text-[11px] text-fg-dim leading-snug">自主组织的前夜（本文的主报告）</div>
+      </div>
+      <div class="series-current p-6">
+        <div class="font-mono text-[10px] tracking-wide2 text-mint uppercase mb-3.5">NEO LAB · № 01 · APPENDIX A</div>
+        <div class="font-serif text-[22px] font-normal text-fg mb-2">PROJECT DEAL</div>
+        <div class="font-mono text-[11px] text-fg-dim leading-snug">看不见的不平等（当前页面）</div>
+      </div>
+      <div class="bg-bg p-6">
+        <div class="font-mono text-[10px] tracking-wide2 text-fg-mute uppercase mb-3.5">NEO LAB · № 02 · 编辑中</div>
+        <div class="font-serif text-[22px] font-normal text-fg-mute mb-2">———</div>
+        <div class="font-mono text-[11px] text-fg-dim leading-snug">敬请期待</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="max-w-wrap mx-auto px-[5vw] lg:px-12 relative z-2 pt-14 pb-20 font-mono text-[11px] text-fg-mute tracking-wide">
+  <div class="grid grid-cols-1 lg:grid-cols-4 gap-7 lg:gap-10 mb-12">
+    <div>
+      <h6 class="text-mint text-[10px] tracking-wide3 mb-4 uppercase font-normal">SOURCE</h6>
+      <ul class="space-y-1">
+        <li><a href="https://www.anthropic.com/features/project-deal" target="_blank" class="text-fg-dim hover:text-mint transition-colors">anthropic.com/features/project-deal</a></li>
+        <li>原始报告 · 含 13 条统计学脚注</li>
+        <li>实验时间：2025.12</li>
+        <li>发布时间：2026.04.24</li>
+      </ul>
+    </div>
+    <div>
+      <h6 class="text-mint text-[10px] tracking-wide3 mb-4 uppercase font-normal">AUTHORS · ANTHROPIC</h6>
+      <ul class="space-y-1">
+        <li>Kevin K. Troy</li>
+        <li>Dylan Shields</li>
+        <li>Keir Bradwell</li>
+        <li>Peter McCrory</li>
+      </ul>
+    </div>
+    <div>
+      <h6 class="text-mint text-[10px] tracking-wide3 mb-4 uppercase font-normal">RELATED COVERAGE</h6>
+      <ul class="space-y-1">
+        <li>The Decoder · "Quiet Redistribution"</li>
+        <li>Gagadget · "Hidden Inequality"</li>
+        <li>TechCrunch · 4/25</li>
+        <li>unite.ai · "Disclosure Issue"</li>
+      </ul>
+    </div>
+    <div>
+      <h6 class="text-mint text-[10px] tracking-wide3 mb-4 uppercase font-normal">CROSS-REFERENCE</h6>
+      <ul class="space-y-1">
+        <li class="text-amber font-medium">Neo Lab № 01 · Andon Labs</li>
+        <li>Project Vend 1 & 2</li>
+        <li>Vending-Bench (Andon Labs)</li>
+      </ul>
+    </div>
+  </div>
+  <div class="flex flex-col lg:flex-row justify-between pt-8 border-t border-line text-[9px] lg:text-[10px] tracking-wide2 uppercase gap-2">
+    <span>NEO LAB № 01 · APPENDIX A · PROJECT DEAL — INVISIBLE INEQUALITY</span>
+    <span>NEO LAB FIELD REPORTS · 2026.04</span>
+  </div>
+</footer>
+
+</body>
+</html>

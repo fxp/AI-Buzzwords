@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>不止是桌面宠物 — Claude Desktop Buddy 对开发者意味着什么</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: {
+          bg: '#0e0d0a',
+          'bg-2': '#161410',
+          'bg-3': '#1f1c16',
+          fg: '#e8e4dc',
+          'fg-dim': '#a8a298',
+          'fg-mute': '#6e6960',
+          line: '#2a2620',
+          'line-bright': '#3a352d',
+          amber: '#f5a524',
+          'amber-soft': 'rgba(245,165,36,0.08)',
+        },
+        fontFamily: {
+          serif: ["'Fraunces'", "serif"],
+          mono: ["'JetBrains Mono'", "monospace"],
+        },
+        maxWidth: { prose: '820px', content: '1020px', wrap: '1320px' },
+      }
+    }
+  }
+  </script>
+  <style>
+    em, i { font-style: normal; }
+    body {
+      font-feature-settings: 'ss01','ss02','kern';
+      -webkit-font-smoothing: antialiased;
+      background: #0e0d0a;
+      color: #e8e4dc;
+      font-family: 'Fraunces', serif;
+      position: relative;
+      overflow-x: hidden;
+    }
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 1;
+      background-image:
+        linear-gradient(rgba(245,165,36,0.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(245,165,36,0.025) 1px, transparent 1px);
+      background-size: 64px 64px;
+    }
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 1;
+      opacity: 0.35;
+      mix-blend-mode: overlay;
+      background-image: url("data:image/svg+xml;utf8,<svg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.4 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+    }
+    .lamp {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: #f5a524;
+      box-shadow: 0 0 12px #f5a524, 0 0 24px rgba(245,165,36,0.5);
+      animation: pulse 2.4s ease-in-out infinite;
+      display: inline-block;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(0.85); }
+    }
+    .cursor::after {
+      content: '_';
+      color: #f5a524;
+      animation: blink 1.1s steps(1) infinite;
+      margin-left: 4px;
+    }
+    @keyframes blink { 50% { opacity: 0; } }
+    .hero-anim > * {
+      opacity: 0;
+      animation: fadeUp .9s ease forwards;
+    }
+    .hero-anim > *:nth-child(1) { animation-delay: 0.05s; }
+    .hero-anim > *:nth-child(2) { animation-delay: 0.2s; }
+    .hero-anim > *:nth-child(3) { animation-delay: 0.4s; }
+    .hero-anim > *:nth-child(4) { animation-delay: 0.6s; }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(14px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .bar-fill {
+      position: absolute;
+      top: 0; left: 0;
+      height: 100%;
+      background: linear-gradient(90deg, #f5a524, rgba(245,165,36,0.4));
+    }
+    .glow-marker {
+      width: 14px; height: 14px;
+      border-radius: 50%;
+      background: #f5a524;
+      box-shadow: 0 0 16px #f5a524, 0 0 32px rgba(245,165,36,0.6);
+      animation: pulse 2s ease-in-out infinite;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- TOP STRIP -->
+  <div class="max-w-wrap mx-auto px-[5vw] lg:px-12 relative z-[2] pt-6 lg:pt-10 pb-3 border-b border-line">
+    <div class="flex flex-wrap items-center justify-between gap-3 font-mono text-[10px] tracking-[0.22em] uppercase text-fg-mute">
+      <span class="flex items-center gap-3">
+        <span class="lamp"></span>
+        <span class="text-amber">FIELD NOTE / № 01</span>
+        <span class="text-fg-dim hidden lg:inline">— CLAUDE DESKTOP BUDDY</span>
+      </span>
+      <span class="text-fg-dim">2026.05.05</span>
+    </div>
+  </div>
+
+  <!-- HERO -->
+  <section class="max-w-wrap mx-auto px-[5vw] lg:px-12 relative z-[2] pt-12 lg:pt-24 pb-14 lg:pb-28 border-b border-line">
+    <div class="hero-anim">
+      <div class="font-mono text-[11px] tracking-[0.2em] text-amber uppercase mb-6 cursor">PRIMER / 入门读本</div>
+      <h1 class="font-serif font-light text-[clamp(36px,9vw,108px)] leading-[0.98] tracking-tight max-w-content">
+        不止是<em class="text-amber">桌面宠物</em><br/>
+        Claude Desktop Buddy<br/>
+        对开发者意味着什么
+      </h1>
+      <p class="lg:ml-[168px] max-w-prose text-[15px] lg:text-lg leading-relaxed lg:leading-[1.75] font-light text-fg-dim mt-10 lg:mt-14">
+        Anthropic 开源了个 ESP32 固件，把 Claude Code 的会话状态映射成桌上一只小宠物。真正解决的问题：Claude Code 跑长任务时，审批弹窗每次都要打断你——Buddy 用一个物理按钮解掉这个打断。
+      </p>
+      <div class="lg:ml-[168px] max-w-content mt-14 lg:mt-20 grid grid-cols-2 lg:grid-cols-4 gap-px bg-line">
+        <div class="bg-bg p-5 lg:p-7">
+          <div class="font-mono text-[10px] tracking-[0.18em] text-fg-mute uppercase mb-2">硬件成本</div>
+          <div class="font-serif text-3xl lg:text-5xl font-light"><em class="text-amber">$25</em></div>
+          <div class="text-[12px] text-fg-dim mt-1 font-mono">M5StickC Plus</div>
+        </div>
+        <div class="bg-bg p-5 lg:p-7">
+          <div class="font-mono text-[10px] tracking-[0.18em] text-fg-mute uppercase mb-2">行为状态</div>
+          <div class="font-serif text-3xl lg:text-5xl font-light"><em class="text-amber">7</em></div>
+          <div class="text-[12px] text-fg-dim mt-1 font-mono">sleep ↔ heart</div>
+        </div>
+        <div class="bg-bg p-5 lg:p-7">
+          <div class="font-mono text-[10px] tracking-[0.18em] text-fg-mute uppercase mb-2">内置宠物</div>
+          <div class="font-serif text-3xl lg:text-5xl font-light"><em class="text-amber">18</em></div>
+          <div class="text-[12px] text-fg-dim mt-1 font-mono">species × 7 anim</div>
+        </div>
+        <div class="bg-bg p-5 lg:p-7">
+          <div class="font-mono text-[10px] tracking-[0.18em] text-fg-mute uppercase mb-2">开放协议</div>
+          <div class="font-serif text-3xl lg:text-5xl font-light"><em class="text-amber">BLE</em></div>
+          <div class="text-[12px] text-fg-dim mt-1 font-mono">Nordic UART + JSON</div>
+        </div>
+      </div>
+
+      <!-- HERO IMAGE -->
+      <figure class="lg:ml-[168px] max-w-content mt-14 lg:mt-20">
+        <div class="border border-line p-2 lg:p-3 bg-bg-2">
+          <img src="https://raw.githubusercontent.com/anthropics/claude-desktop-buddy/main/docs/device.jpg"
+               alt="M5StickC Plus running the buddy firmware"
+               class="w-full h-auto block"
+               loading="lazy">
+        </div>
+        <figcaption class="mt-3 font-mono text-[10px] tracking-[0.22em] text-fg-mute uppercase flex flex-wrap gap-3">
+          <span class="text-amber">FIG / 01</span>
+          <span>M5StickC Plus running buddy firmware</span>
+          <span class="text-fg-mute">— anthropic / claude-desktop-buddy</span>
+        </figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- § 01 PROBLEM -->
+  <section class="max-w-wrap mx-auto px-[5vw] lg:px-12 relative z-[2] py-14 lg:py-28 border-b border-line">
+    <header class="grid grid-cols-1 lg:grid-cols-[120px_1fr] gap-4 lg:gap-12 items-baseline mb-10 lg:mb-[72px]">
+      <div class="cursor font-mono text-[10px] lg:text-[11px] tracking-[0.2em] text-amber pt-3 border-t border-amber uppercase">§ 01 / PROBLEM</div>
+      <h2 class="font-serif font-light text-[clamp(24px,7vw,68px)] leading-[1.05] tracking-tight">
+        它解决的<em class="text-amber">真问题</em>
+      </h2>
+    </header>
+    <div class="lg:ml-[168px] max-w-prose text-[15px] lg:text-lg leading-relaxed lg:leading-[1.75] font-light space-y-5 text-fg">
+      <p>Claude Code 跑长任务时，最烦的不是等——是弹窗。</p>
+      <p>你刚进状态，<span class="font-mono text-[13px] text-amber">approve: Bash</span> 跳出来，切窗口、点按钮、切回编辑器，刚才脑子里那条线断了。单次不痛，叠起来很痛。越敢放权给 agent，弹窗越多；不放权 agent 又跑不动。</p>
+      <p>Buddy 做的事很简单：把「切回 Claude 窗口点按钮」变成「余光看设备、伸手按一下」。<em class="text-amber">听起来省了两秒，实际省的是注意力上下文的切换。</em></p>
+    </div>
+  </section>
+
+  <!-- § 02 BEHAVIOR -->
+  <section class="max-w-wrap mx-auto px-[5vw] lg:px-12 relative z-[2] py-14 lg:py-28 border-b border-line">
+    <header class="grid grid-cols-1 lg:grid-cols-[120px_1fr] gap-4 lg:gap-12 items-baseline mb-10 lg:mb-[72px]">
+      <div class="cursor font-mono text-[10px] lg:text-[11px] tracking-[0.2em] text-amber pt-3 border-t border-amber uppercase">§ 02 / BEHAVIOR</div>
+      <h2 class="font-serif font-light text-[clamp(24px,7vw,68px)] leading-[1.05] tracking-tight">
+        设备有 <em class="text-amber">7 种状态</em>
+      </h2>
+    </header>
+
+    <!-- 7 STATES grid -->
+    <div class="lg:ml-[168px] grid grid-cols-[80px_88px_1fr] lg:grid-cols-[120px_112px_1fr] gap-px bg-line max-w-content">
+      <div class="bg-bg-2 p-3 lg:p-4 font-mono text-[10px] tracking-[0.18em] text-fg-mute uppercase">状态</div>
+      <div class="bg-bg-2 p-3 lg:p-4 font-mono text-[10px] tracking-[0.18em] text-fg-mute uppercase">动画</div>
+      <div class="bg-bg-2 p-3 lg:p-4 grid grid-cols-[1fr_1.6fr] gap-4 font-mono text-[10px] tracking-[0.18em] text-fg-mute uppercase">
+        <span>触发</span><span>表现</span>
+      </div>
+
+      <div class="bg-bg p-3 lg:p-4 font-mono text-[11px] lg:text-[12px] text-amber tracking-wider self-center">SLEEP</div>
+      <div class="bg-bg p-2 flex items-center justify-center"><img src="https://raw.githubusercontent.com/anthropics/claude-desktop-buddy/main/characters/bufo/sleep.gif" alt="sleep" loading="lazy" class="max-h-20 lg:max-h-24 w-auto"></div>
+      <div class="bg-bg p-3 lg:p-4 grid grid-cols-[1fr_1.6fr] gap-4 text-[13px] lg:text-sm font-light self-center">
+        <span class="text-fg-dim">桌面端没连上</span><span class="text-fg">闭眼，慢呼吸</span>
+      </div>
+
+      <div class="bg-bg p-3 lg:p-4 font-mono text-[11px] lg:text-[12px] text-amber tracking-wider self-center">IDLE</div>
+      <div class="bg-bg p-2 flex items-center justify-center"><img src="https://raw.githubusercontent.com/anthropics/claude-desktop-buddy/main/characters/bufo/idle_0.gif" alt="idle" loading="lazy" class="max-h-20 lg:max-h-24 w-auto"></div>
+      <div class="bg-bg p-3 lg:p-4 grid grid-cols-[1fr_1.6fr] gap-4 text-[13px] lg:text-sm font-light self-center">
+        <span class="text-fg-dim">连上但无任务</span><span class="text-fg">眨眼，东张西望</span>
+      </div>
+
+      <div class="bg-bg p-3 lg:p-4 font-mono text-[11px] lg:text-[12px] text-amber tracking-wider self-center">BUSY</div>
+      <div class="bg-bg p-2 flex items-center justify-center"><img src="https://raw.githubusercontent.com/anthropics/claude-desktop-buddy/main/characters/bufo/busy.gif" alt="busy" loading="lazy" class="max-h-20 lg:max-h-24 w-auto"></div>
+      <div class="bg-bg p-3 lg:p-4 grid grid-cols-[1fr_1.6fr] gap-4 text-[13px] lg:text-sm font-light self-center">
+        <span class="text-fg-dim">session 在跑</span><span class="text-fg">出汗、忙工作脸</span>
+      </div>
+
+      <div class="bg-bg p-3 lg:p-4 font-mono text-[11px] lg:text-[12px] text-amber tracking-wider self-center">ATTENTION</div>
+      <div class="bg-bg p-2 flex items-center justify-center"><img src="https://raw.githubusercontent.com/anthropics/claude-desktop-buddy/main/characters/bufo/attention.gif" alt="attention" loading="lazy" class="max-h-20 lg:max-h-24 w-auto"></div>
+      <div class="bg-bg p-3 lg:p-4 grid grid-cols-[1fr_1.6fr] gap-4 text-[13px] lg:text-sm font-light self-center">
+        <span class="text-fg-dim">有审批弹窗</span><span class="text-fg">警觉表情 + LED 闪</span>
+      </div>
+
+      <div class="bg-bg p-3 lg:p-4 font-mono text-[11px] lg:text-[12px] text-amber tracking-wider self-center">CELEBRATE</div>
+      <div class="bg-bg p-2 flex items-center justify-center"><img src="https://raw.githubusercontent.com/anthropics/claude-desktop-buddy/main/characters/bufo/celebrate.gif" alt="celebrate" loading="lazy" class="max-h-20 lg:max-h-24 w-auto"></div>
+      <div class="bg-bg p-3 lg:p-4 grid grid-cols-[1fr_1.6fr] gap-4 text-[13px] lg:text-sm font-light self-center">
+        <span class="text-fg-dim">累计满 50K tokens</span><span class="text-fg">撒彩花、跳跃</span>
+      </div>
+
+      <div class="bg-bg p-3 lg:p-4 font-mono text-[11px] lg:text-[12px] text-amber tracking-wider self-center">DIZZY</div>
+      <div class="bg-bg p-2 flex items-center justify-center"><img src="https://raw.githubusercontent.com/anthropics/claude-desktop-buddy/main/characters/bufo/dizzy.gif" alt="dizzy" loading="lazy" class="max-h-20 lg:max-h-24 w-auto"></div>
+      <div class="bg-bg p-3 lg:p-4 grid grid-cols-[1fr_1.6fr] gap-4 text-[13px] lg:text-sm font-light self-center">
+        <span class="text-fg-dim">你晃了它（IMU）</span><span class="text-fg">转圈眼 + 摇晃</span>
+      </div>
+
+      <div class="bg-bg p-3 lg:p-4 font-mono text-[11px] lg:text-[12px] text-amber tracking-wider self-center">HEART</div>
+      <div class="bg-bg p-2 flex items-center justify-center"><img src="https://raw.githubusercontent.com/anthropics/claude-desktop-buddy/main/characters/bufo/heart.gif" alt="heart" loading="lazy" class="max-h-20 lg:max-h-24 w-auto"></div>
+      <div class="bg-bg p-3 lg:p-4 grid grid-cols-[1fr_1.6fr] gap-4 text-[13px] lg:text-sm font-light self-center">
+        <span class="text-fg-dim">5 秒内秒批</span><span class="text-fg">飘心</span>
+      </div>
+    </div>
+    <p class="lg:ml-[168px] max-w-content mt-3 font-mono text-[10px] tracking-[0.22em] text-fg-mute uppercase">
+      <span class="text-amber">FIG / 02</span> &nbsp;LIVE GIFS FROM <span class="text-fg-dim">characters/bufo/</span> — 仓库官方角色包
+    </p>
+
+    <!-- BUTTON TABLE -->
+    <div class="lg:ml-[168px] max-w-content mt-12 lg:mt-16">
+      <div class="font-mono text-[10px] tracking-[0.2em] text-amber uppercase mb-5">KEYMAP / 按键语义随状态切换</div>
+      <div class="overflow-x-auto">
+        <table class="w-full text-[13px] font-light border-collapse">
+          <thead>
+            <tr class="bg-bg-2">
+              <th class="text-left p-3 lg:p-4 font-mono text-[10px] tracking-[0.18em] text-fg-mute uppercase border border-line"></th>
+              <th class="text-left p-3 lg:p-4 font-mono text-[10px] tracking-[0.18em] text-fg-mute uppercase border border-line">平时</th>
+              <th class="text-left p-3 lg:p-4 font-mono text-[10px] tracking-[0.18em] text-fg-mute uppercase border border-line">看宠物</th>
+              <th class="text-left p-3 lg:p-4 font-mono text-[10px] tracking-[0.18em] text-fg-mute uppercase border border-line">看信息</th>
+              <th class="text-left p-3 lg:p-4 font-mono text-[10px] tracking-[0.18em] text-amber uppercase border border-line">有审批时</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="border-b border-line hover:bg-bg-2 transition-colors">
+              <td class="p-3 lg:p-4 font-mono text-amber text-[12px] border border-line">A（正面）</td>
+              <td class="p-3 lg:p-4 text-fg-dim border border-line">切下一屏</td>
+              <td class="p-3 lg:p-4 text-fg-dim border border-line">切下一屏</td>
+              <td class="p-3 lg:p-4 text-fg-dim border border-line">切下一屏</td>
+              <td class="p-3 lg:p-4 text-amber font-mono text-[12px] border border-line">✓ 批准</td>
+            </tr>
+            <tr class="border-b border-line hover:bg-bg-2 transition-colors">
+              <td class="p-3 lg:p-4 font-mono text-amber text-[12px] border border-line">B（右侧）</td>
+              <td class="p-3 lg:p-4 text-fg-dim border border-line">滚动对话</td>
+              <td class="p-3 lg:p-4 text-fg-dim border border-line">切下一只宠物</td>
+              <td class="p-3 lg:p-4 text-fg-dim border border-line">翻页</td>
+              <td class="p-3 lg:p-4 text-fg border border-line">✗ 拒绝</td>
+            </tr>
+            <tr class="border-b border-line hover:bg-bg-2 transition-colors">
+              <td class="p-3 lg:p-4 font-mono text-amber text-[12px] border border-line">长按 A</td>
+              <td class="p-3 lg:p-4 text-fg-dim border border-line" colspan="4">进菜单</td>
+            </tr>
+            <tr class="border-b border-line hover:bg-bg-2 transition-colors">
+              <td class="p-3 lg:p-4 font-mono text-amber text-[12px] border border-line">晃一下</td>
+              <td class="p-3 lg:p-4 text-fg-dim border border-line" colspan="4">触发 dizzy 动画</td>
+            </tr>
+            <tr class="hover:bg-bg-2 transition-colors">
+              <td class="p-3 lg:p-4 font-mono text-amber text-[12px] border border-line">倒扣放桌上</td>
+              <td class="p-3 lg:p-4 text-fg-dim border border-line" colspan="4">睡觉回血（攒能量）</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="mt-2 font-mono text-[10px] text-fg-mute">30 秒无操作自动息屏 / 有审批时保持常亮 / 任意按键唤醒</p>
+    </div>
+
+    <!-- A DAY -->
+    <div class="lg:ml-[168px] max-w-prose mt-16 lg:mt-20">
+      <div class="font-mono text-[10px] tracking-[0.2em] text-amber uppercase mb-5">A DAY / 实际用起来大概是这样</div>
+      <ol class="space-y-4 text-[15px] lg:text-base leading-relaxed font-light text-fg">
+        <li class="grid grid-cols-[44px_1fr] gap-4">
+          <span class="font-mono text-amber text-[12px] pt-1">09:00</span>
+          <span>开 Claude 桌面端 → 从 sleep 睁眼进 idle，开始眨眼东张西望。</span>
+        </li>
+        <li class="grid grid-cols-[44px_1fr] gap-4">
+          <span class="font-mono text-amber text-[12px] pt-1">10:15</span>
+          <span>让 Code 跑重构 → 进 busy，开始出汗。</span>
+        </li>
+        <li class="grid grid-cols-[44px_1fr] gap-4">
+          <span class="font-mono text-amber text-[12px] pt-1">10:23</span>
+          <span>跑到一半要 <span class="font-mono text-[13px] text-amber">git push</span> 需要审批 → 切 attention，LED 闪。余光扫到，伸手按 A，5 秒内批完 → heart 飘心。</span>
+        </li>
+        <li class="grid grid-cols-[44px_1fr] gap-4">
+          <span class="font-mono text-amber text-[12px] pt-1">11:40</span>
+          <span>跑了个长 agent，烧了 50K tokens → celebrate 撒彩花。</span>
+        </li>
+        <li class="grid grid-cols-[44px_1fr] gap-4">
+          <span class="font-mono text-amber text-[12px] pt-1">12:30</span>
+          <span>出门吃饭把它倒扣桌上 → 进 sleep 回能量。</span>
+        </li>
+        <li class="grid grid-cols-[44px_1fr] gap-4">
+          <span class="font-mono text-amber text-[12px] pt-1">14:00</span>
+          <span>回来摇一下 → dizzy 转圈眼。</span>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- § 03 USEFUL -->
+  <section class="max-w-wrap mx-auto px-[5vw] lg:px-12 relative z-[2] py-14 lg:py-28 border-b border-line">
+    <header class="grid grid-cols-1 lg:grid-cols-[120px_1fr] gap-4 lg:gap-12 items-baseline mb-10 lg:mb-[72px]">
+      <div class="cursor font-mono text-[10px] lg:text-[11px] tracking-[0.2em] text-amber pt-3 border-t border-amber uppercase">§ 03 / USEFUL</div>
+      <h2 class="font-serif font-light text-[clamp(24px,7vw,68px)] leading-[1.05] tracking-tight">
+        实际<em class="text-amber">有用的地方</em>
+      </h2>
+    </header>
+
+    <div class="lg:ml-[168px] grid grid-cols-1 lg:grid-cols-3 gap-px bg-line max-w-content">
+      <div class="bg-bg p-6 lg:p-8">
+        <div class="font-mono text-[10px] tracking-[0.18em] text-amber uppercase mb-3">审批不打断工作流</div>
+        <p class="text-[14px] text-fg-dim leading-relaxed font-light">你在另一个终端调试，Claude 在后台跑批量任务。不用来回切窗口，手不离键盘，余光扫一眼，按一下。双屏或 Claude 跑在另一台机器时尤其有用。</p>
+      </div>
+      <div class="bg-bg p-6 lg:p-8">
+        <div class="font-mono text-[10px] tracking-[0.18em] text-amber uppercase mb-3">token 消耗变得可感知</div>
+        <p class="text-[14px] text-fg-dim leading-relaxed font-light">每 50K tokens 升一级放彩花。原来这数字埋在网页里，没什么感知。现在桌上会发生物理事件，你会真正注意到自己烧了多少——对控制成本有非显然的效果。</p>
+      </div>
+      <div class="bg-bg p-6 lg:p-8">
+        <div class="font-mono text-[10px] tracking-[0.18em] text-amber uppercase mb-3">倒扣和摇晃</div>
+        <p class="text-[14px] text-fg-dim leading-relaxed font-light">倒扣 = 去睡别烦我，摇 = 闲着玩。听起来有点蠢，但这两个手势传达意图的成本比打字低很多，而且是真实的物理操作，不是软件按钮。</p>
+      </div>
+    </div>
+
+    <!-- BAR CHART -->
+    <div class="lg:ml-[168px] mt-12 lg:mt-16 max-w-content bg-bg-2 border border-line p-5 lg:p-8">
+      <div class="font-mono text-[10px] tracking-[0.18em] text-fg-dim uppercase mb-6 flex justify-between">
+        <span>每次审批的注意力损耗（估值）</span>
+        <span class="text-amber">越短越好</span>
+      </div>
+      <div class="space-y-4 font-mono text-xs">
+        <div class="grid grid-cols-[120px_1fr_92px] lg:grid-cols-[200px_1fr_120px] gap-3 items-center">
+          <span class="text-fg-dim">模态弹窗 + 鼠标</span>
+          <span class="relative h-2 bg-line overflow-hidden"><span class="bar-fill" style="width:92%"></span></span>
+          <span class="text-right text-fg-dim">~8s + flow loss</span>
+        </div>
+        <div class="grid grid-cols-[120px_1fr_92px] lg:grid-cols-[200px_1fr_120px] gap-3 items-center">
+          <span class="text-fg-dim">键盘快捷键</span>
+          <span class="relative h-2 bg-line overflow-hidden"><span class="bar-fill" style="width:55%"></span></span>
+          <span class="text-right text-fg-dim">~3s</span>
+        </div>
+        <div class="grid grid-cols-[120px_1fr_92px] lg:grid-cols-[200px_1fr_120px] gap-3 items-center">
+          <span class="text-amber">Buddy 物理按钮</span>
+          <span class="relative h-2 bg-line overflow-hidden"><span class="bar-fill" style="width:18%"></span></span>
+          <span class="text-right text-amber">~1s, no focus</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- § 04 HACKING -->
+  <section class="max-w-wrap mx-auto px-[5vw] lg:px-12 relative z-[2] py-14 lg:py-28 border-b border-line">
+    <header class="grid grid-cols-1 lg:grid-cols-[120px_1fr] gap-4 lg:gap-12 items-baseline mb-10 lg:mb-[72px]">
+      <div class="cursor font-mono text-[10px] lg:text-[11px] tracking-[0.2em] text-amber pt-3 border-t border-amber uppercase">§ 04 / HACKING</div>
+      <h2 class="font-serif font-light text-[clamp(24px,7vw,68px)] leading-[1.05] tracking-tight">
+        怎么<em class="text-amber">改</em>
+      </h2>
+    </header>
+
+    <article class="grid grid-cols-1 lg:grid-cols-[180px_1fr] gap-4 lg:gap-12 py-7 lg:py-12 border-t border-line">
+      <div class="font-mono text-[11px] text-fg-mute flex lg:flex-col flex-wrap gap-1.5 lg:gap-0">
+        <span class="text-amber text-[13px] tracking-[0.1em] block lg:mb-2.5">LV / 01</span>
+        <span class="text-fg-dim block">ZERO CODE</span>
+        <span class="inline-block border border-line-bright py-0.5 px-2 mt-1.5 mr-1 text-[10px] text-fg-dim">3 sec</span>
+      </div>
+      <div>
+        <h3 class="font-serif text-2xl lg:text-[32px] font-normal leading-snug">换宠物</h3>
+        <p class="text-base text-fg-dim leading-relaxed font-light mt-4">固件内置 18 个 ASCII 物种，长按 A → 菜单 → next pet 循环切换，掉电不丢。只是想换个皮，这一步就够了。</p>
+      </div>
+    </article>
+
+    <article class="grid grid-cols-1 lg:grid-cols-[180px_1fr] gap-4 lg:gap-12 py-7 lg:py-12 border-t border-line">
+      <div class="font-mono text-[11px] text-fg-mute flex lg:flex-col flex-wrap gap-1.5 lg:gap-0">
+        <span class="text-amber text-[13px] tracking-[0.1em] block lg:mb-2.5">LV / 02</span>
+        <span class="text-fg-dim block">ASSET PACK</span>
+        <span class="inline-block border border-line-bright py-0.5 px-2 mt-1.5 mr-1 text-[10px] text-fg-dim">drag &amp; drop</span>
+      </div>
+      <div>
+        <h3 class="font-serif text-2xl lg:text-[32px] font-normal leading-snug">推 GIF 角色包</h3>
+        <p class="text-base text-fg-dim leading-relaxed font-light mt-4">不想要 ASCII？做一套 GIF 拖到 Hardware Buddy 窗口 drop target，走 BLE 推到设备实时切换。仓库 <span class="font-mono text-[13px] text-amber">characters/bufo/</span> 是完整的青蛙例子。</p>
+
+        <figure class="mt-6">
+          <div class="border border-line p-2 bg-bg-2">
+            <img src="https://raw.githubusercontent.com/anthropics/claude-desktop-buddy/main/docs/hardware-buddy-window.png"
+                 alt="Hardware Buddy window with Connect button and folder drop target"
+                 class="w-full h-auto block"
+                 loading="lazy">
+          </div>
+          <figcaption class="mt-2 font-mono text-[10px] tracking-[0.22em] text-fg-mute uppercase flex flex-wrap gap-2">
+            <span class="text-amber">FIG / 03</span>
+            <span>HARDWARE BUDDY WINDOW — drag drop target 在右边</span>
+          </figcaption>
+        </figure>
+
+        <div class="mt-5 p-4 bg-bg-2 border border-line font-mono text-[11px] text-fg-dim leading-loose">
+my-character/<br/>
+&nbsp;&nbsp;manifest.json<br/>
+&nbsp;&nbsp;sleep.gif<br/>
+&nbsp;&nbsp;idle_0.gif&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="text-fg-mute"># 数组：循环轮播</span><br/>
+&nbsp;&nbsp;idle_1.gif<br/>
+&nbsp;&nbsp;busy.gif / attention.gif / celebrate.gif / dizzy.gif / heart.gif
+        </div>
+        <div class="mt-5 p-4 bg-amber-soft border-l-2 border-amber">
+          <span class="font-mono text-[10px] tracking-[0.18em] text-amber uppercase mb-1.5 block">CONSTRAINTS</span>
+          <p class="text-[14px] text-fg leading-relaxed font-light">
+            96px 宽 / 高 ≤140px / 整包 &lt; 1.8MB &nbsp;·&nbsp; <span class="font-mono text-amber">tools/prep_character.py</span> 帮你统一缩放 &nbsp;·&nbsp; <span class="font-mono text-amber">gifsicle --lossy=80 -O3 --colors 64</span> 一般压掉 40~60%
+          </p>
+        </div>
+      </div>
+    </article>
+
+    <article class="grid grid-cols-1 lg:grid-cols-[180px_1fr] gap-4 lg:gap-12 py-7 lg:py-12 border-t border-line">
+      <div class="font-mono text-[11px] text-fg-mute flex lg:flex-col flex-wrap gap-1.5 lg:gap-0">
+        <span class="text-amber text-[13px] tracking-[0.1em] block lg:mb-2.5">LV / 03</span>
+        <span class="text-fg-dim block">FAST LOOP</span>
+        <span class="inline-block border border-line-bright py-0.5 px-2 mt-1.5 mr-1 text-[10px] text-fg-dim">USB</span>
+      </div>
+      <div>
+        <h3 class="font-serif text-2xl lg:text-[32px] font-normal leading-snug">USB 直刷（迭代更快）</h3>
+        <p class="text-base text-fg-dim leading-relaxed font-light mt-4">迭代角色不想每次走蓝牙：<span class="font-mono text-[13px] text-amber">tools/flash_character.py characters/bufo</span> 把素材放到 <span class="font-mono text-[13px] text-amber">data/</span> 然后 <span class="font-mono text-[13px] text-amber">pio run -t uploadfs</span> 直接写文件系统。</p>
+      </div>
+    </article>
+
+    <article class="grid grid-cols-1 lg:grid-cols-[180px_1fr] gap-4 lg:gap-12 py-7 lg:py-12 border-t border-b border-line">
+      <div class="font-mono text-[11px] text-fg-mute flex lg:flex-col flex-wrap gap-1.5 lg:gap-0">
+        <span class="text-amber text-[13px] tracking-[0.1em] block lg:mb-2.5">LV / 04</span>
+        <span class="text-fg-dim block">FIRMWARE</span>
+        <span class="inline-block border border-line-bright py-0.5 px-2 mt-1.5 mr-1 text-[10px] text-fg-dim">C++</span>
+      </div>
+      <div>
+        <h3 class="font-serif text-2xl lg:text-[32px] font-normal leading-snug">改固件</h3>
+        <p class="text-base text-fg-dim leading-relaxed font-light mt-4"><span class="font-mono text-[13px] text-amber">src/</span> 结构清晰：状态机在 <span class="font-mono text-[13px] text-amber">main.cpp</span>，物种动画一个文件一只在 <span class="font-mono text-[13px] text-amber">buddies/</span>，BLE 桥在 <span class="font-mono text-[13px] text-amber">ble_bridge.cpp</span>，GIF 解码在 <span class="font-mono text-[13px] text-amber">character.cpp</span>。加新状态、加新触发（比如双击）、改动画——改一个文件的事。</p>
+      </div>
+    </article>
+  </section>
+
+  <!-- § 05 PLATFORM -->
+  <section class="max-w-wrap mx-auto px-[5vw] lg:px-12 relative z-[2] py-14 lg:py-28 border-b border-line">
+    <header class="grid grid-cols-1 lg:grid-cols-[120px_1fr] gap-4 lg:gap-12 items-baseline mb-10 lg:mb-[72px]">
+      <div class="cursor font-mono text-[10px] lg:text-[11px] tracking-[0.2em] text-amber pt-3 border-t border-amber uppercase">§ 05 / PROTOCOL</div>
+      <h2 class="font-serif font-light text-[clamp(24px,7vw,68px)] leading-[1.05] tracking-tight">
+        协议是<em class="text-amber">开放的</em>
+      </h2>
+    </header>
+
+    <div class="lg:ml-[168px] max-w-prose text-[15px] lg:text-lg leading-relaxed lg:leading-[1.75] font-light text-fg space-y-5">
+      <p>Nordic UART over BLE，JSON over line buffer，schema 都在 <span class="font-mono text-[14px] text-amber">REFERENCE.md</span>。文档明确写了：<span class="text-fg-dim">"Building your own device? You don't need any of the code here."</span></p>
+      <p>也就是说：不用 M5Stick 也能接，不显示宠物也行，可以完全反向用。</p>
+    </div>
+
+    <div class="lg:ml-[168px] mt-12 grid grid-cols-1 lg:grid-cols-3 gap-px bg-line max-w-content">
+      <div class="bg-bg p-6 lg:p-8">
+        <div class="font-mono text-[10px] tracking-[0.18em] text-amber uppercase mb-3">不用 M5Stick</div>
+        <p class="text-[14px] text-fg-dim leading-relaxed font-light">任何能跑 BLE 的 ESP32、nRF52、树莓派 + dongle 都能接。</p>
+      </div>
+      <div class="bg-bg p-6 lg:p-8">
+        <div class="font-mono text-[10px] tracking-[0.18em] text-amber uppercase mb-3">不显示宠物</div>
+        <p class="text-[14px] text-fg-dim leading-relaxed font-light">机械翻页时钟、旧诺基亚屏、办公室门口的雾化灯——只要能消费那几条状态消息。</p>
+      </div>
+      <div class="bg-bg p-6 lg:p-8">
+        <div class="font-mono text-[10px] tracking-[0.18em] text-amber uppercase mb-3">反向接</div>
+        <p class="text-[14px] text-fg-dim leading-relaxed font-light">Claude 状态接 Home Assistant，agent 跑起来时家里灯调暗，跑完了灯亮回来。</p>
+      </div>
+    </div>
+
+    <div class="lg:ml-[168px] mt-8 max-w-prose p-5 lg:p-6 bg-amber-soft border-l-2 border-amber">
+      <p class="text-[15px] lg:text-base text-fg leading-relaxed font-light">
+        M5StickC Plus 整机约 $25，固件开源，PlatformIO 刷机。门槛基本是零。
+      </p>
+    </div>
+  </section>
+
+  <!-- § 06 ACTION -->
+  <section class="max-w-wrap mx-auto px-[5vw] lg:px-12 relative z-[2] py-14 lg:py-28 border-b border-line">
+    <header class="grid grid-cols-1 lg:grid-cols-[120px_1fr] gap-4 lg:gap-12 items-baseline mb-10 lg:mb-[72px]">
+      <div class="cursor font-mono text-[10px] lg:text-[11px] tracking-[0.2em] text-amber pt-3 border-t border-amber uppercase">§ 06 / ACTION</div>
+      <h2 class="font-serif font-light text-[clamp(24px,7vw,68px)] leading-[1.05] tracking-tight">
+        现在就能<em class="text-amber">做的事</em>
+      </h2>
+    </header>
+
+    <!-- VIDEO -->
+    <div class="lg:ml-[168px] max-w-content mb-12 lg:mb-16">
+      <div class="font-mono text-[10px] tracking-[0.2em] text-amber uppercase mb-4">TUTORIAL / 完整上手演示（约 80 秒）</div>
+      <div class="border border-line bg-bg-2 p-2 lg:p-3">
+        <video src="tutorial.mp4" controls class="w-full h-auto block" preload="metadata">
+          你的浏览器不支持 video 标签。
+        </video>
+      </div>
+      <p class="mt-3 font-mono text-[10px] tracking-[0.22em] text-fg-mute uppercase">
+        <span class="text-amber">VID / 01</span>&nbsp; PlatformIO 环境 → 固件烧录 → Developer Mode → BLE 配对 → 实机审批交互
+      </p>
+    </div>
+
+    <ol class="lg:ml-[168px] max-w-content space-y-px bg-line">
+      <li class="bg-bg grid grid-cols-[60px_1fr] lg:grid-cols-[80px_1fr] gap-4 lg:gap-8 p-5 lg:p-8 hover:bg-bg-2 transition-colors">
+        <span class="font-mono text-amber text-[13px] tracking-[0.16em]">01</span>
+        <div>
+          <h4 class="font-serif text-lg lg:text-xl font-normal leading-snug">拿来用</h4>
+          <p class="text-[14px] lg:text-[15px] text-fg-dim leading-relaxed font-light mt-2">M5StickC Plus 烧官方固件，先体验一周再说。</p>
+        </div>
+      </li>
+      <li class="bg-bg grid grid-cols-[60px_1fr] lg:grid-cols-[80px_1fr] gap-4 lg:gap-8 p-5 lg:p-8 hover:bg-bg-2 transition-colors">
+        <span class="font-mono text-amber text-[13px] tracking-[0.16em]">02</span>
+        <div>
+          <h4 class="font-serif text-lg lg:text-xl font-normal leading-snug">换宠物</h4>
+          <p class="text-[14px] lg:text-[15px] text-fg-dim leading-relaxed font-light mt-2">长按 A → 菜单 → next pet，18 种 ASCII 物种都试一遍。</p>
+        </div>
+      </li>
+      <li class="bg-bg grid grid-cols-[60px_1fr] lg:grid-cols-[80px_1fr] gap-4 lg:gap-8 p-5 lg:p-8 hover:bg-bg-2 transition-colors">
+        <span class="font-mono text-amber text-[13px] tracking-[0.16em]">03</span>
+        <div>
+          <h4 class="font-serif text-lg lg:text-xl font-normal leading-snug">换皮</h4>
+          <p class="text-[14px] lg:text-[15px] text-fg-dim leading-relaxed font-light mt-2">拖 GIF 角色包过去，或自己做一个（96px 宽，&lt; 1.8MB）。</p>
+        </div>
+      </li>
+      <li class="bg-bg grid grid-cols-[60px_1fr] lg:grid-cols-[80px_1fr] gap-4 lg:gap-8 p-5 lg:p-8 hover:bg-bg-2 transition-colors">
+        <span class="font-mono text-amber text-[13px] tracking-[0.16em]">04</span>
+        <div>
+          <h4 class="font-serif text-lg lg:text-xl font-normal leading-snug">改固件</h4>
+          <p class="text-[14px] lg:text-[15px] text-fg-dim leading-relaxed font-light mt-2">加个双击触发、改动画、加新状态。</p>
+        </div>
+      </li>
+      <li class="bg-bg grid grid-cols-[60px_1fr] lg:grid-cols-[80px_1fr] gap-4 lg:gap-8 p-5 lg:p-8 hover:bg-bg-2 transition-colors">
+        <span class="font-mono text-amber text-[13px] tracking-[0.16em]">05</span>
+        <div>
+          <h4 class="font-serif text-lg lg:text-xl font-normal leading-snug">接其他硬件</h4>
+          <p class="text-[14px] lg:text-[15px] text-fg-dim leading-relaxed font-light mt-2">基于公开 BLE 协议，让你现有的设备接 Claude 状态。</p>
+        </div>
+      </li>
+      <li class="bg-bg grid grid-cols-[60px_1fr] lg:grid-cols-[80px_1fr] gap-4 lg:gap-8 p-5 lg:p-8 hover:bg-bg-2 transition-colors">
+        <span class="font-mono text-amber text-[13px] tracking-[0.16em]">06</span>
+        <div>
+          <h4 class="font-serif text-lg lg:text-xl font-normal leading-snug">反向应用</h4>
+          <p class="text-[14px] lg:text-[15px] text-fg-dim leading-relaxed font-light mt-2">Claude 状态接 Home Assistant / Stream Deck / 自定义键盘宏。</p>
+        </div>
+      </li>
+    </ol>
+  </section>
+
+  <!-- CODA -->
+  <section class="max-w-wrap mx-auto px-[5vw] lg:px-12 relative z-[2] py-20 lg:py-32 border-b border-line">
+    <div class="max-w-content mx-auto flex flex-col items-start gap-8">
+      <div class="glow-marker"></div>
+      <p class="font-serif font-light text-[clamp(22px,4vw,42px)] leading-[1.25] tracking-tight">
+        哪怕完全不碰硬件，把 Buddy 当「agent 审批 UI 该长什么样」的一个参考案例研究一下，也值这 <em class="text-amber">$25</em> 和一个下午。
+      </p>
+    </div>
+  </section>
+
+  <!-- SERIES BAND -->
+  <section class="max-w-wrap mx-auto px-[5vw] lg:px-12 relative z-[2] py-14 lg:py-20 border-b border-line">
+    <div class="font-mono text-[10px] tracking-[0.22em] text-amber uppercase mb-6">CLAUDE DESKTOP BUDDY · 二部曲</div>
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-px bg-line max-w-content">
+      <div class="bg-amber-soft p-6 lg:p-8 border border-amber">
+        <div class="font-mono text-[10px] tracking-[0.22em] text-amber uppercase mb-3">FIELD NOTE / № 01 — 产品视角</div>
+        <h3 class="font-serif text-xl lg:text-2xl font-normal leading-snug">价值篇</h3>
+        <p class="text-sm text-fg-dim mt-2 font-light">Buddy 解决了什么问题、怎么用、怎么改 · 状态表 + 一天叙事 + 行动梯度</p>
+        <span class="inline-block mt-4 font-mono text-[10px] text-amber tracking-[0.16em] uppercase">▣ 阅读中</span>
+      </div>
+      <a href="../%5BANALYSIS%5D%20Buddy%20BLE%20%E5%8D%8F%E8%AE%AE%E6%B7%B1%E6%BD%9C/Buddy%20%E5%8D%8F%E8%AE%AE%E6%B7%B1%E6%BD%9C%EF%BC%9A%E4%BB%8E%20BLE%20%E6%AF%94%E7%89%B9%E6%B5%81%E7%9C%8B%20Agent%20%E7%A1%AC%E4%BB%B6%E9%80%9A%E4%BF%A1%E7%9A%84%E6%9C%AA%E6%9D%A5.html" class="bg-bg p-6 lg:p-8 hover:bg-bg-2 transition-colors block">
+        <div class="font-mono text-[10px] tracking-[0.22em] text-fg-mute uppercase mb-3">DEEP DIVE / № 01 — 技术视角 →</div>
+        <h3 class="font-serif text-xl lg:text-2xl font-normal leading-snug">协议深潜</h3>
+        <p class="text-sm text-fg-dim mt-2 font-light">协议拆解 + 设计分析 + 协议栈定位 + 未来预测 · BLE 到 agent-hardware 通信的全貌</p>
+        <span class="inline-block mt-4 font-mono text-[10px] text-amber tracking-[0.16em] uppercase">▢ 已发布</span>
+      </a>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="max-w-wrap mx-auto px-[5vw] lg:px-12 relative z-[2] py-12 lg:py-16">
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12 mb-12">
+      <div>
+        <div class="font-mono text-[10px] tracking-[0.2em] text-amber uppercase mb-4">SOURCE</div>
+        <ul class="space-y-2 text-[13px] text-fg-dim font-light">
+          <li><a class="hover:text-amber transition" href="https://github.com/anthropics/claude-desktop-buddy" target="_blank" rel="noopener">github.com/anthropics/claude-desktop-buddy</a></li>
+          <li><span class="text-fg-mute">REFERENCE.md — BLE 协议</span></li>
+          <li><span class="text-fg-mute">characters/bufo — 角色包样例</span></li>
+        </ul>
+      </div>
+      <div>
+        <div class="font-mono text-[10px] tracking-[0.2em] text-amber uppercase mb-4">HARDWARE</div>
+        <ul class="space-y-2 text-[13px] text-fg-dim font-light">
+          <li>M5StickC Plus / ~$25</li>
+          <li>ESP32 + Arduino framework</li>
+          <li>BLE 5.0 / NimBLE</li>
+        </ul>
+      </div>
+      <div>
+        <div class="font-mono text-[10px] tracking-[0.2em] text-amber uppercase mb-4">TOOLCHAIN</div>
+        <ul class="space-y-2 text-[13px] text-fg-dim font-light">
+          <li>PlatformIO Core 6.1+</li>
+          <li>Claude Desktop (developer mode)</li>
+          <li>gifsicle / pillow</li>
+        </ul>
+      </div>
+      <div>
+        <div class="font-mono text-[10px] tracking-[0.2em] text-amber uppercase mb-4">RELATED</div>
+        <ul class="space-y-2 text-[13px] text-fg-dim font-light">
+          <li>Hardware Buddy window</li>
+          <li>Nordic UART Service</li>
+          <li>NVS persistence</li>
+        </ul>
+      </div>
+    </div>
+    <div class="pt-8 border-t border-line flex flex-wrap items-center justify-between gap-4 font-mono text-[10px] tracking-[0.2em] uppercase text-fg-mute">
+      <span>FIELD NOTE / № 01 — END</span>
+      <span class="text-fg-dim">Filed 2026.05.07</span>
+    </div>
+  </footer>
+
+</body>
+</html>

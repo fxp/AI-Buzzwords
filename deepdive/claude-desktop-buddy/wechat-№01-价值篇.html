@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="zh-CN"><head><meta charset="utf-8"/><title>不止是桌面宠物</title>
+<style>body{margin:0;background:#f4f4f4;padding:24px 0}
+.copy-banner{position:sticky;top:0;background:#fff;border-bottom:1px solid #ddd;padding:12px 16px;text-align:center;font-family:-apple-system,sans-serif;font-size:13px;color:#666;z-index:99}
+.copy-banner b{color:#e84040}</style></head><body>
+<div class="copy-banner">⌘A 全选 → ⌘C 复制 → 粘贴到微信公众号编辑器（图文消息正文区）。<b>主题</b>: amber</div>
+<section id="wechat-article" style="max-width:677px;margin:0 auto;padding:20px 16px;font-family:-apple-system, BlinkMacSystemFont, 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;font-size:16px;color:#2c2620;background:#fff;line-height:1.85;letter-spacing:0.02em;word-break:break-word">
+<h1 style="font-size:24px;font-weight:700;color:#2c2620;margin:0 0 8px;line-height:1.4;text-align:center">不止是桌面宠物</h1>
+<p style="text-align:center;color:#6e6960;font-size:14px;margin:0 0 32px">Claude Desktop Buddy 对开发者意味着什么</p>
+<hr style="border:0;border-top:1px solid #e6d9bf;margin:0 0 32px"/>
+
+<h2 style="font-size:20px;font-weight:700;color:#2c2620;margin:32px 0 14px;line-height:1.4;padding-left:12px;border-left:4px solid #c4850a">它解决的真问题</h2>
+<p style="margin:0 0 16px;line-height:1.85;color:#2c2620;font-size:16px;letter-spacing:0.02em">Claude Code 跑长任务时，最烦的不是等——是弹窗。</p>
+<p style="margin:0 0 16px;line-height:1.85;color:#2c2620;font-size:16px;letter-spacing:0.02em">你刚进状态，<code style="font-family:'SF Mono',Menlo,Consolas,monospace;background:#faf6ef;padding:2px 6px;border-radius:3px;font-size:0.9em;color:#c4850a">approve: Bash</code> 跳出来，切窗口、点按钮、切回编辑器，刚才脑子里那条线断了。单次不痛，叠起来很痛。越敢放权给 agent，弹窗越多；不放权 agent 又跑不动。</p>
+<p style="margin:0 0 16px;line-height:1.85;color:#2c2620;font-size:16px;letter-spacing:0.02em">Buddy 做的事很简单：把「切回 Claude 窗口点按钮」变成「余光看设备、伸手按一下」。</p>
+<p style="margin:0 0 16px;line-height:1.85;color:#2c2620;font-size:16px;letter-spacing:0.02em">听起来省了两秒，实际省的是注意力上下文的切换。</p>
+<hr style="border:0;border-top:1px solid #e6d9bf;margin:32px 0"/>
+
+<figure style="margin:0 0 32px">
+<img src="https://raw.githubusercontent.com/anthropics/claude-desktop-buddy/main/docs/device.jpg" alt="M5StickC Plus running buddy firmware" style="width:100%;height:auto;display:block;border:1px solid #e6d9bf"/>
+<figcaption style="margin:6px 0 0;font-family:'SF Mono',Menlo,Consolas,monospace;font-size:11px;color:#6e6960;letter-spacing:0.1em;text-transform:uppercase">FIG / 01 — M5StickC Plus running buddy firmware</figcaption>
+</figure>
+
+<h2 style="font-size:20px;font-weight:700;color:#2c2620;margin:32px 0 14px;line-height:1.4;padding-left:12px;border-left:4px solid #c4850a">设备有 7 种状态</h2>
+<table style="width:100%;border-collapse:collapse;margin:16px 0;font-size:14px">
+<tr><th style="padding:8px 12px;border:1px solid #e6d9bf;text-align:left;background:rgba(196,133,10,0.10);font-weight:700;color:#2c2620">状态</th><th style="padding:8px 12px;border:1px solid #e6d9bf;text-align:left;background:rgba(196,133,10,0.10);font-weight:700;color:#2c2620">触发条件</th><th style="padding:8px 12px;border:1px solid #e6d9bf;text-align:left;background:rgba(196,133,10,0.10);font-weight:700;color:#2c2620">表现</th></tr>
+<tr><td style="padding:8px 12px;border:1px solid #e6d9bf;color:#2c2620"><code style="font-family:'SF Mono',Menlo,Consolas,monospace;background:#faf6ef;padding:2px 5px;border-radius:3px;font-size:0.85em;color:#c4850a">sleep</code></td><td style="padding:8px 12px;border:1px solid #e6d9bf;color:#2c2620">桌面端没连上</td><td style="padding:8px 12px;border:1px solid #e6d9bf;color:#2c2620">闭眼，慢呼吸</td></tr>
+<tr><td style="padding:8px 12px;border:1px solid #e6d9bf;color:#2c2620"><code style="font-family:'SF Mono',Menlo,Consolas,monospace;background:#faf6ef;padding:2px 5px;border-radius:3px;font-size:0.85em;color:#c4850a">idle</code></td><td style="padding:8px 12px;border:1px solid #e6d9bf;color:#2c2620">连上了但没事干</td><td style="padding:8px 12px;border:1px solid #e6d9bf;color:#2c2620">眨眼，东张西望</td></tr>
+<tr><td style="padding:8px 12px;border:1px solid #e6d9bf;color:#2c2620"><code style="font-family:'SF Mono',Menlo,Consolas,monospace;background:#faf6ef;padding:2px 5px;border-radius:3px;font-size:0.85em;color:#c4850a">busy</code></td><td style="padding:8px 12px;border:1px solid #e6d9bf;color:#2c2620">session 在跑</td><td style="padding:8px 12px;border:1px solid #e6d9bf;color:#2c2620">出汗、忙工作脸</td></tr>
+<tr><td style="padding:8px 12px;border:1px solid #e6d9bf;color:#2c2620"><code style="font-family:'SF Mono',Menlo,Consolas,monospace;background:#faf6ef;padding:2px 5px;border-radius:3px;font-size:0.85em;color:#c4850a">attention</code></td><td style="padding:8px 12px;border:1px solid #e6d9bf;color:#2c2620"><strong style="color:#c4850a;font-weight:700">有审批弹窗</strong></td><td style="padding:8px 12px;border:1px solid #e6d9bf;color:#2c2620">警觉表情 + <strong style="color:#c4850a;font-weight:700">LED 闪</strong></td></tr>
+<tr><td style="padding:8px 12px;border:1px solid #e6d9bf;color:#2c2620"><code style="font-family:'SF Mono',Menlo,Consolas,monospace;background:#faf6ef;padding:2px 5px;border-radius:3px;font-size:0.85em;color:#c4850a">celebrate</code></td><td style="padding:8px 12px;border:1px solid #e6d9bf;color:#2c2620">累计用满 50K tokens</td><td style="padding:8px 12px;border:1px solid #e6d9bf;color:#2c2620">撒彩花、跳跃</td></tr>
+<tr><td style="padding:8px 12px;border:1px solid #e6d9bf;color:#2c2620"><code style="font-family:'SF Mono',Menlo,Consolas,monospace;background:#faf6ef;padding:2px 5px;border-radius:3px;font-size:0.85em;color:#c4850a">dizzy</code></td><td style="padding:8px 12px;border:1px solid #e6d9bf;color:#2c2620">晃了它（IMU 触发）</td><td style="padding:8px 12px;border:1px solid #e6d9bf;color:#2c2620">转圈眼</td></tr>
+<tr><td style="padding:8px 12px;border:1px solid #e6d9bf;color:#2c2620"><code style="font-family:'SF Mono',Menlo,Consolas,monospace;background:#faf6ef;padding:2px 5px;border-radius:3px;font-size:0.85em;color:#c4850a">heart</code></td><td style="padding:8px 12px;border:1px solid #e6d9bf;color:#2c2620">5 秒内秒批一个审批</td><td style="padding:8px 12px;border:1px solid #e6d9bf;color:#2c2620">飘心</td></tr>
+</table>
+<p style="margin:16px 0 8px;line-height:1.85;color:#6e6960;font-size:14px;letter-spacing:0.02em">bufo 七种状态实际长这样（仓库自带角色包）：</p>
+<table style="width:100%;border-collapse:collapse;margin:8px 0 20px;table-layout:fixed">
+<tr>
+<td style="text-align:center;padding:6px;border:none;width:25%"><img src="https://raw.githubusercontent.com/anthropics/claude-desktop-buddy/main/characters/bufo/sleep.gif" alt="sleep" style="width:80px;height:80px;object-fit:contain;background:#faf6ef;display:block;margin:0 auto"/><p style="margin:4px 0 0;font-size:11px;color:#6e6960;font-family:'SF Mono',Menlo,monospace">sleep</p></td>
+<td style="text-align:center;padding:6px;border:none;width:25%"><img src="https://raw.githubusercontent.com/anthropics/claude-desktop-buddy/main/characters/bufo/idle_0.gif" alt="idle" style="width:80px;height:80px;object-fit:contain;background:#faf6ef;display:block;margin:0 auto"/><p style="margin:4px 0 0;font-size:11px;color:#6e6960;font-family:'SF Mono',Menlo,monospace">idle</p></td>
+<td style="text-align:center;padding:6px;border:none;width:25%"><img src="https://raw.githubusercontent.com/anthropics/claude-desktop-buddy/main/characters/bufo/busy.gif" alt="busy" style="width:80px;height:80px;object-fit:contain;background:#faf6ef;display:block;margin:0 auto"/><p style="margin:4px 0 0;font-size:11px;color:#6e6960;font-family:'SF Mono',Menlo,monospace">busy</p></td>
+<td style="text-align:center;padding:6px;border:none;width:25%"><img src="https://raw.githubusercontent.com/anthropics/claude-desktop-buddy/main/characters/bufo/attention.gif" alt="attention" style="width:80px;height:80px;object-fit:contain;background:#faf6ef;display:block;margin:0 auto"/><p style="margin:4px 0 0;font-size:11px;color:#c4850a;font-family:'SF Mono',Menlo,monospace;font-weight:700">attention</p></td>
+</tr>
+<tr>
+<td style="text-align:center;padding:6px;border:none"><img src="https://raw.githubusercontent.com/anthropics/claude-desktop-buddy/main/characters/bufo/celebrate.gif" alt="celebrate" style="width:80px;height:80px;object-fit:contain;background:#faf6ef;display:block;margin:0 auto"/><p style="margin:4px 0 0;font-size:11px;color:#6e6960;font-family:'SF Mono',Menlo,monospace">celebrate</p></td>
+<td style="text-align:center;padding:6px;border:none"><img src="https://raw.githubusercontent.com/anthropics/claude-desktop-buddy/main/characters/bufo/dizzy.gif" alt="dizzy" style="width:80px;height:80px;object-fit:contain;background:#faf6ef;display:block;margin:0 auto"/><p style="margin:4px 0 0;font-size:11px;color:#6e6960;font-family:'SF Mono',Menlo,monospace">dizzy</p></td>
+<td style="text-align:center;padding:6px;border:none"><img src="https://raw.githubusercontent.com/anthropics/claude-desktop-buddy/main/characters/bufo/heart.gif" alt="heart" style="width:80px;height:80px;object-fit:contain;background:#faf6ef;display:block;margin:0 auto"/><p style="margin:4px 0 0;font-size:11px;color:#6e6960;font-family:'SF Mono',Menlo,monospace">heart</p></td>
+<td style="border:none"></td>
+</tr>
+</table>
+<p style="margin:0 0 16px;line-height:1.85;color:#2c2620;font-size:16px;letter-spacing:0.02em">按键语义随状态变——同一个按钮在不同页面意思不一样：</p>
+<table style="width:100%;border-collapse:collapse;margin:16px 0;font-size:14px">
+<tr><th style="padding:8px 12px;border:1px solid #e6d9bf;text-align:left;background:rgba(196,133,10,0.10);font-weight:700;color:#2c2620"></th><th style="padding:8px 12px;border:1px solid #e6d9bf;text-align:left;background:rgba(196,133,10,0.10);font-weight:700;color:#2c2620">平时</th><th style="padding:8px 12px;border:1px solid #e6d9bf;text-align:left;background:rgba(196,133,10,0.10);font-weight:700;color:#2c2620">看宠物</th><th style="padding:8px 12px;border:1px solid #e6d9bf;text-align:left;background:rgba(196,133,10,0.10);font-weight:700;color:#2c2620">看信息</th><th style="padding:8px 12px;border:1px solid #e6d9bf;text-align:left;background:rgba(196,133,10,0.10);font-weight:700;color:#2c2620">有审批时</th></tr>
+<tr><td style="padding:8px 12px;border:1px solid #e6d9bf;color:#2c2620"><strong style="color:#c4850a;font-weight:700">A</strong>（正面）</td><td style="padding:8px 12px;border:1px solid #e6d9bf;color:#2c2620">切下一屏</td><td style="padding:8px 12px;border:1px solid #e6d9bf;color:#2c2620">切下一屏</td><td style="padding:8px 12px;border:1px solid #e6d9bf;color:#2c2620">切下一屏</td><td style="padding:8px 12px;border:1px solid #e6d9bf;color:#2c2620"><strong style="color:#c4850a;font-weight:700">批准</strong></td></tr>
+<tr><td style="padding:8px 12px;border:1px solid #e6d9bf;color:#2c2620"><strong style="color:#c4850a;font-weight:700">B</strong>（右侧）</td><td style="padding:8px 12px;border:1px solid #e6d9bf;color:#2c2620">滚动对话</td><td style="padding:8px 12px;border:1px solid #e6d9bf;color:#2c2620">切下一只宠物</td><td style="padding:8px 12px;border:1px solid #e6d9bf;color:#2c2620">翻页</td><td style="padding:8px 12px;border:1px solid #e6d9bf;color:#2c2620"><strong style="color:#c4850a;font-weight:700">拒绝</strong></td></tr>
+<tr><td style="padding:8px 12px;border:1px solid #e6d9bf;color:#2c2620"><strong style="font-weight:700">长按 A</strong></td><td style="padding:8px 12px;border:1px solid #e6d9bf;color:#2c2620">进菜单</td><td style="padding:8px 12px;border:1px solid #e6d9bf;color:#2c2620">进菜单</td><td style="padding:8px 12px;border:1px solid #e6d9bf;color:#2c2620">进菜单</td><td style="padding:8px 12px;border:1px solid #e6d9bf;color:#2c2620">进菜单</td></tr>
+<tr><td style="padding:8px 12px;border:1px solid #e6d9bf;color:#2c2620">左侧电源短按</td><td style="padding:8px 12px;border:1px solid #e6d9bf;color:#6e6960" colspan="4">关屏</td></tr>
+<tr><td style="padding:8px 12px;border:1px solid #e6d9bf;color:#2c2620">左侧电源长按 6s</td><td style="padding:8px 12px;border:1px solid #e6d9bf;color:#6e6960" colspan="4">硬关机</td></tr>
+<tr><td style="padding:8px 12px;border:1px solid #e6d9bf;color:#2c2620">晃一下</td><td style="padding:8px 12px;border:1px solid #e6d9bf;color:#6e6960" colspan="4">转晕</td></tr>
+<tr><td style="padding:8px 12px;border:1px solid #e6d9bf;color:#2c2620">倒扣放桌上</td><td style="padding:8px 12px;border:1px solid #e6d9bf;color:#6e6960" colspan="4">睡觉回血</td></tr>
+</table>
+<p style="margin:0 0 16px;line-height:1.85;color:#6e6960;font-size:14px;letter-spacing:0.02em">30 秒无操作自动息屏，有审批时除外。</p>
+<hr style="border:0;border-top:1px solid #e6d9bf;margin:32px 0"/>
+
+<p style="margin:0 0 12px;line-height:1.85;color:#6e6960;font-size:14px;letter-spacing:0.02em">实际用一天大概是这样：</p>
+<ul style="margin:0 0 16px;padding-left:1.5em;list-style:disc">
+<li style="margin:0 0 8px;line-height:1.85;color:#2c2620">早上开 Claude 桌面端 → 设备从 <code style="font-family:'SF Mono',Menlo,Consolas,monospace;background:#faf6ef;padding:2px 5px;border-radius:3px;font-size:0.85em;color:#c4850a">sleep</code> 睁眼进 <code style="font-family:'SF Mono',Menlo,Consolas,monospace;background:#faf6ef;padding:2px 5px;border-radius:3px;font-size:0.85em;color:#c4850a">idle</code>，开始眨眼东张西望</li>
+<li style="margin:0 0 8px;line-height:1.85;color:#2c2620">让 Code 跑重构 → 进 <code style="font-family:'SF Mono',Menlo,Consolas,monospace;background:#faf6ef;padding:2px 5px;border-radius:3px;font-size:0.85em;color:#c4850a">busy</code>，开始出汗</li>
+<li style="margin:0 0 8px;line-height:1.85;color:#2c2620">跑到一半要 <code style="font-family:'SF Mono',Menlo,Consolas,monospace;background:#faf6ef;padding:2px 5px;border-radius:3px;font-size:0.85em;color:#c4850a">git push</code> 需要审批 → 切 <code style="font-family:'SF Mono',Menlo,Consolas,monospace;background:#faf6ef;padding:2px 5px;border-radius:3px;font-size:0.85em;color:#c4850a">attention</code>，LED 闪。余光扫到，伸手按 A，5 秒内批完 → <code style="font-family:'SF Mono',Menlo,Consolas,monospace;background:#faf6ef;padding:2px 5px;border-radius:3px;font-size:0.85em;color:#c4850a">heart</code> 飘心</li>
+<li style="margin:0 0 8px;line-height:1.85;color:#2c2620">中间跑了个长 agent 烧了 50K tokens → <code style="font-family:'SF Mono',Menlo,Consolas,monospace;background:#faf6ef;padding:2px 5px;border-radius:3px;font-size:0.85em;color:#c4850a">celebrate</code> 撒彩花</li>
+<li style="margin:0 0 8px;line-height:1.85;color:#2c2620">出门吃饭把它倒扣桌上 → 进 <code style="font-family:'SF Mono',Menlo,Consolas,monospace;background:#faf6ef;padding:2px 5px;border-radius:3px;font-size:0.85em;color:#c4850a">sleep</code> 回能量</li>
+<li style="margin:0 0 8px;line-height:1.85;color:#2c2620">回来摇一下 → <code style="font-family:'SF Mono',Menlo,Consolas,monospace;background:#faf6ef;padding:2px 5px;border-radius:3px;font-size:0.85em;color:#c4850a">dizzy</code> 转圈眼</li>
+</ul>
+<hr style="border:0;border-top:1px solid #e6d9bf;margin:32px 0"/>
+
+<h2 style="font-size:20px;font-weight:700;color:#2c2620;margin:32px 0 14px;line-height:1.4;padding-left:12px;border-left:4px solid #c4850a">实际有用的地方</h2>
+<p style="margin:0 0 16px;line-height:1.85;color:#2c2620;font-size:16px;letter-spacing:0.02em"><strong style="color:#c4850a;font-weight:700">审批不破坏工作流。</strong> 你在另一个终端调试，Claude 在后台跑批量任务。不用来回切窗口，手不离键盘，余光扫一眼，按一下。特别适合双屏或者 Claude 跑在另一台机器上的场景。</p>
+<p style="margin:0 0 16px;line-height:1.85;color:#2c2620;font-size:16px;letter-spacing:0.02em"><strong style="color:#c4850a;font-weight:700">token 消耗变得可感知。</strong> 每 50K tokens 升一级放彩花。原来 token 数字埋在网页里，没什么感知。现在桌上会发生一个物理事件，你会实际注意到自己烧了多少——对控制成本和感知 agent 调用密度都有用。</p>
+<p style="margin:0 0 16px;line-height:1.85;color:#2c2620;font-size:16px;letter-spacing:0.02em"><strong style="color:#c4850a;font-weight:700">倒扣和摇晃。</strong> 倒扣 = 去睡别烦我，摇 = 闲着玩。听起来有点蠢，但这两个手势传达意图的成本比打字低很多，而且是真实的物理操作，不是软件按钮。</p>
+<hr style="border:0;border-top:1px solid #e6d9bf;margin:32px 0"/>
+
+<h2 style="font-size:20px;font-weight:700;color:#2c2620;margin:32px 0 14px;line-height:1.4;padding-left:12px;border-left:4px solid #c4850a">怎么改</h2>
+<p style="margin:0 0 16px;line-height:1.85;color:#2c2620;font-size:16px;letter-spacing:0.02em">Buddy 另一个值得一提的地方是很好改。</p>
+<h3 style="font-size:17px;font-weight:700;color:#c4850a;margin:24px 0 12px;line-height:1.5">换宠物</h3>
+<p style="margin:0 0 16px;line-height:1.85;color:#2c2620;font-size:16px;letter-spacing:0.02em">固件内置 18 个 ASCII 物种，长按 A → 菜单 → next pet 循环切换，掉电不丢。如果只是想换个皮，这一步就够了。</p>
+<h3 style="font-size:17px;font-weight:700;color:#c4850a;margin:24px 0 12px;line-height:1.5">推 GIF 角色包</h3>
+<p style="margin:0 0 16px;line-height:1.85;color:#2c2620;font-size:16px;letter-spacing:0.02em">不想要 ASCII？做一套 GIF 拖到 Claude Desktop 的 Hardware Buddy 窗口 drop target，走 BLE 推到设备实时切换。仓库里 <code style="font-family:'SF Mono',Menlo,Consolas,monospace;background:#faf6ef;padding:2px 5px;border-radius:3px;font-size:0.85em;color:#c4850a">characters/bufo/</code> 是完整的青蛙例子。</p>
+<figure style="margin:0 0 16px">
+<img src="https://raw.githubusercontent.com/anthropics/claude-desktop-buddy/main/docs/hardware-buddy-window.png" alt="Hardware Buddy window with Connect button and folder drop target" style="width:100%;height:auto;display:block;border:1px solid #e6d9bf"/>
+<figcaption style="margin:6px 0 0;font-family:'SF Mono',Menlo,Consolas,monospace;font-size:11px;color:#6e6960;letter-spacing:0.1em;text-transform:uppercase">FIG / 03 — Hardware Buddy window — drag drop target 在右边</figcaption>
+</figure>
+<pre style="background:#faf6ef;padding:12px 16px;border-radius:4px;overflow-x:auto;margin:16px 0;font-family:'SF Mono',Menlo,Consolas,monospace;font-size:13px;line-height:1.6;color:#2c2620;border:1px solid #e6d9bf"><code style="font-family:inherit;background:none;padding:0;color:inherit">my-character/
+  manifest.json     # 元信息 + 颜色 + 状态到文件的映射
+  sleep.gif
+  idle_0.gif
+  idle_1.gif        # idle 可以是数组，循环轮播
+  busy.gif
+  attention.gif
+  celebrate.gif
+  dizzy.gif
+  heart.gif</code></pre>
+<p style="margin:0 0 16px;line-height:1.85;color:#2c2620;font-size:16px;letter-spacing:0.02em">约束：GIF 96px 宽，&lt; 1.8MB。<code style="font-family:'SF Mono',Menlo,Consolas,monospace;background:#faf6ef;padding:2px 5px;border-radius:3px;font-size:0.85em;color:#c4850a">tools/prep_character.py</code> 帮你统一缩放，<code style="font-family:'SF Mono',Menlo,Consolas,monospace;background:#faf6ef;padding:2px 5px;border-radius:3px;font-size:0.85em;color:#c4850a">gifsicle --lossy=80 -O3 --colors 64</code> 一般能压掉 40-60%。</p>
+<h3 style="font-size:17px;font-weight:700;color:#c4850a;margin:24px 0 12px;line-height:1.5">USB 直刷（迭代角色时更快）</h3>
+<p style="margin:0 0 16px;line-height:1.85;color:#2c2620;font-size:16px;letter-spacing:0.02em">迭代角色包时不想每次走蓝牙：</p>
+<pre style="background:#faf6ef;padding:12px 16px;border-radius:4px;overflow-x:auto;margin:16px 0;font-family:'SF Mono',Menlo,Consolas,monospace;font-size:13px;line-height:1.6;color:#2c2620;border:1px solid #e6d9bf"><code style="font-family:inherit;background:none;padding:0;color:inherit">tools/flash_character.py characters/bufo</code></pre>
+<p style="margin:0 0 16px;line-height:1.85;color:#2c2620;font-size:16px;letter-spacing:0.02em">把角色放到 <code style="font-family:'SF Mono',Menlo,Consolas,monospace;background:#faf6ef;padding:2px 5px;border-radius:3px;font-size:0.85em;color:#c4850a">data/</code> 然后 <code style="font-family:'SF Mono',Menlo,Consolas,monospace;background:#faf6ef;padding:2px 5px;border-radius:3px;font-size:0.85em;color:#c4850a">pio run -t uploadfs</code> 直接写文件系统。</p>
+<h3 style="font-size:17px;font-weight:700;color:#c4850a;margin:24px 0 12px;line-height:1.5">改固件</h3>
+<p style="margin:0 0 16px;line-height:1.85;color:#2c2620;font-size:16px;letter-spacing:0.02em"><code style="font-family:'SF Mono',Menlo,Consolas,monospace;background:#faf6ef;padding:2px 5px;border-radius:3px;font-size:0.85em;color:#c4850a">src/</code> 结构清晰：</p>
+<ul style="margin:0 0 16px;padding-left:1.5em;list-style:disc">
+<li style="margin:0 0 8px;line-height:1.85;color:#2c2620"><code style="font-family:'SF Mono',Menlo,Consolas,monospace;background:#faf6ef;padding:2px 5px;border-radius:3px;font-size:0.85em;color:#c4850a">main.cpp</code> — 主循环 + 状态机 + UI 屏幕</li>
+<li style="margin:0 0 8px;line-height:1.85;color:#2c2620"><code style="font-family:'SF Mono',Menlo,Consolas,monospace;background:#faf6ef;padding:2px 5px;border-radius:3px;font-size:0.85em;color:#c4850a">buddies/</code> — 一个文件一个物种，7 个动画函数</li>
+<li style="margin:0 0 8px;line-height:1.85;color:#2c2620"><code style="font-family:'SF Mono',Menlo,Consolas,monospace;background:#faf6ef;padding:2px 5px;border-radius:3px;font-size:0.85em;color:#c4850a">ble_bridge.cpp</code> — Nordic UART 桥</li>
+<li style="margin:0 0 8px;line-height:1.85;color:#2c2620"><code style="font-family:'SF Mono',Menlo,Consolas,monospace;background:#faf6ef;padding:2px 5px;border-radius:3px;font-size:0.85em;color:#c4850a">character.cpp</code> — GIF 解码渲染</li>
+<li style="margin:0 0 8px;line-height:1.85;color:#2c2620"><code style="font-family:'SF Mono',Menlo,Consolas,monospace;background:#faf6ef;padding:2px 5px;border-radius:3px;font-size:0.85em;color:#c4850a">data.h</code> / <code style="font-family:'SF Mono',Menlo,Consolas,monospace;background:#faf6ef;padding:2px 5px;border-radius:3px;font-size:0.85em;color:#c4850a">xfer.h</code> — 协议和文件传输</li>
+<li style="margin:0 0 8px;line-height:1.85;color:#2c2620"><code style="font-family:'SF Mono',Menlo,Consolas,monospace;background:#faf6ef;padding:2px 5px;border-radius:3px;font-size:0.85em;color:#c4850a">stats.h</code> — NVS 持久化（统计、设置、宠物选择）</li>
+</ul>
+<p style="margin:0 0 16px;line-height:1.85;color:#2c2620;font-size:16px;letter-spacing:0.02em">加新状态、加新触发（比如双击）、改动画——基本上改一个文件的事。</p>
+<hr style="border:0;border-top:1px solid #e6d9bf;margin:32px 0"/>
+
+<h2 style="font-size:20px;font-weight:700;color:#2c2620;margin:32px 0 14px;line-height:1.4;padding-left:12px;border-left:4px solid #c4850a">协议是开放的</h2>
+<p style="margin:0 0 16px;line-height:1.85;color:#2c2620;font-size:16px;letter-spacing:0.02em">Nordic UART over BLE，JSON over line buffer，schema 都在仓库 <code style="font-family:'SF Mono',Menlo,Consolas,monospace;background:#faf6ef;padding:2px 5px;border-radius:3px;font-size:0.85em;color:#c4850a">REFERENCE.md</code>。文档明确写了：&quot;Building your own device? You don't need any of the code here.&quot;</p>
+<p style="margin:0 0 16px;line-height:1.85;color:#2c2620;font-size:16px;letter-spacing:0.02em">这意味着：</p>
+<ul style="margin:0 0 16px;padding-left:1.5em;list-style:disc">
+<li style="margin:0 0 8px;line-height:1.85;color:#2c2620"><strong style="color:#c4850a;font-weight:700">不用 M5Stick</strong> 也能接——任何能跑 BLE 的 ESP32、nRF52、树莓派 + dongle</li>
+<li style="margin:0 0 8px;line-height:1.85;color:#2c2620"><strong style="color:#c4850a;font-weight:700">不显示宠物</strong> 也行——机械翻页时钟、办公室门口的雾化灯、旧诺基亚屏</li>
+<li style="margin:0 0 8px;line-height:1.85;color:#2c2620"><strong style="color:#c4850a;font-weight:700">反向用</strong> 也可以——把 Claude 状态接 Home Assistant，agent 跑起来时家里灯调暗</li>
+</ul>
+<p style="margin:0 0 16px;line-height:1.85;color:#2c2620;font-size:16px;letter-spacing:0.02em">M5StickC Plus 整机约 25 美元，固件开源，PlatformIO 刷机。门槛基本是零。</p>
+<hr style="border:0;border-top:1px solid #e6d9bf;margin:32px 0"/>
+
+<h2 style="font-size:20px;font-weight:700;color:#2c2620;margin:32px 0 14px;line-height:1.4;padding-left:12px;border-left:4px solid #c4850a">你现在就能做什么</h2>
+<blockquote style="margin:0 0 16px;padding:12px 16px;background:rgba(196,133,10,0.10);border-left:4px solid #c4850a;line-height:1.85">
+<p style="margin:0;color:#2c2620;font-size:15px;letter-spacing:0.02em">📹 仓库附有完整上手视频（约 80 秒）：PlatformIO 环境搭建 → 固件烧录 → Claude 桌面端开启开发者模式 → BLE 配对 → 实机审批交互。</p>
+</blockquote>
+<p style="margin:0 0 16px;line-height:1.85;color:#2c2620;font-size:16px;letter-spacing:0.02em">按投入从低到高：</p>
+<ol style="margin:0 0 16px;padding-left:1.5em;list-style:decimal">
+<li style="margin:0 0 12px;line-height:1.85;color:#2c2620"><strong style="color:#c4850a;font-weight:700">拿来用</strong>：M5StickC Plus 烧官方固件，先体验一周再说。</li>
+<li style="margin:0 0 12px;line-height:1.85;color:#2c2620"><strong style="color:#c4850a;font-weight:700">换宠物</strong>：长按 A → 菜单 → next pet，18 种 ASCII 物种都试一遍。</li>
+<li style="margin:0 0 12px;line-height:1.85;color:#2c2620"><strong style="color:#c4850a;font-weight:700">换皮</strong>：拖 GIF 角色包过去，或自己做一个（96px 宽，&lt; 1.8MB）。</li>
+<li style="margin:0 0 12px;line-height:1.85;color:#2c2620"><strong style="color:#c4850a;font-weight:700">改固件</strong>：加个双击触发、改动画、加新状态。</li>
+<li style="margin:0 0 12px;line-height:1.85;color:#2c2620"><strong style="color:#c4850a;font-weight:700">接其他硬件</strong>：基于公开 BLE 协议，让你现有的设备接 Claude 状态。</li>
+<li style="margin:0 0 12px;line-height:1.85;color:#2c2620"><strong style="color:#c4850a;font-weight:700">反向应用</strong>：Claude 状态接 Home Assistant / Stream Deck / 自定义键盘宏。</li>
+</ol>
+<p style="margin:0 0 16px;line-height:1.85;color:#2c2620;font-size:16px;letter-spacing:0.02em">哪怕完全不碰硬件，单纯把 Buddy 当「agent 审批 UI 该长什么样」的一个参考案例研究一下，也值这 25 美元和一个下午。</p>
+<hr style="border:0;border-top:1px solid #e6d9bf;margin:32px 0"/>
+<p style="margin:0 0 8px;line-height:1.85;color:#6e6960;font-size:13px;letter-spacing:0.02em">姊妹篇：协议深潜 № 02 — 从 BLE 比特流看 Agent 硬件通信协议的未来</p>
+<p style="margin:0 0 8px;line-height:1.85;color:#6e6960;font-size:13px;letter-spacing:0.02em">仓库：<a href="https://github.com/anthropics/claude-desktop-buddy" style="color:#c4850a;text-decoration:none;border-bottom:1px solid rgba(196,133,10,0.3)">github.com/anthropics/claude-desktop-buddy</a></p>
+<p style="margin:0;line-height:1.85;color:#6e6960;font-size:13px;letter-spacing:0.02em">Filed 2026-05-07</p>
+</section></body></html>

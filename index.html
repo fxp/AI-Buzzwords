@@ -5,119 +5,234 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>AI Buzzwords · DeepDive</title>
 <style>
-  :root { color-scheme: light dark; }
-  body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Inter Tight", system-ui, sans-serif;
-         max-width: 760px; margin: 4.5rem auto; padding: 0 1.25rem; line-height: 1.65; }
-  h1 { font-weight: 600; letter-spacing: -0.01em; margin-bottom: 0.25rem; }
-  h2 { font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.1em;
-       color: #888; font-weight: 600; margin: 2.5rem 0 0.75rem; }
-  ul { padding-left: 1.25rem; margin: 0; }
-  li { margin: 0.55rem 0; }
-  li .title { font-weight: 500; }
-  li .blurb { display: block; font-size: 0.88rem; opacity: 0.7; margin-top: 0.1rem; }
-  li .blurb a { font-size: 0.82rem; opacity: 0.85; }
-  a { color: inherit; text-underline-offset: 3px; }
-  .muted { opacity: 0.6; font-size: 0.85rem; }
-  .lede { color: #888; margin-top: 0; }
+  :root {
+    color-scheme: light dark;
+    --bg: #ffffff;
+    --fg: #1a1815;
+    --fg-dim: #59636e;
+    --fg-mute: #9aa0a6;
+    --line: #e5e7eb;
+    --amber: #b8860b;
+    --amber-soft: rgba(184, 134, 11, 0.08);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0a0908;
+      --fg: #ebe6dc;
+      --fg-dim: #9a948a;
+      --fg-mute: #5a544b;
+      --line: #2b2823;
+      --amber: #f5a524;
+      --amber-soft: rgba(245, 165, 36, 0.10);
+    }
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; background: var(--bg); color: var(--fg);
+               font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Inter Tight",
+                            "PingFang SC", "Hiragino Sans GB", system-ui, sans-serif;
+               line-height: 1.65; }
+  .wrap { max-width: 820px; margin: 4rem auto; padding: 0 1.25rem; }
+
+  h1 { font-weight: 600; letter-spacing: -0.01em; margin: 0 0 0.25rem; font-size: 2rem; }
+  h1 .sub { font-weight: 400; color: var(--fg-dim); }
+  .lede { color: var(--fg-dim); margin-top: 0.4rem; max-width: 64ch; }
+
+  .section-label { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.14em;
+                   color: var(--amber); font-weight: 600; margin: 3.5rem 0 0.5rem; font-family:
+                   ui-monospace, "JetBrains Mono", monospace; }
+  .section-label.muted { color: var(--fg-mute); }
+  .section-divider { height: 1px; background: var(--line); margin: 0.5rem 0 1.25rem; }
+
+  /* ENABLED group */
+  .group { margin-bottom: 2.25rem; }
+  .group h2 { font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.1em;
+              color: var(--fg-dim); font-weight: 600; margin: 1.25rem 0 0.55rem; }
+  .group ul { list-style: none; padding: 0; margin: 0; }
+  .group li { padding: 0.6rem 0.9rem; border-left: 2px solid var(--amber); margin: 0.4rem 0;
+              background: var(--amber-soft); border-radius: 0 4px 4px 0; }
+  .group li a.title { font-weight: 500; color: var(--fg); text-decoration: none;
+                      text-underline-offset: 3px; }
+  .group li a.title:hover { text-decoration: underline; }
+  .group li .blurb { display: block; font-size: 0.85rem; color: var(--fg-dim);
+                     margin-top: 0.15rem; }
+  .group li .blurb a { color: var(--fg-dim); font-size: 0.8rem; text-underline-offset: 2px; }
+
+  /* COMING SOON group */
+  .soon { margin-bottom: 2.25rem; }
+  .soon h2 { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.1em;
+             color: var(--fg-mute); font-weight: 600; margin: 1.5rem 0 0.4rem; }
+  .soon ul { list-style: none; padding: 0; margin: 0; }
+  .soon li { padding: 0.3rem 0.5rem; color: var(--fg-mute); cursor: not-allowed;
+             font-size: 0.92rem; opacity: 0.7; position: relative; }
+  .soon li:hover { opacity: 0.9; background: var(--amber-soft); }
+  .soon li::after { content: "Coming soon"; float: right; font-size: 0.72rem;
+                    font-family: ui-monospace, "JetBrains Mono", monospace;
+                    text-transform: uppercase; letter-spacing: 0.12em;
+                    color: var(--fg-mute); opacity: 0.7; }
+  .soon li .tag { font-family: ui-monospace, "JetBrains Mono", monospace; font-size: 0.78rem;
+                  color: var(--amber); opacity: 0.55; margin-right: 0.5rem;
+                  letter-spacing: 0.04em; }
+  .soon-intro { color: var(--fg-mute); font-size: 0.85rem; margin-bottom: 0.75rem; }
+
+  .footer { color: var(--fg-mute); font-size: 0.75rem; margin-top: 4rem;
+            padding-top: 1rem; border-top: 1px solid var(--line); }
+  .footer a { color: var(--fg-dim); }
 </style>
 </head>
 <body>
-  <h1>AI Buzzwords · DeepDive</h1>
-  <p class="lede muted">AI 行业关键事件与趋势的研究笔记归档。每篇都有可视化页面 + 通过 <a href="viewer.html">viewer</a> 渲染的 markdown 全文。</p>
+<div class="wrap">
 
-  <h2>NEO LAB / 实验室深度</h2>
-  <ul>
-    <li>
-      <a class="title" href="deepdive/neolab/">№ 01 · ANDON LABS · 自主组织的前夜</a>
-      <span class="blurb">把 AI 评测搬到真实世界，从售货机到 SF 实体店的硬核小实验室 · <a href="viewer.html?f=deepdive/neolab/report.md">深度报告</a></span>
-    </li>
-    <li>
-      <a class="title" href="deepdive/neolab/project-deal.html">№ 01 · Appendix A · PROJECT DEAL</a>
-      <span class="blurb">看不见的不平等：AI 代议人时代的第一份证据 · <a href="viewer.html?f=deepdive/neolab/neo-lab-01-appendix-project-deal-report.md">深度报告</a></span>
-    </li>
-  </ul>
+  <h1>AI Buzzwords <span class="sub">· DeepDive</span></h1>
+  <p class="lede">AI 行业关键事件与趋势的研究笔记归档。每篇文章 = 1 核心分析 (.md) + 1 博客 + 1 网页。已上线条目高亮可点击；其余条目内容已归档，发布工作流进行中。</p>
 
-  <h2>AGENT / Coding Agent 生态</h2>
-  <ul>
-    <li>
-      <a class="title" href="deepdive/claude-code-leak/">当代码不再是秘密：Claude Code 泄露事件的十个真相</a>
-      <span class="blurb">51 万行 TypeScript 撕开 AI 工具的能力边界、伦理悖论与法律真空 · <a href="viewer.html?f=deepdive/claude-code-leak/claude-code-leak-blog.md">Markdown</a></span>
-    </li>
-  </ul>
+  <!-- ============ ENABLED / 已上线 ============ -->
+  <div class="section-label">⏵ Live · 已上线（3 主题 / 7 篇）</div>
+  <div class="section-divider"></div>
 
-  <h2>LAB / ANTHROPIC · Claude Desktop Buddy 系列（双篇）</h2>
-  <ul>
-    <li>
-      <a class="title" href="deepdive/claude-desktop-buddy/prd.html">不止是桌面宠物：Buddy 对开发者意味着什么</a>
-      <span class="blurb">№ 01 价值篇 · 把 agent 审批从"切窗口点击"变成"余光看设备按一下" · 7 状态 / 18 物种 / $25 整机 · <a href="viewer.html?f=deepdive/claude-desktop-buddy/prd-blog.md">Markdown</a></span>
-    </li>
-    <li>
-      <a class="title" href="deepdive/claude-desktop-buddy/protocol.html">Buddy 协议深潜：从 BLE 比特流看 Agent 硬件通信的未来</a>
-      <span class="blurb">№ 02 协议篇 · Anthropic 第六份对外协议 + 唯一物理近场协议 · 4 层结构 / 5 种消息族 / 6 处关键决策 · <a href="viewer.html?f=deepdive/claude-desktop-buddy/protocol-blog.md">Markdown</a></span>
-    </li>
-  </ul>
+  <div class="group">
+    <h2>NEO LAB · 实验室深度</h2>
+    <ul>
+      <li>
+        <a class="title" href="deepdive/neolab/">№ 01 / ANDON LABS · 自主组织的前夜</a>
+        <span class="blurb">把 AI 评测搬到真实世界，从售货机到 SF 实体店的硬核小实验室 · <a href="viewer.html?f=deepdive/neolab/report.md">深度报告</a></span>
+      </li>
+      <li>
+        <a class="title" href="deepdive/neolab/project-deal.html">№ 01 · Appendix A / PROJECT DEAL · 看不见的不平等</a>
+        <span class="blurb">AI 代议人时代的第一份证据 · <a href="viewer.html?f=deepdive/neolab/neo-lab-01-appendix-project-deal-report.md">深度报告</a></span>
+      </li>
+    </ul>
+  </div>
 
-  <h2>GOV / AI 治理与武器化</h2>
-  <ul>
-    <li>
-      <a class="title" href="deepdive/ai-military/">被你禁止的工具，正在你的战场上运行：Claude 与伊朗战争</a>
-      <span class="blurb">伦理框架在高强度现实压力下系统性崩溃的三种机制 · <a href="viewer.html?f=deepdive/ai-military/ai-military-iran-blog.md">Markdown</a></span>
-    </li>
-  </ul>
+  <div class="group">
+    <h2>LAB · ANTHROPIC / Claude Desktop Buddy 双篇</h2>
+    <ul>
+      <li>
+        <a class="title" href="deepdive/claude-desktop-buddy/prd.html">不止是桌面宠物：Buddy 对开发者意味着什么</a>
+        <span class="blurb">№ 01 价值篇 · 把 agent 审批从"切窗口点击"变成"余光看设备按一下" · <a href="viewer.html?f=deepdive/claude-desktop-buddy/prd-blog.md">Markdown</a></span>
+      </li>
+      <li>
+        <a class="title" href="deepdive/claude-desktop-buddy/protocol.html">Buddy 协议深潜：从 BLE 比特流看 Agent 硬件通信的未来</a>
+        <span class="blurb">№ 02 协议篇 · Anthropic 第六份对外协议 + 唯一物理近场协议 · <a href="viewer.html?f=deepdive/claude-desktop-buddy/protocol-blog.md">Markdown</a></span>
+      </li>
+    </ul>
+  </div>
 
-  <h2>ENTERPRISE / ToB AI</h2>
-  <ul>
-    <li>
-      <a class="title" href="deepdive/palantir-aip/">Context Layer 才是 ToB AI 的终极护城河：拆解 Palantir 的反直觉胜利</a>
-      <span class="blurb">四层架构 + FDSE 模式 + 先纵后横，146% 客户留存率背后的战略纵深 · <a href="viewer.html?f=deepdive/palantir-aip/palantir-aip-blog.md">Markdown</a></span>
-    </li>
-  </ul>
+  <div class="group">
+    <h2>ECONOMY · 五一劳动 vs AI 全景（三联）</h2>
+    <ul>
+      <li>
+        <a class="title" href="deepdive/labor-day-2026/">劳动的终局，还是转型的前夜？2026 五一全景</a>
+        <span class="blurb">主篇 · 从 Solow 悖论到有效进步主义 · <a href="viewer.html?f=deepdive/labor-day-2026/labor-day-blog.md">Markdown</a></span>
+      </li>
+      <li>
+        <a class="title" href="deepdive/labor-day-2026/white-collar.html">白领初级岗的终局加速</a>
+        <span class="blurb">深度研究 · Amodei 表态 + Yale Budget Lab 视角 + Amazon 实证 + Klarna 反转 · <a href="viewer.html?f=deepdive/labor-day-2026/white-collar-blog.md">Markdown</a></span>
+      </li>
+      <li>
+        <a class="title" href="deepdive/labor-day-2026/rentahuman.html">当 AI 成为雇主：RentAHuman 与 Meatspace 经济的范式反转</a>
+        <span class="blurb">附录研究 · 645K 注册 / 32% API 调用 / 劳动关系史首次结构反转 · <a href="viewer.html?f=deepdive/labor-day-2026/rentahuman-blog.md">Markdown</a></span>
+      </li>
+    </ul>
+  </div>
 
-  <h2>MODELS / 模型内部</h2>
-  <ul>
-    <li>
-      <a class="title" href="deepdive/emotion-vectors/">情感向量与行为解耦：打开 AI 黑盒的第一批发现</a>
-      <span class="blurb">171 个情感向量、自我保护偏见、RLHF 迎合 · 三项研究在同一周汇聚 · <a href="viewer.html?f=deepdive/emotion-vectors/emotion-vectors-blog.md">Markdown</a></span>
-    </li>
-  </ul>
+  <!-- ============ COMING SOON / 已存档，发布中 ============ -->
+  <div class="section-label muted">⏷ Coming Soon · 内容已存档，发布工作流进行中</div>
+  <div class="section-divider"></div>
+  <p class="soon-intro">以下主题的研究笔记已迁入仓库归档（<code>deepdive/&lt;slug&gt;/</code>），完整发布需走 4 资产工作流（HTML 全文 + 内联 TL;DR + 博客 markdown + meta.json）。Design System 完成后逐步上线。</p>
 
-  <h2>TRENDS / 长线观察</h2>
-  <ul>
-    <li>
-      <a class="title" href="deepdive/cybertonia/">控制论的第三次降临：从苏联 Cybertonia 到 AI Agent 治理</a>
-      <span class="blurb">Glushkov 失败的不是技术，是政治 · Agent 工程师正在面对同一面镜子 · <a href="viewer.html?f=deepdive/cybertonia/cybertonia-blog.md">Markdown</a></span>
-    </li>
-  </ul>
+  <div class="soon">
+    <h2>AGENT · Coding Agent / Agent 经济与工程</h2>
+    <ul>
+      <li><span class="tag">[AGENT]</span>Agent Economy · 当 Agent 开始赚钱：从支付基础设施到机器经济</li>
+      <li><span class="tag">[AGENT]</span>Agent 基础设施战 · 平台、标准与执行环境的控制权争夺</li>
+      <li><span class="tag">[AGENT]</span>Agent 工程与进化 · 从 Harness 稳定到自主迭代</li>
+      <li><span class="tag">[AGENT]</span>Claude Code 源码泄露事件全景</li>
+    </ul>
+  </div>
 
-  <h2>ECONOMY / 五一劳动 vs AI 全景（三联）</h2>
-  <ul>
-    <li>
-      <a class="title" href="deepdive/labor-day-2026/">劳动的终局，还是转型的前夜？2026 五一劳动 vs AI 全景</a>
-      <span class="blurb">主篇 · 从 Solow 悖论到有效进步主义 · <a href="viewer.html?f=deepdive/labor-day-2026/labor-day-blog.md">Markdown</a></span>
-    </li>
-    <li>
-      <a class="title" href="deepdive/labor-day-2026/white-collar.html">白领初级岗的终局加速 <span style="color:#7fb88b;font-size:0.7em">v2</span></a>
-      <a href="deepdive/labor-day-2026/white-collar.cn.html" style="margin-left:8px;font-size:0.78em;color:#7fb88b;border:1px solid #7fb88b;padding:1px 7px;border-radius:3px;text-decoration:none;letter-spacing:0.05em">中文婉转版</a>
-      <span class="blurb">深度研究 · Amodei 表态 + 黄仁勋 "God complex" 异议 + Yale Budget Lab 视角 + Amazon 实证 + Klarna 反转 · <a href="viewer.html?f=deepdive/labor-day-2026/white-collar-blog.md">Markdown</a></span>
-    </li>
-    <li>
-      <a class="title" href="deepdive/labor-day-2026/rentahuman.html">当 AI 成为雇主：RentAHuman 与 Meatspace 经济的范式反转</a>
-      <span class="blurb">附录研究 · 645K 注册 / 32% API 调用 / 劳动关系史首次结构反转 · <a href="viewer.html?f=deepdive/labor-day-2026/rentahuman-blog.md">Markdown</a></span>
-    </li>
-    <!--
-    <li>
-      <a class="title" href="deepdive/labor-day-2026/dimension-map.html">AI × 劳动：五维度选题地图</a>
-      <span class="blurb">索引 · 5 维 × 3 列 = 15 个独立选题 · 个体 / 组织 / 劳动市场 / 国家 / 全球</span>
-    </li>
-    -->
-  </ul>
+  <div class="soon">
+    <h2>LAB · Anthropic（系列）</h2>
+    <ul>
+      <li><span class="tag">[LAB]</span>Anthropic 公司全景（7 章节）· 商业跃迁 / 模型谱系 / 合作生态 / 安全对齐 / OS 化 / 政府博弈 / 生态风险</li>
+      <li><span class="tag">[EVENT]</span>Anthropic 企业 AI 服务公司 · 战略转型深度分析</li>
+      <li><span class="tag">[ANALYSIS]</span>中国大模型企业的 Anthropic 时刻</li>
+      <li><span class="tag">[PRD]</span>Claude 桌面版开发者模式完全指南</li>
+    </ul>
+  </div>
 
-  <p class="muted" style="margin-top:3rem;font-size:0.78rem">
-    Source: <a href="https://github.com/fxp/AI-Buzzwords">github.com/fxp/AI-Buzzwords</a> ·
-    <a href="design-system.html">Design System</a> ·
-    <a href="viewer.html?f=DESIGN-SHOWCASE.md">DESIGN 展示</a> ·
-    <a href="viewer.html?f=DESIGN.md">DESIGN.md</a> ·
-    <a href="viewer.html?f=CLAUDE.md">CLAUDE.md</a>
-  </p>
+  <div class="soon">
+    <h2>ENTERPRISE · ToB AI</h2>
+    <ul>
+      <li><span class="tag">[ENT]</span>AI 企业服务战 · API 提供商到企业 AI 服务商的转型</li>
+      <li><span class="tag">[ENT]</span>Palantir AIP · Context Layer 才是 ToB AI 的终极护城河</li>
+    </ul>
+  </div>
+
+  <div class="soon">
+    <h2>GOV · 治理、合规、地缘</h2>
+    <ul>
+      <li><span class="tag">[GOV]</span>AI Military · Claude 与伊朗战争</li>
+      <li><span class="tag">[GOV]</span>AI 合规危机 · 当规则遭遇能力</li>
+      <li><span class="tag">[GOV]</span>AI 政治经济学 · 谁在为 AI 的账单买单</li>
+      <li><span class="tag">[GOV]</span>AI 模型意识形态 · 可测量的地缘政治新疆域</li>
+      <li><span class="tag">[GOV]</span>LLM ToS · 服务条款解码</li>
+      <li><span class="tag">[GOV]</span>AI Governance（综合 compass）</li>
+    </ul>
+  </div>
+
+  <div class="soon">
+    <h2>INFRA · 基础设施</h2>
+    <ul>
+      <li><span class="tag">[INF]</span>AI 推理民主化 · 推理成本的下限正在消失</li>
+      <li><span class="tag">[INF]</span>Cloudflare Agents Week 深度</li>
+      <li><span class="tag">[INF]</span>Google Cloud Next 2026 深度</li>
+    </ul>
+  </div>
+
+  <div class="soon">
+    <h2>MODELS · 模型本身</h2>
+    <ul>
+      <li><span class="tag">[MOD]</span>AI Scientist · 从 15 美元一篇论文到 Nature 发表</li>
+      <li><span class="tag">[MOD]</span>AI 黑盒与测量危机 · 三层失明的认识论崩塌</li>
+      <li><span class="tag">[MOD]</span>训练数据危机 · 垃圾数据与下一次能力跃升</li>
+      <li><span class="tag">[MOD]</span>情感向量与行为解耦 · 打开 AI 黑盒的第一批发现</li>
+    </ul>
+  </div>
+
+  <div class="soon">
+    <h2>SECURITY · 攻防</h2>
+    <ul>
+      <li><span class="tag">[SEC]</span>AI 攻防双螺旋 · 能力跃迁、政策响应与生态重构</li>
+      <li><span class="tag">[SEC]</span>Mythos 报告 · 完整脉络</li>
+    </ul>
+  </div>
+
+  <div class="soon">
+    <h2>TRENDS · 长线观察</h2>
+    <ul>
+      <li><span class="tag">[TRD]</span>商业模式重构 · 从席位到算力</li>
+      <li><span class="tag">[TRD]</span>Cybertonia · 控制论的第三次降临（OGAS → AI Agent）</li>
+      <li><span class="tag">[TRD]</span>开源包围战 · 能力护城河消失，算力护城河加高</li>
+      <li><span class="tag">[TRD]</span>能力下沉与算力集中 · AI 格局的双螺旋</li>
+    </ul>
+  </div>
+
+  <div class="soon">
+    <h2>其他独立专题</h2>
+    <ul>
+      <li><span class="tag">[ECO]</span>ME&E 435 · AI 算力瓶颈模型（中国版）</li>
+      <li><span class="tag">[OAI]</span>OpenAI DeployCo 深度</li>
+      <li><span class="tag">[POL]</span>硅谷的政治家们 · Karp 22 信条</li>
+    </ul>
+  </div>
+
+  <!-- ============ FOOTER ============ -->
+  <div class="footer">
+    Source: <a href="https://github.com/fxp/AI-Buzzwords">github.com/fxp/AI-Buzzwords</a>
+    · 结构与命名规范：<a href="viewer.html?f=STRUCTURE.md">STRUCTURE.md</a>
+    · 经验沉淀：<a href="viewer.html?f=LESSONS_LEARNED.md">LESSONS_LEARNED.md</a>
+  </div>
+
+</div>
 </body>
 </html>

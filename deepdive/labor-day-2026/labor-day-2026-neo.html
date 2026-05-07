@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>劳动的终局，还是转型的前夜？ — 2026 五一劳动 vs AI 全景</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,700&family=JetBrains+Mono:wght@300;400;500;700&display=swap" rel="stylesheet" />
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      colors: {
+        bg:           '#0c0a07',
+        'bg-2':       '#161310',
+        'bg-3':       '#1e1a15',
+        fg:           '#f0ebe0',
+        'fg-dim':     '#a09888',
+        'fg-mute':    '#6a6058',
+        line:         'rgba(240,235,224,0.1)',
+        'line-bright':'rgba(240,235,224,0.18)',
+        accent:       '#e84040',
+        'accent-soft':'rgba(232,64,64,0.1)',
+        mint:         '#7fb88b',
+        'mint-soft':  'rgba(127,184,139,0.12)',
+        amber:        '#c4850a',
+        'amber-soft': 'rgba(196,133,10,0.1)',
+      },
+      fontFamily: {
+        serif: ["'Fraunces'", "'Source Han Serif SC'", "Georgia", "serif"],
+        mono:  ["'JetBrains Mono'", "ui-monospace", "monospace"],
+      },
+      maxWidth: {
+        prose:   '820px',
+        content: '1020px',
+        wrap:    '1320px',
+      },
+    }
+  }
+}
+</script>
+<style>
+/* 中文不斜体 */
+em, i { font-style: normal }
+
+/* 全局字体特性 */
+body { font-feature-settings: 'ss01','ss02','kern'; -webkit-font-smoothing: antialiased }
+
+/* Grid 纹理 */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(240,235,224,0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(240,235,224,0.025) 1px, transparent 1px);
+  background-size: 60px 60px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Lamp pulse */
+.lamp {
+  display: inline-block;
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: #e84040;
+  box-shadow: 0 0 8px #e84040, 0 0 20px rgba(232,64,64,0.3);
+  animation: pulse 2.4s ease-in-out infinite;
+  vertical-align: middle;
+}
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.4} }
+
+/* Cursor blink */
+.cursor::after {
+  content: '▋';
+  animation: blink 1.1s step-end infinite;
+  margin-left: 2px;
+  color: #e84040;
+  font-size: 0.7em;
+}
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+
+/* FadeUp animation */
+@keyframes fadeUp {
+  from { opacity:0; transform:translateY(18px) }
+  to   { opacity:1; transform:translateY(0) }
+}
+.hero-anim > * {
+  animation: fadeUp 0.7s ease both;
+}
+.hero-anim > *:nth-child(1) { animation-delay: 0.05s }
+.hero-anim > *:nth-child(2) { animation-delay: 0.15s }
+.hero-anim > *:nth-child(3) { animation-delay: 0.25s }
+.hero-anim > *:nth-child(4) { animation-delay: 0.35s }
+
+/* Bar chart fills */
+.bar-fill {
+  position: absolute; top: 0; left: 0; height: 100%;
+  background: linear-gradient(90deg, #e84040, rgba(232,64,64,0.5));
+}
+.bar-fill-mint {
+  position: absolute; top: 0; left: 0; height: 100%;
+  background: linear-gradient(90deg, #7fb88b, rgba(127,184,139,0.5));
+}
+.bar-fill-amber {
+  position: absolute; top: 0; left: 0; height: 100%;
+  background: linear-gradient(90deg, #c4850a, rgba(196,133,10,0.5));
+}
+
+/* Pullquote mark */
+.pullquote-mark::before {
+  content: '"';
+  font-family: 'Fraunces', Georgia, serif;
+  font-size: 6rem;
+  line-height: 0.8;
+  color: #e84040;
+  opacity: 0.25;
+  position: absolute;
+  top: -8px; left: -12px;
+}
+
+/* Synthesis box label */
+.synthesis-label::before {
+  content: 'SYNTHESIS / 综合判断';
+  display: block;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.2em;
+  color: #e84040;
+  margin-bottom: 12px;
+  text-transform: uppercase;
+}
+
+/* Series band */
+.series-current {
+  background: linear-gradient(135deg, rgba(232,64,64,0.15) 0%, rgba(232,64,64,0.04) 100%);
+  border-color: rgba(232,64,64,0.4) !important;
+}
+</style>
+</head>
+
+<body class="bg-bg text-fg font-serif leading-relaxed overflow-x-hidden">
+
+<!-- ═══════════════════ TOP STRIP ═══════════════════ -->
+<div class="relative z-[2] border-b border-line">
+  <div class="max-w-wrap mx-auto px-[5vw] lg:px-12 py-3 flex items-center gap-4 flex-wrap">
+    <span class="lamp mr-1"></span>
+    <span class="font-mono text-[9px] lg:text-[10px] tracking-[0.22em] uppercase text-accent">TRENDS REPORT</span>
+    <span class="text-line-bright font-mono text-[10px]">/</span>
+    <span class="font-mono text-[9px] lg:text-[10px] tracking-[0.18em] uppercase text-fg-mute">五一劳动节特刊</span>
+    <span class="flex-1 h-px bg-line hidden lg:block"></span>
+    <span class="font-mono text-[9px] tracking-[0.14em] text-fg-mute">2026 · MAY 1</span>
+  </div>
+</div>
+
+<!-- ═══════════════════ HERO ═══════════════════ -->
+<section class="relative z-[2] max-w-wrap mx-auto px-[5vw] lg:px-12 pt-16 lg:pt-28 pb-16 lg:pb-24 border-b border-line">
+  <div class="hero-anim">
+
+    <!-- Eyebrow -->
+    <p class="font-mono text-[10px] lg:text-[11px] tracking-[0.22em] uppercase text-accent mb-6">
+      劳动的终局，还是转型的前夜？
+    </p>
+
+    <!-- Main title -->
+    <h1 class="font-serif font-light text-[clamp(32px,8vw,88px)] leading-[1.02] tracking-tight mb-8 max-w-content">
+      2026 五一<br/>
+      <em class="text-accent">劳动</em> vs <em class="text-accent">AI</em><br/>
+      全景
+    </h1>
+
+    <!-- Lede -->
+    <p class="text-base lg:text-xl text-fg-dim font-light leading-relaxed max-w-prose mb-12">
+      AI 已经开始真实地消灭工作，但大多数人还没感受到——裁员数字在创纪录，招聘广告也在增加；工人在反抗 AI，同时 AI 又在雇用人类；白领岗位在消失，算力消耗却在暴涨。在这个劳动节的前夜，我们试图把所有碎片拼成一张完整的地图。
+    </p>
+
+    <!-- Stats grid -->
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-px bg-line border border-line font-mono">
+      <div class="bg-bg p-5 lg:p-7">
+        <div class="text-[clamp(28px,6vw,52px)] font-serif text-accent leading-none mb-2 tabular-nums">78,557</div>
+        <div class="text-[9px] text-fg-mute tracking-[0.14em] uppercase leading-relaxed">Q1 2026<br/>科技行业裁员</div>
+      </div>
+      <div class="bg-bg p-5 lg:p-7">
+        <div class="text-[clamp(28px,6vw,52px)] font-serif text-accent leading-none mb-2">47.9%</div>
+        <div class="text-[9px] text-fg-mute tracking-[0.14em] uppercase leading-relaxed">归因于<br/>AI 自动化</div>
+      </div>
+      <div class="bg-bg p-5 lg:p-7">
+        <div class="text-[clamp(28px,6vw,52px)] font-serif leading-none mb-2 text-fg">70万+</div>
+        <div class="text-[9px] text-fg-mute tracking-[0.14em] uppercase leading-relaxed">RentAHuman<br/>全球注册数</div>
+      </div>
+      <div class="bg-bg p-5 lg:p-7">
+        <div class="text-[clamp(28px,6vw,52px)] font-serif text-mint leading-none mb-2">56%</div>
+        <div class="text-[9px] text-fg-mute tracking-[0.14em] uppercase leading-relaxed">AI 技能<br/>工资溢价（上年 25%）</div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ═══════════════════ § 01 OVERVIEW ═══════════════════ -->
+<section class="relative z-[2] max-w-wrap mx-auto px-[5vw] lg:px-12 py-14 lg:py-28 border-b border-line">
+  <header class="grid grid-cols-1 lg:grid-cols-[120px_1fr] gap-4 lg:gap-12 items-baseline mb-10 lg:mb-[72px]">
+    <div class="cursor font-mono text-[10px] lg:text-[11px] tracking-[0.2em] text-accent pt-3 border-t border-accent uppercase">§ 01 / 全球大图</div>
+    <h2 class="font-serif font-light text-[clamp(24px,6vw,64px)] leading-[1.05] tracking-tight">Solow 悖论<br/><em class="text-accent">2026 年重演</em></h2>
+  </header>
+
+  <div class="lg:ml-[168px] max-w-prose text-[15px] lg:text-lg leading-relaxed lg:leading-[1.75] font-light space-y-6">
+    <p>数字先于观点到来。IMF 测量出全球 <strong class="text-fg font-medium">40%</strong>、发达国家 <strong class="text-fg font-medium">60%</strong> 的岗位已暴露于 AI 冲击。WEF《未来就业报告 2025》预测：2030 年前将新增 1.7 亿岗位，消失 9,200 万，净增 7,800 万——增长最快的职业不是技术岗，而是<em class="text-accent">农场工人、护理工人和外卖骑手</em>。AI 更剧烈地冲击认知劳动，对体力劳动的冲击反而更迟。</p>
+
+    <p>然而最让人不安的数字，来自 Goldman Sachs 的自我打脸。2023 年，他们预测 AI 将把全球 GDP 推高 7%。<strong class="text-fg font-medium">2026 年初，首席经济学家 Jan Hatzius 确认：AI 2025 年对美国 GDP 的净贡献"基本为零"</strong>——大量 AI 硬件投资流向台湾、韩国等进口来源地，在经济整体层面尚未发现 AI 与生产率之间有意义的关系。</p>
+
+    <p>这是 Solow 1987 年名言的 2026 年重演——<em class="text-accent">"处处可见 AI，就是统计数字上看不到生产率提高。"</em> 我们砸下了超过 1 万亿美元的算力投资，但在宏观层面，生产率曲线几乎没动。</p>
+
+    <p>MIT 经济学家 Acemoglu（2024 诺贝尔奖得主）给出理论解释：真正被 AI 自动化的任务只占总任务量的 <strong class="text-fg font-medium">4.6%</strong>，而非产业界假设的 25%。资本市场对 AI 欢呼雀跃，劳动市场在切实承受痛苦，生产率数据却几乎没有反应——<strong class="text-fg font-medium">三者同时为真，构成了 2026 年劳动节最大的认识论难题。</strong></p>
+  </div>
+
+  <!-- Bar chart: 裁员分布 -->
+  <div class="lg:ml-[168px] mt-10 max-w-prose">
+    <div class="bg-bg-2 border border-line p-5 lg:p-7">
+      <div class="font-mono text-[10px] tracking-[0.18em] text-fg-mute uppercase mb-5 flex justify-between">
+        <span>Q1 2026 重点裁员数据</span>
+        <span class="text-accent">% 归因 AI</span>
+      </div>
+      <div class="space-y-3 font-mono text-xs">
+        <div class="grid grid-cols-[110px_1fr_70px] lg:grid-cols-[150px_1fr_70px] gap-3 items-center">
+          <span class="text-accent text-[11px]">科技行业总量</span>
+          <span class="relative h-1.5 bg-line overflow-hidden"><span class="bar-fill" style="width:100%"></span></span>
+          <span class="text-right text-fg-dim">78,557</span>
+        </div>
+        <div class="grid grid-cols-[110px_1fr_70px] lg:grid-cols-[150px_1fr_70px] gap-3 items-center">
+          <span class="text-fg-dim text-[11px]">AI 归因</span>
+          <span class="relative h-1.5 bg-line overflow-hidden"><span class="bar-fill" style="width:47.9%"></span></span>
+          <span class="text-right text-fg-dim">47.9%</span>
+        </div>
+        <div class="grid grid-cols-[110px_1fr_70px] lg:grid-cols-[150px_1fr_70px] gap-3 items-center">
+          <span class="text-fg-dim text-[11px]">Snap 代码 AI 生成</span>
+          <span class="relative h-1.5 bg-line overflow-hidden"><span class="bar-fill" style="width:65%"></span></span>
+          <span class="text-right text-fg-dim">65%</span>
+        </div>
+        <div class="grid grid-cols-[110px_1fr_70px] lg:grid-cols-[150px_1fr_70px] gap-3 items-center">
+          <span class="text-fg-dim text-[11px]">白领抵制 AI</span>
+          <span class="relative h-1.5 bg-line overflow-hidden"><span class="bar-fill-amber" style="width:80%"></span></span>
+          <span class="text-right text-fg-dim">80%</span>
+        </div>
+        <div class="grid grid-cols-[110px_1fr_70px] lg:grid-cols-[150px_1fr_70px] gap-3 items-center">
+          <span class="text-fg-dim text-[11px]">主动破坏 AI</span>
+          <span class="relative h-1.5 bg-line overflow-hidden"><span class="bar-fill" style="width:29%"></span></span>
+          <span class="text-right text-fg-dim">29%</span>
+        </div>
+        <div class="grid grid-cols-[110px_1fr_70px] lg:grid-cols-[150px_1fr_70px] gap-3 items-center">
+          <span class="text-mint text-[11px]">AI 技能溢价</span>
+          <span class="relative h-1.5 bg-line overflow-hidden"><span class="bar-fill-mint" style="width:56%"></span></span>
+          <span class="text-right text-fg-dim">+56%</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════ PULLQUOTE ═══════════════════ -->
+<div class="relative z-[2] border-b border-line">
+  <div class="max-w-wrap mx-auto px-[5vw] lg:px-12 py-16 lg:py-24">
+    <div class="relative pullquote-mark lg:ml-[168px] max-w-prose">
+      <p class="font-serif text-[clamp(20px,4vw,38px)] font-light leading-[1.2] tracking-tight text-fg">
+        制造 AI 的公司，自己就是<em class="text-accent">第一批不再需要初级工人的雇主</em>——这是 2026 年劳动节最残酷的现实之一。
+      </p>
+      <p class="font-mono text-[10px] tracking-[0.18em] text-fg-mute uppercase mt-6">Dario Amodei, CEO Anthropic — 呼吁对 AI 企业征重税，同时 Anthropic 很少招应届毕业生</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════ § 02 RESEARCH ═══════════════════ -->
+<section class="relative z-[2] max-w-wrap mx-auto px-[5vw] lg:px-12 py-14 lg:py-28 border-b border-line">
+  <header class="grid grid-cols-1 lg:grid-cols-[120px_1fr] gap-4 lg:gap-12 items-baseline mb-10 lg:mb-[72px]">
+    <div class="cursor font-mono text-[10px] lg:text-[11px] tracking-[0.2em] text-accent pt-3 border-t border-accent uppercase">§ 02 / 三个反常识</div>
+    <h2 class="font-serif font-light text-[clamp(24px,6vw,64px)] leading-[1.05] tracking-tight">你以为<br/><em class="text-accent">你知道，但你不知道</em></h2>
+  </header>
+
+  <!-- Card 01: Solow -->
+  <article class="grid grid-cols-1 lg:grid-cols-[180px_1fr] gap-4 lg:gap-12 py-7 lg:py-12 border-t border-line">
+    <div class="font-mono text-[11px] text-fg-mute flex lg:flex-col flex-wrap gap-1.5 lg:gap-0">
+      <span class="text-accent text-[13px] tracking-[0.1em] block lg:mb-2.5">CASE / 01</span>
+      <span class="text-fg-dim block">2026-03</span>
+      <span class="inline-block border border-line-bright py-0.5 px-2 mt-1.5 mr-1 text-[10px] text-fg-mute">宏观经济</span>
+      <span class="inline-block border border-line-bright py-0.5 px-2 mt-1.5 mr-1 text-[10px] text-fg-mute">Goldman Sachs</span>
+    </div>
+    <div>
+      <h3 class="font-serif text-2xl lg:text-[32px] font-normal leading-snug">砸下 1 万亿美元，GDP 贡献<em class="text-accent">"基本为零"</em></h3>
+      <p class="text-base text-fg-dim leading-relaxed font-light mt-4">2023 年，Goldman Sachs 预测 AI 将把全球 GDP 推高 7%。2026 年初，该行首席经济学家 Jan Hatzius 自我打脸：AI 2025 年对美国 GDP 的净贡献"基本为零"。大量 AI 硬件投资流向台湾、韩国等进口来源地，并未直接拉动美国本土 GDP。在经济整体层面，尚未发现 AI 与生产率之间有意义的关系。这是 Solow 1987 年的回声。</p>
+      <div class="mt-5 p-4 bg-accent-soft border-l-2 border-accent">
+        <span class="font-mono text-[10px] tracking-[0.18em] text-accent uppercase mb-1.5 block">核心发现</span>
+        <p class="text-[15px] text-fg leading-relaxed font-light">资本市场欢呼，劳动市场受苦，生产率数据无动于衷——三者同时为真，构成 2026 年最大的认识论难题。</p>
+      </div>
+    </div>
+  </article>
+
+  <!-- Card 02: Klarna -->
+  <article class="grid grid-cols-1 lg:grid-cols-[180px_1fr] gap-4 lg:gap-12 py-7 lg:py-12 border-t border-line">
+    <div class="font-mono text-[11px] text-fg-mute flex lg:flex-col flex-wrap gap-1.5 lg:gap-0">
+      <span class="text-accent text-[13px] tracking-[0.1em] block lg:mb-2.5">CASE / 02</span>
+      <span class="text-fg-dim block">2024–2025</span>
+      <span class="inline-block border border-line-bright py-0.5 px-2 mt-1.5 mr-1 text-[10px] text-fg-mute">企业案例</span>
+      <span class="inline-block border border-line-bright py-0.5 px-2 mt-1.5 mr-1 text-[10px] text-fg-mute">客服</span>
+    </div>
+    <div>
+      <h3 class="font-serif text-2xl lg:text-[32px] font-normal leading-snug">Klarna：裁 700 人，<em class="text-accent">然后悄悄招回来</em></h3>
+      <p class="text-base text-fg-dim leading-relaxed font-light mt-4">2024 年，Klarna CEO 高调宣布 AI 客服顶替了 700 名人类工人（占全员 35%），成为"AI 替代人类"叙事的最有力证据。<strong class="text-fg font-medium">2025 年 5 月 28 日，CEO 公开认错，宣布重启人工招聘</strong>——因为公司"过于专注效率和成本削减，导致服务质量下降"。他补充：<em class="text-accent">"我认为明确告诉客户'始终有真人'至关重要。"</em> 2025 年 7 月，Klarna 以 $19.65B 估值 IPO。Gartner 随后预测：到 2027 年前，因 AI 裁员的客服公司将有一半要再回招。</p>
+      <div class="mt-5 p-4 bg-accent-soft border-l-2 border-accent">
+        <span class="font-mono text-[10px] tracking-[0.18em] text-accent uppercase mb-1.5 block">核心发现</span>
+        <p class="text-[15px] text-fg leading-relaxed font-light">AI 能做一件事，不等于它能替代人做这件事的全部价值——包括信任、情感联结、品牌质感和客户的心理预期。</p>
+      </div>
+    </div>
+  </article>
+
+  <!-- Card 03: RentAHuman -->
+  <article class="grid grid-cols-1 lg:grid-cols-[180px_1fr] gap-4 lg:gap-12 py-7 lg:py-12 border-t border-line">
+    <div class="font-mono text-[11px] text-fg-mute flex lg:flex-col flex-wrap gap-1.5 lg:gap-0">
+      <span class="text-accent text-[13px] tracking-[0.1em] block lg:mb-2.5">CASE / 03</span>
+      <span class="text-fg-dim block">2026-02</span>
+      <span class="inline-block border border-line-bright py-0.5 px-2 mt-1.5 mr-1 text-[10px] text-fg-mute">劳动关系</span>
+      <span class="inline-block border border-line-bright py-0.5 px-2 mt-1.5 mr-1 text-[10px] text-fg-mute">结构反转</span>
+    </div>
+    <div>
+      <h3 class="font-serif text-2xl lg:text-[32px] font-normal leading-snug">RentAHuman：<em class="text-accent">AI 开始雇用人类</em></h3>
+      <p class="text-base text-fg-dim leading-relaxed font-light mt-4">2026 年 2 月，RentAHuman.ai 上线——核心功能：让 AI Agent 通过 API 雇用真实人类去做物理世界中的任务。截至 2026 年 5 月，全球注册量超过 <strong class="text-fg font-medium">70 万</strong>，覆盖 100+ 国家。<strong class="text-fg font-medium">约 32% 的任务委托直接来自 API 调用</strong>——即真正由 AI Agent 自主发出的委托，没有任何人类决策者参与。注册者不只是低技能工人，计算机科学、物理学、生物学、免疫学方向的科研人员也开始把自己的专业技能标注为"可租用资源"。</p>
+      <div class="mt-5 p-4 bg-mint-soft border-l-2 border-mint">
+        <span class="font-mono text-[10px] tracking-[0.18em] text-mint uppercase mb-1.5 block">历史意义</span>
+        <p class="text-[15px] text-fg leading-relaxed font-light">这是劳动关系史上的首次结构性反转：委托方从人类变成了 AI Agent，人类变成了"生物执行层"（biological actuator）。劳动节的谈判对手，第一次没有身份证、没有道德直觉、不受劳动法约束。</p>
+      </div>
+    </div>
+  </article>
+</section>
+
+<!-- ═══════════════════ TRANSITION QUOTE ═══════════════════ -->
+<div class="relative z-[2] border-b border-line bg-bg-2">
+  <div class="max-w-wrap mx-auto px-[5vw] lg:px-12 py-12 lg:py-18">
+    <div class="lg:ml-[168px] max-w-prose">
+      <p class="font-serif text-xl lg:text-2xl font-light leading-relaxed text-fg-dim italic-not">
+        "有机械者必有机事，有机事者必有机心——"<br/>
+        <span class="text-fg-mute text-base font-mono tracking-[0.1em] not-italic mt-2 block">庄子·天地篇 · 公元前 4 世纪</span>
+      </p>
+      <p class="font-serif text-base lg:text-lg font-light leading-relaxed text-fg-dim mt-6">
+        2,400 年前的预言，在 AI 时代获得了新的字面意义。当你每天与 LLM 协作，你的思维越来越习惯于提示词逻辑，而不是独立运行的内在判断——<em class="text-accent">工具在改造使用者的内心。</em>
+      </p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════ § 03 THESIS ═══════════════════ -->
+<section class="relative z-[2] max-w-wrap mx-auto px-[5vw] lg:px-12 py-14 lg:py-28 border-b border-line">
+  <header class="grid grid-cols-1 lg:grid-cols-[120px_1fr] gap-4 lg:gap-12 items-baseline mb-10 lg:mb-[72px]">
+    <div class="cursor font-mono text-[10px] lg:text-[11px] tracking-[0.2em] text-accent pt-3 border-t border-accent uppercase">§ 03 / 有效进步主义</div>
+    <h2 class="font-serif font-light text-[clamp(24px,6vw,64px)] leading-[1.05] tracking-tight">技术异化是<br/><em class="text-accent">选择，不是命运</em></h2>
+  </header>
+
+  <!-- Preamble -->
+  <div class="lg:ml-[168px] max-w-prose text-[15px] lg:text-base text-fg-dim leading-relaxed font-light mb-10">
+    <p>报告的前十七章揭示了五条异化暗线：庄子的机心、刘擎的三无人类、Graeber 的狗屁工作、Harari 的无用阶级、Bostrom 的目的赤字。<strong class="text-fg font-medium">有效进步主义（Effective Progressivism）</strong>的回应不是否认以上任何一项，而是补充一个元叙事：2026 年的劳动图景，是技术选择与政策真空共同作用的结果，而非 AI 的物理必然。</p>
+  </div>
+
+  <!-- Judgments grid -->
+  <div class="lg:ml-[168px] grid grid-cols-1 lg:grid-cols-2 gap-px bg-line border border-line">
+
+    <div class="bg-bg grid grid-cols-1 lg:grid-cols-[64px_1fr] gap-3 lg:gap-6 p-5 lg:p-9 hover:bg-bg-2 transition-colors">
+      <div class="font-mono text-[11px] text-accent tracking-[0.16em]">01</div>
+      <div>
+        <h4 class="font-serif text-xl lg:text-2xl font-normal leading-snug mb-3">技术方向不是命运，<em class="text-accent">是选择</em></h4>
+        <p class="text-[14px] lg:text-[15px] text-fg-dim leading-relaxed font-light">Acemoglu 和 Johnson《权力与进步》（2023）考察一千年技术史：印刷机创造了新精英阶层，工厂机器让纺织工人实际工资下降数十年，电气化的果实先被资本拿走数十年，才通过工会斗争和劳动立法流向工人。<em class="text-fg font-medium">关键论点："生产率提升落入劳动者口袋，不是因为技术慷慨，而是因为劳动者组织起来并拥有了足够的政治权力。"</em></p>
+      </div>
+    </div>
+
+    <div class="bg-bg grid grid-cols-1 lg:grid-cols-[64px_1fr] gap-3 lg:gap-6 p-5 lg:p-9 hover:bg-bg-2 transition-colors">
+      <div class="font-mono text-[11px] text-accent tracking-[0.16em]">02</div>
+      <div>
+        <h4 class="font-serif text-xl lg:text-2xl font-normal leading-snug mb-3">AI 可以<em class="text-accent">民主化专家知识</em>，重建中产</h4>
+        <p class="text-[14px] lg:text-[15px] text-fg-dim leading-relaxed font-light">MIT 经济学家 David Autor（2024）：AI 真正的机会，不是让每个人成为 CEO，而是让更多人成为"够用的专家"。社区护理员借助 AI 提供更精准的诊断建议；法律助理借助 AI 提供高级律师的文件分析——<em class="text-fg font-medium">区别在于 AI 被设计为直接输出结论（替代专家），还是辅助判断（增强非专家）。两种设计都在技术上可行，哪种被部署是市场激励和政策引导的结果。</em></p>
+      </div>
+    </div>
+
+    <div class="bg-bg grid grid-cols-1 lg:grid-cols-[64px_1fr] gap-3 lg:gap-6 p-5 lg:p-9 hover:bg-bg-2 transition-colors">
+      <div class="font-mono text-[11px] text-accent tracking-[0.16em]">03</div>
+      <div>
+        <h4 class="font-serif text-xl lg:text-2xl font-normal leading-snug mb-3"><em class="text-accent">图灵陷阱</em>——模仿人类是错误的目标</h4>
+        <p class="text-[14px] lg:text-[15px] text-fg-dim leading-relaxed font-light">Brynjolfsson（2022）：图灵测试让 AI 开发者以"通过人类测试"为目标——这意味着构建人类的替代品，而非补充物。<em class="text-fg font-medium">当 AI 被设计为补充人类所不擅长的事情（大规模模式识别、记忆检索、并行处理），它与人类形成互补关系——此时人类的稀缺性随着 AI 能力提升而增加。</em>目前的 AI 商业模式系统性地激励了"模仿替代"而非"互补增强"。</p>
+      </div>
+    </div>
+
+    <div class="bg-bg grid grid-cols-1 lg:grid-cols-[64px_1fr] gap-3 lg:gap-6 p-5 lg:p-9 hover:bg-bg-2 transition-colors">
+      <div class="font-mono text-[11px] text-mint tracking-[0.16em]">04</div>
+      <div>
+        <h4 class="font-serif text-xl lg:text-2xl font-normal leading-snug mb-3"><em class="text-mint">劳动数据红利</em>——异化的逆向机制</h4>
+        <p class="text-[14px] lg:text-[15px] text-fg-dim leading-relaxed font-light">AI 公司用人类劳动者生产的数据（写作、代码、决策、对话）训练模型，但从未支付报酬——这是一种未被命名的劳动剥削。提议中的"劳动数据红利"（Worker Data Dividend）机制：要求 AI 公司披露训练数据来源，对未授权使用征收"知识使用税"，将税款以"AI 红利"形式分配给受影响的劳动群体。<em class="text-fg font-medium">这让异化过程本身产生反向补偿。</em></p>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Synthesis box -->
+  <div class="lg:ml-[168px] max-w-prose mt-8 p-5 lg:p-8 border border-accent-soft bg-accent-soft synthesis-label">
+    <p class="text-[15px] lg:text-base text-fg leading-relaxed font-light">Acemoglu 在 2024 年诺贝尔演讲中的结语，是有效进步主义最好的概括：<em class="text-accent font-medium">"技术进步是充分条件，但不是必要条件。共享繁荣需要社会选择，而社会选择需要政治意志。"</em></p>
+    <p class="text-[14px] text-fg-dim leading-relaxed font-light mt-4">庄子说，有机心存于胸中，则纯白不备。有效进步主义者会说：机心不是问题，机制才是——人类真正需要改变的，不是工具，而是决定工具如何分配收益的规则。</p>
+  </div>
+</section>
+
+<!-- ═══════════════════ § 04 TAKEAWAYS ═══════════════════ -->
+<section class="relative z-[2] max-w-wrap mx-auto px-[5vw] lg:px-12 py-14 lg:py-28 border-b border-line">
+  <header class="grid grid-cols-1 lg:grid-cols-[120px_1fr] gap-4 lg:gap-12 items-baseline mb-10 lg:mb-[72px]">
+    <div class="cursor font-mono text-[10px] lg:text-[11px] tracking-[0.2em] text-accent pt-3 border-t border-accent uppercase">§ 04 / 八个悖论</div>
+    <h2 class="font-serif font-light text-[clamp(24px,6vw,64px)] leading-[1.05] tracking-tight">这场变革<br/><em class="text-accent">最有张力的辩论</em></h2>
+  </header>
+
+  <div class="lg:ml-[168px] max-w-prose space-y-4">
+
+    <div class="border border-line p-4 lg:p-6 flex gap-4 lg:gap-8 items-baseline hover:border-line-bright transition-colors">
+      <span class="font-mono text-[11px] text-accent shrink-0 w-5 lg:w-8">01</span>
+      <div class="text-[14px] lg:text-[15px] font-light text-fg-dim leading-relaxed">
+        <em class="text-fg font-medium">"AI 让每个人成为 CEO"</em> vs <em class="text-fg font-medium">"AI 让每个人成为无用之人"</em>
+        <span class="block text-fg-mute text-[12px] font-mono mt-1">Altman vs Harari</span>
+      </div>
+    </div>
+
+    <div class="border border-line p-4 lg:p-6 flex gap-4 lg:gap-8 items-baseline hover:border-line-bright transition-colors">
+      <span class="font-mono text-[11px] text-accent shrink-0 w-5 lg:w-8">02</span>
+      <div class="text-[14px] lg:text-[15px] font-light text-fg-dim leading-relaxed">
+        <em class="text-fg font-medium">10 年 GDP 仅 +1%</em> vs <em class="text-fg font-medium">几千天后超级智能</em>
+        <span class="block text-fg-mute text-[12px] font-mono mt-1">Acemoglu vs Altman</span>
+      </div>
+    </div>
+
+    <div class="border border-line p-4 lg:p-6 flex gap-4 lg:gap-8 items-baseline hover:border-line-bright transition-colors">
+      <span class="font-mono text-[11px] text-accent shrink-0 w-5 lg:w-8">03</span>
+      <div class="text-[14px] lg:text-[15px] font-light text-fg-dim leading-relaxed">
+        <em class="text-fg font-medium">白领大屠杀（5 年消 50% 入门白领）</em> vs <em class="text-fg font-medium">目前看不到任何冲击</em>
+        <span class="block text-fg-mute text-[12px] font-mono mt-1">Amodei vs Yale Budget Lab</span>
+      </div>
+    </div>
+
+    <div class="border border-line p-4 lg:p-6 flex gap-4 lg:gap-8 items-baseline hover:border-line-bright transition-colors">
+      <span class="font-mono text-[11px] text-accent shrink-0 w-5 lg:w-8">04</span>
+      <div class="text-[14px] lg:text-[15px] font-light text-fg-dim leading-relaxed">
+        <em class="text-fg font-medium">"AI 替代 700 客服"宣言</em> vs <em class="text-fg font-medium">IPO 后悄悄招回来</em>
+        <span class="block text-fg-mute text-[12px] font-mono mt-1">Klarna 2024 vs Klarna 2025</span>
+      </div>
+    </div>
+
+    <div class="border border-line p-4 lg:p-6 flex gap-4 lg:gap-8 items-baseline hover:border-line-bright transition-colors">
+      <span class="font-mono text-[11px] text-accent shrink-0 w-5 lg:w-8">05</span>
+      <div class="text-[14px] lg:text-[15px] font-light text-fg-dim leading-relaxed">
+        <em class="text-fg font-medium">"AI 让初级员工生产率 +34%"</em> vs <em class="text-fg font-medium">"煤矿里的金丝雀（年轻人就业 −13%）"</em>
+        <span class="block text-fg-mute text-[12px] font-mono mt-1">Brynjolfsson 2023 vs Brynjolfsson 2025</span>
+      </div>
+    </div>
+
+    <div class="border border-line p-4 lg:p-6 flex gap-4 lg:gap-8 items-baseline hover:border-line-bright transition-colors">
+      <span class="font-mono text-[11px] text-accent shrink-0 w-5 lg:w-8">06</span>
+      <div class="text-[14px] lg:text-[15px] font-light text-fg-dim leading-relaxed">
+        <em class="text-fg font-medium">UBI 是解药</em> vs <em class="text-fg font-medium">UBI 是技术资本的"象征暴力"</em>
+        <span class="block text-fg-mute text-[12px] font-mono mt-1">Altman/OpenResearch vs 批评者</span>
+      </div>
+    </div>
+
+    <div class="border border-line p-4 lg:p-6 flex gap-4 lg:gap-8 items-baseline hover:border-line-bright transition-colors">
+      <span class="font-mono text-[11px] text-accent shrink-0 w-5 lg:w-8">07</span>
+      <div class="text-[14px] lg:text-[15px] font-light text-fg-dim leading-relaxed">
+        <em class="text-fg font-medium">工作即意义</em> vs <em class="text-fg font-medium">狗屁工作占 50%</em>
+        <span class="block text-fg-mute text-[12px] font-mono mt-1">刘擎 vs Graeber</span>
+      </div>
+    </div>
+
+    <div class="border border-line p-4 lg:p-6 flex gap-4 lg:gap-8 items-baseline hover:border-line-bright transition-colors">
+      <span class="font-mono text-[11px] text-accent shrink-0 w-5 lg:w-8">08</span>
+      <div class="text-[14px] lg:text-[15px] font-light text-fg-dim leading-relaxed">
+        <em class="text-fg font-medium">"蓝领是避风港"</em> vs <em class="text-fg font-medium">自动驾驶卡车颠覆 350 万司机</em>
+        <span class="block text-fg-mute text-[12px] font-mono mt-1">直觉认知 vs Aurora / Kodiak 现实</span>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Voices from philosophers -->
+  <div class="lg:ml-[168px] mt-12 max-w-prose">
+    <div class="font-mono text-[10px] tracking-[0.18em] text-accent uppercase mb-6">思想家声音</div>
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-px bg-line border border-line">
+      <div class="bg-bg-2 p-5">
+        <div class="font-mono text-[10px] text-accent tracking-[0.12em] uppercase mb-2">ACEMOGLU</div>
+        <p class="text-[14px] text-fg-dim font-light leading-relaxed">"<em class="text-fg">Don't think of your labor as a cost to be cut. Think of your labor as a human resource to be used better.</em>"</p>
+      </div>
+      <div class="bg-bg-2 p-5">
+        <div class="font-mono text-[10px] text-fg-mute tracking-[0.12em] uppercase mb-2">HARARI</div>
+        <p class="text-[14px] text-fg-dim font-light leading-relaxed">"21 世纪可能见证一个庞大的'<em class="text-fg">无用阶级</em>'诞生——他们不仅是失业，而是不可雇佣；既无经济价值，也无政治或艺术价值。"</p>
+      </div>
+      <div class="bg-bg-2 p-5">
+        <div class="font-mono text-[10px] text-fg-mute tracking-[0.12em] uppercase mb-2">BOSTROM</div>
+        <p class="text-[14px] text-fg-dim font-light leading-relaxed">"当机械兔被赛狗终于追上，<em class="text-fg">狗会拿那只兔子怎么办？它有想过这个吗？</em>" ——目的赤字（meaning deficit）将成为人类的终极疾病。</p>
+      </div>
+      <div class="bg-bg-2 p-5">
+        <div class="font-mono text-[10px] text-accent tracking-[0.12em] uppercase mb-2">刘擎</div>
+        <p class="text-[14px] text-fg-dim font-light leading-relaxed">"<em class="text-fg">我们在制造越来越像人的机器，同时我们也越来越像我们自己制造出来的机器。</em>"</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════ CODA ═══════════════════ -->
+<div class="relative z-[2] border-b border-line">
+  <div class="max-w-wrap mx-auto px-[5vw] lg:px-12 py-16 lg:py-24">
+    <div class="lg:ml-[168px] max-w-prose">
+
+      <div class="flex items-center gap-3 mb-8">
+        <span class="lamp"></span>
+        <span class="font-mono text-[10px] tracking-[0.2em] uppercase text-accent">CODA / 收尾</span>
+      </div>
+
+      <p class="font-serif text-[clamp(20px,4vw,36px)] font-light leading-[1.25] tracking-tight text-fg mb-8">
+        1886 年的五一，工人用罢工逼出了<em class="text-accent">八小时工作制</em>——谈判的对象是有血有肉的工厂主。
+      </p>
+      <p class="font-serif text-[clamp(18px,3.5vw,28px)] font-light leading-[1.3] tracking-tight text-fg-dim mb-8">
+        2026 年的五一，出现了一种新型的雇主——没有身份证，没有道德直觉，没有人可以向它谈判，24 小时运行，按任务结算，不受劳动法约束。
+      </p>
+      <p class="font-serif text-[clamp(18px,3.5vw,28px)] font-light leading-[1.3] tracking-tight text-fg mb-8">
+        劳动节的意义，不是庆祝，而是<em class="text-accent">记录</em>。
+      </p>
+
+      <div class="border-t border-line pt-8 mt-8">
+        <p class="font-mono text-[11px] text-fg-mute tracking-[0.14em] leading-relaxed">
+          本报告整合 DeepDive 系列过去三个月的研究积累与最新公开数据。
+        </p>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════ DATA TABLE ═══════════════════ -->
+<section class="relative z-[2] max-w-wrap mx-auto px-[5vw] lg:px-12 py-14 lg:py-24 border-b border-line">
+  <header class="grid grid-cols-1 lg:grid-cols-[120px_1fr] gap-4 lg:gap-12 items-baseline mb-8">
+    <div class="font-mono text-[10px] lg:text-[11px] tracking-[0.2em] text-fg-mute pt-3 border-t border-line uppercase">核心数据源</div>
+    <h2 class="font-serif font-light text-2xl lg:text-4xl leading-tight tracking-tight">完整数字一览</h2>
+  </header>
+
+  <div class="lg:ml-[168px] overflow-x-auto">
+    <table class="w-full font-mono text-[12px] border-collapse min-w-[480px]">
+      <thead>
+        <tr class="border-b border-line">
+          <th class="text-left py-3 pr-4 text-fg-mute tracking-[0.12em] uppercase font-normal text-[10px]">数据点</th>
+          <th class="text-left py-3 pr-4 text-accent tracking-[0.12em] uppercase font-normal text-[10px]">数值</th>
+          <th class="text-left py-3 text-fg-mute tracking-[0.12em] uppercase font-normal text-[10px]">来源</th>
+        </tr>
+      </thead>
+      <tbody class="text-fg-dim">
+        <tr class="border-b border-line hover:bg-bg-2 transition-colors">
+          <td class="py-3 pr-4 text-fg">全球岗位 AI 暴露度</td>
+          <td class="py-3 pr-4 text-accent">40% / 发达国家 60%</td>
+          <td class="py-3 text-fg-mute">IMF SDN/2024/001</td>
+        </tr>
+        <tr class="border-b border-line hover:bg-bg-2 transition-colors">
+          <td class="py-3 pr-4 text-fg">WEF 净岗位预测</td>
+          <td class="py-3 pr-4 text-fg">+1.7亿 / −9,200万</td>
+          <td class="py-3 text-fg-mute">WEF FoJ 2025</td>
+        </tr>
+        <tr class="border-b border-line hover:bg-bg-2 transition-colors">
+          <td class="py-3 pr-4 text-fg">Goldman Sachs GDP 反水</td>
+          <td class="py-3 pr-4 text-accent">"基本为零"</td>
+          <td class="py-3 text-fg-mute">Bloomberg 2026-03</td>
+        </tr>
+        <tr class="border-b border-line hover:bg-bg-2 transition-colors">
+          <td class="py-3 pr-4 text-fg">Q1 2026 科技裁员</td>
+          <td class="py-3 pr-4 text-accent">78,557 人</td>
+          <td class="py-3 text-fg-mute">Tom's Hardware</td>
+        </tr>
+        <tr class="border-b border-line hover:bg-bg-2 transition-colors">
+          <td class="py-3 pr-4 text-fg">AI 归因裁员比例</td>
+          <td class="py-3 pr-4 text-accent">47.9%</td>
+          <td class="py-3 text-fg-mute">Tom's Hardware / TechRadar</td>
+        </tr>
+        <tr class="border-b border-line hover:bg-bg-2 transition-colors">
+          <td class="py-3 pr-4 text-fg">CS 应届毕业生失业率</td>
+          <td class="py-3 pr-4 text-fg">7.0–7.8%</td>
+          <td class="py-3 text-fg-mute">纽约联储</td>
+        </tr>
+        <tr class="border-b border-line hover:bg-bg-2 transition-colors">
+          <td class="py-3 pr-4 text-fg">22-25 岁 AI 暴露岗位就业</td>
+          <td class="py-3 pr-4 text-accent">−13%</td>
+          <td class="py-3 text-fg-mute">Brynjolfsson 2025 / ADP</td>
+        </tr>
+        <tr class="border-b border-line hover:bg-bg-2 transition-colors">
+          <td class="py-3 pr-4 text-fg">RentAHuman 全球注册数</td>
+          <td class="py-3 pr-4 text-fg">70万+</td>
+          <td class="py-3 text-fg-mute">Built In / LinkedIn 5月数据</td>
+        </tr>
+        <tr class="border-b border-line hover:bg-bg-2 transition-colors">
+          <td class="py-3 pr-4 text-fg">AI 技能工资溢价</td>
+          <td class="py-3 pr-4 text-mint">56%（上年 25%）</td>
+          <td class="py-3 text-fg-mute">PwC 2025 Jobs Barometer</td>
+        </tr>
+        <tr class="border-b border-line hover:bg-bg-2 transition-colors">
+          <td class="py-3 pr-4 text-fg">白领抵制 AI 工具</td>
+          <td class="py-3 pr-4 text-fg">80%</td>
+          <td class="py-3 text-fg-mute">Fortune 2026-04</td>
+        </tr>
+        <tr class="border-b border-line hover:bg-bg-2 transition-colors">
+          <td class="py-3 pr-4 text-fg">主动破坏 AI 战略</td>
+          <td class="py-3 pr-4 text-fg">29%（Z 世代 44%）</td>
+          <td class="py-3 text-fg-mute">Metaintro, 2,400人调查</td>
+        </tr>
+        <tr class="border-b border-line hover:bg-bg-2 transition-colors">
+          <td class="py-3 pr-4 text-fg">AI 替代担忧者抑郁率</td>
+          <td class="py-3 pr-4 text-fg">34.13%</td>
+          <td class="py-3 text-fg-mute">长江商学院张晓萌</td>
+        </tr>
+        <tr class="border-b border-line hover:bg-bg-2 transition-colors">
+          <td class="py-3 pr-4 text-fg">Klarna U 型反转</td>
+          <td class="py-3 pr-4 text-accent">裁 700 → 2025-05 重招</td>
+          <td class="py-3 text-fg-mute">Bloomberg 2025-05-08 ✓已核实</td>
+        </tr>
+        <tr class="border-b border-line hover:bg-bg-2 transition-colors">
+          <td class="py-3 pr-4 text-fg">Gartner 中层管理预测</td>
+          <td class="py-3 pr-4 text-fg">20% 公司消除 50% 中层</td>
+          <td class="py-3 text-fg-mute">Gartner 2024-10</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ═══════════════════ SERIES BAND ═══════════════════ -->
+<div class="relative z-[2] border-b border-line bg-bg-2">
+  <div class="max-w-wrap mx-auto px-[5vw] lg:px-12 py-10 lg:py-14">
+    <div class="font-mono text-[9px] lg:text-[10px] tracking-[0.2em] uppercase text-fg-mute mb-6">DeepDive 系列 / 相关研究</div>
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-px bg-line border border-line">
+
+      <div class="bg-bg p-5 series-current border border-accent">
+        <div class="font-mono text-[9px] tracking-[0.16em] uppercase text-accent mb-2">当期 · 五一特刊</div>
+        <div class="font-serif text-base lg:text-xl font-light leading-snug text-fg">劳动的终局，还是转型的前夜？</div>
+        <div class="font-mono text-[10px] text-fg-mute mt-3">2026 五一劳动 vs AI 全景</div>
+      </div>
+
+      <a href="../%5BL3%E4%B8%AA%E4%BD%93%C2%B7%E5%BF%83%E7%90%86%5D%20%E7%99%BD%E9%A2%86%E5%B7%A5%E4%BD%9C%E7%BB%88%E5%B1%80/white-collar-end-2026-neo.html" class="bg-bg p-5 hover:bg-bg-3 transition-colors block">
+        <div class="font-mono text-[9px] tracking-[0.16em] uppercase text-fg-mute mb-2">前置研究 →</div>
+        <div class="font-serif text-base lg:text-xl font-light leading-snug text-fg">白领初级岗的终局加速</div>
+        <div class="font-mono text-[10px] text-fg-mute mt-3">入职门槛抬高的结构性逻辑</div>
+      </a>
+
+      <a href="../../%5BNEWJOB%5D%20RentAHuman/rentahuman-inversion-2026-neo.html" class="bg-bg p-5 hover:bg-bg-3 transition-colors block">
+        <div class="font-mono text-[9px] tracking-[0.16em] uppercase text-mint mb-2">附录研究 →</div>
+        <div class="font-serif text-base lg:text-xl font-light leading-snug text-fg">当 AI 成为雇主</div>
+        <div class="font-mono text-[10px] text-fg-mute mt-3">RentAHuman 与 Meatspace 经济的范式反转</div>
+      </a>
+
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════ FOOTER ═══════════════════ -->
+<footer class="relative z-[2]">
+  <div class="max-w-wrap mx-auto px-[5vw] lg:px-12 pt-10 pb-6">
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-10 mb-10 text-[12px] lg:text-[13px]">
+      <div>
+        <div class="font-mono text-[9px] tracking-[0.2em] uppercase text-fg-mute mb-4">核心来源</div>
+        <div class="space-y-2 font-light text-fg-dim">
+          <div><a href="https://www.imf.org/en/Publications/Staff-Discussion-Notes/Issues/2024/01/14/Gen-AI-Artificial-Intelligence-and-the-Future-of-Work-542379" class="hover:text-accent transition-colors">IMF SDN/2024/001</a></div>
+          <div><a href="https://www.weforum.org/publications/the-future-of-jobs-report-2025/" class="hover:text-accent transition-colors">WEF Future of Jobs 2025</a></div>
+          <div><a href="https://www.pwc.com/gx/en/issues/artificial-intelligence/job-barometer/2025/report.pdf" class="hover:text-accent transition-colors">PwC AI Jobs Barometer 2025</a></div>
+          <div><a href="https://digitaleconomy.stanford.edu/wp-content/uploads/2025/08/Canaries_BrynjolfssonChandarChen.pdf" class="hover:text-accent transition-colors">Brynjolfsson: Canaries 2025</a></div>
+        </div>
+      </div>
+      <div>
+        <div class="font-mono text-[9px] tracking-[0.2em] uppercase text-fg-mute mb-4">企业案例</div>
+        <div class="space-y-2 font-light text-fg-dim">
+          <div><a href="https://www.bloomberg.com/news/articles/2025-05-08/klarna-turns-from-ai-to-real-person-customer-service" class="hover:text-accent transition-colors">Bloomberg: Klarna</a></div>
+          <div><a href="https://www.tomshardware.com/tech-industry/tech-industry-lays-off-nearly-80-000-employees-in-the-first-quarter-of-2026-almost-50-percent-of-affected-positions-cut-due-to-ai" class="hover:text-accent transition-colors">Tom's Hardware: Q1 裁员</a></div>
+          <div><a href="https://www.cnbc.com/2026/04/15/snap-stock-layoffs-16-percent-workforce.html" class="hover:text-accent transition-colors">CNBC: Snap</a></div>
+          <div><a href="https://www.gartner.com/en/newsroom/press-releases/2026-02-03-gartner-predicts-half-of-companies-that-cut-customer-service-staff-due-to-ai-will-rehire-by-2027" class="hover:text-accent transition-colors">Gartner: 回招预测</a></div>
+        </div>
+      </div>
+      <div>
+        <div class="font-mono text-[9px] tracking-[0.2em] uppercase text-fg-mute mb-4">劳动视角</div>
+        <div class="space-y-2 font-light text-fg-dim">
+          <div><a href="https://www.anthropic.com/research/labor-market-impacts" class="hover:text-accent transition-colors">Anthropic: Labor Market</a></div>
+          <div><a href="https://www.metaintro.com/blog/worker-backlash-forced-ai-automation-workplace-2026" class="hover:text-accent transition-colors">Metaintro: Worker Backlash</a></div>
+          <div><a href="https://www.newyorkfed.org/research/college-labor-market" class="hover:text-accent transition-colors">纽约联储: 劳动力数据</a></div>
+          <div><a href="https://builtin.com/articles/what-is-rentahuman" class="hover:text-accent transition-colors">Built In: RentAHuman</a></div>
+        </div>
+      </div>
+      <div>
+        <div class="font-mono text-[9px] tracking-[0.2em] uppercase text-fg-mute mb-4">理论框架</div>
+        <div class="space-y-2 font-light text-fg-dim">
+          <div><a href="https://www.hachettebookgroup.com/titles/daron-acemoglu/power-and-progress/9781541702554/" class="hover:text-accent transition-colors">Acemoglu: Power & Progress</a></div>
+          <div><a href="https://www.nber.org/papers/w32140" class="hover:text-accent transition-colors">Autor: Applying AI (NBER)</a></div>
+          <div><a href="https://digitaleconomy.stanford.edu/news/the-turing-trap-the-promise-peril-of-human-like-artificial-intelligence/" class="hover:text-accent transition-colors">Brynjolfsson: Turing Trap</a></div>
+          <div><a href="https://www.adpresearch.com/yes-ai-is-affecting-employment-heres-the-data/" class="hover:text-accent transition-colors">ADP Research: AI & Employment</a></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="border-t border-line pt-5">
+      <span class="font-mono text-[9px] tracking-[0.16em] uppercase text-fg-mute">DEEPDIVE · TRENDS REPORT · 五一劳动节特刊 · 2026-05-01</span>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

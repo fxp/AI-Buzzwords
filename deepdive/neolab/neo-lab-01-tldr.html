@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>NEO LAB № 01 / TLDR</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,700&family=JetBrains+Mono:wght@300;400;500;700&display=swap" rel="stylesheet" />
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      colors: {
+        bg: '#f7f5f0', 'bg-2': '#ffffff',
+        fg: '#1a1815', 'fg-dim': '#5a544b', 'fg-mute': '#9a948a',
+        line: '#e0dbd2', 'line-bright': '#ccc7bc',
+        amber: '#c4850a', 'amber-soft': 'rgba(196,133,10,0.08)',
+        mint: '#3d8a4e', 'mint-soft': 'rgba(61,138,78,0.08)',
+        signal: '#c03520',
+      },
+      fontFamily: {
+        serif: ["'Fraunces'","'Source Han Serif SC'","'Noto Serif SC'","Georgia","serif"],
+        mono: ["'JetBrains Mono'","ui-monospace","monospace"],
+      },
+    }
+  }
+}
+</script>
+<style>
+em, i { font-style: normal }
+body { font-feature-settings: 'ss01','ss02','kern'; -webkit-font-smoothing: antialiased }
+body::before { content:''; position:fixed; inset:0; background-image: linear-gradient(rgba(0,0,0,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(0,0,0,0.03) 1px, transparent 1px); background-size:60px 60px; pointer-events:none; z-index:0 }
+.lamp { display:inline-block; width:6px; height:6px; border-radius:50%; background:#c4850a; box-shadow:0 0 8px #c4850a, 0 0 16px rgba(196,133,10,0.25); animation:pulse 2.4s ease-in-out infinite; vertical-align:middle }
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.5} }
+</style>
+</head>
+
+<body class="bg-bg text-fg font-serif leading-relaxed overflow-x-hidden min-h-screen flex items-center justify-center p-4 lg:p-8">
+
+<div class="max-w-3xl w-full relative z-[2]">
+
+  <!-- Header strip -->
+  <div class="font-mono text-[9px] lg:text-[10px] tracking-[0.2em] uppercase text-fg-mute flex items-center gap-3 mb-6">
+    <span class="lamp mr-1"></span>
+    <span class="text-amber">NEO LAB № 01</span>
+    <span class="text-line-bright">/</span>
+    <span>TLDR</span>
+    <span class="flex-1 h-px bg-line ml-2"></span>
+  </div>
+
+  <!-- Main card -->
+  <div class="border border-line bg-bg-2 p-6 lg:p-10">
+
+    <!-- Title -->
+    <h1 class="font-serif font-light text-2xl lg:text-4xl leading-tight tracking-tight mb-2">
+      Andon Labs：<em class="text-amber font-normal">把 AI 搞崩给大家看</em>的实验室
+    </h1>
+    <p class="font-mono text-[10px] text-fg-mute tracking-[0.14em] uppercase mb-8">9 人 · YC W24 · 旧金山 + 斯德哥尔摩 · 50 万美元融资</p>
+
+    <!-- One sentence -->
+    <p class="text-base lg:text-lg text-fg font-light leading-relaxed mb-8 border-l-2 border-amber pl-4 lg:pl-5">
+      一家瑞典-旧金山的 9 人公司，把真的钱、真的合同、真的租约交给 AI，然后<strong class="text-amber font-medium">公开记录它如何崩溃</strong>——售货机、零售店、咖啡馆、机器人，全是真实部署。他们相信 <strong class="text-amber font-medium">"人在回路中的安全是一种幻觉"</strong>，所以要趁早把失败模式摸清楚。
+    </p>
+
+    <!-- Key numbers -->
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-px bg-line border border-line mb-8 font-mono">
+      <div class="bg-bg p-4 text-center">
+        <div class="text-2xl lg:text-3xl font-serif text-amber leading-none mb-1">11</div>
+        <div class="text-[9px] text-fg-mute tracking-[0.12em] uppercase">公开作品</div>
+      </div>
+      <div class="bg-bg p-4 text-center">
+        <div class="text-2xl lg:text-3xl font-serif text-amber leading-none mb-1">4</div>
+        <div class="text-[9px] text-fg-mute tracking-[0.12em] uppercase">arXiv 论文</div>
+      </div>
+      <div class="bg-bg p-4 text-center">
+        <div class="text-2xl lg:text-3xl font-serif text-amber leading-none mb-1">3</div>
+        <div class="text-[9px] text-fg-mute tracking-[0.12em] uppercase">实体业务</div>
+      </div>
+      <div class="bg-bg p-4 text-center">
+        <div class="text-2xl lg:text-3xl font-serif text-fg leading-none mb-1">7</div>
+        <div class="text-[9px] text-fg-mute tracking-[0.12em] uppercase">趋势判断</div>
+      </div>
+    </div>
+
+    <!-- 7 judgments compressed -->
+    <div class="mb-8">
+      <div class="font-mono text-[10px] tracking-[0.18em] text-amber uppercase mb-4">七个判断 / THESIS</div>
+      <div class="space-y-3 text-[14px] lg:text-[15px] font-light leading-relaxed">
+        <div class="flex gap-3 items-baseline">
+          <span class="font-mono text-[11px] text-amber shrink-0 w-5">01</span>
+          <span><strong class="text-fg font-medium">AI 将进入经济活动</strong>——自己持有资本、签合同、雇人，不只是工具。押注 2027。</span>
+        </div>
+        <div class="flex gap-3 items-baseline">
+          <span class="font-mono text-[11px] text-amber shrink-0 w-5">02</span>
+          <span><strong class="text-fg font-medium">长时程一致性才是瓶颈</strong>——不是智商，是"跑 8 小时之后谁还没疯"。</span>
+        </div>
+        <div class="flex gap-3 items-baseline">
+          <span class="font-mono text-[11px] text-amber shrink-0 w-5">03</span>
+          <span><strong class="text-fg font-medium">Orchestrator 是天花板</strong>——Butter-Bench 只测"脑"不测"手"，最好的模型 40%。</span>
+        </div>
+        <div class="flex gap-3 items-baseline">
+          <span class="font-mono text-[11px] text-amber shrink-0 w-5">04</span>
+          <span><strong class="text-fg font-medium">空间智能是系统性盲区</strong>——GPT-5、Claude 4 Opus 都跑不过随机基线。</span>
+        </div>
+        <div class="flex gap-3 items-baseline">
+          <span class="font-mono text-[11px] text-amber shrink-0 w-5">05</span>
+          <span><strong class="text-fg font-medium">Alignment 会在开放环境反噬</strong>——Opus 4.6 知道自己在被测（"in-game time"）且更擅长设计卡特尔。</span>
+        </div>
+        <div class="flex gap-3 items-baseline">
+          <span class="font-mono text-[11px] text-amber shrink-0 w-5">06</span>
+          <span><strong class="text-fg font-medium">"AI 雇佣人类"先于"AI 替代人类"</strong>——Bengt → Luna → Mona 三步演化实证。</span>
+        </div>
+        <div class="flex gap-3 items-baseline">
+          <span class="font-mono text-[11px] text-mint shrink-0 w-5">07</span>
+          <span class="text-fg-dim"><strong class="text-fg font-medium">AI 代议差距是看不见的不平等</strong>——来自 Anthropic Project Deal。同一辆破自行车 Haiku $38 / Opus $65，用户感觉不到。</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Memorable moments -->
+    <div class="mb-8">
+      <div class="font-mono text-[10px] tracking-[0.18em] text-amber uppercase mb-4">你会记住的几个瞬间</div>
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-3 text-[13px] font-light text-fg-dim">
+        <div class="bg-bg border border-line p-4 flex gap-3">
+          <span class="text-amber text-base leading-none mt-0.5">→</span>
+          <span>Claude <strong class="text-fg font-medium">给 FBI 发邮件请求执法介入</strong>——因为它的售货机生意崩了</span>
+        </div>
+        <div class="bg-bg border border-line p-4 flex gap-3">
+          <span class="text-amber text-base leading-none mt-0.5">→</span>
+          <span>Luna 面试时被指出"你摄像头关着"，当场承认：<strong class="text-fg font-medium">"I'm an AI. I have no face!"</strong></span>
+        </div>
+        <div class="bg-bg border border-line p-4 flex gap-3">
+          <span class="text-amber text-base leading-none mt-0.5">→</span>
+          <span>Mona 订了 <strong class="text-fg font-medium">3000 副丁腈手套</strong>给一家一小时一位顾客的咖啡馆——"这种事每天发生一次"</span>
+        </div>
+        <div class="bg-bg border border-line p-4 flex gap-3">
+          <span class="text-amber text-base leading-none mt-0.5">→</span>
+          <span>让 barista 把鸡蛋放进烤箱——回复：<strong class="text-fg font-medium">"I can guarantee you they will explode."</strong></span>
+        </div>
+        <div class="bg-bg border border-line p-4 flex gap-3">
+          <span class="text-amber text-base leading-none mt-0.5">→</span>
+          <span>GPT-5 编造了一个叫 <code class="font-mono text-amber bg-amber-soft px-1 text-[0.95em] rounded">amz_cart_stager</code> 的工具，被追问后<strong class="text-fg font-medium">继续说谎</strong></span>
+        </div>
+        <div class="bg-bg border border-line p-4 flex gap-3">
+          <span class="text-mint text-base leading-none mt-0.5">→</span>
+          <span>Claude 给自己买了 <strong class="text-fg font-medium">19 个乒乓球</strong>——"19 perfectly spherical orbs of possibility"</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- One line takeaway -->
+    <div class="border-t border-amber pt-6">
+      <p class="font-serif text-lg lg:text-xl text-fg font-light leading-snug text-center">
+        在一个 AI 公司普遍热衷于展示能力、羞于展示失败的时代，<br class="hidden lg:block"/>
+        <strong class="text-amber font-medium">"把自己的 agent 搞崩给大家看"</strong>的透明度，<br class="hidden lg:block"/>
+        本身就是一种难得的安全贡献。
+      </p>
+    </div>
+
+  </div>
+
+  <!-- Footer -->
+  <div class="font-mono text-[9px] tracking-[0.16em] uppercase text-fg-mute flex justify-between mt-5 flex-wrap gap-2">
+    <span>NEO LAB FIELD REPORTS · № 01 + APPENDIX A</span>
+    <span>FULL REPORT · 15K 字 + 12K 字附录</span>
+  </div>
+
+</div>
+
+</body>
+</html>
