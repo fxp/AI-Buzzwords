@@ -1,7 +1,18 @@
 # AI Buzzwords · DeepDive Design System
-## 视觉系统展示
+## 视觉系统展示 · v2
 
-所有发表文章共享的视觉语言。**这份文档是浏览版**——边看边对照能直接抄走。规范 / 严格定义见 [`DESIGN.md`](DESIGN.md) · 交互式 HTML 版见 [`design-system.html`](https://fxp.github.io/AI-Buzzwords/design-system.html)。
+> 档案室 × 实验室 × 新闻编辑部 — Editorial · Dense · Warm · Anti-Hype
+
+所有发表文章共享的视觉语言。**这份文档是浏览版**——边看边对照能直接抄走。
+
+| 资源 | 用途 |
+|---|---|
+| [`colors_and_type.css`](colors_and_type.css) | 中央 token 文件（颜色 / 字体 / 尺度 / 动画 / CJK 规则）|
+| [`kit.css`](kit.css) | 长读组件 CSS（`.dd-strip` / `.dd-section` / `.dd-hero` 等）|
+| [`design-system.html`](https://fxp.github.io/AI-Buzzwords/design-system.html) | 交互式 HTML 展示 + 主题/明暗切换 |
+| [`DESIGN.md`](DESIGN.md) | 严格规范 spec（约束清单）|
+
+**v2 新增**：light mode (parchment) · 全 CJK fallback 链 + per-script 自动切换 · CJK 永不斜体强制 · EB Garamond 加入字体系统 · spacing scale tokens · `colors_and_type.css` 作为 canonical token 文件。
 
 ---
 

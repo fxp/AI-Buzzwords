@@ -1,8 +1,12 @@
 # AI Buzzwords · DeepDive Design System
 
-The visual + structural language used across every published article. This file is the source of truth — when generating or normalizing an article, every choice should map to a token here.
+> 档案室 × 实验室 × 新闻编辑部 — Editorial · Dense · Warm · Anti-Hype
+>
+> 视觉签名一句话：温暖暗色档案 (`#0c0a07`) + 每页一个 accent lamp (red / signal / amber / mint) + Fraunces light 显示 + EB Garamond 正文 + JetBrains Mono uppercase eyebrows + 发线（无卡片阴影）+ 零圆角 + 中文永不斜体 + `<em class="text-accent">` = 着色而非倾斜。
 
-Live showcase: [`design-system.html`](https://fxp.github.io/AI-Buzzwords/design-system.html) · [xiaopingfeng.com mirror](https://xiaopingfeng.com/blog/ai-buzzwords/design-system.html)
+**Token 真相之源**：[`colors_and_type.css`](colors_and_type.css)（313 行，所有颜色/字体/尺度/动画 tokens）
+**组件层**：[`kit.css`](kit.css)（`.dd-strip` / `.dd-section` / `.dd-hero` / `.dd-pullquote` 等 — `@import` colors_and_type.css）
+**可视化展示**：[`design-system.html`](design-system.html)（live theme + light/dark toggle）· [xiaopingfeng 镜像](https://xiaopingfeng.com/blog/ai-buzzwords/design-system.html)
 
 ---
 
@@ -30,69 +34,153 @@ When unsure: **amber**. It's the workhorse and never feels alarmist.
 
 ---
 
-## 2. Surface palette (constant across themes)
+## 2. Surface palette · dark mode (default)
 
 | Token | Hex | Role |
 |---|---|---|
 | `bg` | `#0c0a07` | Page background — warm near-black with red-brown undertone |
 | `bg-2` | `#161310` | Card / sidebar / pull-quote surface (one step lighter) |
 | `bg-3` | `#1e1a15` | Hover / focused-card surface (rare) |
-| `fg` | `#f0ebe0` | Primary text — warm off-white, NOT pure white |
-| `fg-dim` | `#a09888` | Body paragraph text on `bg` (lower contrast for long-form readability) |
+| `bg-paper` | `#e8e3d8` | Paper / archive frame around imagery |
+| `bg-ink` | `#1a1815` | Ink on paper |
+| `fg` | `#f0ebe0` | Primary text — warm bone, never pure white |
+| `fg-dim` | `#a09888` | Body paragraph text on `bg` (lower contrast for long-read) |
 | `fg-mute` | `#6a6058` | Labels, eyebrows, footer meta |
 | `line` | `rgba(240,235,224,0.10)` | Divider / border (subtle) |
 | `line-bright` | `rgba(240,235,224,0.18)` | Strip dividers, hover-state borders |
 
 Avoid: pure black (`#000`), pure white (`#fff`), neutral gray. The palette is intentionally warm.
 
+## 2.b · Light mode parchment (opt-in)
+
+Set `<html data-mode="light">` (or `data-theme="light"`) to flip into the **archive parchment** palette. Same brand DNA — just daylight in the archive room instead of warm dark archive. Components reference `var(--bg)` / `var(--fg)` and switch automatically; accent colors deepen for AA contrast on cream.
+
+| Token | Light hex | Role |
+|---|---|---|
+| `bg` | `#f3ede0` | Cream parchment, never pure white |
+| `bg-2` | `#ebe3d2` | Inset / pull-quote surface |
+| `bg-3` | `#e2d8c2` | Hover surface |
+| `fg` | `#1a1815` | Ink, never pure black |
+| `fg-dim` | `#58524a` | Body paragraph |
+| `fg-mute` | `#8a8276` | Metadata |
+| `line` | `rgba(26,24,21,0.12)` | Hairlines |
+| `line-bright` | `rgba(26,24,21,0.22)` | Strip dividers |
+
+**Deepened accent palette in light mode** (AA contrast on cream):
+
+| Token | Dark | Light |
+|---|---|---|
+| `red` | `#e84040` | `#b8302e` |
+| `signal` | `#d1402c` | `#b22a17` |
+| `amber` | `#f5a524` | `#b8761a` |
+| `mint` | `#7fb88b` | `#4a7a55` |
+
+Accent token (`--accent`) auto-deepens via `[data-mode="light"]` selector. No per-component override needed.
+
 ---
 
 ## 3. Typography
 
-```
-Headings + body : 'Fraunces' (serif, optical-size 9-144) → fallback 'Source Han Serif SC' / Georgia
-Labels + meta   : 'JetBrains Mono' (monospace) → fallback ui-monospace
-```
+The system is a **scholarly two-serif pairing + mono**, with full CJK fallback chain at every level. Latin face order + CJK face order live in `colors_and_type.css` as `--display`, `--display-alt`, `--serif`, `--cjk-serif`, `--cjk-sans`, `--mono`, `--sans`.
+
+### Latin faces
+
+| Token | Family | Use |
+|---|---|---|
+| `--display` | **Fraunces** 300/400/500/700, optical-size 9–144 | Primary headlines (Latin), wordmark, hero h1 |
+| `--display-alt` | **Spectral** 300/400/500/600/700 | Alternate display (legacy/preview pages) |
+| `--serif` | **EB Garamond** 400/500/600/700 + italic | Latin running text body |
+| `--mono` | **JetBrains Mono** 300/400/500/700 | Eyebrows, metadata, code, in-line tags |
+| `--sans` | **Inter Tight** 400/500/600 | UI chrome (kept in reserve, rarely used) |
+
+### CJK faces (auto-loaded per `lang` attribute)
+
+- **Noto Serif SC / TC / JP / KR** — canonical CJK serif. The system swaps the script-correct sub-family automatically on `:lang(zh-Hant)`, `:lang(ja)`, `:lang(ko)`.
+- **PingFang SC + Hiragino Kaku Gothic ProN + Apple SD Gothic Neo** — native system sans for each East Asian OS.
+
+Every Latin font stack ends with the **full CJK fallback chain** (SC → TC → JP → KR → system) so Han / Kana / Hangul characters always land on a real face.
 
 ### Scale
 
-| Use | Class / size | Weight |
+| Use | Token / size | Weight |
 |---|---|---|
-| Hero h1 | `clamp(36px, 9vw, 124px)` | `font-light` (300) |
-| Section h2 | `clamp(24px, 6vw, 64px)` | `font-light` (300) |
-| Article h3 | `clamp(20px, 4.5vw, 38px)` | `font-normal` (400) |
-| Body | 15-16px | `font-light` (300) |
-| Pullquote | `clamp(20px, 4vw, 38px)` | `font-light` (300) |
-| Strip / labels | 9-11px monospace | normal, `letter-spacing: 0.18-0.22em`, uppercase |
-| Meta / footer | 10-11px monospace | normal, lower contrast |
+| Hero h1 | `--t-display` `clamp(36px, 9vw, 124px)` | `300` |
+| Section h2 | `--t-h1` `clamp(24px, 6vw, 64px)` | `300` |
+| Article h3 | `--t-h2` `clamp(20px, 4.5vw, 38px)` | `400` |
+| h4 | `--t-h4` `22px` | `500` |
+| Body lg | `--body-lg` `19px` | `300-400` |
+| Body | `--body` `16px` | `300-400` |
+| Body sm | `--body-sm` `15px` | `300-400` |
+| Caption | `--caption` `14px` | normal |
+| Eyebrow | `--eyebrow` `11px` mono | normal, uppercase, `0.20em` track |
+| Micro | `--micro` `10px` | mono, uppercase |
 
-### Letter-spacing for monospace labels
+### CJK-specific typography rules (HARD)
 
-- Strip eyebrow / section label: `0.18em` to `0.22em`
-- Buttons / pills: `0.04em` to `0.14em`
+The system enforces upright CJK at three layers — **Han / Kana / Hangul glyphs are never italic anywhere**:
 
-Body text never gets letter-spacing.
-
-### Italics
-
-`<em>` is repurposed for **accent emphasis** (colored, not italicized):
 ```css
-em, i { font-style: normal }   /* always-on at the body level */
-em.text-accent { color: var(--accent) }
+:lang(zh), :lang(zh-Hans), :lang(zh-Hant),
+:lang(ja), :lang(ko),
+.cjk, .cjk * {
+  font-style: normal !important;
+  font-synthesis-style: none;        /* block UA-synthesised italics */
+  font-feature-settings: "palt" 1;   /* proportional kana/kanji metrics */
+}
 ```
-Use `<em>` to mark a phrase as the accent / argument hook within a paragraph. Real italics are not in the system — Fraunces' italic is reserved for pullquote attribution.
+
+Plus per-script tuning:
+- **Body** in CJK: line-height `1.85` (vs Latin 1.65), letter-spacing `0.02em`, `text-spacing-trim: trim-start` (CSS Text 4 — collapses CJK punctuation gutter next to Latin)
+- **Headlines** in CJK: line-height `1.1` (`0.95` is too tight for full-em-box squares), letter-spacing `0` (never negative-track CJK)
+- **Per-script display** — `:lang(zh-Hant)` → Noto Serif TC, `:lang(ja)` → Noto Serif JP + Hiragino Kaku Gothic, `:lang(ko)` → Noto Serif KR + Apple SD Gothic Neo
+
+### Real italics (only place)
+
+```css
+.dd-pull cite:lang(en),
+.dd-pull cite[lang^="en"] { font-style: italic; }
+```
+
+Pullquote attribution lines tagged `lang="en"` are the **only** place real italics exist in the brand. Everywhere else, `<em>` is repurposed:
+
+```css
+em, i { font-style: normal }
+em.text-accent, .text-accent { color: var(--accent) }
+```
+
+Use `<em class="text-accent">` to mark the *one* word in a sentence that carries the argument — color, not slant.
+
+### Mixed-script utilities
+
+- `<span class="cjk">中文</span>` — inline CJK runs inside an EN container (uses `--cjk-serif`)
+- `<span class="cjk-sans">中文</span>` — inline CJK sans
+- `<span class="han-punct">、。，：</span>` — `halt` + `palt` features for tight CJK punctuation against Latin
 
 ---
 
-## 4. Layout primitives
+## 4. Layout + spacing tokens
+
+### Width tokens (CSS vars)
 
 ```
-max-w-prose   : 820px   (single-column reading width)
-max-w-content : 1020px  (hero h1, occasional wide blocks)
-max-w-wrap    : 1320px  (page outer container, strip + hero + sections)
+--w-prose    : 820px   (single-column reading width)
+--w-content  : 1020px  (hero h1, occasional wide blocks)
+--w-wrap     : 1320px  (page outer container, strip + hero + sections)
 ```
 
-Padding: `px-[5vw] lg:px-12` on every outer container — mobile uses 5vw, ≥lg uses fixed 48px.
+Padding: `5vw` mobile, fixed `48px` desktop. Outer chrome (`.dd-wrap`) maps to `var(--w-wrap)`.
+
+### Spacing scale (8-pt + editorial)
+
+```
+--s-0: 0        --s-5: 24px
+--s-1: 4px      --s-6: 32px
+--s-2: 8px      --s-7: 48px
+--s-3: 12px     --s-8: 72px
+--s-4: 16px     --s-9: 112px
+```
+
+Use these instead of arbitrary px values. Section padding is `--s-8` mobile / `--s-9` desktop. Card padding `--s-5` to `--s-7`. Gap between elements `--s-3` to `--s-5`.
 
 ### Section grid
 
@@ -357,46 +445,79 @@ Keep the page calm. Anything more than these = noise. No parallax. No scroll-tri
 
 ---
 
-## 11. Tailwind config block (paste into every article `<head>`)
+## 11. How to wire a new article
+
+Two options — pick by what suits the page's complexity.
+
+### Option A · Drop in canonical CSS (simplest)
+
+Reference the repo-root token file. Two `<link>` lines in `<head>`:
+
+```html
+<!DOCTYPE html>
+<html lang="zh-Hans" data-theme="amber">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>...</title>
+  <link rel="stylesheet" href="../../colors_and_type.css">
+  <link rel="stylesheet" href="../../kit.css">  <!-- only if using .dd-* components -->
+</head>
+<body class="dd-body">
+  ...
+</body>
+</html>
+```
+
+`colors_and_type.css` brings: tokens, fonts (Google CDN), CJK rules, `<em>` rebinding, `.lamp` / `.cursor` / `.cite` / `.pullquote-mark` / `.synthesis-label` components. `kit.css` adds page chrome classes (`.dd-wrap`, `.dd-strip`, `.dd-hero`, `.dd-section`, etc.) that compose the long-read layout.
+
+Set theme via `<html data-theme="red|signal|amber|mint">`. Light mode: add `data-mode="light"`.
+
+### Option B · Inline Tailwind (legacy)
+
+Older articles ship their own Tailwind config inline. The minimal block (uses CSS variables so theme auto-tracks):
 
 ```html
 <script src="https://cdn.tailwindcss.com"></script>
 <script>
 tailwind.config = {
-  theme: {
-    extend: {
-      colors: {
-        bg:           '#0c0a07',
-        'bg-2':       '#161310',
-        'bg-3':       '#1e1a15',
-        fg:           '#f0ebe0',
-        'fg-dim':     '#a09888',
-        'fg-mute':    '#6a6058',
-        line:         'rgba(240,235,224,0.10)',
-        'line-bright':'rgba(240,235,224,0.18)',
-        accent:       'var(--accent)',
-        'accent-soft':'var(--accent-soft)',
-        'accent-glow':'var(--accent-glow)',
-        red:          '#e84040',
-        signal:       '#d1402c',
-        amber:        '#f5a524',
-        mint:         '#7fb88b',
-      },
-      fontFamily: {
-        serif: ["'Fraunces'","'Source Han Serif SC'","Georgia","serif"],
-        mono:  ["'JetBrains Mono'","ui-monospace","monospace"],
-      },
-      maxWidth: {
-        prose:   '820px',
-        content: '1020px',
-        wrap:    '1320px',
-      },
-    }
-  }
+  theme: { extend: {
+    colors: {
+      bg:           'var(--bg)',
+      'bg-2':       'var(--bg-2)',
+      'bg-3':       'var(--bg-3)',
+      fg:           'var(--fg)',
+      'fg-dim':     'var(--fg-dim)',
+      'fg-mute':    'var(--fg-mute)',
+      line:         'var(--line)',
+      'line-bright':'var(--line-bright)',
+      accent:       'var(--accent)',
+      'accent-soft':'var(--accent-soft)',
+      'accent-glow':'var(--accent-glow)',
+      red:    '#e84040', signal: '#d1402c', amber: '#f5a524', mint: '#7fb88b',
+    },
+    fontFamily: {
+      serif: ["Fraunces","EB Garamond","Noto Serif SC","Source Han Serif SC","Georgia","serif"],
+      mono:  ["JetBrains Mono","ui-monospace","monospace"],
+    },
+    maxWidth: { prose: '820px', content: '1020px', wrap: '1320px' },
+  }}
 }
 </script>
+<link rel="stylesheet" href="../../colors_and_type.css">  <!-- still recommended for CJK rules + light mode -->
 ```
 
-Wiring `accent: 'var(--accent)'` means `text-accent` / `bg-accent` automatically follow the `<style id="theme-vars">` block injected by `normalize_strip.py`. No per-article tailwind.config edits needed once this canonical config lands.
+Even when going inline, **keep the `<link>` to `colors_and_type.css`** — it brings the CJK no-italic enforcement, light-mode palette, and `:lang()` per-script overrides that no inline tailwind config can replicate.
 
-This is the **single Tailwind config block** to use going forward. Older articles still ship their own variant (with `accent` hard-coded to a hex); they get auto-migrated on next normalize run.
+### Theme switcher (light/dark)
+
+Provide a small toggle in the strip; persist via cookie or `localStorage`:
+
+```js
+document.querySelector('[data-toggle-mode]').addEventListener('click', () => {
+  const cur = document.documentElement.getAttribute('data-mode');
+  document.documentElement.setAttribute('data-mode', cur === 'light' ? '' : 'light');
+});
+```
+
+Reuse the [`mode-toggle.js`](mode-toggle.js) component when one exists.

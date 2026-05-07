@@ -396,10 +396,18 @@ Each article picks ONE accent. The body gets `data-theme="<accent>"` and a
 `<style id="theme-vars">:root{--accent:...}</style>` block in `<head>`.
 
 **Full reference**:
-- Visual showcase (interactive theme switcher): [`design-system.html`](https://fxp.github.io/AI-Buzzwords/design-system.html)
-- Token + component spec: [`DESIGN.md`](DESIGN.md)
+- Visual showcase (interactive theme + light/dark switcher): [`design-system.html`](https://fxp.github.io/AI-Buzzwords/design-system.html)
+- Token spec: [`DESIGN.md`](DESIGN.md) · markdown showcase: [`DESIGN-SHOWCASE.md`](DESIGN-SHOWCASE.md)
+- **Canonical token CSS**: [`colors_and_type.css`](colors_and_type.css) — link this in new articles instead of inlining tailwind.config
+- **Component CSS**: [`kit.css`](kit.css) — `.dd-strip`, `.dd-section`, `.dd-hero`, `.dd-pullquote` etc.
+- **Light/dark toggle**: [`mode-toggle.js`](mode-toggle.js) — drop into `<head>` + `<button data-toggle-mode>...</button>` in strip
 
-When generating a new article: **read `DESIGN.md` first**. It documents typography scale, layout primitives (max-w-prose/content/wrap), reusable components (lamp, cursor, pullquote-mark, synthesis-label, cite link, stats grid), animation budget, and a hard list of don'ts.
+When generating a new article: **read `DESIGN.md` first**. v2 (May 2026) adds:
+- **Light mode** parchment palette via `<html data-mode="light">` (deepened accents for AA contrast on cream)
+- **Full CJK fallback chain** (Noto Serif SC/TC/JP/KR auto-switching per `:lang()`)
+- **Hard CJK no-italic enforcement** (`font-synthesis-style: none`)
+- **EB Garamond** as Latin body serif (real italics reserved for `<cite lang="en">`)
+- **Spacing scale tokens** (`--s-0..9`)
 
 ### Normalize existing article (replace strip + apply theme)
 

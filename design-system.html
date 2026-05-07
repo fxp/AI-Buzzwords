@@ -1,430 +1,496 @@
 <!DOCTYPE html>
-<html lang="zh">
+<html lang="zh-Hans" data-theme="amber">
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Design System · AI Buzzwords DeepDive</title>
-<link rel="preconnect" href="https://fonts.googleapis.com" />
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,700&family=JetBrains+Mono:wght@300;400;500;700&display=swap" rel="stylesheet" />
-<script src="https://cdn.tailwindcss.com"></script>
-<style id="theme-vars">
-  :root {
-    --accent: #e84040;
-    --accent-glow: rgba(232,64,64,0.30);
-    --accent-soft: rgba(232,64,64,0.10);
-  }
-  [data-theme="signal"] { --accent: #d1402c; --accent-glow: rgba(209,64,44,0.28); --accent-soft: rgba(209,64,44,0.10); }
-  [data-theme="amber"]  { --accent: #f5a524; --accent-glow: rgba(245,165,36,0.28); --accent-soft: rgba(245,165,36,0.10); }
-  [data-theme="mint"]   { --accent: #7fb88b; --accent-glow: rgba(127,184,139,0.28); --accent-soft: rgba(127,184,139,0.12); }
-</style>
-<script>
-tailwind.config = {
-  theme: {
-    extend: {
-      colors: {
-        bg: '#0c0a07', 'bg-2': '#161310', 'bg-3': '#1e1a15',
-        fg: '#f0ebe0', 'fg-dim': '#a09888', 'fg-mute': '#6a6058',
-        line: 'rgba(240,235,224,0.10)', 'line-bright': 'rgba(240,235,224,0.18)',
-        accent: 'var(--accent)', 'accent-soft': 'var(--accent-soft)', 'accent-glow': 'var(--accent-glow)',
-        red: '#e84040', signal: '#d1402c', amber: '#f5a524', mint: '#7fb88b',
-      },
-      fontFamily: {
-        serif: ["'Fraunces'", "'Source Han Serif SC'", "Georgia", "serif"],
-        mono: ["'JetBrains Mono'", "ui-monospace", "monospace"],
-      },
-      maxWidth: { prose: '820px', content: '1020px', wrap: '1320px' },
-    }
-  }
-}
-</script>
+<meta name="description" content="档案室 × 实验室 × 新闻编辑部 — Editorial · Dense · Warm · Anti-Hype 设计系统" />
+<link rel="stylesheet" href="colors_and_type.css">
 <style>
-  em, i { font-style: normal }
-  body { font-feature-settings: 'ss01','ss02','kern'; -webkit-font-smoothing: antialiased }
+  /* showcase chrome only — components use colors_and_type.css tokens */
+  body { margin: 0; padding: 0; }
 
-  .lamp { display: inline-block; width: 6px; height: 6px; border-radius: 50%;
-    background: var(--accent);
-    box-shadow: 0 0 8px var(--accent), 0 0 20px var(--accent-glow);
-    animation: pulse 2.4s ease-in-out infinite; vertical-align: middle; }
-  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.4} }
+  body::before {
+    content: ''; position: fixed; inset: 0; pointer-events: none; z-index: 0;
+    background-image:
+      linear-gradient(var(--accent-soft) 1px, transparent 1px),
+      linear-gradient(90deg, var(--accent-soft) 1px, transparent 1px);
+    background-size: 80px 80px; opacity: 0.5;
+  }
 
-  .cursor::after { content: '▋'; animation: blink 1.1s step-end infinite;
-    margin-left: 2px; color: var(--accent); font-size: 0.7em; }
-  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+  .ds-wrap {
+    max-width: var(--w-wrap); margin: 0 auto; padding: 0 5vw; position: relative; z-index: 1;
+  }
+  @media (min-width: 1024px) { .ds-wrap { padding: 0 48px; } }
 
-  .pullquote-mark::before { content: '"'; font-family: 'Fraunces', Georgia, serif;
-    font-size: 6rem; line-height: 0.8; color: var(--accent); opacity: 0.25;
-    position: absolute; top: -8px; left: -12px; }
+  .ds-strip {
+    border-bottom: var(--border);
+    padding: 14px 0;
+    display: flex; align-items: center; gap: 16px; flex-wrap: wrap;
+    font-family: var(--mono); font-size: 11px;
+    letter-spacing: var(--track-mono); text-transform: uppercase;
+    color: var(--fg-mute);
+  }
+  .ds-strip .deepdive { color: var(--accent); letter-spacing: var(--track-eyebrow); }
+  .ds-strip .sep { color: var(--line-bright); }
+  .ds-strip .controls { margin-left: auto; display: flex; gap: 6px; align-items: center; }
+  .pill {
+    border: var(--border-bright); padding: 4px 12px;
+    font: var(--micro)/1 var(--mono); letter-spacing: var(--track-mono); text-transform: uppercase;
+    color: var(--fg-mute); cursor: pointer;
+    background: transparent;
+    transition: color var(--d-fast), background var(--d-fast), border-color var(--d-fast);
+  }
+  .pill:hover { color: var(--fg); border-color: var(--line-bright); }
+  .pill[aria-current="true"] { color: var(--accent); border-color: var(--accent); background: var(--accent-soft); }
 
-  .synthesis-label::before { content: 'SYNTHESIS / 综合判断'; display: block;
-    font-family: 'JetBrains Mono', monospace; font-size: 9px;
-    letter-spacing: 0.2em; color: var(--accent); margin-bottom: 12px; text-transform: uppercase; }
+  .ds-hero {
+    padding: 72px 0 48px;
+  }
+  @media (min-width: 1024px) { .ds-hero { padding: 112px 0 80px; } }
+  .ds-hero .eyebrow {
+    font: var(--eyebrow)/1 var(--mono);
+    letter-spacing: var(--track-eyebrow); text-transform: uppercase;
+    color: var(--accent); margin-bottom: 24px;
+  }
+  .ds-hero h1 {
+    margin: 0 0 24px;
+    font-family: var(--display); font-weight: 300;
+    font-size: var(--t-display); line-height: var(--leading-tight);
+    letter-spacing: var(--track-display);
+    max-width: var(--w-content);
+  }
+  .ds-hero h1 em { color: var(--accent); font-weight: 400; }
+  .ds-hero .dek {
+    max-width: var(--w-prose);
+    font-family: var(--serif); font-weight: 400; font-size: 18px; line-height: 1.65;
+    color: var(--fg-dim);
+  }
 
-  a.cite { color: inherit; text-decoration: underline; text-decoration-style: dotted;
-    text-underline-offset: 3px; text-decoration-color: var(--accent-soft); transition: color 0.15s; }
-  a.cite:hover { color: var(--accent); }
+  .ds-section {
+    padding: 56px 0; border-bottom: var(--border);
+  }
+  @media (min-width: 1024px) { .ds-section { padding: 96px 0; } }
+  .ds-section .head {
+    display: grid; grid-template-columns: 1fr; gap: 16px;
+    margin-bottom: 32px;
+  }
+  @media (min-width:1024px){ .ds-section .head { grid-template-columns: 120px 1fr; gap: 48px; } }
+  .ds-section .label {
+    font: var(--eyebrow)/1 var(--mono);
+    letter-spacing: var(--track-eyebrow); text-transform: uppercase;
+    color: var(--accent); padding-top: 12px; border-top: var(--border-accent);
+  }
+  .ds-section h2 {
+    margin: 0; font-family: var(--display); font-weight: 300;
+    font-size: var(--t-h1); line-height: 1.05; letter-spacing: var(--track-display);
+  }
+  .ds-section h2 em { color: var(--accent); font-weight: 400; }
+  .ds-body {
+    max-width: var(--w-content);
+  }
+  @media (min-width:1024px){ .ds-body { margin-left: 168px; } }
 
-  /* Showcase-only chrome */
-  .swatch { aspect-ratio: 1; border-radius: 4px; }
-  .code-snippet {
-    font: 11px/1.6 'JetBrains Mono', monospace;
-    background: rgba(240,235,224,0.04);
-    border: 1px solid rgba(240,235,224,0.08);
-    border-radius: 3px;
-    padding: 12px 16px;
-    color: #c4b8a4;
-    white-space: pre-wrap;
+  /* swatches */
+  .swatch-row { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+  @media (min-width: 768px) { .swatch-row { grid-template-columns: repeat(4, 1fr); } }
+  .swatch-card {
+    background: var(--bg-2); border: var(--border); padding: var(--s-4);
+  }
+  .swatch-card .chip {
+    aspect-ratio: 5/3; border: 1px solid var(--line);
+    margin-bottom: var(--s-3); position: relative; overflow: hidden;
+  }
+  .swatch-card .meta { font: var(--micro)/1.4 var(--mono); color: var(--fg-mute); letter-spacing: var(--track-mono); text-transform: uppercase; }
+  .swatch-card .name { color: var(--fg); display: block; margin-bottom: 4px; }
+  .swatch-card .hex { color: var(--accent); }
+  .swatch-card .desc { display: block; margin-top: var(--s-2); font: 13px/1.5 var(--serif); color: var(--fg-dim); text-transform: none; letter-spacing: 0; }
+
+  /* token tables */
+  table.tokens {
+    width: 100%; border-collapse: collapse; font: 13px var(--mono);
+    color: var(--fg-dim);
+  }
+  table.tokens th, table.tokens td {
+    text-align: left; padding: 10px 12px; border-bottom: var(--border);
+  }
+  table.tokens th {
+    font-size: var(--micro); letter-spacing: var(--track-mono); text-transform: uppercase;
+    color: var(--fg-mute); font-weight: normal;
+  }
+  table.tokens td { font-family: var(--mono); }
+  table.tokens td.token-name { color: var(--accent); }
+  table.tokens td.note { color: var(--fg-mute); font: 13px var(--serif); }
+
+  /* code block */
+  .code {
+    background: var(--bg-2); border: var(--border);
+    padding: var(--s-4); margin-top: var(--s-4);
+    font: 12px/1.7 var(--mono); color: var(--fg-dim);
+    white-space: pre-wrap; word-break: break-word;
     overflow-x: auto;
-    margin-top: 12px;
   }
-  .demo-frame {
-    border: 1px dashed rgba(240,235,224,0.18);
-    border-radius: 3px;
-    padding: 18px 22px;
-    background: rgba(240,235,224,0.02);
+
+  /* demo frame */
+  .demo {
+    background: var(--bg-2); border: var(--border);
+    padding: var(--s-5) var(--s-7); margin-top: var(--s-4);
+    position: relative;
   }
-  .theme-pill {
-    border: 1px solid rgba(240,235,224,0.18);
-    border-radius: 3px;
-    padding: 4px 12px;
-    font: 10px 'JetBrains Mono', monospace;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    cursor: pointer;
-    transition: all 0.15s;
+  .demo::before {
+    content: 'DEMO';
+    position: absolute; top: 8px; right: 12px;
+    font: 9px/1 var(--mono); letter-spacing: var(--track-eyebrow); text-transform: uppercase;
+    color: var(--fg-mute);
   }
-  .theme-pill[aria-current="true"] {
-    border-color: var(--accent);
-    background: var(--accent-soft);
-    color: var(--accent);
+
+  /* type ladder */
+  .ladder > * { margin: 0 0 var(--s-5); }
+  .ladder .row { padding: var(--s-3) 0; border-bottom: var(--border); display: grid; grid-template-columns: 80px 1fr; gap: var(--s-5); align-items: baseline; }
+  .ladder .row:last-child { border-bottom: none; }
+  .ladder .label { font: var(--micro)/1 var(--mono); letter-spacing: var(--track-mono); text-transform: uppercase; color: var(--fg-mute); }
+
+  /* lang demo cards */
+  .lang-grid { display: grid; grid-template-columns: 1fr; gap: 16px; }
+  @media (min-width: 768px) { .lang-grid { grid-template-columns: repeat(2, 1fr); } }
+  .lang-card {
+    background: var(--bg-2); border: var(--border); padding: var(--s-5);
   }
-  .theme-pill:hover { border-color: rgba(240,235,224,0.4) }
+  .lang-card .tag {
+    display: inline-block; font: 10px var(--mono); letter-spacing: var(--track-mono); text-transform: uppercase;
+    color: var(--accent); border: 1px solid var(--accent-soft); padding: 2px 8px; margin-bottom: var(--s-3);
+  }
+  .lang-card h4 {
+    font-family: var(--display); font-weight: 300; font-size: 26px; line-height: 1.2;
+    margin: 0 0 var(--s-3);
+  }
+  .lang-card p {
+    font-family: var(--serif); font-size: 15px; margin: 0;
+    color: var(--fg-dim);
+  }
+
+  /* footer */
+  .ds-footer {
+    padding: 32px 0; font: var(--micro)/1.5 var(--mono);
+    color: var(--fg-mute); letter-spacing: var(--track-mono); text-transform: uppercase;
+    display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px;
+  }
+  .ds-footer a { color: inherit; text-decoration: none; }
+  .ds-footer a:hover { color: var(--accent); }
 </style>
 </head>
 
-<body class="bg-bg text-fg font-serif leading-relaxed" data-theme="red">
+<body>
 
 <!-- TOP STRIP -->
-<div class="relative z-[2] border-b border-line">
-  <div class="max-w-wrap mx-auto px-[5vw] lg:px-12 py-3 flex items-center gap-4 flex-wrap">
-    <span class="lamp mr-1"></span>
-    <span class="font-mono text-[9px] lg:text-[10px] tracking-[0.22em] uppercase text-accent">DEEPDIVE</span>
-    <span class="text-line-bright font-mono text-[10px]">/</span>
-    <span class="font-mono text-[9px] lg:text-[10px] tracking-[0.18em] uppercase text-fg-mute">DESIGN SYSTEM · v1</span>
-    <a href="DESIGN.md" class="font-mono text-[9px] lg:text-[10px] tracking-[0.18em] uppercase text-fg-mute hover:text-accent border border-line-bright px-2 py-0.5 transition-colors">↗ DESIGN.md</a>
-    <span style="margin-left:auto" class="flex items-center gap-2">
-      <span class="font-mono text-[9px] tracking-[0.14em] text-fg-mute mr-2">THEME</span>
-      <button class="theme-pill" data-set-theme="red" aria-current="true">RED</button>
-      <button class="theme-pill" data-set-theme="signal">SIGNAL</button>
-      <button class="theme-pill" data-set-theme="amber">AMBER</button>
-      <button class="theme-pill" data-set-theme="mint">MINT</button>
-    </span>
-    <span class="flex-1 h-px bg-line hidden lg:block"></span>
-    <span class="font-mono text-[9px] tracking-[0.14em] text-fg-mute">v1 · 2026 · MAY 07</span>
-  </div>
+<div class="ds-wrap">
+<div class="ds-strip">
+  <span class="lamp"></span>
+  <span class="deepdive">DEEPDIVE</span>
+  <span class="sep">/</span>
+  <span>DESIGN SYSTEM · v2</span>
+  <span class="sep">/</span>
+  <a href="DESIGN.md" class="pill" style="text-decoration:none">↗ DESIGN.md</a>
+  <span class="controls">
+    <span style="font:9px var(--mono);letter-spacing:var(--track-mono);color:var(--fg-mute);text-transform:uppercase">Theme</span>
+    <button class="pill" data-set-theme="red">RED</button>
+    <button class="pill" data-set-theme="signal">SIGNAL</button>
+    <button class="pill" data-set-theme="amber" aria-current="true">AMBER</button>
+    <button class="pill" data-set-theme="mint">MINT</button>
+    <button class="pill" data-toggle-mode aria-pressed="false" style="margin-left:8px">
+      <span data-mode-icon>◐</span> <span data-mode-label>暗色</span>
+    </button>
+  </span>
+</div>
 </div>
 
 <!-- HERO -->
-<section class="max-w-wrap mx-auto px-[5vw] lg:px-12 pt-16 lg:pt-28 pb-12 lg:pb-20 border-b border-line">
-  <div class="hero-anim" id="hero-anim">
-    <p class="font-mono text-[10px] lg:text-[11px] tracking-[0.22em] uppercase text-accent mb-6">DESIGN SYSTEM</p>
-    <h1 class="font-serif font-light text-[clamp(36px,7vw,72px)] leading-[1.05] tracking-tight mb-6 max-w-content">
-      AI Buzzwords ·<br/><em class="text-accent">DeepDive</em> 视觉系统
-    </h1>
-    <p class="text-base lg:text-xl text-fg-dim font-light leading-relaxed max-w-prose mb-12">
-      所有发表文章共享的 token / 组件 / 节奏。点击右上角主题切换器查看每个 accent 在组件中的应用。
-    </p>
-  </div>
-</section>
+<div class="ds-wrap"><section class="ds-hero">
+  <div class="eyebrow">DESIGN SYSTEM · v2 · 2026-05</div>
+  <h1>AI Buzzwords ·<br/><em>DeepDive</em> 视觉系统</h1>
+  <p class="dek">档案室 × 实验室 × 新闻编辑部 — Editorial · Dense · Warm · Anti-Hype。
+  四个 accent · 双模式 · 中文 / 日文 / 韩文一等公民 · 零圆角 · 发线优于卡片 · `<em>` 着色而非倾斜。
+  右上角切换主题 + 暗/浅模式查看每个组件的反应。</p>
+</section></div>
 
 <!-- §1 THEMES -->
-<section class="max-w-wrap mx-auto px-[5vw] lg:px-12 py-14 lg:py-20 border-b border-line">
-  <header class="grid grid-cols-1 lg:grid-cols-[120px_1fr] gap-4 lg:gap-12 items-baseline mb-10">
-    <div class="cursor font-mono text-[10px] lg:text-[11px] tracking-[0.2em] text-accent pt-3 border-t border-accent uppercase">§ 01 / Themes</div>
-    <h2 class="font-serif font-light text-[clamp(24px,5vw,42px)] leading-[1.1] tracking-tight">四个 <em class="text-accent">accent</em> 主题</h2>
-  </header>
-
-  <div class="lg:ml-[168px] grid grid-cols-2 lg:grid-cols-4 gap-4 max-w-content">
-    <div class="border border-line p-4 bg-bg-2"><div class="swatch mb-3" style="background:#e84040"></div>
-      <div class="font-mono text-[10px] tracking-[0.14em] text-fg-mute uppercase mb-1">RED · #e84040</div>
-      <div class="text-[13px] text-fg-dim font-light">紧迫 · 时效 · 市场冲击 · 劳动 · 裁员</div>
-      <div class="font-mono text-[10px] text-fg-mute mt-2">white-collar · labor-day-2026</div>
-    </div>
-    <div class="border border-line p-4 bg-bg-2"><div class="swatch mb-3" style="background:#d1402c"></div>
-      <div class="font-mono text-[10px] tracking-[0.14em] text-fg-mute uppercase mb-1">SIGNAL · #d1402c</div>
-      <div class="text-[13px] text-fg-dim font-light">事故 · 泄露 · 单点突发</div>
-      <div class="font-mono text-[10px] text-fg-mute mt-2">claude-code-leak</div>
-    </div>
-    <div class="border border-line p-4 bg-bg-2"><div class="swatch mb-3" style="background:#f5a524"></div>
-      <div class="font-mono text-[10px] tracking-[0.14em] text-fg-mute uppercase mb-1">AMBER · #f5a524</div>
-      <div class="text-[13px] text-fg-dim font-light">分析 · 历史 · 结构 · B2B</div>
-      <div class="font-mono text-[10px] text-fg-mute mt-2">cybertonia · neolab · palantir</div>
-    </div>
-    <div class="border border-line p-4 bg-bg-2"><div class="swatch mb-3" style="background:#7fb88b"></div>
-      <div class="font-mono text-[10px] tracking-[0.14em] text-fg-mute uppercase mb-1">MINT · #7fb88b</div>
-      <div class="text-[13px] text-fg-dim font-light">研究 · 发现 · 技术能力 · 硬件</div>
-      <div class="font-mono text-[10px] text-fg-mute mt-2">emotion-vectors · project-deal · buddy</div>
-    </div>
+<div class="ds-wrap"><section class="ds-section">
+  <div class="head">
+    <div class="label cursor">§ 01 / Themes</div>
+    <h2>四个 <em>accent</em> 主题</h2>
   </div>
-</section>
+  <div class="ds-body">
+    <div class="swatch-row">
+      <div class="swatch-card"><div class="chip" style="background:#e84040"></div><span class="meta name">RED</span><span class="meta hex">#e84040 · 暗模</span><span class="meta hex">#b8302e · 浅模</span><span class="desc">紧迫 · 时效 · 市场冲击 · 劳动 · 裁员</span></div>
+      <div class="swatch-card"><div class="chip" style="background:#d1402c"></div><span class="meta name">SIGNAL</span><span class="meta hex">#d1402c · 暗模</span><span class="meta hex">#b22a17 · 浅模</span><span class="desc">事故 · 泄露 · 单点突发</span></div>
+      <div class="swatch-card"><div class="chip" style="background:#f5a524"></div><span class="meta name">AMBER</span><span class="meta hex">#f5a524 · 暗模</span><span class="meta hex">#b8761a · 浅模</span><span class="desc">分析 · 历史 · 结构 · B2B · 默认</span></div>
+      <div class="swatch-card"><div class="chip" style="background:#7fb88b"></div><span class="meta name">MINT</span><span class="meta hex">#7fb88b · 暗模</span><span class="meta hex">#4a7a55 · 浅模</span><span class="desc">研究 · 发现 · 技术能力 · 硬件</span></div>
+    </div>
+    <p style="margin-top:24px;font:14px/1.6 var(--serif);color:var(--fg-dim)">每页选 <em class="text-accent">一个</em> accent。Light mode 下色值自动深化以保 AA 对比度。组件只引用 <code>var(--accent)</code>，永远不写死 hex。</p>
+  </div>
+</section></div>
 
 <!-- §2 SURFACES -->
-<section class="max-w-wrap mx-auto px-[5vw] lg:px-12 py-14 lg:py-20 border-b border-line">
-  <header class="grid grid-cols-1 lg:grid-cols-[120px_1fr] gap-4 lg:gap-12 items-baseline mb-10">
-    <div class="font-mono text-[10px] lg:text-[11px] tracking-[0.2em] text-accent pt-3 border-t border-accent uppercase">§ 02 / Surfaces</div>
-    <h2 class="font-serif font-light text-[clamp(24px,5vw,42px)] leading-[1.1] tracking-tight">表面色 <em class="text-accent">不随主题</em>变化</h2>
-  </header>
-
-  <div class="lg:ml-[168px] grid grid-cols-2 lg:grid-cols-4 gap-4 max-w-content">
-    <div class="border border-line p-4" style="background:#0c0a07"><div class="font-mono text-[10px] tracking-[0.14em] text-fg-mute uppercase">bg</div><div class="font-mono text-[10px] text-fg-mute mt-1">#0c0a07</div></div>
-    <div class="border border-line p-4" style="background:#161310"><div class="font-mono text-[10px] tracking-[0.14em] text-fg-mute uppercase">bg-2</div><div class="font-mono text-[10px] text-fg-mute mt-1">#161310</div></div>
-    <div class="border border-line p-4" style="background:#1e1a15"><div class="font-mono text-[10px] tracking-[0.14em] text-fg-mute uppercase">bg-3</div><div class="font-mono text-[10px] text-fg-mute mt-1">#1e1a15</div></div>
-    <div class="border border-line p-4 bg-bg"><div class="font-mono text-[10px] tracking-[0.14em] text-accent uppercase">accent-soft</div><div class="bg-accent-soft p-2 mt-2 text-[10px] font-mono text-fg-dim">var(--accent-soft)</div></div>
+<div class="ds-wrap"><section class="ds-section">
+  <div class="head">
+    <div class="label">§ 02 / Surfaces</div>
+    <h2>暗 / <em>浅</em> 双模 · 表面色</h2>
   </div>
-
-  <div class="lg:ml-[168px] grid grid-cols-1 lg:grid-cols-3 gap-4 max-w-content mt-4">
-    <div class="bg-bg-2 border border-line p-4"><span class="text-fg text-[15px]">fg · #f0ebe0</span><span class="block text-fg-dim text-[13px] mt-2">fg-dim · #a09888</span><span class="block text-fg-mute text-[11px] mt-2 font-mono">fg-mute · #6a6058</span></div>
-    <div class="bg-bg-2 border border-line p-4"><span class="text-fg text-[12px] font-mono tracking-[0.18em] uppercase">line</span><div class="h-px bg-line my-3"></div><span class="text-fg text-[12px] font-mono tracking-[0.18em] uppercase">line-bright</span><div class="h-px bg-line-bright my-3"></div></div>
-    <div class="bg-bg-2 border border-accent-soft p-4"><span class="text-accent text-[12px] font-mono tracking-[0.18em] uppercase">accent border + soft bg</span><div class="text-fg-dim text-[13px] mt-2">用于 synthesis / 关键 callout 的容器边</div></div>
+  <div class="ds-body">
+    <table class="tokens">
+      <thead><tr><th>Token</th><th>Dark</th><th>Light</th><th>角色</th></tr></thead>
+      <tbody>
+        <tr><td class="token-name">--bg</td><td>#0c0a07</td><td>#f3ede0</td><td class="note">页面背景</td></tr>
+        <tr><td class="token-name">--bg-2</td><td>#161310</td><td>#ebe3d2</td><td class="note">卡片 / 引语 / 侧栏</td></tr>
+        <tr><td class="token-name">--bg-3</td><td>#1e1a15</td><td>#e2d8c2</td><td class="note">hover 态（少用）</td></tr>
+        <tr><td class="token-name">--bg-paper</td><td>#e8e3d8</td><td>#1a1815</td><td class="note">archive 框 / 反向纸面</td></tr>
+        <tr><td class="token-name">--fg</td><td>#f0ebe0</td><td>#1a1815</td><td class="note">主文本</td></tr>
+        <tr><td class="token-name">--fg-dim</td><td>#a09888</td><td>#58524a</td><td class="note">正文段落</td></tr>
+        <tr><td class="token-name">--fg-mute</td><td>#6a6058</td><td>#8a8276</td><td class="note">元信息 / footer</td></tr>
+        <tr><td class="token-name">--line</td><td>rgba(240,235,224,0.10)</td><td>rgba(26,24,21,0.12)</td><td class="note">分隔细线</td></tr>
+        <tr><td class="token-name">--line-bright</td><td>rgba(240,235,224,0.18)</td><td>rgba(26,24,21,0.22)</td><td class="note">strip 分隔 / hover 边</td></tr>
+      </tbody>
+    </table>
+    <p style="margin-top:24px;font:14px/1.6 var(--serif);color:var(--fg-dim)"><strong style="color:var(--fg)">暗模</strong>是温暖近黑（带红棕底色），不是纯黑。<strong style="color:var(--fg)">浅模</strong>是米白羊皮纸（cream parchment），不是纯白。两边都不用中性灰。</p>
   </div>
-</section>
+</section></div>
 
 <!-- §3 TYPOGRAPHY -->
-<section class="max-w-wrap mx-auto px-[5vw] lg:px-12 py-14 lg:py-20 border-b border-line">
-  <header class="grid grid-cols-1 lg:grid-cols-[120px_1fr] gap-4 lg:gap-12 items-baseline mb-10">
-    <div class="font-mono text-[10px] lg:text-[11px] tracking-[0.2em] text-accent pt-3 border-t border-accent uppercase">§ 03 / Typography</div>
-    <h2 class="font-serif font-light text-[clamp(24px,5vw,42px)] leading-[1.1] tracking-tight">字体 + <em class="text-accent">尺度</em></h2>
-  </header>
+<div class="ds-wrap"><section class="ds-section">
+  <div class="head">
+    <div class="label">§ 03 / Typography</div>
+    <h2>双衬线 + Mono · <em>CJK 一等公民</em></h2>
+  </div>
+  <div class="ds-body">
+    <table class="tokens">
+      <thead><tr><th>Token</th><th>Family</th><th>用途</th></tr></thead>
+      <tbody>
+        <tr><td class="token-name">--display</td><td>Fraunces 300/400/500/700 (opsz 9-144)</td><td class="note">主标题、wordmark</td></tr>
+        <tr><td class="token-name">--display-alt</td><td>Spectral 300/400/500/600/700</td><td class="note">备用显示字体（旧页）</td></tr>
+        <tr><td class="token-name">--serif</td><td>EB Garamond 400/500/600/700 + italic</td><td class="note">Latin 正文运行</td></tr>
+        <tr><td class="token-name">--mono</td><td>JetBrains Mono 300/400/500/700</td><td class="note">eyebrow / 元 / 代码 / tag</td></tr>
+        <tr><td class="token-name">--sans</td><td>Inter Tight 400/500/600</td><td class="note">UI chrome（备用）</td></tr>
+        <tr><td class="token-name">--cjk-serif</td><td>Noto Serif SC → TC → JP → KR → 系统 fallback</td><td class="note">中文 / 日文 / 韩文衬线</td></tr>
+        <tr><td class="token-name">--cjk-sans</td><td>PingFang SC → Hiragino Kaku → Apple SD Gothic Neo</td><td class="note">CJK UI sans</td></tr>
+      </tbody>
+    </table>
 
-  <div class="lg:ml-[168px] max-w-content space-y-8">
-    <div class="demo-frame">
-      <h1 class="font-serif font-light text-[clamp(36px,9vw,124px)] leading-[0.98] tracking-tight">Hero h1<br/><em class="text-accent">关键短语</em></h1>
-      <div class="code-snippet">font-serif font-light text-[clamp(36px,9vw,124px)] leading-[0.98] tracking-tight</div>
+    <h3 style="margin-top:48px;font-family:var(--display);font-weight:400;font-size:22px;color:var(--fg)">尺度 / Type scale</h3>
+    <div class="ladder">
+      <div class="row"><span class="label">--t-display</span><span style="font:300 var(--t-display)/0.95 var(--display)">Hero 标题 · <em class="text-accent">accent emphasis</em></span></div>
+      <div class="row"><span class="label">--t-h1</span><span style="font:300 var(--t-h1)/1.05 var(--display)">章节 h2 · <em class="text-accent">关键短语</em></span></div>
+      <div class="row"><span class="label">--t-h2</span><span style="font:400 var(--t-h2)/1.2 var(--display)">文章 h3 标题</span></div>
+      <div class="row"><span class="label">--body-lg</span><span style="font:300 var(--body-lg)/1.65 var(--serif)">Body Large · 19px Garamond — 用于 hero 副标 / lede</span></div>
+      <div class="row"><span class="label">--body</span><span style="font:300 var(--body)/1.65 var(--serif)">Body · 16px Garamond — 主正文</span></div>
+      <div class="row"><span class="label">--eyebrow</span><span class="eyebrow" style="font:11px var(--mono);letter-spacing:var(--track-eyebrow);text-transform:uppercase;color:var(--accent)">EYEBROW · MONO 11px · 0.20em TRACK</span></div>
     </div>
-    <div class="demo-frame">
-      <h2 class="font-serif font-light text-[clamp(24px,6vw,64px)] leading-[1.05] tracking-tight">Section h2 标题<br/><em class="text-accent">accent emphasis</em></h2>
-      <div class="code-snippet">font-serif font-light text-[clamp(24px,6vw,64px)] leading-[1.05] tracking-tight</div>
-    </div>
-    <div class="demo-frame">
-      <h3 class="font-serif text-2xl lg:text-[32px] font-normal leading-snug">Article h3 子标题：可点名一个具体来源</h3>
-      <div class="code-snippet">font-serif text-2xl lg:text-[32px] font-normal leading-snug</div>
-    </div>
-    <div class="demo-frame">
-      <p class="text-base lg:text-lg font-light leading-[1.75] text-fg-dim max-w-prose">Body 段落使用 Fraunces 衬线 + font-light + 行高 1.75。中文含量高时观感最佳，<em class="text-accent">关键短语用 em 着色</em>而非斜体。引语和数据点是<a href="#" class="cite">点状下划线 cite 链接</a>。</p>
-      <div class="code-snippet">text-base lg:text-lg font-light leading-[1.75] text-fg-dim max-w-prose</div>
-    </div>
-    <div class="demo-frame">
-      <div class="font-mono text-[11px] tracking-[0.18em] uppercase text-accent">MONO LABEL · 0.18em letter-spacing</div>
-      <div class="font-mono text-[10px] tracking-[0.14em] text-fg-mute mt-2">META · 0.14em · 配 fg-mute 用作版本/日期/署名</div>
-      <div class="code-snippet">font-mono text-[11px] tracking-[0.18em] uppercase text-accent</div>
+
+    <h3 style="margin-top:48px;font-family:var(--display);font-weight:400;font-size:22px;color:var(--fg)">CJK 规则 (硬性)</h3>
+    <p style="font:14px/1.7 var(--serif);color:var(--fg-dim);margin-top:12px">
+      Han / Kana / Hangul 永远<em class="text-accent">不斜体</em>。系统在三层强制执行：
+    </p>
+    <pre class="code">:lang(zh), :lang(zh-Hans), :lang(zh-Hant),
+:lang(ja), :lang(ko), .cjk, .cjk * {
+  font-style: normal !important;
+  font-synthesis-style: none;       /* 阻止 UA 合成斜体 */
+  font-feature-settings: "palt" 1;  /* 比例 kana/kanji 度量 */
+}</pre>
+    <p style="font:14px/1.7 var(--serif);color:var(--fg-dim);margin-top:12px">
+      正文行高 1.85（Latin 1.65），letter-spacing 0.02em，<code>text-spacing-trim: trim-start</code>（CSS Text 4 — 修剪 CJK 标点紧贴 Latin 字符的空隙）。
+      标题 line-height 1.1，letter-spacing 0（CJK 永远不负字距）。
+    </p>
+
+    <h3 style="margin-top:48px;font-family:var(--display);font-weight:400;font-size:22px;color:var(--fg)">每脚本自动切换</h3>
+    <div class="lang-grid">
+      <div class="lang-card" lang="zh-Hans">
+        <span class="tag">zh-Hans · Noto Serif SC</span>
+        <h4>当 AI 开始<em class="text-accent">"打工"</em></h4>
+        <p>从售货机到 SF 实体店的硬核小实验室——在能力与对齐之间，跑 8 小时之后谁还没疯。</p>
+      </div>
+      <div class="lang-card" lang="zh-Hant">
+        <span class="tag">zh-Hant · Noto Serif TC</span>
+        <h4>當 AI 開始<em class="text-accent">「打工」</em></h4>
+        <p>從售貨機到 SF 實體店的硬核小實驗室——在能力與對齊之間，跑 8 小時之後誰還沒瘋。</p>
+      </div>
+      <div class="lang-card" lang="ja">
+        <span class="tag">ja · Noto Serif JP</span>
+        <h4>AI が<em class="text-accent">「働き始める」</em>とき</h4>
+        <p>自動販売機から実店舗まで——能力と整合性のあいだ、8 時間走ったあと誰がまだ正気か。</p>
+      </div>
+      <div class="lang-card" lang="ko">
+        <span class="tag">ko · Noto Serif KR</span>
+        <h4>AI 가 <em class="text-accent">"일하기"</em> 시작할 때</h4>
+        <p>자판기에서 실제 매장까지——능력과 정렬 사이, 8 시간 뒤에도 누가 미치지 않았는가.</p>
+      </div>
+      <div class="lang-card" lang="en">
+        <span class="tag">en · Fraunces + EB Garamond</span>
+        <h4>When AI starts <em class="text-accent">working</em></h4>
+        <p>From vending machines to brick-and-mortar — between capability and alignment, who's still sane after eight hours.</p>
+      </div>
+      <div class="lang-card">
+        <span class="tag">混合 · &lt;span class="cjk"&gt;</span>
+        <h4>The <em class="text-accent">Context Layer</em> 才是 ToB AI 的护城河</h4>
+        <p>一行里 Latin + CJK 混排时，CJK 字段用 <code>&lt;span class="cjk"&gt;</code> 显式标记，触发 <code>--cjk-serif</code> 字体栈和 <code>palt</code> features。</p>
+      </div>
     </div>
   </div>
-</section>
+</section></div>
 
-<!-- §4 LAYOUT -->
-<section class="max-w-wrap mx-auto px-[5vw] lg:px-12 py-14 lg:py-20 border-b border-line">
-  <header class="grid grid-cols-1 lg:grid-cols-[120px_1fr] gap-4 lg:gap-12 items-baseline mb-10">
-    <div class="font-mono text-[10px] lg:text-[11px] tracking-[0.2em] text-accent pt-3 border-t border-accent uppercase">§ 04 / Layout</div>
-    <h2 class="font-serif font-light text-[clamp(24px,5vw,42px)] leading-[1.1] tracking-tight">三种 <em class="text-accent">max-width</em></h2>
-  </header>
-
-  <div class="lg:ml-[168px] space-y-3 max-w-content">
-    <div class="border border-line bg-bg-2 p-3"><div class="bg-accent-soft border-l-2 border-accent pl-3 py-2 max-w-prose">max-w-prose · 820px · 主要正文 / pullquote</div></div>
-    <div class="border border-line bg-bg-2 p-3"><div class="bg-accent-soft border-l-2 border-accent pl-3 py-2 max-w-content">max-w-content · 1020px · hero h1 / 偶尔的宽块</div></div>
-    <div class="border border-line bg-bg-2 p-3"><div class="bg-accent-soft border-l-2 border-accent pl-3 py-2">max-w-wrap · 1320px · 页面外容器（你正在看的 strip + section）</div></div>
-
-    <div class="code-snippet">section: max-w-wrap mx-auto px-[5vw] lg:px-12 py-14 lg:py-28 border-b border-line
-header (grid): grid-cols-1 lg:grid-cols-[120px_1fr] gap-4 lg:gap-12
-body offset:   lg:ml-[168px] (= 120 + 48) keeps body aligned with h2 column</div>
+<!-- §4 SPACING -->
+<div class="ds-wrap"><section class="ds-section">
+  <div class="head">
+    <div class="label">§ 04 / Spacing</div>
+    <h2>8-pt 编辑 <em>scale</em></h2>
   </div>
-</section>
+  <div class="ds-body">
+    <table class="tokens">
+      <thead><tr><th>Token</th><th>值</th><th>建议用法</th></tr></thead>
+      <tbody>
+        <tr><td class="token-name">--s-1</td><td>4px</td><td class="note">紧密图标间距</td></tr>
+        <tr><td class="token-name">--s-2</td><td>8px</td><td class="note">小元素间距</td></tr>
+        <tr><td class="token-name">--s-3</td><td>12px</td><td class="note">eyebrow → 标题</td></tr>
+        <tr><td class="token-name">--s-4</td><td>16px</td><td class="note">段落底部</td></tr>
+        <tr><td class="token-name">--s-5</td><td>24px</td><td class="note">卡片内边距 / 正文行间</td></tr>
+        <tr><td class="token-name">--s-6</td><td>32px</td><td class="note">小节内分组</td></tr>
+        <tr><td class="token-name">--s-7</td><td>48px</td><td class="note">大卡 padding · gap-12</td></tr>
+        <tr><td class="token-name">--s-8</td><td>72px</td><td class="note">section padding 移动端</td></tr>
+        <tr><td class="token-name">--s-9</td><td>112px</td><td class="note">section padding 桌面</td></tr>
+      </tbody>
+    </table>
+    <h3 style="margin-top:48px;font-family:var(--display);font-weight:400;font-size:22px;color:var(--fg)">三层 max-width</h3>
+    <table class="tokens">
+      <tbody>
+        <tr><td class="token-name">--w-prose</td><td>820px</td><td class="note">单列正文 / pullquote</td></tr>
+        <tr><td class="token-name">--w-content</td><td>1020px</td><td class="note">hero h1 / 偶尔的宽块</td></tr>
+        <tr><td class="token-name">--w-wrap</td><td>1320px</td><td class="note">页面外容器（strip + hero + section）</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section></div>
 
 <!-- §5 COMPONENTS -->
-<section class="max-w-wrap mx-auto px-[5vw] lg:px-12 py-14 lg:py-20 border-b border-line">
-  <header class="grid grid-cols-1 lg:grid-cols-[120px_1fr] gap-4 lg:gap-12 items-baseline mb-10">
-    <div class="font-mono text-[10px] lg:text-[11px] tracking-[0.2em] text-accent pt-3 border-t border-accent uppercase">§ 05 / Components</div>
-    <h2 class="font-serif font-light text-[clamp(24px,5vw,42px)] leading-[1.1] tracking-tight">复用 <em class="text-accent">组件</em></h2>
-  </header>
+<div class="ds-wrap"><section class="ds-section">
+  <div class="head">
+    <div class="label">§ 05 / Components</div>
+    <h2>复用 <em>组件</em></h2>
+  </div>
+  <div class="ds-body">
 
-  <div class="lg:ml-[168px] max-w-content space-y-12">
-
-    <!-- Lamp + cursor -->
-    <div>
-      <div class="font-mono text-[11px] tracking-[0.18em] uppercase text-accent mb-3">▸ Lamp + Cursor</div>
-      <div class="demo-frame">
-        <span class="lamp mr-3"></span>
-        <span class="font-mono text-[11px] tracking-[0.22em] uppercase text-accent">DEEPDIVE</span>
-        <div class="cursor font-mono text-[11px] tracking-[0.2em] uppercase text-accent mt-4 pt-3 border-t border-accent">§ 0X / 节标题（cursor 闪烁）</div>
-      </div>
+    <h3 style="font-family:var(--display);font-weight:400;font-size:22px;color:var(--fg)">Lamp + Cursor</h3>
+    <div class="demo">
+      <span class="lamp" style="margin-right:12px"></span>
+      <span style="font:11px var(--mono);letter-spacing:var(--track-eyebrow);text-transform:uppercase;color:var(--accent)">DEEPDIVE</span>
+      <div class="cursor" style="margin-top:18px;padding-top:12px;border-top:1px solid var(--accent);font:11px var(--mono);letter-spacing:var(--track-eyebrow);text-transform:uppercase;color:var(--accent)">§ 02 / 章节标签（cursor 闪烁）</div>
     </div>
 
-    <!-- Pullquote -->
-    <div>
-      <div class="font-mono text-[11px] tracking-[0.18em] uppercase text-accent mb-3">▸ Pullquote</div>
-      <div class="demo-frame">
-        <div class="relative pullquote-mark max-w-prose">
-          <p class="font-serif text-[clamp(20px,3vw,30px)] font-light leading-[1.25] tracking-tight text-fg">
-            议题的真正前线已不是"会不会发生"，而是"<em class="text-accent">在哪一层、用什么粒度、由谁先观察到</em>"——这是方法论之争。
-          </p>
-          <p class="font-mono text-[10px] tracking-[0.18em] text-fg-mute uppercase mt-6"><a href="#" class="cite">来源人名</a> · 文章名 — 2026-05-07</p>
-        </div>
-      </div>
-    </div>
-
-    <!-- Cite -->
-    <div>
-      <div class="font-mono text-[11px] tracking-[0.18em] uppercase text-accent mb-3">▸ Cite link</div>
-      <div class="demo-frame">
-        <p class="text-fg-dim text-[15px] font-light leading-[1.75] max-w-prose">
-          "白领初级岗 1-5 年内消失" 的预测最早由 <a href="#" class="cite">Anthropic CEO Amodei</a> 提出。
-          但 <a href="#" class="cite">Yale Budget Lab</a> 报告显示，宏观就业数据尚未呈现显著差异。
+    <h3 style="margin-top:48px;font-family:var(--display);font-weight:400;font-size:22px;color:var(--fg)">Pullquote</h3>
+    <div class="demo">
+      <div class="pullquote-mark" style="position:relative;max-width:var(--w-prose)">
+        <p style="font-family:var(--display);font-weight:300;font-size:clamp(20px,3vw,30px);line-height:1.25;letter-spacing:-0.005em;color:var(--fg);margin:0">
+          议题的真正前线已不是"会不会发生"，而是"<em class="text-accent">在哪一层、用什么粒度、由谁先观察到</em>"——这是方法论之争。
+        </p>
+        <p style="font:10px/1.5 var(--mono);letter-spacing:var(--track-eyebrow);text-transform:uppercase;color:var(--fg-mute);margin-top:24px">
+          <a href="#" class="cite">Brynjolfsson · Stanford</a> · 2026-05
         </p>
       </div>
     </div>
 
-    <!-- Synthesis -->
-    <div>
-      <div class="font-mono text-[11px] tracking-[0.18em] uppercase text-accent mb-3">▸ Synthesis block</div>
-      <div class="demo-frame">
-        <div class="synthesis-label max-w-prose p-5 lg:p-7 border border-accent-soft bg-accent-soft">
-          <p class="text-[15px] text-fg leading-relaxed font-light">数据存在但解读分歧：微观分层方法看到 -16%，宏观聚合看不到。议题的实质从"会不会"转向了<em class="text-accent">"用什么粒度测量"</em>。</p>
-        </div>
+    <h3 style="margin-top:48px;font-family:var(--display);font-weight:400;font-size:22px;color:var(--fg)">Cite link</h3>
+    <div class="demo">
+      <p style="font-family:var(--serif);font-weight:300;font-size:16px;line-height:1.75;color:var(--fg-dim);margin:0">
+        2026 年 1-5 年内消失的预测最早由 <a href="#" class="cite">Anthropic CEO Amodei</a> 提出。
+        但 <a href="#" class="cite">Yale Budget Lab</a> 报告显示宏观就业数据尚未呈现显著差异。
+      </p>
+    </div>
+
+    <h3 style="margin-top:48px;font-family:var(--display);font-weight:400;font-size:22px;color:var(--fg)">Synthesis block</h3>
+    <div class="demo">
+      <div class="synthesis-label" style="max-width:var(--w-prose)">
+        <p style="font:300 16px/1.7 var(--serif);color:var(--fg);margin:0">
+          数据存在但解读分歧：微观分层方法看到 -16%，宏观聚合看不到。议题的实质从"会不会"转向了
+          <em class="text-accent">"用什么粒度测量"</em>。
+        </p>
       </div>
     </div>
 
-    <!-- Stats grid -->
-    <div>
-      <div class="font-mono text-[11px] tracking-[0.18em] uppercase text-accent mb-3">▸ Stats grid (hero)</div>
-      <div class="demo-frame">
-        <div class="grid grid-cols-2 lg:grid-cols-4 gap-px bg-line border border-line font-mono">
-          <div class="bg-bg p-5 lg:p-7">
-            <div class="text-[clamp(28px,5vw,42px)] font-serif text-accent leading-none mb-2 tabular-nums">1-5</div>
-            <div class="text-[9px] text-fg-mute tracking-[0.14em] uppercase leading-relaxed">年时间线<br/>来源</div>
-          </div>
-          <div class="bg-bg p-5 lg:p-7">
-            <div class="text-[clamp(28px,5vw,42px)] font-serif text-accent leading-none mb-2 tabular-nums">-16%</div>
-            <div class="text-[9px] text-fg-mute tracking-[0.14em] uppercase leading-relaxed">22-25 岁就业<br/>Brynjolfsson 2025</div>
-          </div>
-          <div class="bg-bg p-5 lg:p-7">
-            <div class="text-[clamp(28px,5vw,42px)] font-serif leading-none mb-2 text-fg">1.6万</div>
-            <div class="text-[9px] text-fg-mute tracking-[0.14em] uppercase leading-relaxed">企业岗裁员<br/>Amazon Q1</div>
-          </div>
-          <div class="bg-bg p-5 lg:p-7">
-            <div class="text-[clamp(28px,5vw,42px)] font-serif leading-none mb-2 text-mint">2026·05</div>
-            <div class="text-[9px] text-fg-mute tracking-[0.14em] uppercase leading-relaxed">最新更新<br/>v2</div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Tag pills -->
-    <div>
-      <div class="font-mono text-[11px] tracking-[0.18em] uppercase text-accent mb-3">▸ Tag pills</div>
-      <div class="demo-frame">
-        <span class="inline-block border border-line-bright py-0.5 px-2 mr-1 text-[10px] text-fg-mute font-mono">CASE FILE</span>
-        <span class="inline-block border border-line-bright py-0.5 px-2 mr-1 text-[10px] text-fg-mute font-mono">SOURCE EXPOSURE</span>
-        <span class="inline-block border border-line-bright py-0.5 px-2 mr-1 text-[10px] text-fg-mute font-mono">2026-05</span>
-      </div>
-    </div>
-
-    <!-- Section label -->
-    <div>
-      <div class="font-mono text-[11px] tracking-[0.18em] uppercase text-accent mb-3">▸ Section label</div>
-      <div class="demo-frame">
-        <div class="grid grid-cols-1 lg:grid-cols-[120px_1fr] gap-4 lg:gap-12 items-baseline">
-          <div class="cursor font-mono text-[10px] lg:text-[11px] tracking-[0.2em] text-accent pt-3 border-t border-accent uppercase">§ 02 / 反驳之声</div>
-          <h2 class="font-serif font-light text-2xl lg:text-3xl leading-[1.05] tracking-tight">三种 <em class="text-accent">反向叙事</em><br/>同周对冲</h2>
-        </div>
+    <h3 style="margin-top:48px;font-family:var(--display);font-weight:400;font-size:22px;color:var(--fg)">Stats grid</h3>
+    <div class="demo">
+      <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--line);border:var(--border);font-family:var(--mono)">
+        <div style="background:var(--bg);padding:24px"><div style="font:300 clamp(28px,5vw,42px)/1 var(--display);color:var(--accent);font-variant-numeric:tabular-nums;margin-bottom:8px">1-5</div><div style="font:9px/1.5 var(--mono);letter-spacing:var(--track-eyebrow);text-transform:uppercase;color:var(--fg-mute)">年时间线<br/>来源</div></div>
+        <div style="background:var(--bg);padding:24px"><div style="font:300 clamp(28px,5vw,42px)/1 var(--display);color:var(--accent);font-variant-numeric:tabular-nums;margin-bottom:8px">-16%</div><div style="font:9px/1.5 var(--mono);letter-spacing:var(--track-eyebrow);text-transform:uppercase;color:var(--fg-mute)">22-25 岁就业<br/>Brynjolfsson 2025</div></div>
+        <div style="background:var(--bg);padding:24px"><div style="font:300 clamp(28px,5vw,42px)/1 var(--display);color:var(--fg);font-variant-numeric:tabular-nums;margin-bottom:8px">1.6万</div><div style="font:9px/1.5 var(--mono);letter-spacing:var(--track-eyebrow);text-transform:uppercase;color:var(--fg-mute)">企业岗裁员<br/>Amazon Q1</div></div>
+        <div style="background:var(--bg);padding:24px"><div style="font:300 clamp(28px,5vw,42px)/1 var(--display);color:var(--mint);font-variant-numeric:tabular-nums;margin-bottom:8px">2026·05</div><div style="font:9px/1.5 var(--mono);letter-spacing:var(--track-eyebrow);text-transform:uppercase;color:var(--fg-mute)">最新更新<br/>v2</div></div>
       </div>
     </div>
 
   </div>
-</section>
+</section></div>
 
 <!-- §6 ANIMATION -->
-<section class="max-w-wrap mx-auto px-[5vw] lg:px-12 py-14 lg:py-20 border-b border-line">
-  <header class="grid grid-cols-1 lg:grid-cols-[120px_1fr] gap-4 lg:gap-12 items-baseline mb-10">
-    <div class="font-mono text-[10px] lg:text-[11px] tracking-[0.2em] text-accent pt-3 border-t border-accent uppercase">§ 06 / Motion</div>
-    <h2 class="font-serif font-light text-[clamp(24px,5vw,42px)] leading-[1.1] tracking-tight">动画 <em class="text-accent">预算</em></h2>
-  </header>
-
-  <div class="lg:ml-[168px] max-w-content">
-    <table class="w-full font-mono text-xs border-collapse">
-      <thead>
-        <tr class="border-b border-line">
-          <th class="text-left py-3 pr-4 text-fg-mute tracking-[0.14em] uppercase font-normal text-[10px]">动画</th>
-          <th class="text-left py-3 pr-4 text-fg-mute tracking-[0.14em] uppercase font-normal text-[10px]">时长</th>
-          <th class="text-left py-3 pr-4 text-fg-mute tracking-[0.14em] uppercase font-normal text-[10px]">缓动</th>
-          <th class="text-left py-3 text-fg-mute tracking-[0.14em] uppercase font-normal text-[10px]">循环</th>
-        </tr>
-      </thead>
-      <tbody class="text-fg-dim">
-        <tr class="border-b border-line"><td class="py-3 pr-4 text-fg">Lamp pulse</td><td class="py-3 pr-4">2.4s</td><td class="py-3 pr-4">ease-in-out</td><td class="py-3">infinite</td></tr>
-        <tr class="border-b border-line"><td class="py-3 pr-4 text-fg">Cursor blink</td><td class="py-3 pr-4">1.1s</td><td class="py-3 pr-4">step-end</td><td class="py-3">infinite</td></tr>
-        <tr class="border-b border-line"><td class="py-3 pr-4 text-fg">Hero fadeUp</td><td class="py-3 pr-4">0.7s × 4 stagger (0.05/0.15/0.25/0.35)</td><td class="py-3 pr-4">ease</td><td class="py-3 text-fg-mute">once</td></tr>
-        <tr class="border-b border-line"><td class="py-3 pr-4 text-fg">Hover transitions</td><td class="py-3 pr-4">0.15s</td><td class="py-3 pr-4">default</td><td class="py-3 text-fg-mute">once</td></tr>
-        <tr class="border-b border-line"><td class="py-3 pr-4 text-fg">Detail panel open</td><td class="py-3 pr-4">0.22s</td><td class="py-3 pr-4">ease</td><td class="py-3 text-fg-mute">once</td></tr>
+<div class="ds-wrap"><section class="ds-section">
+  <div class="head">
+    <div class="label">§ 06 / Motion</div>
+    <h2>动画 <em>预算</em>（一次花完）</h2>
+  </div>
+  <div class="ds-body">
+    <table class="tokens">
+      <thead><tr><th>动画</th><th>时长</th><th>缓动</th><th>循环</th></tr></thead>
+      <tbody>
+        <tr><td class="token-name">lamp-pulse</td><td>2.4s</td><td>ease-in-out</td><td>infinite (strip only)</td></tr>
+        <tr><td class="token-name">cursor-blink</td><td>1.1s</td><td>step-end</td><td>infinite (§ labels only)</td></tr>
+        <tr><td class="token-name">hero-fadeUp</td><td>0.7s × 4 stagger (.05/.15/.25/.35)</td><td>ease</td><td>once</td></tr>
+        <tr><td class="token-name">hover</td><td>0.15s · --d-fast</td><td>default</td><td>once</td></tr>
+        <tr><td class="token-name">detail-open</td><td>0.22s</td><td>ease</td><td>once</td></tr>
       </tbody>
     </table>
-    <p class="mt-6 text-fg-dim text-[14px] font-light max-w-prose">页面应保持安静。多于此清单的动画 = 噪音。无视差，无滚动触发的"渐入"（hero-anim 例外）。动画是一笔预算，只花一次。</p>
+    <p style="margin-top:24px;font:14px/1.7 var(--serif);color:var(--fg-dim);max-width:var(--w-prose)">
+      页面应保持<em class="text-accent">安静</em>。多于此清单的动画 = 噪音。无视差，无滚动触发的渐入（hero 例外）。无 hover lift。无卡片阴影（除 lamp glow）。动画是预算，只花一次。
+    </p>
   </div>
-</section>
+</section></div>
 
 <!-- §7 DON'TS -->
-<section class="max-w-wrap mx-auto px-[5vw] lg:px-12 py-14 lg:py-20 border-b border-line">
-  <header class="grid grid-cols-1 lg:grid-cols-[120px_1fr] gap-4 lg:gap-12 items-baseline mb-10">
-    <div class="font-mono text-[10px] lg:text-[11px] tracking-[0.2em] text-accent pt-3 border-t border-accent uppercase">§ 07 / Don'ts</div>
-    <h2 class="font-serif font-light text-[clamp(24px,5vw,42px)] leading-[1.1] tracking-tight">绝不 <em class="text-accent">做的事</em></h2>
-  </header>
-
-  <ul class="lg:ml-[168px] max-w-prose space-y-3 text-[15px] text-fg-dim font-light leading-relaxed">
-    <li>✕ <strong class="text-fg">添加第 5 个主题色</strong>。如果新文章不符合 red/signal/amber/mint，可能不属于 DeepDive。</li>
-    <li>✕ <strong class="text-fg">直接用 Tailwind 任意颜色类</strong>（如 <code class="font-mono text-accent">bg-[#abc123]</code>）。永远用 token（<code class="font-mono text-accent">bg-accent</code> 等）。</li>
-    <li>✕ <strong class="text-fg">在署名 / 出品行加 emoji</strong>。正文里 🔴/🟡/🟢/❓ 严重度标签可以。</li>
-    <li>✕ <strong class="text-fg">把 strip 的 lang-switcher 槽位用作其他用途</strong>——它是被锁定的 landmark。</li>
-    <li>✕ <strong class="text-fg">在 hero 之外加 page-load 动画</strong>。动画预算只能花一次。</li>
-    <li>✕ <strong class="text-fg">在正文用真斜体</strong>。<code class="font-mono text-accent">&lt;em&gt;</code> 重绑定为颜色而非倾斜，斜体保留给 pullquote 署名。</li>
-    <li>✕ <strong class="text-fg">混用 amber 的两个 hex</strong>（<code class="font-mono">#c4850a</code> 旧版 vs <code class="font-mono">#f5a524</code> 新版）。新文章必须用 <code class="font-mono">#f5a524</code>。</li>
-  </ul>
-</section>
+<div class="ds-wrap"><section class="ds-section">
+  <div class="head">
+    <div class="label">§ 07 / Don'ts</div>
+    <h2>绝不 <em>做的事</em></h2>
+  </div>
+  <div class="ds-body">
+    <ul style="list-style:none;padding:0;margin:0;font:300 15px/1.75 var(--serif);color:var(--fg-dim);max-width:var(--w-prose)">
+      <li style="padding:12px 0;border-bottom:var(--border)">✕ <strong style="color:var(--fg)">添加第 5 个主题色</strong>。如果新文章不属于 red/signal/amber/mint，可能不属于 DeepDive。</li>
+      <li style="padding:12px 0;border-bottom:var(--border)">✕ <strong style="color:var(--fg)">在 CJK 字符上设 italic</strong>。系统通过 <code>:lang()</code> 强制 <code>font-style: normal !important</code> + <code>font-synthesis-style: none</code>。<em class="text-accent">唯一例外</em>是 pullquote <code>&lt;cite lang="en"&gt;</code> 行。</li>
+      <li style="padding:12px 0;border-bottom:var(--border)">✕ <strong style="color:var(--fg)">省略 <code>&lt;html lang&gt;</code></strong>。无 lang 属性会落入 SC 默认；多语言页面要在 container 上明确标 <code>lang="ja"</code>/<code>"ko"</code>/<code>"zh-Hant"</code> 让正确字体加载。</li>
+      <li style="padding:12px 0;border-bottom:var(--border)">✕ <strong style="color:var(--fg)">直接写 hex</strong> 进组件 CSS。永远 <code>var(--accent)</code>。</li>
+      <li style="padding:12px 0;border-bottom:var(--border)">✕ <strong style="color:var(--fg)">圆角</strong>。除 6px lamp dot 之外永远 <code>border-radius: 0</code>。</li>
+      <li style="padding:12px 0;border-bottom:var(--border)">✕ <strong style="color:var(--fg)">emoji</strong>。允许的字符是 <code>▮ § № · / ← ⚠</code>，渲染为 mono 字符。</li>
+      <li style="padding:12px 0;border-bottom:var(--border)">✕ <strong style="color:var(--fg)">hover lift / 卡片阴影 / 滚动视差</strong>。页面是 print-flat 的。</li>
+      <li style="padding:12px 0">✕ <strong style="color:var(--fg)">混用 amber 的两个 hex</strong>：旧版 <code>#c4850a</code> vs 新版 <code>#f5a524</code>。新文章必须用 <code>#f5a524</code>。</li>
+    </ul>
+  </div>
+</section></div>
 
 <!-- FOOTER -->
-<footer class="max-w-wrap mx-auto px-[5vw] lg:px-12 py-10">
-  <div class="flex items-center justify-between flex-wrap gap-3 border-t border-line pt-5">
-    <span class="font-mono text-[10px] tracking-[0.16em] uppercase text-fg-mute">DEEPDIVE · DESIGN SYSTEM v1 · 2026-05-07</span>
-    <span class="font-mono text-[10px] text-fg-mute">
-      <a href="DESIGN.md" class="hover:text-accent">DESIGN.md</a> ·
-      <a href="CLAUDE.md" class="hover:text-accent">CLAUDE.md</a> ·
-      <a href="https://github.com/fxp/AI-Buzzwords" class="hover:text-accent">github</a>
-    </span>
-  </div>
-</footer>
+<div class="ds-wrap"><div class="ds-footer">
+  <span>DEEPDIVE · DESIGN SYSTEM v2 · 2026-05-08</span>
+  <span>
+    <a href="DESIGN.md">DESIGN.md</a> ·
+    <a href="DESIGN-SHOWCASE.md">SHOWCASE.md</a> ·
+    <a href="colors_and_type.css">colors_and_type.css</a> ·
+    <a href="kit.css">kit.css</a> ·
+    <a href="CLAUDE.md">CLAUDE.md</a> ·
+    <a href="https://github.com/fxp/AI-Buzzwords">github</a>
+  </span>
+</div></div>
 
+<script src="mode-toggle.js" defer></script>
 <script>
 // Theme switcher
 document.querySelectorAll('[data-set-theme]').forEach((btn) => {
   btn.addEventListener('click', () => {
     const theme = btn.dataset.setTheme;
-    document.body.setAttribute('data-theme', theme);
+    document.documentElement.setAttribute('data-theme', theme);
     document.querySelectorAll('[data-set-theme]').forEach((b) => {
       b.setAttribute('aria-current', b === btn ? 'true' : 'false');
-    });
-  });
-});
-
-// Re-trigger hero animation on theme change so it visually feels live
-const heroAnim = document.getElementById('hero-anim');
-document.querySelectorAll('[data-set-theme]').forEach((btn) => {
-  btn.addEventListener('click', () => {
-    if (!heroAnim) return;
-    heroAnim.style.animation = 'none';
-    void heroAnim.offsetWidth;
-    heroAnim.style.animation = '';
-    Array.from(heroAnim.children).forEach((c, i) => {
-      c.style.animation = 'none';
-      void c.offsetWidth;
-      c.style.animation = `fadeUp 0.7s ease both`;
-      c.style.animationDelay = `${0.05 + i * 0.1}s`;
     });
   });
 });
