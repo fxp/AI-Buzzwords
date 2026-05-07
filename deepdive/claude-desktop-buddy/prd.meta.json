@@ -1,0 +1,19 @@
+{
+  "slug": "prd",
+  "topic_dir": "claude-desktop-buddy",
+  "title": {
+    "zh": "不止是桌面宠物：Claude Desktop Buddy 对开发者意味着什么",
+    "en": null
+  },
+  "current_version": 1,
+  "first_published": "2026-05-07",
+  "last_updated": "2026-05-07",
+  "freshness_priority": "warm",
+  "next_check": "2026-06-07",
+  "languages": ["zh"],
+  "primary_language": "zh",
+  "translations": {},
+  "version_log": [
+    { "v": 1, "date": "2026-05-07", "git": "pending", "summary": "首次发布 — 价值篇" }
+  ]
+}

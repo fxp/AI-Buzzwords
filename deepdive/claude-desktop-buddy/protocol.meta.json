@@ -1,0 +1,19 @@
+{
+  "slug": "protocol",
+  "topic_dir": "claude-desktop-buddy",
+  "title": {
+    "zh": "Buddy 协议深潜：从 BLE 比特流看 Agent 硬件通信的未来",
+    "en": null
+  },
+  "current_version": 1,
+  "first_published": "2026-05-07",
+  "last_updated": "2026-05-07",
+  "freshness_priority": "warm",
+  "next_check": "2026-06-07",
+  "languages": ["zh"],
+  "primary_language": "zh",
+  "translations": {},
+  "version_log": [
+    { "v": 1, "date": "2026-05-07", "git": "pending", "summary": "首次发布 — 协议深潜（姊妹篇）" }
+  ]
+}
