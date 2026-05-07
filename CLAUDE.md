@@ -322,16 +322,29 @@ Configure at https://github.com/fxp/AI-Buzzwords/settings/secrets/actions:
 ```bash
 # In ~/Code/AI-Buzzwords/
 
-# 1. Stage article + meta + (optional) blog markdown
+# 1. Author HTML referencing canonical CSS (Design System v2)
+#    Minimum viable head:
+#      <link rel="stylesheet" href="../../colors_and_type.css">
+#      <html lang="zh-Hans" data-theme="amber">  ← red|signal|amber|mint
+#    Add to top strip: <button data-toggle-mode>...</button>
+#    + <script src="../../mode-toggle.js" defer></script>
+
+# 2. Add to config/themes.json under "articles" with accent + topic_label
+
+# 3. Create deepdive/<topic>/<slug>.meta.json (schema in §3)
+
+# 4. Stage + sanity-check
 git add deepdive/<topic>/<slug>.html deepdive/<topic>/<slug>.meta.json
 git add deepdive/<topic>/<slug>-blog.md  # if exists
-
-# 2. Sanity-check
 grep -rnE 'href="https?://[^/]+/?"' deepdive/<topic>/   # bare-domain refs
 grep -rni -E 'zhipu|智谱|glm|z\.ai' deepdive/<topic>/   # signature contamination
 grep -oE 'href="[^h"][^"]*"' deepdive/<topic>/*.html | sort -u   # internal link audit
 
-# 3. Commit + push
+# 5. Run normalize + migration scripts (idempotent)
+python3 scripts/normalize_strip.py --slug <slug>     # standardize TOP STRIP
+python3 scripts/migrate_to_v2.py --slug <slug>       # ensure canonical CSS + toggle wired
+
+# 6. Commit + push
 git commit -m "Add deepdive article: <topic>/<slug>"
 git push origin main
 
@@ -371,6 +384,46 @@ See related memory files:
 ---
 
 ## 13. Article template + style normalization (added 2026-05-07)
+
+### v2 migration status (as of 2026-05-08)
+
+**25/29 articles** wired to canonical CSS + light/dark toggle (commit `ea5fea4`).
+The 4 not migrated:
+
+| Slug | Reason |
+|---|---|
+| `dimension-map` (ZH/EN) | Custom CSS without standard tailwind.config; preserves its own visual identity |
+| `the-stall` | Paper-themed research article (light cream bg `#F5F1E8`, intentional design) |
+| `test-deploy` | Placeholder, not real content |
+
+For ANY new article: the migration is automatic via `scripts/migrate_to_v2.py --slug <slug>`. Already-migrated articles are no-ops on re-run.
+
+### Migration script behavior (additive-only)
+
+`scripts/migrate_to_v2.py` injects four things into each HTML, **without touching** the article's existing `<style>` block or inline `tailwind.config`:
+
+1. `<link rel="stylesheet" href="<rel>/colors_and_type.css">` after `<title>`
+2. `data-theme="<accent>"` on `<html>` (looked up in `config/themes.json`)
+3. `<button data-toggle-mode>` in top strip after `<div data-lang-switcher>` (with localized labels: ZH 暗色/浅色 / EN Dark/Light)
+4. `<script src="<rel>/mode-toggle.js" defer>` next to lang-switcher.js
+
+This means existing visual rendering is **preserved exactly** (article's local rules win the cascade). Light mode + canonical CSS layer in as fallback. Future deeper cleanup (removing duplicate `.lamp` / `.cursor` / `.pullquote-mark` from each article's local `<style>` block) can be done per-article when each is next touched — they're now in canonical `colors_and_type.css`.
+
+### Per-article inline tailwind.config: light-mode caveat
+
+Old articles still ship inline `tailwind.config` with hex colors (`accent:'#f5a524'` etc.) — their `text-accent` / `bg-bg` utilities don't track light mode automatically. To fix one article, change its inline config to:
+
+```js
+colors: {
+  bg:'var(--bg)', 'bg-2':'var(--bg-2)', /* ... */
+  accent:'var(--accent)', 'accent-soft':'var(--accent-soft)',
+  red:'var(--red)', signal:'var(--signal)', amber:'var(--amber)', mint:'var(--mint)',
+}
+```
+
+Then `text-amber`, `bg-bg`, etc. all flip when `<html data-mode="light">`. **palantir-aip** (commit `f510840`) is the reference example.
+
+
 
 Every published article shares a unified chrome — top strip + theme tokens
 + lang-switcher placement. Bespoke hero / sections / footers stay per-article.
@@ -468,11 +521,19 @@ git commit -m "Add article: <slug>" && git push
 ├── templates/
 │   ├── article.html              # golden article template
 │   └── _strip.html               # drop-in TOP STRIP component
+├── colors_and_type.css           # canonical token CSS (v2 source of truth)
+├── kit.css                       # long-read components (.dd-*) atop tokens
+├── mode-toggle.js                # light/dark toggle (localStorage persistent)
+├── DESIGN.md                     # token + component spec (v2)
+├── DESIGN-SHOWCASE.md            # markdown showcase, viewer-renderable
+├── design-system.html            # interactive showcase + theme/mode toggle
 ├── scripts/
 │   ├── translate.py              # GLM-5.1 / Claude translation
 │   ├── freshness_check.py        # weekly content scan
 │   ├── inject_lang_switcher.py   # post-translation switcher injection
 │   ├── normalize_strip.py        # unify TOP STRIP across articles
+│   ├── migrate_to_v2.py          # additive: canonical CSS link + data-theme + toggle
+│   ├── fix_mobile_meta_row.py    # mobile alignment of evidence/case-card meta rows
 │   ├── llm_client.py             # provider-agnostic LLM caller
 │   ├── notify_slack.py           # webhook posting
 │   └── publish-md.sh             # legacy md publish helper
