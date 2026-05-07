@@ -395,6 +395,12 @@ Every published article shares a unified chrome — top strip + theme tokens
 Each article picks ONE accent. The body gets `data-theme="<accent>"` and a
 `<style id="theme-vars">:root{--accent:...}</style>` block in `<head>`.
 
+**Full reference**:
+- Visual showcase (interactive theme switcher): [`design-system.html`](https://fxp.github.io/AI-Buzzwords/design-system.html)
+- Token + component spec: [`DESIGN.md`](DESIGN.md)
+
+When generating a new article: **read `DESIGN.md` first**. It documents typography scale, layout primitives (max-w-prose/content/wrap), reusable components (lamp, cursor, pullquote-mark, synthesis-label, cite link, stats grid), animation budget, and a hard list of don'ts.
+
 ### Normalize existing article (replace strip + apply theme)
 
 ```bash
