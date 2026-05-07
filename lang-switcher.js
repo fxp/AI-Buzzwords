@@ -27,35 +27,40 @@
       [data-lang-switcher] {
         display: inline-flex;
         gap: 1px;
-        font-family: 'JetBrains Mono', ui-monospace, monospace;
+        font-family: var(--mono, 'JetBrains Mono', ui-monospace, monospace);
         font-size: 10px;
         letter-spacing: 0.14em;
         text-transform: uppercase;
-        background: rgba(255,255,255,0.04);
-        border: 1px solid rgba(255,255,255,0.1);
+        background: var(--bg-2, rgba(0,0,0,0.04));
+        border: 1px solid var(--line-bright, rgba(0,0,0,0.18));
         border-radius: 2px;
         overflow: hidden;
       }
       [data-lang-switcher] a, [data-lang-switcher] span {
         padding: 4px 10px;
         text-decoration: none;
-        color: inherit;
-        opacity: 0.55;
-        transition: opacity 0.15s, background 0.15s;
+        color: var(--fg-mute, inherit);
+        opacity: 0.85;
+        transition: color 0.15s, background 0.15s, opacity 0.15s;
         background: transparent;
         cursor: pointer;
         white-space: nowrap;
       }
-      [data-lang-switcher] a:hover { opacity: 0.9; background: rgba(255,255,255,0.04); }
+      [data-lang-switcher] a:hover {
+        opacity: 1;
+        color: var(--accent, currentColor);
+        background: var(--accent-soft, transparent);
+      }
       [data-lang-switcher] [aria-current="true"] {
         opacity: 1;
-        background: rgba(232,64,64,0.18);
+        color: var(--accent, currentColor);
+        background: var(--accent-soft, rgba(232,64,64,0.18));
         cursor: default;
       }
       [data-lang-switcher] .ls-divider {
         padding: 0;
         width: 1px;
-        background: rgba(255,255,255,0.1);
+        background: var(--line-bright, rgba(0,0,0,0.18));
         opacity: 1;
       }
     `;
