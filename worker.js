@@ -24,6 +24,17 @@ const RAW_BASE = 'https://raw.githubusercontent.com/fxp/AI-Buzzwords';
 export default {
   async fetch(request) {
     const url = new URL(request.url);
+
+    // 1. Canonicalize: when the user lands on /blog/ai-buzzwords (no
+    //    trailing slash), 301 to /blog/ai-buzzwords/ so the browser's
+    //    URL bar ends with the directory separator. Otherwise relative
+    //    links inside the page (`href="deepdive/x/"`) resolve to the
+    //    parent path (`/blog/deepdive/x/`) and 404 outside the Worker.
+    if (url.pathname === PREFIX) {
+      url.pathname = PREFIX + '/';
+      return Response.redirect(url.toString(), 301);
+    }
+
     const subpath = url.pathname.slice(PREFIX.length) || '/';
     const versionParam = url.searchParams.get('v');
 
