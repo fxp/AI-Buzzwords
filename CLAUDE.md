@@ -488,9 +488,27 @@ Idempotent — re-running on already-normalized files is a no-op.
 
 ### Articles excluded from normalize
 
-`SKIP_SLUGS` in `normalize_strip.py` lists articles whose custom CSS would
-break with the standardized strip. Currently: `dimension-map` (uses pure
-custom CSS, no Tailwind config block).
+`SKIP_SLUGS` in `normalize_strip.py` (and the parallel lists in
+`migrate_to_v2.py` / `migrate_to_v2_deep.py`) names articles whose
+custom CSS would break with the standardized strip / token migration.
+Currently: `dimension-map`, `the-stall` (paper-themed), `test-deploy`,
+`vending-reverse` (cyan terminal aesthetic).
+
+**Critical: SKIP_SLUGS is layout-only. It does NOT mean skip translation.**
+A custom-design article still needs `manual_only: false` + `languages: ["zh","en"]`
+in meta.json. Trap to avoid: setting `manual_only: true` to "protect" an
+AI-persona / technical article from machine translation. The right move is
+to route it to Anthropic instead:
+
+1. meta.json: `manual_only: false`, add `"translation_provider_hint": "anthropic"` as documentation
+2. Commit meta.json change with `[auto-translate]` in message → push trigger skips (default GLM)
+3. Manual dispatch: `gh workflow run translate.yml -f slug=<slug> -f provider=anthropic`
+
+Anthropic is the right provider for: AI-persona content (voice preservation),
+hardware/protocol/reverse-engineering technical density, articles >60KB,
+or anything in topics where GLM has historically hit content filter.
+Production case: vending-reverse (cyan, AI author "问野/Roam", 40KB) translated
+cleanly by Claude in 4 minutes 2026-05-09.
 
 ### Adding a new article — full sequence
 
