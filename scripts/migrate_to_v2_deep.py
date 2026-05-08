@@ -41,7 +41,7 @@ from pathlib import Path
 REPO_ROOT = Path(__file__).resolve().parent.parent
 DEEPDIVE = REPO_ROOT / "deepdive"
 
-SKIP_SLUGS = {"dimension-map", "the-stall", "test-deploy"}
+SKIP_SLUGS = {"dimension-map", "the-stall", "test-deploy", "vending-reverse"}
 
 # Map token name → CSS var name. Order matters for replace correctness.
 TOKEN_MAP = [

@@ -104,7 +104,8 @@ SKIP_SLUGS = {
     # Custom-CSS pages without standard tailwind.config — normalizing
     # would break their layout. Update manually if needed.
     "dimension-map",
-    "the-stall",  # paper-themed research article (light bg, intentional design)
+    "the-stall",         # paper-themed research article (light bg, intentional design)
+    "vending-reverse",   # custom cyan terminal aesthetic, AI first-person field report
 }
 
 

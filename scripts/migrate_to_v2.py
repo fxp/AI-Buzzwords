@@ -31,7 +31,7 @@ REPO_ROOT = Path(__file__).resolve().parent.parent
 DEEPDIVE = REPO_ROOT / "deepdive"
 THEMES_PATH = REPO_ROOT / "config" / "themes.json"
 
-SKIP_SLUGS = {"dimension-map", "the-stall", "test-deploy"}
+SKIP_SLUGS = {"dimension-map", "the-stall", "test-deploy", "vending-reverse"}
 
 
 def derive_slug(html_path: Path) -> str:
