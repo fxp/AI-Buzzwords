@@ -21,7 +21,7 @@ Vault → repo is one-way. When migrating an article from vault to repo:
 
 ---
 
-## 2. Two-target deployment
+## 2. Deployment architecture
 
 ```
 git push origin main
@@ -29,20 +29,25 @@ git push origin main
         ▼
 .github/workflows/deploy.yml
         │
-   ┌────┴────┐
-   ▼         ▼
-GitHub    Cloudflare
-Pages     Worker
-   │         │
-   ▼         ▼
-fxp.github   xiaopingfeng
-.io/AI-      .com/blog/
-Buzzwords/   ai-buzzwords/
+        ▼
+GitHub Pages
+        │
+        ▼
+fxp.github.io/AI-Buzzwords/
+  (redirects all visitors → xiaopingfeng.com/deepdive/)
 ```
 
-Worker (`worker.js`) reverse-proxies `xiaopingfeng.com/blog/ai-buzzwords/<path>` → `fxp.github.io/AI-Buzzwords/<path>`. Same content, two URLs.
+**Canonical URL**: `xiaopingfeng.com/deepdive/` (served by Cloudflare Worker reverse-proxying GitHub Pages)
 
-**Rule**: every deployment report MUST give the user BOTH URLs (`fxp.github.io/...` + `xiaopingfeng.com/...`).
+**Legacy redirect**: `xiaopingfeng.com/blog/ai-buzzwords/*` → 301 → `xiaopingfeng.com/deepdive/*` (Worker handles this, preserving all old external links)
+
+**GitHub Pages direct links** (`fxp.github.io/AI-Buzzwords/*`): `index.html` and `404.html` both JS-redirect to `xiaopingfeng.com/deepdive/*`.
+
+Worker (`worker.js`) routes:
+- `/deepdive/*` → reverse-proxy to `fxp.github.io/AI-Buzzwords/<path>` (canonical)
+- `/blog/ai-buzzwords/*` → 301 to `/deepdive/*` (legacy compat)
+
+**Rule**: every deployment report MUST give the user the canonical URL: `xiaopingfeng.com/deepdive/deepdive/<topic>/<slug>.html`
 
 The Worker also handles `?v=N` query params for historical version routing — see §8.
 
@@ -261,7 +266,7 @@ The switcher reads `meta.json.languages` at runtime, so:
 
 ## 8. Historical version access (`?v=N`)
 
-URL pattern: `https://xiaopingfeng.com/blog/ai-buzzwords/<path>.html?v=N`
+URL pattern: `https://xiaopingfeng.com/deepdive/<path>.html?v=N`
 
 `worker.js` flow:
 1. Parse `?v=N` from query
@@ -358,9 +363,8 @@ git pull
 python3 scripts/inject_lang_switcher.py
 git add deepdive/ && git commit -m "Inject lang-switcher for <slug>" && git push
 
-# 6. Verify both URLs:
-echo "https://fxp.github.io/AI-Buzzwords/deepdive/<topic>/<slug>.html"
-echo "https://xiaopingfeng.com/blog/ai-buzzwords/deepdive/<topic>/<slug>.html"
+# 6. Verify canonical URL:
+echo "https://xiaopingfeng.com/deepdive/deepdive/<topic>/<slug>.html"
 ```
 
 ---
@@ -450,7 +454,7 @@ Each article picks ONE accent. The body gets `data-theme="<accent>"` and a
 
 **Full reference**:
 - Visual showcase (interactive theme + light/dark switcher): [`design-system.html`](https://fxp.github.io/AI-Buzzwords/design-system.html)
-- Token spec: [`DESIGN.md`](DESIGN.md) · markdown showcase: [`DESIGN-SHOWCASE.md`](DESIGN-SHOWCASE.md)
+- Token spec: [`DESIGN.md`](DESIGN.md)
 - **Canonical token CSS**: [`colors_and_type.css`](colors_and_type.css) — link this in new articles instead of inlining tailwind.config
 - **Component CSS**: [`kit.css`](kit.css) — `.dd-strip`, `.dd-section`, `.dd-hero`, `.dd-pullquote` etc.
 - **Light/dark toggle**: [`mode-toggle.js`](mode-toggle.js) — drop into `<head>` + `<button data-toggle-mode>...</button>` in strip
@@ -525,7 +529,6 @@ git commit -m "Add article: <slug>" && git push
 ├── kit.css                       # long-read components (.dd-*) atop tokens
 ├── mode-toggle.js                # light/dark toggle (localStorage persistent)
 ├── DESIGN.md                     # token + component spec (v2)
-├── DESIGN-SHOWCASE.md            # markdown showcase, viewer-renderable
 ├── design-system.html            # interactive showcase + theme/mode toggle
 ├── scripts/
 │   ├── translate.py              # GLM-5.1 / Claude translation
