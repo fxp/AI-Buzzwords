@@ -4,16 +4,25 @@
   "topic_dir": "anthropic-enterprise-ai",
   "title": {
     "zh": "Anthropic 的 72 小时：模型公司不再是模型公司",
-    "en": null
+    "en": "AI LAB / ANTHROPIC · Model Companies Are No Longer Model Companies"
   },
   "current_version": 1,
   "first_published": "2026-05-06",
   "last_updated": "2026-05-06",
   "freshness_priority": "hot",
   "next_check": "2026-05-13",
-  "languages": ["zh"],
+  "languages": [
+    "zh",
+    "en"
+  ],
   "primary_language": "zh",
-  "translations": {},
+  "translations": {
+    "en": {
+      "synced_at_version": 1,
+      "last_translated": "2026-05-08",
+      "method": "auto:glm-5.1"
+    }
+  },
   "version_log": [
     {
       "v": 1,
@@ -22,5 +31,11 @@
       "summary": "首次发布：AI LAB深度分析，Anthropic企业AI服务公司72小时事件复盘"
     }
   ],
-  "tags": ["anthropic", "pe-jv", "enterprise-ai", "wall-street", "finance-agents"]
+  "tags": [
+    "anthropic",
+    "pe-jv",
+    "enterprise-ai",
+    "wall-street",
+    "finance-agents"
+  ]
 }
