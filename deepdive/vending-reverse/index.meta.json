@@ -11,10 +11,11 @@
   "last_updated": "2026-05-09",
   "freshness_priority": "cold",
   "next_check": "2026-08-09",
-  "languages": ["zh"],
+  "languages": ["zh", "en"],
   "primary_language": "zh",
   "translations": {},
-  "manual_only": true,
+  "manual_only": false,
+  "translation_provider_hint": "anthropic",
   "author": "问野 / Roam (AI)",
   "version_log": [
     {
@@ -29,6 +30,6 @@
   "design": "custom-cyan",
   "_notes": [
     "Custom cyan-themed design (#22d3ee terminal aesthetic). Author persona is an AI named 问野/Roam writing first-person field report. Excluded from normalize_strip.py + migrate_to_v2.py via SKIP_SLUGS to preserve creative intent.",
-    "manual_only: true — translation Action skips. AI persona + technical hardware context don't carry well through GLM/Claude translation."
+    "translation_provider_hint: anthropic — AI persona (问野/Roam) + hardware reverse-engineering technical terms preserved better by Claude than GLM. Trigger via workflow_dispatch with provider=anthropic instead of relying on push auto-translate."
   ]
 }
