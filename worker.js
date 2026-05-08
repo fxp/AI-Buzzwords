@@ -1,11 +1,10 @@
 /**
- * Cloudflare Worker for xiaopingfeng.com/blog/ai-buzzwords*
+ * Cloudflare Worker for xiaopingfeng.com DeepDive routing
  *
  * Routes:
- *   /blog/ai-buzzwords/<path>            → fxp.github.io/AI-Buzzwords/<path>  (default)
- *   /blog/ai-buzzwords/<path>?v=N        → historical: fetches the file at the
- *                                          commit recorded in <slug>.meta.json
- *                                          version_log[v=N].git_sha
+ *   /deepdive/<path>                     → fxp.github.io/AI-Buzzwords/<path>  (canonical)
+ *   /deepdive/<path>?v=N                 → historical version via meta.json + raw.githubusercontent.com
+ *   /blog/ai-buzzwords/<path>            → 301 → /deepdive/<path>  (legacy redirect)
  *
  * For ?v=N requests:
  *   1. Strip the path to identify the article (slug = filename without .html and lang suffix)
@@ -16,7 +15,8 @@
  * If meta.json lookup fails or version not found → fall back to current version with a
  * tiny banner saying "请求的历史版本不可用"
  */
-const PREFIX = '/blog/ai-buzzwords';
+const PREFIX = '/deepdive';
+const LEGACY_PREFIX = '/blog/ai-buzzwords';
 const ORIGIN_HOST = 'fxp.github.io';
 const ORIGIN_BASE = `https://${ORIGIN_HOST}/AI-Buzzwords`;
 const RAW_BASE = 'https://raw.githubusercontent.com/fxp/AI-Buzzwords';
@@ -25,11 +25,14 @@ export default {
   async fetch(request) {
     const url = new URL(request.url);
 
-    // 1. Canonicalize: when the user lands on /blog/ai-buzzwords (no
-    //    trailing slash), 301 to /blog/ai-buzzwords/ so the browser's
-    //    URL bar ends with the directory separator. Otherwise relative
-    //    links inside the page (`href="deepdive/x/"`) resolve to the
-    //    parent path (`/blog/deepdive/x/`) and 404 outside the Worker.
+    // Legacy redirect: /blog/ai-buzzwords/* → /deepdive/*
+    if (url.pathname === LEGACY_PREFIX || url.pathname.startsWith(LEGACY_PREFIX + '/')) {
+      const rest = url.pathname.slice(LEGACY_PREFIX.length) || '/';
+      url.pathname = PREFIX + rest;
+      return Response.redirect(url.toString(), 301);
+    }
+
+    // Canonicalize: /deepdive → /deepdive/
     if (url.pathname === PREFIX) {
       url.pathname = PREFIX + '/';
       return Response.redirect(url.toString(), 301);

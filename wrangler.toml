@@ -3,5 +3,6 @@ main = "worker.js"
 compatibility_date = "2025-01-01"
 
 routes = [
+  { pattern = "xiaopingfeng.com/deepdive*",          zone_name = "xiaopingfeng.com" },
   { pattern = "xiaopingfeng.com/blog/ai-buzzwords*", zone_name = "xiaopingfeng.com" }
 ]

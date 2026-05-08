@@ -3,6 +3,13 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
+<script>
+// fxp.github.io/AI-Buzzwords/* → xiaopingfeng.com/deepdive/*
+if (location.hostname === 'fxp.github.io') {
+  const path = location.pathname.replace(/^\/AI-Buzzwords/, '') || '/';
+  location.replace('https://xiaopingfeng.com/deepdive' + path + location.search + location.hash);
+}
+</script>
 <title>AI Buzzwords · DeepDive</title>
 <style>
   :root {

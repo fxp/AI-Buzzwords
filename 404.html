@@ -1,0 +1,16 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Redirecting…</title>
+<script>
+// Deep-link redirect: fxp.github.io/AI-Buzzwords/<path> → xiaopingfeng.com/deepdive/<path>
+if (location.hostname === 'fxp.github.io') {
+  const path = location.pathname.replace(/^\/AI-Buzzwords/, '') || '/';
+  location.replace('https://xiaopingfeng.com/deepdive' + path + location.search + location.hash);
+}
+</script>
+</head>
+<body></body>
+</html>
