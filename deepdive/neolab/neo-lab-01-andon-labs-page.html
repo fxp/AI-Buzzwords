@@ -13,12 +13,12 @@ tailwind.config = {
   theme: {
     extend: {
       colors: {
-        bg: '#0a0908', 'bg-2': '#111110',
-        fg: '#ebe6dc', 'fg-dim': '#9a948a', 'fg-mute': '#5a544b',
-        line: '#2b2823', 'line-bright': '#443f37',
-        amber: '#f5a524', 'amber-soft': 'rgba(245,165,36,0.09)', 'amber-glow': 'rgba(245,165,36,0.2)',
-        mint: '#7fb88b', 'mint-soft': 'rgba(127,184,139,0.12)',
-        signal: '#d1402c', paper: '#e8e3d8', ink: '#1a1815',
+        bg: 'var(--bg)', 'bg-2': 'var(--bg-2)',
+        fg: 'var(--fg)', 'fg-dim': 'var(--fg-dim)', 'fg-mute': 'var(--fg-mute)',
+        line: 'var(--line)', 'line-bright': 'var(--line-bright)',
+        amber: 'var(--amber)', 'amber-soft': 'var(--accent-soft)', 'amber-glow': 'var(--accent-glow)',
+        mint: 'var(--mint)', 'mint-soft': 'rgba(127,184,139,0.12)',
+        signal: 'var(--signal)', paper: 'var(--bg-paper)', ink: 'var(--bg-ink)',
       },
       fontFamily: {
         serif: ["'Fraunces'","'Source Han Serif SC'","'Noto Serif SC'","Georgia","serif"],
