@@ -2,7 +2,6 @@ name = "ai-buzzwords-router"
 main = "worker.js"
 compatibility_date = "2025-01-01"
 
-routes = [
-  { pattern = "xiaopingfeng.com/deepdive*",          zone_name = "xiaopingfeng.com" },
-  { pattern = "xiaopingfeng.com/blog/ai-buzzwords*", zone_name = "xiaopingfeng.com" }
-]
+# Routes removed 2026-05-09: content migrated to xiaopingfeng-site (Cloudflare Pages).
+# /deepdive/* and /blog/ai-buzzwords/* are now served directly by Pages + _redirects.
+routes = []
