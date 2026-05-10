@@ -1,4 +1,13 @@
-name: Deploy
+# Deploy is now handled by xiaopingfeng-site repo (Cloudflare Pages).
+# This repo is authoring-only: translate.yml and freshness-check.yml still run here
+# but content publishing requires syncing to ~/Code/xiaopingfeng-site and pushing there.
+#
+# GitHub Pages: disabled (migrated 2026-05-09)
+# Cloudflare Worker: deployed but has no routes (inactive)
+#
+# This workflow is intentionally a no-op to avoid failing runs.
+
+name: Deploy (no-op)
 
 on:
   push:
@@ -6,34 +15,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  deploy-github-pages:
+  noop:
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      pages: write
-      id-token: write
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/configure-pages@v5
-      - uses: actions/upload-pages-artifact@v3
-        with:
-          path: '.'
-      - id: deployment
-        uses: actions/deploy-pages@v4
-
-  deploy-cloudflare:
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      deployments: write
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Deploy Worker (path router for xiaopingfeng.com)
-        uses: cloudflare/wrangler-action@v3
-        with:
-          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+      - run: echo "Publishing is handled by xiaopingfeng-site repo. No deployment needed here."
