@@ -1,0 +1,37 @@
+{
+  "$schema": "../../config/meta.schema.json",
+  "slug": "code-with-claude-2026",
+  "topic_dir": "code-with-claude-2026",
+  "title": {
+    "zh": "Code with Claude 2026 · 从模型公司到 Agent 平台",
+    "en": null
+  },
+  "current_version": 1,
+  "first_published": "2026-05-10",
+  "last_updated": "2026-05-10",
+  "freshness_priority": "hot",
+  "next_check": "2026-05-17",
+  "languages": ["zh"],
+  "primary_language": "zh",
+  "translations": {},
+  "is_index": true,
+  "version_log": [
+    {
+      "v": 1,
+      "date": "2026-05-10",
+      "git": "",
+      "summary": "首次发布：Code with Claude 2026 深度分析，含 Managed Agents、Dreaming、Advisor Strategy、SpaceX Colossus 算力协议、金融行业落地、生态竞品格局"
+    }
+  ],
+  "tags": [
+    "Anthropic",
+    "Claude Code",
+    "Managed Agents",
+    "Agent Platform",
+    "SpaceX",
+    "MCP",
+    "Event"
+  ],
+  "category": "LAB / ANTHROPIC",
+  "translation_provider_hint": "anthropic"
+}
