@@ -4,16 +4,25 @@
   "topic_dir": "code-with-claude-2026",
   "title": {
     "zh": "Code with Claude 2026 · 从模型公司到 Agent 平台",
-    "en": null
+    "en": "Code with Claude 2026 · From Model Company to Agent Platform / AI Buzzwords"
   },
   "current_version": 1,
   "first_published": "2026-05-10",
   "last_updated": "2026-05-10",
   "freshness_priority": "hot",
   "next_check": "2026-05-17",
-  "languages": ["zh"],
+  "languages": [
+    "zh",
+    "en"
+  ],
   "primary_language": "zh",
-  "translations": {},
+  "translations": {
+    "en": {
+      "synced_at_version": 1,
+      "last_translated": "2026-05-10",
+      "method": "auto:glm-5.1"
+    }
+  },
   "is_index": true,
   "version_log": [
     {

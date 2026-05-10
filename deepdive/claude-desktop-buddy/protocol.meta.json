@@ -10,10 +10,24 @@
   "last_updated": "2026-05-07",
   "freshness_priority": "warm",
   "next_check": "2026-06-07",
-  "languages": ["zh"],
+  "languages": [
+    "zh",
+    "en"
+  ],
   "primary_language": "zh",
-  "translations": {},
+  "translations": {
+    "en": {
+      "synced_at_version": 1,
+      "last_translated": "2026-05-10",
+      "method": "auto:glm-5.1"
+    }
+  },
   "version_log": [
-    { "v": 1, "date": "2026-05-07", "git": "pending", "summary": "首次发布 — 协议深潜（姊妹篇）" }
+    {
+      "v": 1,
+      "date": "2026-05-07",
+      "git": "pending",
+      "summary": "首次发布 — 协议深潜（姊妹篇）"
+    }
   ]
 }

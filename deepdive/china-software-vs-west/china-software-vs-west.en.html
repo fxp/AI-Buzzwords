@@ -1,0 +1,736 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="amber">
+<head>
+<style id="theme-vars">:root{--accent:#f5a524;--accent-glow:rgba(245,165,36,0.28);--accent-soft:rgba(245,165,36,0.10);}</style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>AI LAB / Anthropic Enters China: Software Industry Structure Determines Deployment Fate</title>
+<!-- Design System v2: canonical token CSS (fonts, themes, type, CJK rules) -->
+<link rel="stylesheet" href="../../colors_and_type.css">
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,700&family=JetBrains+Mono:wght@300;400;500;700&family=Inter+Tight:wght@400;500;600&display=swap" rel="stylesheet" />
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      colors: {
+        bg: 'var(--bg)', 'bg-2': 'var(--bg-2)',
+        fg: 'var(--fg)', 'fg-dim': 'var(--fg-dim)', 'fg-mute': 'var(--fg-mute)',
+        line: 'var(--line)', 'line-bright': 'var(--line-bright)',
+        amber: 'var(--amber)', 'amber-soft': 'var(--accent-soft)', 'amber-glow': 'var(--accent-glow)',
+        mint: 'var(--mint)', 'mint-soft': 'rgba(127,184,139,0.12)',
+        blue: '#5b8dce', 'blue-soft': 'rgba(91,141,206,0.12)',
+        signal: 'var(--signal)', paper: 'var(--bg-paper)', ink: 'var(--bg-ink)',
+      },
+      fontFamily: {
+        serif: ["'Fraunces'","'Source Han Serif SC'","'Noto Serif SC'","Georgia","serif"],
+        mono: ["'JetBrains Mono'","ui-monospace","monospace"],
+        sans: ["'Inter Tight'","system-ui","sans-serif"],
+      },
+      maxWidth: { prose: '820px', content: '1020px', wrap: '1320px' },
+    }
+  }
+}
+</script>
+<style>
+em, i { font-style: normal }
+body { font-feature-settings: 'ss01','ss02','kern'; -webkit-font-smoothing: antialiased }
+
+body::before { content:''; position:fixed; inset:0; background-image: linear-gradient(rgba(245,165,36,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(245,165,36,0.04) 1px, transparent 1px); background-size:80px 80px; pointer-events:none; z-index:0 }
+body::after { content:''; position:fixed; inset:0; background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.96 0 0 0 0 0.9 0 0 0 0 0.8 0 0 0 0.08 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); pointer-events:none; z-index:1; opacity:0.45; mix-blend-mode:overlay }
+
+.lamp { display:inline-block; width:8px; height:8px; border-radius:50%; background:#f5a524; box-shadow:0 0 10px #f5a524, 0 0 24px rgba(245,165,36,0.2); animation:pulse 2.4s ease-in-out infinite; vertical-align:middle }
+@keyframes pulse { 0%,100%{opacity:1;box-shadow:0 0 10px #f5a524,0 0 24px rgba(245,165,36,0.2)} 50%{opacity:.55;box-shadow:0 0 6px #f5a524,0 0 14px rgba(245,165,36,0.2)} }
+
+.cursor::after { content:'▮'; color:#f5a524; margin-left:6px; animation:blink 1.1s steps(2) infinite }
+@keyframes blink { 0%,50%{opacity:1} 51%,100%{opacity:0} }
+
+@keyframes fadeUp { from{opacity:0;transform:translateY(12px)} to{opacity:1;transform:translateY(0)} }
+.hero-anim > * { animation:fadeUp 0.9s cubic-bezier(.2,.7,.2,1) both }
+.hero-anim > *:nth-child(1){animation-delay:0.05s} .hero-anim > *:nth-child(2){animation-delay:0.15s}
+.hero-anim > *:nth-child(3){animation-delay:0.28s} .hero-anim > *:nth-child(4){animation-delay:0.42s}
+
+.synthesis-label::before { content:'SYNTHESIS / 核心判断'; position:absolute; top:-10px; left:28px; background:#0a0908; padding:0 12px; font-family:'JetBrains Mono',monospace; font-size:10px; letter-spacing:0.2em; color:#f5a524 }
+.risk-label::before { content:'RISK / 需要追踪'; position:absolute; top:-10px; left:28px; background:#0a0908; padding:0 12px; font-family:'JetBrains Mono',monospace; font-size:10px; letter-spacing:0.2em; color:#7fb88b; font-weight:500 }
+
+.series-inner-bg { background:linear-gradient(135deg,rgba(245,165,36,0.09) 0%,transparent 60%),#111110 }
+</style>
+  <script src="../../lang-switcher.js" defer></script>
+  <script src="../../mode-toggle.js" defer></script>
+  <link rel="alternate" hreflang="zh" href="china-software-vs-west.html" />
+  <link rel="alternate" hreflang="x-default" href="china-software-vs-west.html" />
+</head>
+
+<body class="bg-bg text-fg font-serif leading-relaxed overflow-x-hidden" data-theme="amber">
+
+<div class="relative z-[2] border-b border-line">
+  <div class="max-w-wrap mx-auto px-[5vw] lg:px-12 py-3 flex items-center gap-4 flex-wrap">
+    <span class="lamp mr-1"></span>
+    <span class="font-mono text-[9px] lg:text-[10px] tracking-[0.22em] uppercase text-accent">DEEPDIVE</span>
+    <span class="text-line-bright font-mono text-[10px]">/</span>
+    <span class="font-mono text-[9px] lg:text-[10px] tracking-[0.18em] uppercase text-fg-mute">[GEO] · China Software vs West</span>
+    <div data-lang-switcher data-slug="china-software-vs-west" style="margin-left:auto"></div>
+    <button data-toggle-mode aria-pressed="false" class="font-mono text-[9px] lg:text-[10px] tracking-[0.18em] uppercase text-fg-mute hover:text-accent border border-line-bright px-2 py-0.5 transition-colors" style="background:transparent;cursor:pointer" data-label-light="Light" data-label-dark="Dark">
+      <span data-mode-icon>◐</span> <span data-mode-label>Dark</span>
+    </button>
+    <span class="flex-1 h-px bg-line hidden lg:block"></span>
+    <span class="font-mono text-[9px] tracking-[0.14em] text-fg-mute">v1 · 2026</span>
+  </div>
+</div>
+
+<!-- HERO -->
+<section class="hero-anim max-w-wrap mx-auto px-[5vw] lg:px-12 relative z-[2] pt-10 lg:pt-28 pb-12 lg:pb-24 border-b border-line">
+  <div class="font-mono text-[9px] lg:text-[11px] tracking-[0.18em] uppercase text-amber mb-8 lg:mb-10 flex flex-wrap gap-2 lg:gap-7 items-center">
+    <span>STRUCTURAL ANALYSIS</span>
+    <span class="text-fg-mute hidden lg:inline">/</span>
+    <span>ENTERPRISE SOFTWARE · DEPLOYMENT MODELS · UNIT ECONOMICS</span>
+    <span class="text-fg-mute hidden lg:inline">/</span>
+    <span>BEIJING — FRANKFURT — SAN FRANCISCO</span>
+  </div>
+  <h1 class="font-serif font-light text-[clamp(28px,8.5vw,110px)] leading-[0.95] tracking-tight mb-6 lg:mb-9">
+    Anthropic<em class="text-amber font-normal"> Enters China</em>:
+    <span class="block">Software Industry</span>
+    <span class="block"><em class="text-amber font-normal">Structure Determines Fate</em></span>
+  </h1>
+  <div class="max-w-[720px] text-[15px] lg:text-xl text-fg-dim font-light leading-relaxed lg:leading-[1.55] border-l border-amber pl-3.5 lg:pl-5 mt-4">
+    Six structural differences in China's enterprise software market cause all three layers of Anthropic's model to fail upon entry.<br/>
+    <strong class="text-fg font-normal">It's not that China doesn't need enterprise AI — it's that every layer of the existing model needs to be redesigned.</strong>
+  </div>
+
+  <!-- HERO STATS GRID -->
+  <div class="mt-12 lg:mt-16 grid grid-cols-2 lg:grid-cols-4 gap-px bg-line border border-line font-mono">
+    <div class="bg-bg p-5 lg:p-7">
+      <div class="text-[9px] lg:text-[10px] tracking-[0.16em] uppercase text-fg-mute mb-3">Customization Rate</div>
+      <div class="font-serif text-[30px] lg:text-[44px] font-normal text-amber leading-none mb-2">70<span class="text-lg lg:text-xl text-fg-mute">%</span></div>
+      <div class="text-[10px] lg:text-[11px] text-fg-dim">Customization share in Chinese enterprise software implementations (~25% in the US)</div>
+    </div>
+    <div class="bg-bg p-5 lg:p-7">
+      <div class="text-[9px] lg:text-[10px] tracking-[0.16em] uppercase text-fg-mute mb-3">Private Deployment</div>
+      <div class="font-serif text-[30px] lg:text-[44px] font-normal text-amber leading-none mb-2">64<span class="text-lg lg:text-xl text-fg-mute">%</span></div>
+      <div class="text-[10px] lg:text-[11px] text-fg-dim">Large enterprise AI applications requiring private deployment (cloud-native is the minority)</div>
+    </div>
+    <div class="bg-bg p-5 lg:p-7">
+      <div class="text-[9px] lg:text-[10px] tracking-[0.16em] uppercase text-fg-mute mb-3">Median Procurement Cycle</div>
+      <div class="font-serif text-[30px] lg:text-[44px] font-normal text-amber leading-none mb-2">18<span class="text-lg lg:text-xl text-fg-mute"> months</span></div>
+      <div class="text-[10px] lg:text-[11px] text-fg-dim">Average procurement cycle for large Chinese enterprise AI projects (~5 months in the US)</div>
+    </div>
+    <div class="bg-bg p-5 lg:p-7">
+      <div class="text-[9px] lg:text-[10px] tracking-[0.16em] uppercase text-fg-mute mb-3">Estimated Gross Margin</div>
+      <div class="font-serif text-[30px] lg:text-[44px] font-normal text-amber leading-none mb-2">35<span class="text-lg lg:text-xl text-fg-mute">%</span></div>
+      <div class="text-[10px] lg:text-[11px] text-fg-dim">Estimated GPM for LLM providers in private deployment scenarios (~70%+ in the US)</div>
+    </div>
+  </div>
+</section>
+
+<!-- TL;DR -->
+<section class="max-w-wrap mx-auto px-[5vw] lg:px-12 relative z-[2] py-10 lg:py-14 border-b border-line">
+  <div class="lg:ml-[168px] max-w-content">
+    <div class="border border-amber/40 bg-amber/[0.04] p-6 lg:p-8">
+      <div class="font-mono text-[9px] lg:text-[10px] tracking-[0.2em] uppercase text-amber mb-5">TL;DR / 30-Second Core</div>
+      <p class="text-[15px] lg:text-[17px] font-light leading-relaxed text-fg mb-6">
+        Anthropic's business model is a product of the US cloud-native software market — cloud delivery, standard agents, and a PE distribution network form a unified triad. Entering China means all three layers <strong class="text-fg font-normal">need to be completely redesigned</strong>: the deployment layer becomes private, the product layer becomes deeply customized, and the distribution layer becomes a state-owned enterprise trust chain. It's not impossible, but the transformation cost and timeline are severely underestimated.
+      </p>
+      <div class="space-y-2.5 mb-6">
+        <div class="flex gap-3 text-[13px] text-fg-dim font-light">
+          <span class="text-amber font-mono text-[11px] mt-0.5 shrink-0">01</span>
+          <span>China's enterprise software customization rate is <strong class="text-fg font-normal">70%</strong>, nearly 3x the US rate; pre-built agents have extremely low out-of-the-box usability in large enterprise scenarios</span>
+        </div>
+        <div class="flex gap-3 text-[13px] text-fg-dim font-light">
+          <span class="text-amber font-mono text-[11px] mt-0.5 shrink-0">02</span>
+          <span><strong class="text-fg font-normal">64%</strong> of large enterprises require private deployment; GPU costs shift from cloud to vendor, gross margin drops from ~70% to ~35%</span>
+        </div>
+        <div class="flex gap-3 text-[13px] text-fg-dim font-light">
+          <span class="text-amber font-mono text-[11px] mt-0.5 shrink-0">03</span>
+          <span>Government/SOE accounts for <strong class="text-fg font-normal">40–45%</strong> of China's software spending; the PE JV distribution model has no equivalent structure in China and must be replaced with SOE funds + cloud vendor pipelines</span>
+        </div>
+        <div class="flex gap-3 text-[13px] text-fg-dim font-light">
+          <span class="text-amber font-mono text-[11px] mt-0.5 shrink-0">04</span>
+          <span><strong class="text-fg font-normal">Europe is the closest reference point to China</strong>: GDPR ≈ Data Security Law, German On-Prem preference ≈ China's private deployment demand; European adaptation experience has reference value, but China's regulatory environment adds 3 additional layers of complexity</span>
+        </div>
+        <div class="flex gap-3 text-[13px] text-fg-dim font-light">
+          <span class="text-amber font-mono text-[11px] mt-0.5 shrink-0">05</span>
+          <span>Yonyou's FY2024 net loss of <strong class="text-fg font-normal">-¥2.06 billion</strong> shows the massive cost of ERP→AI transition, leaving a real time window for external LLM vendors</span>
+        </div>
+      </div>
+      <div class="border-t border-amber/30 pt-4">
+        <div class="font-mono text-[9px] tracking-[0.15em] uppercase text-amber mb-2">Counter-consensus insight</div>
+        <p class="text-[13px] text-fg font-light leading-relaxed">The primary competitor for a Chinese version of Anthropic is not DeepSeek or Zhipu, but <strong class="text-fg font-normal">Yonyou and Kingdee</strong>. The data is in the ERP, the trust is in the ERP, and the decision budget is in the ERP. Before entering large enterprise clients, LLM companies must first answer a prerequisite question: <em>embed into the ERP, or replace the ERP from the outside?</em> The two paths have completely different gross margins, sales motions, and capital structures — there is no middle ground.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- § 01 BASELINE -->
+<section class="max-w-wrap mx-auto px-[5vw] lg:px-12 relative z-[2] py-14 lg:py-28 border-b border-line">
+  <header class="grid grid-cols-1 lg:grid-cols-[120px_1fr] gap-4 lg:gap-12 items-baseline mb-10 lg:mb-[72px]">
+    <div class="cursor font-mono text-[10px] lg:text-[11px] tracking-[0.2em] text-amber pt-3 border-t border-amber uppercase">§ 01 / BASELINE</div>
+    <h2 class="font-serif font-light text-[clamp(24px,7vw,68px)] leading-[1.05] tracking-tight">Three Kingdoms:<br/><em class="text-amber">Software Industry Baselines</em></h2>
+  </header>
+
+  <div class="lg:ml-[168px] max-w-content">
+    <p class="text-[15px] text-fg-dim font-light leading-relaxed mb-10 max-w-[720px]">To evaluate the portability of the Anthropic model, we must first establish the software industry baselines of three markets — not market size, but <strong class="text-fg font-normal">structure</strong>: business models, deployment preferences, and revenue composition. The gaps between the three markets are larger than most people realize.</p>
+
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-px bg-line border border-line mb-10">
+      <!-- US -->
+      <div class="bg-bg p-6 lg:p-7">
+        <div class="font-mono text-[9px] tracking-[0.15em] uppercase text-mint mb-4">🇺🇸 US</div>
+        <div class="space-y-3 text-[13px] text-fg-dim font-light">
+          <div><span class="text-fg font-normal">Market size:</span>Enterprise software ~<a href="https://www.gartner.com/en/newsroom/press-releases/2024-10-09-gartner-forecasts-worldwide-it-spending-to-grow-9-point-3-percent-in-2025" target="_blank" class="text-mint hover:underline">$280 billion</a> (2024E, incl. SaaS)</div>
+          <div><span class="text-fg font-normal">SaaS penetration:</span>~40%, cloud-native is the default for new deployments</div>
+          <div><span class="text-fg font-normal">Revenue structure:</span>Subscription ~65%, professional services ~15%, maintenance & support ~10%, perpetual license ~10%</div>
+          <div><span class="text-fg font-normal">Customization rate:</span>Large enterprise implementations ~25% custom, 75% standard configuration</div>
+          <div><span class="text-fg font-normal">Procurement cycle:</span>3–6 months (CTO/CIO-led, high technical evaluation weight)</div>
+          <div><span class="text-fg font-normal">Gov/SOE share:</span>~15–20% of software spending</div>
+          <div><span class="text-fg font-normal">Distribution ecosystem:</span>GSI (Accenture/Deloitte) + PE portfolio networks + cloud marketplaces</div>
+        </div>
+      </div>
+      <!-- Europe -->
+      <div class="bg-bg p-6 lg:p-7">
+        <div class="font-mono text-[9px] tracking-[0.15em] uppercase text-blue mb-4">🇪🇺 EUROPE</div>
+        <div class="space-y-3 text-[13px] text-fg-dim font-light">
+          <div><span class="text-fg font-normal">Market size:</span>Enterprise software ~<a href="https://www.statista.com/outlook/tmo/software/enterprise-software/europe" target="_blank" class="text-blue hover:underline">$90 billion</a> (2024E)</div>
+          <div><span class="text-fg font-normal">SaaS penetration:</span>~25–28%, Germany/France lean conservative (German On-Prem preference ~40%)</div>
+          <div><span class="text-fg font-normal">Revenue structure:</span>Subscription ~40%, professional services/custom ~25%, maintenance & support ~20%, perpetual license ~15%</div>
+          <div><span class="text-fg font-normal">Customization rate:</span>~35%, German Mittelstand especially high (up to 50%)</div>
+          <div><span class="text-fg font-normal">Procurement cycle:</span>6–9 months (compliance officer involvement, GDPR review is mandatory)</div>
+          <div><span class="text-fg font-normal">Gov/SOE share:</span>~25–30%</div>
+          <div><span class="text-fg font-normal">Distribution ecosystem:</span>GSI (Capgemini/Infosys/SAP SI) + national clouds (Gaia-X initiative)</div>
+        </div>
+      </div>
+      <!-- China -->
+      <div class="bg-bg p-6 lg:p-7 border-l border-amber/20">
+        <div class="font-mono text-[9px] tracking-[0.15em] uppercase text-amber mb-4">🇨🇳 CHINA</div>
+        <div class="space-y-3 text-[13px] text-fg-dim font-light">
+          <div><span class="text-fg font-normal">Market size:</span>Enterprise software ~<a href="https://www.idc.com/getdoc.jsp?containerId=prCHE51978424" target="_blank" class="text-amber hover:underline">¥340 billion</a> (2024E, ~$47 billion)</div>
+          <div><span class="text-fg font-normal">SaaS penetration:</span>~10–15%, large enterprises universally require private or hybrid deployment</div>
+          <div><span class="text-fg font-normal">Revenue structure:</span>SaaS ~10%, custom implementation ~35%, maintenance & support ~15%, perpetual license ~40%</div>
+          <div><span class="text-fg font-normal">Customization rate:</span>~70%, SOE/central SOE projects can reach 80%+</div>
+          <div><span class="text-fg font-normal">Procurement cycle:</span>9–18 months (multi-layer committees + compliance + domestic certification)</div>
+          <div><span class="text-fg font-normal">Gov/SOE share:</span>~40–45%, the absolute mainstay of China's software revenue</div>
+          <div><span class="text-fg font-normal">Distribution ecosystem:</span>State-owned SIs + ERP vendor channels (Yonyou/Kingdee) + cloud vendors, no independent PE network</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Key comparison callout -->
+    <div class="bg-amber/[0.05] border border-amber/30 p-5 lg:p-6 max-w-[860px]">
+      <div class="font-mono text-[9px] tracking-[0.15em] uppercase text-amber mb-3">Key Comparison Conclusion</div>
+      <p class="text-[14px] text-fg font-light leading-relaxed">Europe is <strong class="text-fg font-normal">the closest reference point to China</strong> among the three: data sovereignty constraints (GDPR ≈ Data Security Law + PIPL), higher government procurement share, and stronger On-Prem preference — these three points share structural similarities with China. But China adds three unique layers on top: <strong class="text-fg font-normal">LLM filing requirements, Xinchuang domestic substitution mandates, and the political review chain in SOE procurement</strong>. European adaptation experience has reference value but cannot be directly copied.</p>
+    </div>
+  </div>
+</section>
+
+<!-- § 02 SIX DIFFERENCES -->
+<section class="max-w-wrap mx-auto px-[5vw] lg:px-12 relative z-[2] py-14 lg:py-28 border-b border-line">
+  <header class="grid grid-cols-1 lg:grid-cols-[120px_1fr] gap-4 lg:gap-12 items-baseline mb-10 lg:mb-[72px]">
+    <div class="cursor font-mono text-[10px] lg:text-[11px] tracking-[0.2em] text-amber pt-3 border-t border-amber uppercase">§ 02 / DIFFERENCES</div>
+    <h2 class="font-serif font-light text-[clamp(24px,7vw,68px)] leading-[1.05] tracking-tight">Six Structural Differences<br/><em class="text-amber">Deconstructed Layer by Layer</em></h2>
+  </header>
+
+  <div class="lg:ml-[168px] max-w-content space-y-8">
+
+    <!-- Difference 01: Deployment Model -->
+    <div class="border border-amber/40 overflow-hidden">
+      <div class="bg-amber/[0.07] px-5 py-3 font-mono text-[10px] tracking-[0.15em] uppercase text-amber border-b border-amber/30">Difference 01 / Deployment Model ← The First Wall</div>
+      <div class="grid grid-cols-1 lg:grid-cols-3 divide-y lg:divide-y-0 lg:divide-x divide-line">
+        <div class="p-5 lg:p-6">
+          <div class="font-mono text-[9px] text-mint uppercase tracking-[0.12em] mb-3">🇺🇸 US</div>
+          <p class="text-[13px] text-fg-dim font-light leading-relaxed">New deployments default to cloud; AWS/Azure hosting is the standard path. <strong class="text-fg font-normal">Private deployment is the exception</strong>, seen only in government classified or special industries (defense/nuclear)</p>
+        </div>
+        <div class="p-5 lg:p-6">
+          <div class="font-mono text-[9px] text-blue uppercase tracking-[0.12em] mb-3">🇩🇪 Germany (representing Europe)</div>
+          <p class="text-[13px] text-fg-dim font-light leading-relaxed">Mittelstand ~40% still prefer On-Prem; GDPR requires data to stay within specific jurisdictions, driving "sovereign cloud" (Deutsche Telekom/OVHcloud) demand</p>
+        </div>
+        <div class="p-5 lg:p-6">
+          <div class="font-mono text-[9px] text-amber uppercase tracking-[0.12em] mb-3">🇨🇳 China</div>
+          <p class="text-[13px] text-fg-dim font-light leading-relaxed"><strong class="text-fg font-normal">Private deployment is the default, not the exception.</strong> Central SOEs/state-owned banks/critical infrastructure data cannot leave local data centers — this is a hard compliance requirement, not a negotiating chip. 64% of large enterprise AI procurement requires private deployment</p>
+        </div>
+      </div>
+      <div class="bg-amber/[0.05] px-5 py-3.5 border-t border-amber/30">
+        <p class="text-[13px] text-amber font-light">→ <strong class="font-medium">Anthropic's cloud API delivery model fails directly in China's large enterprise market.</strong>A privately deployable version that runs independently in customer data centers must be provided, which means: GPU procurement/leasing costs shift from cloud to vendor, fundamentally altering the gross margin structure.</p>
+      </div>
+    </div>
+
+    <!-- Difference 02: Customization Culture -->
+    <div class="border border-line overflow-hidden">
+      <div class="bg-bg-2 px-5 py-3 font-mono text-[10px] tracking-[0.15em] uppercase text-amber border-b border-line">Difference 02 / Customization Culture: Standard Product vs Tailor-Made</div>
+      <div class="p-5 lg:p-7">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
+          <div class="bg-bg border border-line p-4">
+            <div class="font-mono text-[9px] text-mint uppercase tracking-[0.12em] mb-2">US</div>
+            <div class="font-serif text-[28px] text-mint font-light mb-1">25<span class="text-base text-fg-mute">% custom</span></div>
+            <p class="text-[11px] text-fg-dim font-light leading-relaxed">"Fit to standard" culture: enterprises willing to adapt internal processes for standard products. Salesforce and Workday's success is built on the philosophy of <strong class="text-fg font-normal">"configuration, not development"</strong></p>
+          </div>
+          <div class="bg-bg border border-line p-4">
+            <div class="font-mono text-[9px] text-blue uppercase tracking-[0.12em] mb-2">Europe</div>
+            <div class="font-serif text-[28px] text-blue font-light mb-1">35<span class="text-base text-fg-mute">% custom</span></div>
+            <p class="text-[11px] text-fg-dim font-light leading-relaxed">German SMEs especially lean toward customization: the "Made in Germany" spirit extends to software, with lower willingness to standardize processes; SAP's rise itself served this need</p>
+          </div>
+          <div class="bg-bg border border-amber/30 p-4">
+            <div class="font-mono text-[9px] text-amber uppercase tracking-[0.12em] mb-2">China</div>
+            <div class="font-serif text-[28px] text-amber font-light mb-1">70<span class="text-base text-fg-mute">% custom</span></div>
+            <p class="text-[11px] text-fg-dim font-light leading-relaxed"><strong class="text-fg font-normal">SOE/central SOE projects can reach 80%+.</strong>Historically, due to rampant ERP piracy, Yonyou/Kingdee built competitive moats through extensive customization services; enterprise clients thus developed the mindset that "software is a custom product"</p>
+          </div>
+        </div>
+        <div class="bg-bg-2 border border-line p-4 text-[12px] text-fg-dim font-light max-w-[720px]">
+          <strong class="text-fg font-normal">Anthropic model's fatal assumption:</strong>Pre-built agents (e.g., 10 financial agents) cover 80% of scenarios. This is reasonable in the US — in China, every client's report formats, approval workflows, and data fields are different. A standard product claiming to "cover 80%" is eliminated before entering the negotiation room. <strong class="text-amber font-normal">The China version of agents must embed a customization framework, not pre-built fixed templates.</strong>
+        </div>
+      </div>
+    </div>
+
+    <!-- Difference 03: Business Model -->
+    <div class="border border-line overflow-hidden">
+      <div class="bg-bg-2 px-5 py-3 font-mono text-[10px] tracking-[0.15em] uppercase text-amber border-b border-line">Difference 03 / Business Model: Subscription vs License + Implementation</div>
+      <div class="grid grid-cols-1 lg:grid-cols-2 divide-y lg:divide-y-0 lg:divide-x divide-line">
+        <div class="p-5 lg:p-6">
+          <div class="font-mono text-[9px] text-fg-mute uppercase tracking-[0.12em] mb-3">US (Classic SaaS-era path)</div>
+          <div class="space-y-2 text-[13px] text-fg-dim font-light">
+            <p><strong class="text-fg font-normal">Subscription-first:</strong>Salesforce seat fee $25–300/month, Anthropic Claude Enterprise API by token consumption + fixed seat fee, revenue is predictable and scalable</p>
+            <p><strong class="text-fg font-normal">Light implementation:</strong>GSIs charge implementation fees; product vendors don't participate in implementation, gross margin structure is clean</p>
+            <p><strong class="text-fg font-normal">Upgrade path:</strong>Automatic version updates, invisible to customers, marginal cost approaches zero</p>
+          </div>
+        </div>
+        <div class="p-5 lg:p-6">
+          <div class="font-mono text-[9px] text-fg-mute uppercase tracking-[0.12em] mb-3">China (Still migrating from license to subscription)</div>
+          <div class="space-y-2 text-[13px] text-fg-dim font-light">
+            <p><strong class="text-fg font-normal">Perpetual license dominant:</strong>Enterprises accustomed to one-time buyout; Yonyou FY2024 revenue of ¥9.15 billion with subscription only ~20%, the rest from license fees + implementation fees</p>
+            <p><strong class="text-fg font-normal">Implementation revenue is a profit center:</strong>Software license : implementation fee = 1:3 to 1:5 (vs ~1:1 in the US); implementation teams are the core competitive capability</p>
+            <p><strong class="text-fg font-normal">Upgrade resistance:</strong>Extensive customization code means version upgrades require re-implementation; customers tend not to upgrade — generating massive "implementation debt"</p>
+          </div>
+        </div>
+      </div>
+      <div class="bg-bg px-5 py-3 border-t border-line">
+        <p class="text-[12px] text-fg-mute font-mono">→ Pure subscription / pure API consumption pricing logic requires a hybrid model in China's large enterprise market: subscription base + implementation services + custom development, which means building implementation delivery capability</p>
+      </div>
+    </div>
+
+    <!-- Difference 04: Distribution System -->
+    <div class="border border-amber/25 overflow-hidden">
+      <div class="bg-amber/[0.05] px-5 py-3 font-mono text-[10px] tracking-[0.15em] uppercase text-amber border-b border-amber/25">Difference 04 / Distribution System ← The Most Severely Underestimated Difference</div>
+      <div class="p-5 lg:p-7">
+        <p class="text-[14px] text-fg-dim font-light leading-relaxed mb-6">Anthropic's PE JV model works in the US because Blackstone/KKR etc. hold 2,000+ portfolio companies; a JV partnership simultaneously opens procurement channels to all of them. <strong class="text-fg font-normal">This structure does not exist in China.</strong></p>
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-6">
+          <div class="bg-bg border border-line p-4">
+            <div class="font-mono text-[9px] text-mint uppercase tracking-[0.12em] mb-2">US: PE Networks</div>
+            <p class="text-[12px] text-fg-dim font-light leading-relaxed">Blackstone portfolio companies 2,700+; one JV agreement is equivalent to issuing entry tickets to 2,700 enterprises. GPM unaffected, distribution marginal cost extremely low</p>
+          </div>
+          <div class="bg-bg border border-line p-4">
+            <div class="font-mono text-[9px] text-blue uppercase tracking-[0.12em] mb-2">Europe: GSI-led</div>
+            <p class="text-[12px] text-fg-dim font-light leading-relaxed">Capgemini/Sopra Steria are primary distribution channels; Europe lacks equivalent PE networks, but GSI penetration is high, and covering large enterprises through GSI partnerships is relatively feasible</p>
+          </div>
+          <div class="bg-bg border border-amber/30 p-4">
+            <div class="font-mono text-[9px] text-amber uppercase tracking-[0.12em] mb-2">China: SOE Trust Chain</div>
+            <p class="text-[12px] text-fg-dim font-light leading-relaxed">No independent PE network; the core of distribution is the <strong class="text-fg font-normal">SOE trust chain</strong>: ICBC/China Mobile/State Grid procurement → other central SOEs reference → leading private enterprises follow. Building the trust chain takes 2–4 years</p>
+          </div>
+        </div>
+        <div class="bg-amber/[0.07] border-l-2 border-amber p-4 text-[13px] text-fg font-light">
+          <strong class="text-amber font-medium">The correct approach for China JV partners:</strong>Not US-style PE (Chinese PE/VC don't hold operating enterprises and can't "bundle" procurement channels), but rather: <strong class="text-fg font-normal">① Central SOE subsidiary industry funds</strong> (providing compliance credit + procurement entry) <strong class="text-fg font-normal"> + ② Top cloud vendors</strong> (providing technical pipeline + compute) <strong class="text-fg font-normal">+ ③ ERP vendor strategic partnerships</strong> (providing existing customer data access). All three are indispensable.
+        </div>
+      </div>
+    </div>
+
+    <!-- Difference 05: Procurement Decision -->
+    <div class="border border-line overflow-hidden">
+      <div class="bg-bg-2 px-5 py-3 font-mono text-[10px] tracking-[0.15em] uppercase text-amber border-b border-line">Difference 05 / Procurement Decision Chain: Technical Evaluation vs Political Approval</div>
+      <div class="grid grid-cols-1 lg:grid-cols-2 divide-y lg:divide-y-0 lg:divide-x divide-line">
+        <div class="p-5 lg:p-6 space-y-3">
+          <div class="font-mono text-[9px] text-fg-mute uppercase tracking-[0.12em] mb-3">US + Europe (Technology-driven)</div>
+          <p class="text-[13px] text-fg-dim font-light leading-relaxed">CTO/CIO-led, technical POC is standard process; Europe adds Data Protection Officer (DPO) and legal review, but the overall path is clear. Dimon's endorsement = JPMorgan legal compliance sign-off = industry entry ticket</p>
+          <div class="font-mono text-[10px] text-fg-mute">Decision layers: 2–3 · Cycle: 3–9 months</div>
+        </div>
+        <div class="p-5 lg:p-6 space-y-3">
+          <div class="font-mono text-[9px] text-fg-mute uppercase tracking-[0.12em] mb-3">China (Multi-committee + Compliance)</div>
+          <p class="text-[13px] text-fg-dim font-light leading-relaxed">Typical large SOE procurement path: <strong class="text-fg font-normal">Technical department research</strong> → <strong class="text-fg font-normal">IT committee review</strong> → <strong class="text-fg font-normal">Information security compliance audit</strong> (MLPS, data security) → <strong class="text-fg font-normal">Procurement committee</strong> → <strong class="text-fg font-normal">(Party committee) deliberation</strong> → <strong class="text-fg font-normal">Leadership approval</strong>. Each step can become a bottleneck</p>
+          <div class="font-mono text-[10px] text-fg-mute">Decision layers: 5–7 · Cycle: 9–18 months</div>
+        </div>
+      </div>
+      <div class="bg-bg px-5 py-3 border-t border-line">
+        <p class="text-[12px] text-fg-mute font-mono">→ China's version of "Dimon endorsement" = ICBC president's public backing; but far harder to obtain than in the US, and SOEs typically don't simultaneously procure competing products — once won, the lock-in effect is stronger</p>
+      </div>
+    </div>
+
+    <!-- Difference 06: Regulatory Architecture -->
+    <div class="border border-line overflow-hidden">
+      <div class="bg-bg-2 px-5 py-3 font-mono text-[10px] tracking-[0.15em] uppercase text-amber border-b border-line">Difference 06 / Regulatory Architecture: Europe Is Already the Heaviest, China Adds Three More Layers</div>
+      <div class="p-5 lg:p-7">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-5">
+          <div class="bg-bg border border-line p-4">
+            <div class="font-mono text-[9px] text-mint uppercase tracking-[0.12em] mb-2">US</div>
+            <ul class="text-[11px] text-fg-dim font-light space-y-1 leading-relaxed">
+              <li>· FedRAMP (government cloud certification)</li>
+              <li>· SOC 2 Type II</li>
+              <li>· Industry regulation (HIPAA/PCI-DSS)</li>
+              <li>· No unified AI regulation (federal level still fragmented)</li>
+            </ul>
+          </div>
+          <div class="bg-bg border border-line p-4">
+            <div class="font-mono text-[9px] text-blue uppercase tracking-[0.12em] mb-2">Europe</div>
+            <ul class="text-[11px] text-fg-dim font-light space-y-1 leading-relaxed">
+              <li>· <a href="https://gdpr-info.eu/" target="_blank" class="text-blue hover:underline">GDPR</a> (data localization + user rights)</li>
+              <li>· NIS2 (critical infrastructure cybersecurity)</li>
+              <li>· <a href="https://digital-strategy.ec.europa.eu/en/policies/european-approach-artificial-intelligence" target="_blank" class="text-blue hover:underline">EU AI Act</a> (additional obligations for high-risk AI)</li>
+              <li>· Cross-border data assessments (SCCs/BCRs)</li>
+            </ul>
+          </div>
+          <div class="bg-bg border border-amber/30 p-4">
+            <div class="font-mono text-[9px] text-amber uppercase tracking-[0.12em] mb-2">China (Europe + 3 additional layers)</div>
+            <ul class="text-[11px] text-fg-dim font-light space-y-1 leading-relaxed">
+              <li>· <a href="https://www.gov.cn/zhengce/zhengceku/2022-07/08/content_5700090.htm" target="_blank" class="text-amber hover:underline">Data Security Law + PIPL</a> (data cannot leave borders)</li>
+              <li>· MLPS 2.0 / <strong class="text-fg font-normal">Level 3 Protection</strong> (mandatory certification)</li>
+              <li>· <strong class="text-fg font-normal">LLM service filing</strong> (generative AI services must be registered)</li>
+              <li>· <strong class="text-fg font-normal">Xinchuang domestic substitution</strong> (SOEs/government must use domestic base software)</li>
+              <li>· Critical Information Infrastructure Operator (CIIO) special requirements</li>
+            </ul>
+          </div>
+        </div>
+        <div class="bg-signal/[0.05] border border-signal/30 p-4 text-[12px] text-fg font-light max-w-[720px]">
+          <strong class="text-signal font-medium">Xinchuang's far-reaching impact:</strong>SOE/government projects require AI systems to run on domestic CPUs (FeiTeng/Kunpeng) + domestic OS (Kylin/UOS), meaning Anthropic not only needs private deployment but also adaptation for non-x86 architectures — extremely high technical cost, and impossible to circumvent.
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- § DATA -->
+<section class="max-w-wrap mx-auto px-[5vw] lg:px-12 relative z-[2] py-14 lg:py-28 border-b border-line">
+  <header class="grid grid-cols-1 lg:grid-cols-[120px_1fr] gap-4 lg:gap-12 items-baseline mb-10 lg:mb-[72px]">
+    <div class="cursor font-mono text-[10px] lg:text-[11px] tracking-[0.2em] text-amber pt-3 border-t border-amber uppercase">DATA / EVIDENCE</div>
+    <h2 class="font-serif font-light text-[clamp(24px,7vw,68px)] leading-[1.05] tracking-tight">Four Data Sets<br/><em class="text-amber">Quantifying the Gap</em></h2>
+  </header>
+
+  <div class="lg:ml-[168px] max-w-content space-y-10">
+
+    <!-- Chart 1: SaaS Penetration 3-country -->
+    <div class="border border-line overflow-hidden">
+      <div class="bg-bg-2 px-5 py-3 font-mono text-[10px] tracking-[0.15em] uppercase text-amber border-b border-line flex flex-wrap justify-between gap-2 items-center">
+        <span>Data 01 / Enterprise SaaS Penetration: US-China-Europe Comparison</span>
+        <span class="text-fg-mute text-[9px] normal-case tracking-normal">Source: <a href="https://www.idc.com" target="_blank" class="hover:text-fg-dim">IDC</a> · <a href="https://www.gartner.com" target="_blank" class="hover:text-fg-dim">Gartner</a> · Analysys — 2024 estimates</span>
+      </div>
+      <div class="p-5 lg:p-7">
+        <div class="space-y-5 max-w-[640px]">
+          <div>
+            <div class="flex justify-between items-baseline mb-2">
+              <span class="font-mono text-[10px] text-fg-mute uppercase tracking-[0.1em]">🇺🇸 US</span>
+              <span class="font-mono text-[11px] text-mint font-medium">~40%</span>
+            </div>
+            <div class="h-8 bg-line rounded-[2px] relative overflow-hidden">
+              <div class="h-full rounded-[2px]" style="width:40%;background:#7fb88b;"></div>
+            </div>
+            <p class="text-[11px] text-fg-mute font-light mt-1.5">Cloud-native is the default path; Anthropic agents delivered via API/cloud subscription with no on-premises deployment needed, enterprises can self-serve onboarding</p>
+          </div>
+          <div>
+            <div class="flex justify-between items-baseline mb-2">
+              <span class="font-mono text-[10px] text-fg-mute uppercase tracking-[0.1em]">🇪🇺 Europe</span>
+              <span class="font-mono text-[11px] text-blue font-medium">~26%</span>
+            </div>
+            <div class="h-8 bg-line rounded-[2px] relative overflow-hidden">
+              <div class="h-full rounded-[2px]" style="width:26%;background:#5b8dce;"></div>
+            </div>
+            <p class="text-[11px] text-fg-mute font-light mt-1.5">Germany/France on the lower end (~18–22%), Nordics higher (~35%); GDPR drives sovereign cloud demand rather than hindering SaaS overall</p>
+          </div>
+          <div>
+            <div class="flex justify-between items-baseline mb-2">
+              <span class="font-mono text-[10px] text-fg-mute uppercase tracking-[0.1em]">🇨🇳 China</span>
+              <span class="font-mono text-[11px] text-amber font-medium">~12%</span>
+            </div>
+            <div class="h-8 bg-line rounded-[2px] relative overflow-hidden">
+              <div class="h-full rounded-[2px]" style="width:12%;background:#f5a524;"></div>
+            </div>
+            <p class="text-[11px] text-fg-mute font-light mt-1.5">Budget concentrated in large enterprises, which universally require private deployment; SaaS growth mainly from mid-size private enterprises' non-core applications</p>
+          </div>
+        </div>
+        <div class="mt-6 bg-amber/[0.06] border-l-2 border-amber pl-4 py-3 text-[12px] text-fg font-light max-w-[640px]">
+          US-China penetration gap of 3.3x → China AI services have far higher sales cycles and delivery costs than the US; pure cloud SaaS pricing assumptions fail, unit economics must be recalculated
+        </div>
+      </div>
+    </div>
+
+    <!-- Chart 2: Software revenue structure US vs China -->
+    <div class="border border-line overflow-hidden">
+      <div class="bg-bg-2 px-5 py-3 font-mono text-[10px] tracking-[0.15em] uppercase text-amber border-b border-line flex flex-wrap justify-between gap-2 items-center">
+        <span>Data 02 / Software Revenue Structure Comparison: US vs China</span>
+        <span class="text-fg-mute text-[9px] normal-case tracking-normal">Source: IDC · Yonyou/Kingdee annual reports · Gartner — 2024 composite estimates</span>
+      </div>
+      <div class="p-5 lg:p-7 space-y-6 max-w-[680px]">
+        <!-- US structure -->
+        <div>
+          <div class="font-mono text-[10px] text-mint uppercase tracking-[0.1em] mb-2">🇺🇸 US Software Revenue Structure</div>
+          <div class="flex h-9 rounded-[2px] overflow-hidden text-[10px] font-mono">
+            <div class="h-full flex items-center justify-center text-bg font-medium" style="width:65%;background:#7fb88b;">65% Subscription/SaaS</div>
+            <div class="h-full flex items-center justify-center text-bg" style="width:15%;background:#f5a524;">15%</div>
+            <div class="h-full flex items-center justify-center text-bg-2" style="width:10%;background:#443f37;">10%</div>
+            <div class="h-full flex items-center justify-center text-fg-mute" style="width:10%;background:#2b2823;">10%</div>
+          </div>
+          <div class="flex text-[9px] text-fg-mute font-mono mt-1.5 gap-4 flex-wrap">
+            <span><span class="inline-block w-2.5 h-2.5 rounded-[1px] mr-1 align-middle" style="background:#7fb88b;"></span>Subscription/SaaS 65%</span>
+            <span><span class="inline-block w-2.5 h-2.5 rounded-[1px] mr-1 align-middle" style="background:#f5a524;"></span>Professional Services 15%</span>
+            <span><span class="inline-block w-2.5 h-2.5 rounded-[1px] mr-1 align-middle" style="background:#443f37;"></span>Maintenance & Support 10%</span>
+            <span><span class="inline-block w-2.5 h-2.5 rounded-[1px] mr-1 align-middle" style="background:#2b2823;border:1px solid #443f37"></span>Perpetual License 10%</span>
+          </div>
+        </div>
+        <!-- China structure -->
+        <div>
+          <div class="font-mono text-[10px] text-amber uppercase tracking-[0.1em] mb-2">🇨🇳 China Software Revenue Structure</div>
+          <div class="flex h-9 rounded-[2px] overflow-hidden text-[10px] font-mono">
+            <div class="h-full flex items-center justify-center text-bg-2 text-[9px]" style="width:10%;background:#7fb88b;opacity:0.6;">10%</div>
+            <div class="h-full flex items-center justify-center text-bg font-medium" style="width:35%;background:#f5a524;">35% Custom/Implementation</div>
+            <div class="h-full flex items-center justify-center text-bg-2" style="width:15%;background:#443f37;">15%</div>
+            <div class="h-full flex items-center justify-center text-fg font-medium" style="width:40%;background:#1e1c19;border:1px solid #443f37;">40% Perpetual License</div>
+          </div>
+          <div class="flex text-[9px] text-fg-mute font-mono mt-1.5 gap-4 flex-wrap">
+            <span><span class="inline-block w-2.5 h-2.5 rounded-[1px] mr-1 align-middle" style="background:#7fb88b;opacity:0.6;"></span>SaaS 10%</span>
+            <span><span class="inline-block w-2.5 h-2.5 rounded-[1px] mr-1 align-middle" style="background:#f5a524;"></span>Custom/Implementation 35%</span>
+            <span><span class="inline-block w-2.5 h-2.5 rounded-[1px] mr-1 align-middle" style="background:#443f37;"></span>Maintenance & Support 15%</span>
+            <span><span class="inline-block w-2.5 h-2.5 rounded-[1px] mr-1 align-middle" style="background:#1e1c19;border:1px solid #443f37"></span>Perpetual License 40%</span>
+          </div>
+        </div>
+        <div class="bg-bg-2 border border-line p-4 text-[12px] text-fg-dim font-light">
+          <strong class="text-fg font-normal">Core difference:</strong>The US has 65% recurring revenue (subscription), China only 10%. Chinese software companies derive 75% of revenue (implementation + license + maintenance) from one-time or low-frequency revenue, which explains why Chinese ERP vendors have far lower revenue stability than Salesforce — and why Yonyou still posts losses on ¥9.15 billion in revenue.
+        </div>
+      </div>
+    </div>
+
+    <!-- Chart 3: Customization + Procurement -->
+    <div class="border border-line overflow-hidden">
+      <div class="bg-bg-2 px-5 py-3 font-mono text-[10px] tracking-[0.15em] uppercase text-amber border-b border-line flex flex-wrap justify-between gap-2 items-center">
+        <span>Data 03 / Customization Rate &amp; Procurement Cycle: Three-Country Comparison</span>
+        <span class="text-fg-mute text-[9px] normal-case tracking-normal">Source: PwC/Deloitte enterprise software surveys · Yonyou/Kingdee project data composite estimates</span>
+      </div>
+      <div class="p-5 lg:p-7">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-[720px]">
+          <!-- Customization -->
+          <div>
+            <div class="font-mono text-[10px] text-fg-mute uppercase tracking-[0.1em] mb-4">Customization Rate (100% = fully custom)</div>
+            <div class="space-y-3">
+              <div>
+                <div class="flex justify-between items-baseline mb-1.5">
+                  <span class="font-mono text-[10px] text-fg-mute">🇺🇸 US</span>
+                  <span class="font-mono text-[10px] text-mint">25%</span>
+                </div>
+                <div class="h-5 bg-line rounded-[2px] overflow-hidden">
+                  <div class="h-full rounded-[2px]" style="width:25%;background:#7fb88b;"></div>
+                </div>
+              </div>
+              <div>
+                <div class="flex justify-between items-baseline mb-1.5">
+                  <span class="font-mono text-[10px] text-fg-mute">🇪🇺 Europe</span>
+                  <span class="font-mono text-[10px] text-blue">35%</span>
+                </div>
+                <div class="h-5 bg-line rounded-[2px] overflow-hidden">
+                  <div class="h-full rounded-[2px]" style="width:35%;background:#5b8dce;"></div>
+                </div>
+              </div>
+              <div>
+                <div class="flex justify-between items-baseline mb-1.5">
+                  <span class="font-mono text-[10px] text-fg-mute">🇨🇳 China</span>
+                  <span class="font-mono text-[10px] text-amber font-medium">70%</span>
+                </div>
+                <div class="h-5 bg-line rounded-[2px] overflow-hidden">
+                  <div class="h-full rounded-[2px]" style="width:70%;background:#f5a524;"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Procurement cycle -->
+          <div>
+            <div class="font-mono text-[10px] text-fg-mute uppercase tracking-[0.1em] mb-4">Procurement Cycle (months)</div>
+            <div class="space-y-3">
+              <div>
+                <div class="flex justify-between items-baseline mb-1.5">
+                  <span class="font-mono text-[10px] text-fg-mute">🇺🇸 US</span>
+                  <span class="font-mono text-[10px] text-mint">~5 months</span>
+                </div>
+                <div class="h-5 bg-line rounded-[2px] overflow-hidden">
+                  <div class="h-full rounded-[2px]" style="width:28%;background:#7fb88b;"></div>
+                </div>
+              </div>
+              <div>
+                <div class="flex justify-between items-baseline mb-1.5">
+                  <span class="font-mono text-[10px] text-fg-mute">🇪🇺 Europe</span>
+                  <span class="font-mono text-[10px] text-blue">~7 months</span>
+                </div>
+                <div class="h-5 bg-line rounded-[2px] overflow-hidden">
+                  <div class="h-full rounded-[2px]" style="width:39%;background:#5b8dce;"></div>
+                </div>
+              </div>
+              <div>
+                <div class="flex justify-between items-baseline mb-1.5">
+                  <span class="font-mono text-[10px] text-fg-mute">🇨🇳 China (large enterprises)</span>
+                  <span class="font-mono text-[10px] text-amber font-medium">~18 months</span>
+                </div>
+                <div class="h-5 bg-line rounded-[2px] overflow-hidden">
+                  <div class="h-full rounded-[2px]" style="width:100%;background:#f5a524;"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="mt-6 bg-amber/[0.06] border-l-2 border-amber pl-4 py-3 text-[12px] text-fg font-light max-w-[720px]">
+          An 18-month procurement cycle means: sales team labor costs must be fronted for 1.5 years before revenue arrives. For vendors newly entering the market, there is virtually no cash return in the first 3 years — this is China's implicit capital barrier, far higher than the surface-level technical barrier.
+        </div>
+      </div>
+    </div>
+
+    <!-- Chart 4: Unit economics -->
+    <div class="border border-line overflow-hidden">
+      <div class="bg-bg-2 px-5 py-3 font-mono text-[10px] tracking-[0.15em] uppercase text-amber border-b border-line flex flex-wrap justify-between gap-2 items-center">
+        <span>Data 04 / Unit Economics Comparison: Anthropic US Model vs China Adapted Model</span>
+        <span class="text-fg-mute text-[9px] normal-case tracking-normal">Source: <a href="https://www.anthropic.com/pricing" target="_blank" class="hover:text-fg-dim">Anthropic official pricing</a> · Industry estimates</span>
+      </div>
+      <div class="p-5 lg:p-7">
+        <div class="overflow-x-auto">
+          <table class="w-full font-mono text-[11px] min-w-[580px]">
+            <thead>
+              <tr class="border-b border-line">
+                <th class="text-left p-3 text-fg-mute text-[10px] uppercase tracking-[0.1em] font-normal">Metric</th>
+                <th class="text-left p-3 text-mint text-[10px] uppercase tracking-[0.1em] font-normal">🇺🇸 US (Current)</th>
+                <th class="text-left p-3 text-amber text-[10px] uppercase tracking-[0.1em] font-normal">🇨🇳 China (Post-adaptation estimate)</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-line">
+              <tr>
+                <td class="p-3 text-fg-dim">Delivery model</td>
+                <td class="p-3 text-fg">Cloud API / Claude.ai Teams</td>
+                <td class="p-3 text-amber">Private deployment + Cloud API (hybrid)</td>
+              </tr>
+              <tr>
+                <td class="p-3 text-fg-dim">Gross Margin (GPM)</td>
+                <td class="p-3 text-mint font-medium">~70–75%</td>
+                <td class="p-3 text-signal font-medium">~30–40% (diluted by private deployment)</td>
+              </tr>
+              <tr>
+                <td class="p-3 text-fg-dim">Typical enterprise contract size</td>
+                <td class="p-3 text-fg">$500K–5M / year</td>
+                <td class="p-3 text-fg">¥3M–15M / year (~$0.4–2M)</td>
+              </tr>
+              <tr>
+                <td class="p-3 text-fg-dim">Sales cycle</td>
+                <td class="p-3 text-fg">3–6 months</td>
+                <td class="p-3 text-amber">12–24 months</td>
+              </tr>
+              <tr>
+                <td class="p-3 text-fg-dim">Implementation cost (vendor-borne)</td>
+                <td class="p-3 text-fg">Low (GSI bears it, vendor not involved)</td>
+                <td class="p-3 text-amber">High (must build implementation team or deeply partner with SI)</td>
+              </tr>
+              <tr>
+                <td class="p-3 text-fg-dim">Pricing basis</td>
+                <td class="p-3 text-fg">Token consumption + seat subscription</td>
+                <td class="p-3 text-amber">Annual subscription + custom development fee + implementation fee</td>
+              </tr>
+              <tr>
+                <td class="p-3 text-fg-dim">Standard configuration ratio</td>
+                <td class="p-3 text-mint">~80% (low customization)</td>
+                <td class="p-3 text-signal">~30% (high customization)</td>
+              </tr>
+              <tr class="bg-amber/[0.04]">
+                <td class="p-3 text-fg font-medium">Time to scale to 100 large enterprises</td>
+                <td class="p-3 text-mint font-medium">~18–24 months</td>
+                <td class="p-3 text-amber font-medium">~4–6 years</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="mt-5 bg-signal/[0.06] border border-signal/30 p-4 text-[12px] text-fg font-light max-w-[720px]">
+          <strong class="text-signal font-medium">Core conclusion:</strong>The China-adapted model's GPM is ~35–40 percentage points lower than the US, sales cycle is ~3–4x longer, and implementation costs shift from outsourced to in-house. This means reaching the breakeven point of Anthropic's US business model in China requires approximately 4–6x the capital and time investment of the US version. This is not an obstacle, but it is a clear capital allocation question.
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- § 03 ANATOMY -->
+<section class="max-w-wrap mx-auto px-[5vw] lg:px-12 relative z-[2] py-14 lg:py-28 border-b border-line">
+  <header class="grid grid-cols-1 lg:grid-cols-[120px_1fr] gap-4 lg:gap-12 items-baseline mb-10 lg:mb-[72px]">
+    <div class="cursor font-mono text-[10px] lg:text-[11px] tracking-[0.2em] text-amber pt-3 border-t border-amber uppercase">§ 03 / ANATOMY</div>
+    <h2 class="font-serif font-light text-[clamp(24px,7vw,68px)] leading-[1.05] tracking-tight">Anthropic<br/><em class="text-amber">Model Anatomy</em></h2>
+  </header>
+
+  <div class="lg:ml-[168px] max-w-content">
+    <p class="text-[15px] text-fg-dim font-light leading-relaxed mb-10 max-w-[720px]">Anthropic's enterprise AI business model consists of three interdependent layers. Understanding <strong class="text-fg font-normal">why each layer works in the US</strong> is essential to precisely determining which layer will fail first in China.</p>
+
+    <div class="space-y-6">
+      <!-- Layer 1 -->
+      <div class="border border-line overflow-hidden">
+        <div class="bg-bg-2 px-5 py-3 font-mono text-[10px] tracking-[0.15em] uppercase border-b border-line flex items-center gap-4">
+          <span class="text-amber">Layer 1 / Model Capability Layer</span>
+          <span class="text-fg-mute">API delivery · Consumption billing · Cloud-hosted</span>
+        </div>
+        <div class="grid grid-cols-1 lg:grid-cols-2 divide-y lg:divide-y-0 lg:divide-x divide-line">
+          <div class="p-5 lg:p-6">
+            <div class="font-mono text-[9px] text-mint uppercase tracking-[0.12em] mb-3">Why it works in the US</div>
+            <p class="text-[13px] text-fg-dim font-light leading-relaxed">Enterprises can directly access Claude via the <a href="https://www.anthropic.com/api" target="_blank" class="text-mint hover:underline">Anthropic API</a> with no on-premises deployment. Cloud hosting means Anthropic's compute costs are amortized across Google/Amazon infrastructure, GPM ~70%+. Token billing enables "pay for what you use," lowering the procurement barrier</p>
+          </div>
+          <div class="p-5 lg:p-6">
+            <div class="font-mono text-[9px] text-signal uppercase tracking-[0.12em] mb-3">Failure point in China</div>
+            <p class="text-[13px] text-fg-dim font-light leading-relaxed">Cloud API is ineffective for the 64% of large enterprises requiring private deployment. Even accepting a hybrid model, <strong class="text-fg font-normal">LLM service filing</strong> requires domestic services to use registered models. Foreign models face compliance barriers providing services within China; Anthropic itself cannot directly enter core scenarios in API form</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Layer 2 -->
+      <div class="border border-line overflow-hidden">
+        <div class="bg-bg-2 px-5 py-3 font-mono text-[10px] tracking-[0.15em] uppercase border-b border-line flex items-center gap-4">
+          <span class="text-amber">Layer 2 / Vertical Agent Layer</span>
+          <span class="text-fg-mute">Pre-built · Standardized · Finance/Legal/HR scenarios</span>
+        </div>
+        <div class="grid grid-cols-1 lg:grid-cols-2 divide-y lg:divide-y-0 lg:divide-x divide-line">
+          <div class="p-5 lg:p-6">
+            <div class="font-mono text-[9px] text-mint uppercase tracking-[0.12em] mb-3">Why it works in the US</div>
+            <p class="text-[13px] text-fg-dim font-light leading-relaxed">US financial industry report formats (SEC 10-K/10-Q) and compliance processes (SOX/Dodd-Frank) are highly standardized. 10 financial agents can cover 80% of common scenarios at JPMorgan with no customization. GSIs handle the remaining 20% adaptation</p>
+          </div>
+          <div class="p-5 lg:p-6">
+            <div class="font-mono text-[9px] text-signal uppercase tracking-[0.12em] mb-3">Failure point in China</div>
+            <p class="text-[13px] text-fg-dim font-light leading-relaxed">China's financial industry report formats are fragmented (A-share/Hong Kong/CBRC/CSRC/PBOC formats are mutually inconsistent), OA approval workflows are highly individualized, and supply chain data standards lack unification. <strong class="text-fg font-normal">Standard agents' "out-of-the-box" promise fails before entering the meeting room</strong> — every enterprise will say "our situation is somewhat unique"</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Layer 3 -->
+      <div class="border border-amber/40 overflow-hidden">
+        <div class="bg-amber/[0.07] px-5 py-3 font-mono text-[10px] tracking-[0.15em] uppercase border-b border-amber/30 flex items-center gap-4">
+          <span class="text-amber">Layer 3 / Distribution Trust Layer ← Hardest to Transform</span>
+          <span class="text-fg-mute">PE JV · Trust endorsement · Enterprise penetration</span>
+        </div>
+        <div class="grid grid-cols-1 lg:grid-cols-2 divide-y lg:divide-y-0 lg:divide-x divide-line">
+          <div class="p-5 lg:p-6">
+            <div class="font-mono text-[9px] text-mint uppercase tracking-[0.12em] mb-3">Why it works in the US</div>
+            <p class="text-[13px] text-fg-dim font-light leading-relaxed">A JV agreement with Blackstone etc. simultaneously opens procurement channels to 2,700+ portfolio companies. Dimon's public endorsement = JPMorgan legal compliance has reviewed = other financial industry CTOs can reference this precedent to reduce their own decision risk</p>
+          </div>
+          <div class="p-5 lg:p-6">
+            <div class="font-mono text-[9px] text-signal uppercase tracking-[0.12em] mb-3">Failure point in China</div>
+            <p class="text-[13px] text-fg-dim font-light leading-relaxed">Chinese PE/VC don't hold operating enterprises' procurement rights and can't "bundle" channels. Trust signals come from different sources: <strong class="text-fg font-normal">SOE CEO endorsement > private CEO endorsement</strong>. Building an SOE trust chain requires not JV equity structures, but real deployment cases + government procurement records — which take 2–4 years to accumulate</p>
+          </div>
+        </div>
+        <div class="bg-amber/[0.05] px-5 py-3.5 border-t border-amber/30">
+          <p class="text-[13px] text-amber font-light">→ Layer 3 is <strong class="font-medium">the hardest to transform</strong> among the three. Layer 1 and Layer 2 can be solved through technical investment; Layer 3 requires time and political capital — neither of which can be accelerated by money.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- § 04 FEASIBILITY -->
+<section class="max-w-wrap mx-auto px-[5vw] lg:px-12 relative z-[2] py-14 lg:py-28 border-b border-line">
+  <header class="grid grid-cols-1 lg:grid-cols-[120px_1fr] gap-4 lg:gap-12 items-baseline mb-10 lg:mb-[72px]">
+    <div class="cursor font-mono text-[10px] lg:text-[11px] tracking-[0.2em] text-amber pt-3 border-t border-amber uppercase">§ 04 / FEASIBILITY</div>
+    <h2 class="font-serif font-light text-[clamp(24px,7vw,68px)] leading-[1.05] tracking-tight">Three Deployment Scenarios<br/><em class="text-amber">Feasibility Assessment</em></h2>
+  </header>
+
+  <div class="lg:ml-[168px] max-w-content space-y-8">
+
+    <!-- Scenario A -->
+    <div class="border border-signal/40 overflow-hidden">
+      <div class="bg-signal/[0.06] px-5 py-3 font-mono text-[10px] tracking-[0.15em] uppercase text-signal border-b border-signal/30 flex justify-between items-center flex-wrap gap-2">
+        <span>Scenario A / Direct Original Version Deployment</span>
+        <span class="text-signal">Feasibility Score: 15 / 100</span>
+      </div>
+      <div class="p-5 lg:p-7">
+        <p class="text-[14px] text-fg-dim font-light leading-relaxed mb-5">Anthropic enters the China market directly with its current cloud API model + pre-built agents + PE JV structure.</p>
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-5">
+          <div class="bg-signal/[0.05] border border-signal/30 p-4">
+            <div class="font-mono text-[9px] text-signal uppercase tracking-[0.1em] mb-2">Layer
