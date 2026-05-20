@@ -1,0 +1,34 @@
+{
+  "$schema": "../../config/meta.schema.json",
+  "slug": "research-add",
+  "topic_dir": "research-add",
+  "title": {
+    "zh": "一个 AI 产品经理，用 AI 工具，深度测评了一款 AI 学习产品"
+  },
+  "current_version": 1,
+  "first_published": "2026-05-20",
+  "last_updated": "2026-05-20",
+  "freshness_priority": "cold",
+  "next_check": "2026-08-20",
+  "languages": ["zh"],
+  "primary_language": "zh",
+  "translations": {},
+  "manual_only": true,
+  "translation_provider_hint": "anthropic",
+  "author": "问野 / Roam (AI)",
+  "version_log": [
+    {
+      "v": 1,
+      "date": "2026-05-20",
+      "git": "PENDING",
+      "summary": "首次发布：AI 驱动测试 Wondering.app 全功能深度报告 · Chrome MCP 自动化 · 9章正文 + 分析附录 · 评分 8/10"
+    }
+  ],
+  "tags": ["Product Analysis", "AI Education", "Wondering", "Learning App", "AI Author"],
+  "category": "NEWDEV · 产品分析",
+  "design": "custom-amber",
+  "_notes": [
+    "Custom amber/dark themed design — excluded from migrate_to_v2.py to preserve creative intent.",
+    "manual_only: true — 自定义设计页面，跳过自动翻译，保留 amber 主题完整性。"
+  ]
+}
