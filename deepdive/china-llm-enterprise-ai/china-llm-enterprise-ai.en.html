@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="amber">
+<head>
+<style id="theme-vars">:root{--accent:#f5a524;--accent-glow:rgba(245,165,36,0.28);--accent-soft:rgba(245,165,36,0.10);}</style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>AI LAB / The Anthropic Moment for Chinese LLM Enterprises</title>
+<!-- Design System v2: canonical token CSS (fonts, themes, type, CJK rules) -->
+<link rel="stylesheet" href="../../colors_and_type.css">
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,700&family=JetBrains+Mono:wght@300;400;500;700&family=Inter+Tight:wght@400;500;600&display=swap" rel="stylesheet" />
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      colors: {
+        bg: 'var(--bg)', 'bg-2': 'var(--bg-2)',
+        fg: 'var(--fg)', 'fg-dim': 'var(--fg-dim)', 'fg-mute': 'var(--fg-mute)',
+        line: 'var(--line)', 'line-bright': 'var(--line-bright)',
+        amber: 'var(--amber)', 'amber-soft': 'var(--accent-soft)', 'amber-glow': 'var(--accent-glow)',
+        mint: 'var(--mint)', 'mint-soft': 'rgba(127,184,139,0.12)',
+        signal: 'var(--signal)', paper: 'var(--bg-paper)', ink: 'var(--bg-ink)',
+      },
+      fontFamily: {
+        serif: ["'Fraunces'","'Source Han Serif SC'","'Noto Serif SC'","Georgia","serif"],
+        mono: ["'JetBrains Mono'","ui-monospace","monospace"],
+        sans: ["'Inter Tight'","system-ui","sans-serif"],
+      },
+      maxWidth: { prose: '820px', content: '1020px', wrap: '1320px' },
+    }
+  }
+}
+</script>
+<style>
+em, i { font-style: normal }
+body { font-feature-settings: 'ss01','ss02','kern'; -webkit-font-smoothing: antialiased }
+
+body::before { content:''; position:fixed; inset:0; background-image: linear-gradient(rgba(245,165,36,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(245,165,36,0.04) 1px, transparent 1px); background-size:80px 80px; pointer-events:none; z-index:0 }
+body::after { content:''; position:fixed; inset:0; background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.96 0 0 0 0 0.9 0 0 0 0 0.8 0 0 0 0.08 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); pointer-events:none; z-index:1; opacity:0.45; mix-blend-mode:overlay }
+
+.lamp { display:inline-block; width:8px; height:8px; border-radius:50%; background:#f5a524; box-shadow:0 0 10px #f5a524, 0 0 24px rgba(245,165,36,0.2); animation:pulse 2.4s ease-in-out infinite; vertical-align:middle }
+@keyframes pulse { 0%,100%{opacity:1;box-shadow:0 0 10px #f5a524,0 0 24px rgba(245,165,36,0.2)} 50%{opacity:.55;box-shadow:0 0 6px #f5a524,0 0 14px rgba(245,165,36,0.2)} }
+
+.cursor::after { content:'▮'; color:#f5a524; margin-left:6px; animation:blink 1.1s steps(2) infinite }
+@keyframes blink { 0%,50%{opacity:1} 51%,100%{opacity:0} }
+
+@keyframes fadeUp { from{opacity:0;transform:translateY(12px)} to{opacity:1;transform:translateY(0)} }
+.hero-anim > * { animation:fadeUp 0.9s cubic-bezier(.2,.7,.2,1) both }
+.hero-anim > *:nth-child(1){animation-delay:0.05s} .hero-anim > *:nth-child(2){animation-delay:0.15s}
+.hero-anim > *:nth-child(3){animation-delay:0.28s} .hero-anim > *:nth-child(4){animation-delay:0.42s}
+
+.synthesis-label::before { content:'SYNTHESIS / 核心判断'; position:absolute; top:-10px; left:28px; background:#0a0908; padding:0 12px; font-family:'JetBrains Mono',monospace; font-size:10px; letter-spacing:0.2em; color:#f5a524 }
+.risk-label::before { content:'RISK / 需要追踪'; position:absolute; top:-10px; left:28px; background:#0a0908; padding:0 12px; font-family:'JetBrains Mono',monospace; font-size:10px; letter-spacing:0.2em; color:#7fb88b; font-weight:500 }
+
+.series-inner-bg { background:linear-gradient(135deg,rgba(245,165,36,0.09) 0%,transparent 60%),#111110 }
+</style>
+  <script src="../../lang-switcher.js" defer></script>
+  <script src="../../mode-toggle.js" defer></script>
+  <link rel="alternate" hreflang="zh" href="china-llm-enterprise-ai.html" />
+  <link rel="alternate" hreflang="en" href="china-llm-enterprise-ai.en.html" />
+  <link rel="alternate" hreflang="x-default" href="china-llm-enterprise-ai.html" />
+</head>
+
+<body class="bg-bg text-fg font-serif leading-relaxed overflow-x-hidden" data-theme="amber">
+
+<div class="relative z-[2] border-b border-line">
+  <div class="max-w-wrap mx-auto px-[5vw] lg:px-12 py-3 flex items-center gap-4 flex-wrap">
+    <span class="lamp mr-1"></span>
+    <span class="font-mono text-[9px] lg:text-[10px] tracking-[0.22em] uppercase text-accent">DEEPDIVE</span>
+    <span class="text-line-bright font-mono text-[10px]">/</span>
+    <span class="font-mono text-[9px] lg:text-[10px] tracking-[0.18em] uppercase text-fg-mute">[GEO] · China LLM ToB</span>
+    <div data-lang-switcher data-slug="china-llm-enterprise-ai" style="margin-left:auto"></div>
+    <button data-toggle-mode aria-pressed="false" class="font-mono text-[9px] lg:text-[10px] tracking-[0.18em] uppercase text-fg-mute hover:text-accent border border-line-bright px-2 py-0.5 transition-colors" style="background:transparent;cursor:pointer" data-label-light="Light" data-label-dark="Dark">
+      <span data-mode-icon>◐</span> <span data-mode-label>Dark</span>
+    </button>
+    <span class="flex-1 h-px bg-line hidden lg:block"></span>
+    <span class="font-mono text-[9px] tracking-[0.14em] text-fg-mute">v1 · 2026</span>
+  </div>
+</div>
+
+<!-- HERO -->
+<section class="hero-anim max-w-wrap mx-auto px-[5vw] lg:px-12 relative z-[2] pt-10 lg:pt-28 pb-12 lg:pb-24 border-b border-line">
+  <div class="font-mono text-[9px] lg:text-[11px] tracking-[0.18em] uppercase text-amber mb-8 lg:mb-10 flex flex-wrap gap-2 lg:gap-7 items-center">
+    <span>MARKET ANALYSIS</span>
+    <span class="text-fg-mute hidden lg:inline">/</span>
+    <span>PE JV · ENTERPRISE AGENTS · DATA SOVEREIGNTY</span>
+    <span class="text-fg-mute hidden lg:inline">/</span>
+    <span>BEIJING — SHANGHAI — SHENZHEN</span>
+  </div>
+  <h1 class="font-serif font-light text-[clamp(28px,8.5vw,110px)] leading-[0.95] tracking-tight mb-6 lg:mb-9">
+    The <em class="text-amber font-normal">Anthropic</em>
+    <span class="block"><em class="text-amber font-normal">Moment</em></span>
+    <span class="block">for Chinese LLM Enterprises</span>
+  </h1>
+  <div class="max-w-[720px] text-[15px] lg:text-xl text-fg-dim font-light leading-relaxed lg:leading-[1.55] border-l border-amber pl-3.5 lg:pl-5 mt-4">
+    Anthropic completed a structural transformation in 72 hours: PE JV + 10 financial agents + Dimon's endorsement.<br/>
+    <strong class="text-fg font-normal">Chinese LLM enterprises face the same question—but with an entirely different answer sheet. Where are the differences? What is the path?</strong>
+  </div>
+
+  <!-- HERO STATS GRID -->
+  <div class="mt-12 lg:mt-16 grid grid-cols-2 lg:grid-cols-4 gap-px bg-line border border-line font-mono">
+    <div class="bg-bg p-5 lg:p-7">
+      <div class="text-[9px] lg:text-[10px] tracking-[0.16em] uppercase text-fg-mute mb-3">Reference Sample</div>
+      <div class="font-serif text-[30px] lg:text-[44px] font-normal text-amber leading-none mb-2">72<span class="text-lg lg:text-xl text-fg-mute"> hours</span></div>
+      <div class="text-[10px] lg:text-[11px] text-fg-dim">ANTHROPIC structural transformation time span</div>
+    </div>
+    <div class="bg-bg p-5 lg:p-7">
+      <div class="text-[9px] lg:text-[10px] tracking-[0.16em] uppercase text-fg-mute mb-3">Key Difference Dimensions</div>
+      <div class="font-serif text-[30px] lg:text-[44px] font-normal text-fg leading-none mb-2">7<span class="text-lg lg:text-xl text-fg-mute"> items</span></div>
+      <div class="text-[10px] lg:text-[11px] text-fg-dim">Procurement chain / Compliance signals / Digital sovereignty / Channels / Competitive landscape / SaaS ecosystem / ERP barriers</div>
+    </div>
+    <div class="bg-bg p-5 lg:p-7">
+      <div class="text-[9px] lg:text-[10px] tracking-[0.16em] uppercase text-fg-mute mb-3">Digital Sovereignty Window (est.)</div>
+      <div class="font-serif text-[30px] lg:text-[44px] font-normal text-amber leading-none mb-2">3–5<span class="text-lg lg:text-xl text-fg-mute"> years</span></div>
+      <div class="text-[10px] lg:text-[11px] text-fg-dim">Foreign models effectively barred from core verticals</div>
+    </div>
+    <div class="bg-bg p-5 lg:p-7">
+      <div class="text-[9px] lg:text-[10px] tracking-[0.16em] uppercase text-fg-mute mb-3">FDE Hiring Growth (benchmark)</div>
+      <div class="font-serif text-[30px] lg:text-[44px] font-normal text-amber leading-none mb-2">800<span class="text-lg lg:text-xl text-fg-mute"> %+</span></div>
+      <div class="text-[10px] lg:text-[11px] text-fg-dim">Anthropic forward-deployed engineer growth pre-2025</div>
+    </div>
+  </div>
+</section>
+
+<!-- TL;DR -->
+<section class="max-w-wrap mx-auto px-[5vw] lg:px-12 relative z-[2] py-10 lg:py-18 border-b border-line">
+  <div class="lg:ml-[168px] max-w-content">
+    <div class="font-mono text-[10px] tracking-[0.22em] uppercase text-amber mb-6">TL;DR / 30-SECOND CORE</div>
+
+    <p class="text-[17px] lg:text-[20px] font-light text-fg leading-[1.55] mb-8 max-w-[760px]">
+      Anthropic's framework provides a deconstructible sample, but the Chinese version requires a full rewrite across three dimensions—<strong class="text-amber font-normal">capital structure, compliance signals, and digital sovereignty</strong>—and once rewritten, it may actually form a deeper moat than the US version.
+    </p>
+
+    <div class="border-l-2 border-line pl-5 lg:pl-7 mb-10 space-y-3 max-w-[720px]">
+      <div class="flex items-baseline gap-3">
+        <span class="font-mono text-[10px] text-amber shrink-0 w-5">01</span>
+        <p class="text-[13px] lg:text-[14px] text-fg-dim font-light leading-relaxed">Anthropic's three-layer structure (<strong class="text-fg font-normal">JV channel + pre-built agents + compliance endorsement</strong>) is transferable, but all three elements require local substitutes in China</p>
+      </div>
+      <div class="flex items-baseline gap-3">
+        <span class="font-mono text-[10px] text-amber shrink-0 w-5">02</span>
+        <p class="text-[13px] lg:text-[14px] text-fg-dim font-light leading-relaxed">China's "Dimon equivalent" for compliance signals is not an entrepreneur—it's the <strong class="text-fg font-normal">president of ICBC/CCB</strong> or an actual deployment case from a regulatory body; harder to obtain, but once secured, the moat is deeper</p>
+      </div>
+      <div class="flex items-baseline gap-3">
+        <span class="font-mono text-[10px] text-amber shrink-0 w-5">03</span>
+        <p class="text-[13px] lg:text-[14px] text-fg-dim font-light leading-relaxed"><strong class="text-fg font-normal">Data localization regulations</strong> = foreign LLMs cannot process China's core financial/medical/government data = de facto monopoly for domestic LLMs in these verticals (a severely underestimated advantage)</p>
+      </div>
+      <div class="flex items-baseline gap-3">
+        <span class="font-mono text-[10px] text-amber shrink-0 w-5">04</span>
+        <p class="text-[13px] lg:text-[14px] text-fg-dim font-light leading-relaxed">China has an equivalent "resident engineer" culture, but it hasn't been <strong class="text-fg font-normal">systematically productized</strong>—this is where Anthropic's FDE model is truly worth learning from</p>
+      </div>
+      <div class="flex items-baseline gap-3">
+        <span class="font-mono text-[10px] text-amber shrink-0 w-5">05</span>
+        <p class="text-[13px] lg:text-[14px] text-fg-dim font-light leading-relaxed">The most dangerous trap: equating <strong class="text-fg font-normal">the "domestic substitution" narrative with a competitive barrier</strong>—policy dividends are a window, not a moat; the window is approximately 3–5 years</p>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+      <div class="lg:col-span-2 bg-amber/[0.07] border border-amber/40 p-5 lg:p-6">
+        <div class="font-mono text-[9px] tracking-[0.18em] text-amber uppercase mb-2.5">Counter-Consensus Insight</div>
+        <p class="text-[14px] lg:text-[15px] text-fg leading-relaxed font-light">The real competitors for Chinese LLM enterprises are not each other, nor OpenAI/Claude—they are software companies like <strong class="text-amber font-medium">Wind, JZ Technology, and Yonyou Network</strong> that have already built industry data pipelines. Whoever captures them first seizes the <strong class="text-amber font-medium">entry point to China's Bloomberg Terminal equivalent</strong>.</p>
+      </div>
+      <div class="bg-bg-2 border border-line p-5 lg:p-6">
+        <div class="font-mono text-[9px] tracking-[0.18em] text-amber uppercase mb-2.5">Underestimated Fact</div>
+        <p class="text-[14px] lg:text-[15px] text-fg leading-relaxed font-light">In scenarios like <strong class="text-amber font-medium">government/regulatory reporting</strong>, foreign competitors are effectively absent—this matters more than any parameter advantage.</p>
+      </div>
+      <div class="bg-bg-2 border border-line p-5 lg:p-6">
+        <div class="font-mono text-[9px] tracking-[0.18em] text-amber uppercase mb-2.5">Single Most Important Recommendation</div>
+        <p class="text-[14px] lg:text-[15px] text-fg leading-relaxed font-light">Pick a vertical with "highly standardized formats + data localization requirements + heavy regulatory pressure," and complete the <strong class="text-amber font-medium">industry JV + pre-built agents + industry endorsement</strong> three-layer connection—the first to do so becomes the Anthropic of the Chinese market.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- § 01 FRAMEWORK -->
+<section class="max-w-wrap mx-auto px-[5vw] lg:px-12 relative z-[2] py-14 lg:py-28 border-b border-line">
+  <header class="grid grid-cols-1 lg:grid-cols-[120px_1fr] gap-4 lg:gap-12 items-baseline mb-10 lg:mb-[72px]">
+    <div class="cursor font-mono text-[10px] lg:text-[11px] tracking-[0.2em] text-amber pt-3 border-t border-amber uppercase">§ 01 / FRAMEWORK</div>
+    <h2 class="font-serif font-light text-[clamp(24px,7vw,68px)] leading-[1.05] tracking-tight">Deconstructing<br/>Anthropic's <em class="text-amber">Three-Layer</em><br/>Structure</h2>
+  </header>
+
+  <div class="lg:ml-[168px] max-w-content space-y-6">
+    <p class="text-[15px] lg:text-[16px] text-fg-dim font-light leading-relaxed">What Anthropic accomplished in 72 hours was not three independent things—it was a <strong class="text-fg">tightly coupled three-layer system</strong>. Understanding this system is the prerequisite for transplanting it to the Chinese market.</p>
+
+    <!-- Three-layer structure visualization -->
+    <div class="border border-line font-mono text-xs overflow-hidden">
+      <div class="bg-bg-2 border-b border-line p-4 lg:p-5">
+        <div class="text-[9px] tracking-[0.18em] uppercase text-amber mb-1">LAYER 1 / Distribution Pipeline</div>
+        <div class="text-fg text-[13px] lg:text-[14px] font-light mt-2"><strong class="font-normal text-amber">PE JV ($1.5B)</strong>—Blackstone + H&F + Goldman Sachs and 5 other institutions</div>
+        <div class="text-fg-mute text-[12px] mt-1.5 leading-relaxed">Function: access to enterprise clients + systems integration entry point · Use of funds: <a href="https://money.usnews.com/investing/news/articles/2026-05-05/openai-anthropic-ventures-in-talks-to-buy-ai-services-firms-sources-say" target="_blank" class="text-mint hover:underline">roll-up existing AI services firms</a> (per Reuters), not "doing consulting"</div>
+      </div>
+      <div class="flex justify-center py-1.5 bg-bg border-b border-line text-fg-mute text-lg">↓</div>
+      <div class="bg-bg-2 border-b border-line p-4 lg:p-5">
+        <div class="text-[9px] tracking-[0.18em] uppercase text-amber mb-1">LAYER 2 / Product Shelf</div>
+        <div class="text-fg text-[13px] lg:text-[14px] font-light mt-2"><strong class="font-normal text-amber">10 Pre-Built Financial Agents</strong>—PitchBook analysis / KYC / monthly close / compliance audit / M&A summaries…</div>
+        <div class="text-fg-mute text-[12px] mt-1.5">Deployable directly into enterprise workflows; not demos, no custom development needed</div>
+      </div>
+      <div class="flex justify-center py-1.5 bg-bg border-b border-line text-fg-mute text-lg">↓</div>
+      <div class="bg-bg-2 p-4 lg:p-5">
+        <div class="text-[9px] tracking-[0.18em] uppercase text-amber mb-1">LAYER 3 / Compliance Credit</div>
+        <div class="text-fg text-[13px] lg:text-[14px] font-light mt-2"><a href="https://fortune.com/2026/05/05/anthropic-wall-street-financial-services-agents-jamie-dimon/" target="_blank" class="text-amber hover:underline font-normal"><strong class="font-normal">Jamie Dimon's public endorsement</strong></a>—JPMorgan is a <a href="https://anthropic.com/glasswing" target="_blank" class="text-amber hover:underline">Project Glasswing</a> co-founding member</div>
+        <div class="text-fg-mute text-[12px] mt-1.5">Real meaning: JPMorgan's legal team has reviewed it—using it won't get a compliance officer fired</div>
+      </div>
+    </div>
+
+    <!-- Key Insight -->
+    <div class="bg-amber/[0.06] border-l-2 border-amber p-5 lg:p-6 mt-6">
+      <p class="text-[14px] lg:text-[15px] text-fg leading-relaxed font-light"><strong class="text-amber font-medium">Key Insight:</strong> Strong dependencies exist between the three layers—without Layer 3 (compliance credit), enterprises won't buy; without Layer 2 (concrete products), the JV has nothing to sell; without Layer 1 (distribution pipeline), products can't reach decision-makers. The problem for Chinese LLM enterprises is often that <strong class="text-fg font-normal">all three layers are missing simultaneously, or each exists in isolation without connecting into a system</strong>.</p>
+    </div>
+  </div>
+</section>
+
+<!-- § 02 DIFFERENCES -->
+<section class="max-w-wrap mx-auto px-[5vw] lg:px-12 relative z-[2] py-14 lg:py-28 border-b border-line">
+  <header class="grid grid-cols-1 lg:grid-cols-[120px_1fr] gap-4 lg:gap-12 items-baseline mb-10 lg:mb-[72px]">
+    <div class="cursor font-mono text-[10px] lg:text-[11px] tracking-[0.2em] text-amber pt-3 border-t border-amber uppercase">§ 02 / DIFFERENCES</div>
+    <h2 class="font-serif font-light text-[clamp(24px,7vw,68px)] leading-[1.05] tracking-tight">US–China Enterprise AI<br/><em class="text-amber">Difference Map</em></h2>
+  </header>
+
+  <div class="lg:ml-[168px] max-w-content space-y-8">
+
+    <!-- Difference 01 -->
+    <div class="border border-line overflow-hidden">
+      <div class="bg-bg-2 px-5 py-3 font-mono text-[10px] tracking-[0.15em] uppercase text-amber border-b border-line">Difference 01 / Procurement Decision Chain</div>
+      <div class="grid grid-cols-1 lg:grid-cols-2 divide-y lg:divide-y-0 lg:divide-x divide-line">
+        <div class="p-5 lg:p-6">
+          <div class="font-mono text-[9px] text-fg-mute uppercase tracking-[0.12em] mb-3">🇺🇸 United States</div>
+          <p class="text-[14px] text-fg-dim font-light leading-relaxed">CTO / CFO joint decision, 2–6 month cycle, <strong class="text-fg font-normal">technical evaluation</strong> carries high weight</p>
+        </div>
+        <div class="p-5 lg:p-6">
+          <div class="font-mono text-[9px] text-fg-mute uppercase tracking-[0.12em] mb-3">🇨🇳 China</div>
+          <p class="text-[14px] text-fg-dim font-light leading-relaxed">Procurement committee + IT department + compliance department + (for SOEs) Party committee, 6–18 month cycle, <strong class="text-fg font-normal">qualifications, classified protection compliance, and domestic certification</strong> carry equally high weight</p>
+        </div>
+      </div>
+      <div class="bg-bg px-5 py-3 border-t border-line">
+        <p class="text-[12px] text-fg-mute font-mono">→ No matter how good the product, missing Level 3 classified protection + domestic certification + SOE precedent may cost you the deal</p>
+      </div>
+    </div>
+
+    <!-- Difference 02 -->
+    <div class="border border-line overflow-hidden">
+      <div class="bg-bg-2 px-5 py-3 font-mono text-[10px] tracking-[0.15em] uppercase text-amber border-b border-line">Difference 02 / Source of Compliance Signals</div>
+      <div class="grid grid-cols-1 lg:grid-cols-2 divide-y lg:divide-y-0 lg:divide-x divide-line">
+        <div class="p-5 lg:p-6">
+          <div class="font-mono text-[9px] text-fg-mute uppercase tracking-[0.12em] mb-3">🇺🇸 United States</div>
+          <p class="text-[14px] text-fg-dim font-light leading-relaxed">Dimon's endorsement = JPMorgan's legal team reviewed it = industry admission ticket. <strong class="text-fg font-normal">A private-sector CEO's endorsement suffices</strong></p>
+        </div>
+        <div class="p-5 lg:p-6">
+          <div class="font-mono text-[9px] text-fg-mute uppercase tracking-[0.12em] mb-3">🇨🇳 China</div>
+          <p class="text-[14px] text-fg-dim font-light leading-relaxed">Requires a use case from an institution with <strong class="text-fg font-normal">regulatory lineage</strong>. ICBC/CCB president endorsing = China's Dimon equivalent; harder to obtain, but once secured the lock-in effect is stronger (SOEs typically don't procure competing products simultaneously)</p>
+        </div>
+      </div>
+      <div class="bg-bg px-5 py-3 border-t border-line">
+        <p class="text-[12px] text-fg-mute font-mono">→ Compliance signals are harder to obtain, but the resulting moat depth far exceeds the US version</p>
+      </div>
+    </div>
+
+    <!-- Difference 03 — Key -->
+    <div class="border border-amber/40 overflow-hidden">
+      <div class="bg-amber/[0.07] px-5 py-3 font-mono text-[10px] tracking-[0.15em] uppercase text-amber border-b border-amber/30">Difference 03 / Digital Sovereignty Constraints ← Most Important</div>
+      <div class="grid grid-cols-1 lg:grid-cols-2 divide-y lg:divide-y-0 lg:divide-x divide-line">
+        <div class="p-5 lg:p-6">
+          <div class="font-mono text-[9px] text-fg-mute uppercase tracking-[0.12em] mb-3">🇺🇸 United States</div>
+          <p class="text-[14px] text-fg-dim font-light leading-relaxed">Financial data can go on AWS/Azure private clouds; cross-border data flows are relatively free. Anthropic faces global competition from OpenAI, Gemini, etc.</p>
+        </div>
+        <div class="p-5 lg:p-6">
+          <div class="font-mono text-[9px] text-fg-mute uppercase tracking-[0.12em] mb-3">🇨🇳 China</div>
+          <p class="text-[14px] text-fg-dim font-light leading-relaxed"><a href="http://www.npc.gov.cn/npc/c30834/202106/7c9af12f51334a73b56d7938f99a788a.shtml" target="_blank" class="text-amber hover:underline">Data Security Law</a> + <a href="https://www.gov.cn/zhengce/zhengceku/2022-07/08/content_5700090.htm" target="_blank" class="text-amber hover:underline">Measures for Security Assessment of Cross-Border Data Transfers</a>: core financial/medical/government data <strong class="text-fg font-normal">effectively cannot leave the country</strong>. Foreign LLMs cannot process this data</p>
+        </div>
+      </div>
+      <div class="bg-amber/[0.05] px-5 py-3.5 border-t border-amber/30">
+        <p class="text-[13px] text-amber font-light">→ <strong class="font-medium">Foreign models absent = de facto monopoly for domestic LLMs in core financial/government/medical scenarios. This is the competitive landscape Anthropic envies most: geographic borders are the moat.</strong></p>
+      </div>
+    </div>
+
+    <!-- Difference 04 & 05 -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <div class="border border-line overflow-hidden">
+        <div class="bg-bg-2 px-5 py-3 font-mono text-[10px] tracking-[0.15em] uppercase text-amber border-b border-line">Difference 04 / Distribution Channel Structure</div>
+        <div class="p-5 lg:p-6 space-y-3">
+          <p class="text-[13px] text-fg-dim font-light leading-relaxed">US: <strong class="text-fg font-normal">Independent PE networks</strong> (Blackstone holds 2,700+ enterprises) + Accenture/Deloitte systems integration</p>
+          <p class="text-[13px] text-fg-dim font-light leading-relaxed">China: No equivalent independent PE enterprise network. SI backbone is <strong class="text-fg font-normal">Huawei / Yonyou / Kingdee / Glodon</strong>; pipelines are Alibaba Cloud/Tencent Cloud/Huawei Cloud/Tianyi Cloud</p>
+          <p class="text-[12px] text-fg-mute font-mono mt-1">→ China's JV counterpart = Huawei Cloud + an SOE fund / Yonyou + ICBC Strategic Investment Dept</p>
+        </div>
+      </div>
+      <div class="border border-line overflow-hidden">
+        <div class="bg-bg-2 px-5 py-3 font-mono text-[10px] tracking-[0.15em] uppercase text-amber border-b border-line">Difference 05 / Competitive Landscape</div>
+        <div class="p-5 lg:p-6 space-y-3">
+          <p class="text-[13px] text-fg-dim font-light leading-relaxed">US: Anthropic vs OpenAI vs Gemini, globalized competition, sensitive verticals also open</p>
+          <p class="text-[13px] text-fg-dim font-light leading-relaxed">China: Core verticals (government/financial regulation/medical) have <strong class="text-fg font-normal">foreign players effectively absent</strong>; only domestic vendors compete</p>
+          <p class="text-[12px] text-fg-mute font-mono mt-1">→ Competition is more concentrated, the pie more consolidated, and homogenization risk is higher</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Difference 06 — SaaS Ecosystem -->
+    <div class="border border-line overflow-hidden">
+      <div class="bg-bg-2 px-5 py-3 font-mono text-[10px] tracking-[0.15em] uppercase text-amber border-b border-line">Difference 06 / SaaS Penetration & Large-Enterprise-Dominated Landscape</div>
+      <div class="grid grid-cols-1 lg:grid-cols-2 divide-y lg:divide-y-0 lg:divide-x divide-line">
+        <div class="p-5 lg:p-6">
+          <div class="font-mono text-[9px] text-fg-mute uppercase tracking-[0.12em] mb-3">🇺🇸 United States</div>
+          <p class="text-[14px] text-fg-dim font-light leading-relaxed">SaaS penetration ~<strong class="text-fg font-normal">40%</strong>, mixed SME + large enterprise market, cloud-native as default deployment. Anthropic's agents deliver via API / cloud subscription with no on-prem needed; enterprises can self-serve</p>
+        </div>
+        <div class="p-5 lg:p-6">
+          <div class="font-mono text-[9px] text-fg-mute uppercase tracking-[0.12em] mb-3">🇨🇳 China</div>
+          <p class="text-[14px] text-fg-dim font-light leading-relaxed">SaaS penetration ~<strong class="text-fg font-normal">10%–15%</strong>, procurement budgets heavily concentrated in <strong class="text-fg font-normal">central SOEs, state-owned enterprises, and top private companies</strong>. Large enterprises universally require <strong class="text-fg font-normal">on-premises deployment (localization)</strong>—data must not leave their own data centers; this is a hard requirement, not a negotiating chip</p>
+        </div>
+      </div>
+      <div class="bg-bg px-5 py-3 border-t border-line">
+        <p class="text-[12px] text-fg-mute font-mono">→ The China-version pre-built agent SKU must include three deployment forms: cloud / on-prem / domestic xinchuang edition; pure cloud SaaS cannot enter core scenarios</p>
+      </div>
+    </div>
+
+    <!-- Difference 07 — ERP/ISV Hidden Barrier -->
+    <div class="border border-amber/25 overflow-hidden">
+      <div class="bg-amber/[0.05] px-5 py-3 font-mono text-[10px] tracking-[0.15em] uppercase text-amber border-b border-amber/25">Difference 07 / Yonyou · Kingdee · Glodon: The Underestimated Hidden Barrier</div>
+      <div class="p-5 lg:p-7">
+        <p class="text-[14px] text-fg-dim font-light leading-relaxed mb-5">The US distribution barrier is SIs (Accenture/Deloitte). Chinese large enterprises' workflows are deeply embedded in ERP / industry management software, creating a harder barrier to bypass:</p>
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-5">
+          <div class="bg-bg border border-line p-4">
+            <div class="font-mono text-[9px] text-amber uppercase tracking-[0.12em] mb-2">Yonyou YonBIP</div>
+            <p class="text-[12px] text-fg-dim font-light leading-relaxed">Covers 7 million enterprises, top choice for large manufacturing / SOE ERP, already has built-in <strong class="text-fg font-normal">YonGPT</strong>—Yonyou is growing AI capabilities from inside ERP; it's a competitor, not just a distribution channel</p>
+          </div>
+          <div class="bg-bg border border-line p-4">
+            <div class="font-mono text-[9px] text-amber uppercase tracking-[0.12em] mb-2">Kingdee Cloud · Cosmic</div>
+            <p class="text-[12px] text-fg-dim font-light leading-relaxed">Ultra-large enterprise ERP platform, deep partnership with Huawei Cloud, already has AI agent capability framework. Existing data + workflow integration + customer trust—triple barrier stacked</p>
+          </div>
+          <div class="bg-bg border border-line p-4">
+            <div class="font-mono text-[9px] text-amber uppercase tracking-[0.12em] mb-2">Glodon</div>
+            <p class="text-[12px] text-fg-dim font-light leading-relaxed">Monopoly platform for construction industry digitization, now AI-ifying engineering budgets / BIM scenarios. External LLMs can barely bypass it to access engineering digitization data</p>
+          </div>
+        </div>
+        <div class="bg-amber/[0.07] border-l-2 border-amber p-4 text-[13px] text-fg font-light">
+          <strong class="text-amber font-medium">Core Judgment:</strong> Large enterprises' AI procurement decisions will likely ultimately come down to "whether to turn on AI inside Yonyou/Kingdee"—not "whether to purchase an AI product." LLM enterprises need a clear answer: <strong class="text-fg font-normal">embed (become the AI layer inside ERP) or replace (build AI-native ERP)</strong>? The business models, sales motions, and capital structures of the two paths are fundamentally different.
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- § DATA / Supporting Charts -->
+<section class="max-w-wrap mx-auto px-[5vw] lg:px-12 relative z-[2] py-14 lg:py-28 border-b border-line">
+  <header class="grid grid-cols-1 lg:grid-cols-[120px_1fr] gap-4 lg:gap-12 items-baseline mb-10 lg:mb-[72px]">
+    <div class="cursor font-mono text-[10px] lg:text-[11px] tracking-[0.2em] text-amber pt-3 border-t border-amber uppercase">DATA / EVIDENCE</div>
+    <h2 class="font-serif font-light text-[clamp(24px,7vw,68px)] leading-[1.05] tracking-tight">Four Data Sets<br/><em class="text-amber">Supporting the Thesis</em></h2>
+  </header>
+
+  <div class="lg:ml-[168px] max-w-content space-y-10">
+
+    <!-- Chart 1: SaaS Penetration -->
+    <div class="border border-line overflow-hidden">
+      <div class="bg-bg-2 px-5 py-3 font-mono text-[10px] tracking-[0.15em] uppercase text-amber border-b border-line flex flex-wrap justify-between gap-2 items-center">
+        <span>Data 01 / Enterprise SaaS Penetration: US vs. China</span>
+        <span class="text-fg-mute text-[9px] normal-case tracking-normal">Source: IDC · Analysys · Gartner — 2023 estimates</span>
+      </div>
+      <div class="p-5 lg:p-7">
+        <div class="space-y-5 max-w-[600px]">
+          <!-- US Bar -->
+          <div>
+            <div class="flex justify-between items-baseline mb-2">
+              <span class="font-mono text-[10px] text-fg-mute uppercase tracking-[0.1em]">🇺🇸 United States</span>
+              <span class="font-mono text-[11px] text-mint font-medium">~40%</span>
+            </div>
+            <div class="h-8 bg-line rounded-[2px] relative overflow-hidden">
+              <div class="h-full rounded-[2px]" style="width:40%;background:#7fb88b;"></div>
+            </div>
+            <p class="text-[11px] text-fg-mute font-light mt-1.5">Cloud-native as default deployment; SaaS subscriptions cover SME to large enterprise; Anthropic agents can deliver directly via API</p>
+          </div>
+          <!-- China Bar -->
+          <div>
+            <div class="flex justify-between items-baseline mb-2">
+              <span class="font-mono text-[10px] text-fg-mute uppercase tracking-[0.1em]">🇨🇳 China</span>
+              <span class="font-mono text-[11px] text-amber font-medium">10–15%</span>
+            </div>
+            <div class="h-8 bg-line rounded-[2px] relative overflow-hidden">
+              <div class="h-full rounded-[2px]" style="width:12%;background:#f5a524;"></div>
+            </div>
+            <p class="text-[11px] text-fg-mute font-light mt-1.5">Budgets concentrated in central SOEs / state-owned banks / top private enterprises; large enterprise procurement requires on-prem deployment options</p>
+          </div>
+        </div>
+        <!-- Gap annotation -->
+        <div class="mt-6 bg-amber/[0.06] border-l-2 border-amber pl-4 py-3 text-[12px] text-fg font-light max-w-[600px]">
+          3–4× penetration gap → China-version agent sales cycles and delivery costs far exceed those in the US; cloud SaaS pricing logic cannot be directly replicated
+        </div>
+      </div>
+    </div>
+
+    <!-- Chart 2: ERP Revenue -->
+    <div class="border border-line overflow-hidden">
+      <div class="bg-bg-2 px-5 py-3 font-mono text-[10px] tracking-[0.15em] uppercase text-amber border-b border-line flex flex-wrap justify-between gap-2 items-center">
+        <span>Data 02 / Major ERP / Industry Software Vendor Revenue (FY2024)</span>
+        <span class="text-fg-mute text-[9px] normal-case tracking-normal">Source: Company FY2024 annual reports (A-share filings, Sina Finance)</span>
+      </div>
+      <div class="p-5 lg:p-7">
+        <svg viewBox="0 0 480 210" xmlns="http://www.w3.org/2000/svg" class="w-full max-w-[560px]" aria-label="ERP vendors 2024 revenue comparison">
+          <!-- Y-axis -->
+          <line x1="50" y1="15"  x2="50" y2="170" stroke="#2b2823" stroke-width="1"/>
+          <!-- X-axis -->
+          <line x1="50" y1="170" x2="450" y2="170" stroke="#2b2823" stroke-width="1"/>
+          <!-- Horizontal grid: 0,25,50,75,100亿 mapped to y=170,131,93,54,15 (range 155px for 100亿) -->
+          <line x1="50" y1="131" x2="450" y2="131" stroke="#2b2823" stroke-width="1" stroke-dasharray="4,4"/>
+          <line x1="50" y1="93"  x2="450" y2="93"  stroke="#2b2823" stroke-width="1" stroke-dasharray="4,4"/>
+          <line x1="50" y1="54"  x2="450" y2="54"  stroke="#2b2823" stroke-width="1" stroke-dasharray="4,4"/>
+          <line x1="50" y1="15"  x2="450" y2="15"  stroke="#2b2823" stroke-width="1" stroke-dasharray="4,4"/>
+          <!-- Y-axis labels -->
+          <text x="44" y="173" text-anchor="end" fill="#5a544b" font-family="'JetBrains Mono',monospace" font-size="9">0</text>
+          <text x="44" y="134" text-anchor="end" fill="#5a544b" font-family="'JetBrains Mono',monospace" font-size="9">25</text>
+          <text x="44" y="96"  text-anchor="end" fill="#5a544b" font-family="'JetBrains Mono',monospace" font-size="9">50</text>
+          <text x="44" y="57"  text-anchor="end" fill="#5a544b" font-family="'JetBrains Mono',monospace" font-size="9">75</text>
+          <text x="44" y="18"  text-anchor="end" fill="#5a544b" font-family="'JetBrains Mono',monospace" font-size="9">¥100M</text>
+          <!-- Bar: Yonyou Network 91.5亿 → height=(91.5/100)*155=141.8≈142, y=170-142=28 -->
+          <rect x="90"  y="28"  width="70" height="142" rx="1" fill="#f5a524"/>
+          <text x="125" y="23"  text-anchor="middle" fill="#f5a524" font-family="'JetBrains Mono',monospace" font-size="10" font-weight="500">91.5</text>
+          <text x="125" y="185" text-anchor="middle" fill="#9a948a" font-family="'JetBrains Mono',monospace" font-size="9">Yonyou</text>
+          <!-- Bar: Glodon 62.4亿 → height=(62.4/100)*155=96.7≈97, y=170-97=73 -->
+          <rect x="200" y="73"  width="70" height="97"  rx="1" fill="#f5a524" opacity="0.6"/>
+          <text x="235" y="68"  text-anchor="middle" fill="#9a948a" font-family="'JetBrains Mono',monospace" font-size="10">62.4</text>
+          <text x="235" y="185" text-anchor="middle" fill="#9a948a" font-family="'JetBrains Mono',monospace" font-size="9">Glodon</text>
+          <!-- Bar: Kingdee ~48亿(港股HKD折RMB) → height=(48/100)*155=74.4≈74, y=170-74=96 -->
+          <rect x="310" y="96"  width="70" height="74"  rx="1" fill="#f5a524" opacity="0.4"/>
+          <text x="345" y="91"  text-anchor="middle" fill="#9a948a" font-family="'JetBrains Mono',monospace" font-size="10">~48</text>
+          <text x="345" y="185" text-anchor="middle" fill="#9a948a" font-family="'JetBrains Mono',monospace" font-size="9">Kingdee</text>
+          <!-- Source footnote -->
+          <text x="50" y="205" fill="#3d3830" font-family="'JetBrains Mono',monospace" font-size="8">Kingdee HK-listed revenue converted at ~0.93 HKD/RMB; Yonyou/Glodon from A-share reports (Sina Finance); Unit: RMB ¥100M</text>
+        </svg>
+        <div class="mt-4 bg-bg-2 border border-line p-4 text-[12px] text-fg-dim font-light max-w-[560px]">
+          <strong class="text-fg font-normal">Key Implication:</strong> Combined revenue of these three companies exceeds ¥20 billion, covering 7+ million enterprise customers, and all have built-in or planned AI capability layers (YonGPT / Kingdee AI / Glodon AI). LLM enterprises face <strong class="text-amber font-normal">competitors that already possess data + customers + workflows</strong>, not a blank market.
+        </div>
+      </div>
+    </div>
+
+    <!-- Chart 3: Deployment Preference -->
+    <div class="border border-line overflow-hidden">
+      <div class="bg-bg-2 px-5 py-3 font-mono text-[10px] tracking-[0.15em] uppercase text-amber border-b border-line flex flex-wrap justify-between gap-2 items-center">
+        <span>Data 03 / Large Enterprise AI Deployment Preference (China)</span>
+        <span class="text-fg-mute text-[9px] normal-case tracking-normal">Source: CCID Think Tank · IDC China Enterprise AI Survey — 2023–2024 composite estimates</span>
+      </div>
+      <div class="p-5 lg:p-7">
+        <!-- Stacked horizontal bar -->
+        <div class="max-w-[600px]">
+          <!-- Legend -->
+          <div class="flex flex-wrap gap-5 mb-5 font-mono text-[10px] text-fg-mute">
+            <div class="flex items-center gap-1.5"><span class="inline-block w-3 h-3 rounded-[1px]" style="background:#f5a524"></span>On-premises</div>
+            <div class="flex items-center gap-1.5"><span class="inline-block w-3 h-3 rounded-[1px]" style="background:#7fb88b"></span>Hybrid</div>
+            <div class="flex items-center gap-1.5"><span class="inline-block w-3 h-3 rounded-[1px]" style="background:#443f37"></span>Public cloud</div>
+          </div>
+          <!-- Full bar -->
+          <div class="flex h-10 rounded-[2px] overflow-hidden w-full">
+            <div class="h-full flex items-center justify-center font-mono text-[10px] text-bg font-medium" style="width:64%;background:#f5a524;">64%</div>
+            <div class="h-full flex items-center justify-center font-mono text-[10px] text-bg" style="width:18%;background:#7fb88b;">18%</div>
+            <div class="h-full flex items-center justify-center font-mono text-[10px] text-fg-mute" style="width:18%;background:#443f37;">18%</div>
+          </div>
+          <!-- Sub-labels -->
+          <div class="flex text-[10px] text-fg-mute font-mono mt-1.5">
+            <div style="width:64%">64% On-prem</div>
+            <div style="width:18%">18% Hybrid</div>
+            <div style="width:18%;text-align:right">18% Cloud</div>
+          </div>
+        </div>
+
+        <div class="mt-6 grid grid-cols-1 lg:grid-cols-3 gap-3 max-w-[600px]">
+          <div class="bg-amber/[0.07] border border-amber/30 p-3">
+            <div class="font-mono text-[9px] text-amber uppercase tracking-[0.12em] mb-1">On-premises · 64%</div>
+            <p class="text-[11px] text-fg-dim font-light leading-relaxed">Hard requirement for central SOEs / state-owned banks / critical infrastructure; data never leaves own data centers</p>
+          </div>
+          <div class="bg-bg-2 border border-line p-3">
+            <div class="font-mono text-[9px] text-mint uppercase tracking-[0.12em] mb-1">Hybrid · 18%</div>
+            <p class="text-[11px] text-fg-dim font-light leading-relaxed">Non-core workloads on public cloud, classified processes on private cloud; flexible but high integration costs</p>
+          </div>
+          <div class="bg-bg-2 border border-line p-3">
+            <div class="font-mono text-[9px] text-fg-mute uppercase tracking-[0.12em] mb-1">Public cloud · 18%</div>
+            <p class="text-[11px] text-fg-dim font-light leading-relaxed">Primarily mid-sized private enterprises, non-core business scenarios; corresponds to Anthropic's main target market</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Chart 4: China AI Market Projection -->
+    <div class="border border-line overflow-hidden">
+      <div class="bg-bg-2 px-5 py-3 font-mono text-[10px] tracking-[0.15em] uppercase text-amber border-b border-line flex flex-wrap justify-between gap-2 items-center">
+        <span>Data 04 / China Enterprise AI Software &amp; Services Market Size Forecast</span>
+        <span class="text-fg-mute text-[9px] normal-case tracking-normal">Source: IDC · Huatai Securities Research · Guotai Junan Research — 2024 forecast composite</span>
+      </div>
+      <div class="p-5 lg:p-7">
+        <svg viewBox="0 0 560 220" xmlns="http://www.w3.org/2000/svg" class="w-full max-w-[640px]" aria-label="China enterprise AI market size forecast">
+          <defs>
+            <linearGradient id="areaGrad" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%"   stop-color="#f5a524" stop-opacity="0.25"/>
+              <stop offset="100%" stop-color="#f5a524" stop-opacity="0.02"/>
+            </linearGradient>
+          </defs>
+          <!-- Y-axis -->
+          <line x1="60" y1="15" x2="60" y2="170" stroke="#2b2823" stroke-width="1"/>
+          <!-- X-axis -->
+          <line x1="60" y1="170" x2="540" y2="170" stroke="#2b2823" stroke-width="1"/>
+          <!-- Grid horizontals (at 2000, 4000, 6000 of 7400 scale) -->
+          <!-- 2000: y=170-(2000/7400)*155=170-41.9=128 -->
+          <line x1="60" y1="128" x2="540" y2="128" stroke="#2b2823" stroke-width="1" stroke-dasharray="4,4"/>
+          <!-- 4000: y=170-(4000/7400)*155=170-83.8=86 -->
+          <line x1="60" y1="86"  x2="540" y2="86"  stroke="#2b2823" stroke-width="1" stroke-dasharray="4,4"/>
+          <!-- 6000: y=170-(6000/7400)*155=170-125.7=44 -->
+          <line x1="60" y1="44"  x2="540" y2="44"  stroke="#2b2823" stroke-width="1" stroke-dasharray="4,4"/>
+          <!-- Y labels -->
+          <text x="54" y="173" text-anchor="end" fill="#5a544b" font-family="'JetBrains Mono',monospace" font-size="9">0</text>
+          <text x="54" y="131" text-anchor="end" fill="#5a544b" font-family="'JetBrains Mono',monospace" font-size="9">2,000</text>
+          <text x="54" y="89"  text-anchor="end" fill="#5a544b" font-family="'JetBrains Mono',monospace" font-size="9">4,000</text>
+          <text x="54" y="47"  text-anchor="end" fill="#5a544b" font-family="'JetBrains Mono',monospace" font-size="9">6,000</text>
+          <text x="54" y="20"  text-anchor="end" fill="#5a544b" font-family="'JetBrains Mono',monospace" font-size="9">¥100M</text>
+          <!-- X labels (2022-2027, equally spaced, x positions: 60,156,252,348,444,540) -->
+          <text x="60"  y="183" text-anchor="middle" fill="#5a544b" font-family="'JetBrains Mono',monospace" font-size="9">2022</text>
+          <text x="156" y="183" text-anchor="middle" fill="#5a544b" font-family="'JetBrains Mono',monospace" font-size="9">2023</text>
+          <text x="252" y="183" text-anchor="middle" fill="#9a948a" font-family="'JetBrains Mono',monospace" font-size="9">2024E</text>
+          <text x="348" y="183" text-anchor="middle" fill="#9a948a" font-family="'JetBrains Mono',monospace" font-size="9">2025E</text>
+          <text x="444" y="183" text-anchor="middle" fill="#9a948a" font-family="'JetBrains Mono',monospace" font-size="9">2026E</text>
+          <text x="540" y="183" text-anchor="middle" fill="#9a948a" font-family="'JetBrains Mono',monospace" font-size="9">2027E</text>
+          <!-- Area fill (data: 1600→2200→3000→4100→5500→7300) -->
+          <!-- y values: 170-(val/7400)*155 -->
+          <!-- 1600: 170-33.5=136.5≈137 | 2200: 170-46.1=123.9≈124 | 3000: 170-62.8=107.2≈107 -->
+          <!-- 4100: 170-85.9=84.1≈84   | 5500: 170-115.2=54.8≈55  | 7300: 170-152.9=17.1≈17  -->
+          <path d="M60,137 L156,124 L252,107 L348,84 L444,55 L540,17 L540,170 L60,170 Z" fill="url(#areaGrad)"/>
+          <!-- Actual line -->
+          <polyline points="60,137 156,124 252,107 348,84 444,55 540,17" fill="none" stroke="#f5a524" stroke-width="2" stroke-linejoin="round"/>
+          <!-- Forecast divider (after 2023 = x=156+48=between 156 and 252, at x=200 approx) -->
+          <line x1="204" y1="15" x2="204" y2="170" stroke="#f5a524" stroke-width="1" stroke-dasharray="3,5" opacity="0.4"/>
+          <text x="207" y="26" fill="#5a544b" font-family="'JetBrains Mono',monospace" font-size="8">Forecast</text>
+          <!-- Data points -->
+          <circle cx="60"  cy="137" r="3.5" fill="#0a0908" stroke="#f5a524" stroke-width="1.5"/>
+          <circle cx="156" cy="124" r="3.5" fill="#0a0908" stroke="#f5a524" stroke-width="1.5"/>
+          <circle cx="252" cy="107" r="3.5" fill="#0a0908" stroke="#f5a524" stroke-width="1.5"/>
+          <circle cx="348" cy="84"  r="3.5" fill="#0a0908" stroke="#f5a524" stroke-width="1.5"/>
+          <circle cx="444" cy="55"  r="3.5" fill="#0a0908" stroke="#f5a524" stroke-width="1.5"/>
+          <circle cx="540" cy="17"  r="3.5" fill="#f5a524" stroke="#f5a524" stroke-width="1.5"/>
+          <!-- Value labels -->
+          <text x="60"  y="132" text-anchor="middle" fill="#9a948a" font-family="'JetBrains Mono',monospace" font-size="8.5">1,600</text>
+          <text x="156" y="119" text-anchor="middle" fill="#9a948a" font-family="'JetBrains Mono',monospace" font-size="8.5">2,200</text>
+          <text x="252" y="102" text-anchor="middle" fill="#9a948a" font-family="'JetBrains Mono',monospace" font-size="8.5">3,000</text>
+          <text x="348" y="79"  text-anchor="middle" fill="#9a948a" font-family="'JetBrains Mono',monospace" font-size="8.5">4,100</text>
+          <text x="444" y="50"  text-anchor="middle" fill="#9a948a" font-family="'JetBrains Mono',monospace" font-size="8.5">5,500</text>
+          <text x="540" y="12"  text-anchor="middle" fill="#f5a524" font-family="'JetBrains Mono',monospace" font-size="8.5" font-weight="500">7,300</text>
+          <!-- CAGR annotation -->
+          <text x="390" y="115" fill="#f5a524" font-family="'JetBrains Mono',monospace" font-size="9" opacity="0.8">CAGR ~35%</text>
+        </svg>
+        <div class="mt-4 bg-bg-2 border border-line p-4 text-[12px] text-fg-dim font-light max-w-[640px]">
+          <strong class="text-fg font-normal">Note:</strong> Figures are composite estimates for China's enterprise AI software (including agents) and services market, referencing IDC, Huatai Securities, and Guotai Junan 2024 forecast averages. Market definition excludes hardware and compute infrastructure. The forecast period (2024–2027E) carries significant uncertainty; 35% CAGR represents a base-case scenario.
+        </div>
+        <div class="mt-3 bg-amber/[0.06] border-l-2 border-amber pl-4 py-3 text-[12px] text-fg font-light max-w-[640px]">
+          2022→2027 market expands ~4.6×. Anthropic chose this moment for a structural transformation—the timing judgment is correct. Chinese LLM enterprises face the same window, bolstered by digital sovereignty advantages
+        </div>
+      </div>
+    </div>
+
+    <!-- Chart 5: ERP incumbents' AI transformation cost + cloud growth 2025 -->
+    <div class="border border-amber/30 overflow-hidden">
+      <div class="bg-amber/[0.05] px-5 py-3 font-mono text-[10px] tracking-[0.15em] uppercase text-amber border-b border-amber/30 flex flex-wrap justify-between gap-2 items-center">
+        <span>Data 05 / AI Transformation Cost: Yonyou &amp; Glodon 2024–2025 Profitability</span>
+        <span class="text-fg-mute text-[9px] normal-case tracking-normal">Source: Sina Finance A-share annual reports · IDC China Cloud Market Report April 2026</span>
+      </div>
+      <div class="p-5 lg:p-7 space-y-7">
+
+        <!-- P&L comparison table -->
+        <div class="max-w-[640px]">
+          <div class="font-mono text-[10px] tracking-[0.1em] uppercase text-fg-mute mb-4">ERP Giants' AI Transformation Period Financial Snapshot</div>
+          <div class="border border-line font-mono text-[11px] overflow-x-auto">
+            <div class="grid grid-cols-[140px_1fr_1fr_1fr] bg-bg-2 border-b border-line min-w-[480px]">
+              <div class="p-2.5 text-fg-mute text-[10px] uppercase tracking-[0.1em]">Company</div>
+              <div class="p-2.5 text-fg-mute text-[10px] uppercase tracking-[0.1em]">Fiscal Year</div>
+              <div class="p-2.5 text-fg-mute text-[10px] uppercase tracking-[0.1em]">Total Revenue</div>
+              <div class="p-2.5 text-fg-mute text-[10px] uppercase tracking-[0.1em]">Net Profit</div>
+            </div>
+            <div class="grid grid-cols-[140px_1fr_1fr_1fr] border-b border-line min-w-[480px]">
+              <div class="p-2.5 text-amber font-medium" rowspan="2">Yonyou Network</div>
+              <div class="p-2.5 text-fg-dim">FY2024</div>
+              <div class="p-2.5 text-fg">¥9.15B</div>
+              <div class="p-2.5 text-signal font-medium">−¥2.06B</div>
+            </div>
+            <div class="grid grid-cols-[140px_1fr_1fr_1fr] border-b border-line min-w-[480px]">
+              <div class="p-2.5 text-amber font-medium">Yonyou Network</div>
+              <div class="p-2.5 text-fg-dim">FY2025</div>
+              <div class="p-2.5 text-fg">¥9.18B</div>
+              <div class="p-2.5 text-signal">−¥1.39B<span class="text-fg-mute text-[9px] ml-1">Loss narrowing</span></div>
+            </div>
+            <div class="grid grid-cols-[140px_1fr_1fr_1fr] border-b border-line min-w-[480px]">
+              <div class="p-2.5 text-amber font-medium">Glodon</div>
+              <div class="p-2.5 text-fg-dim">FY2024</div>
+              <div class="p-2.5 text-fg">¥6.24B</div>
+              <div class="p-2.5 text-fg-dim">—</div>
+            </div>
+            <div class="grid grid-cols-[140px_1fr_1fr_1fr] min-w-[480px]">
+              <div class="p-2.5 text-amber font-medium">Glodon</div>
+              <div class="p-2.5 text-fg-dim">FY2025</div>
+              <div class="p-2.5 text-fg">¥6.10B</div>
+              <div class="p-2.5 text-mint font-medium">+¥405M</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Insight 1: Yonyou loss -->
+        <div class="max-w-[640px] bg-signal/[0.06] border border-signal/30 p-4 text-[13px] text-fg font-light leading-relaxed">
+          <strong class="text-signal font-medium">Yonyou's Warning:</strong> Revenue of ¥9.1B with two consecutive years of net losses (−¥2.06B → −¥1.39B), showing that the <strong class="text-fg font-normal">marginal cost of transforming from ERP vendor to AI capability platform is not low</strong>—R&D investment, cloud migration, and sales model restructuring叠加, enough to swallow traditional profits. For LLM enterprises, this is a reverse signal: incumbent ERP vendors' "embedded AI" is not a painless upgrade; it's a real competitive window.
+        </div>
+
+        <!-- Insight 2: Glodon profitable -->
+        <div class="max-w-[640px] bg-mint-soft border border-mint/30 p-4 text-[13px] text-fg font-light leading-relaxed">
+          <strong class="text-mint font-medium">Glodon's Contrast:</strong> FY2025 revenue ¥6.1B, net profit ¥405M—profitability achieved after deep cultivation in a vertical industry (construction engineering). The path of vertical specialization + engineering data moat is validated—providing LLM enterprises with a successful reference case for an "industry-vertical AI platform."
+        </div>
+
+        <!-- Insight 3: IDC cloud 2025 -->
+        <div class="max-w-[640px]">
+          <div class="font-mono text-[10px] tracking-[0.1em] uppercase text-fg-mute mb-3">China Cloud Vendor 2025 Growth Snapshot (IDC, April 2026)</div>
+          <div class="space-y-3">
+            <div>
+              <div class="flex justify-between items-baseline mb-1.5">
+                <span class="font-mono text-[10px] text-fg-mute">Volcengine (ByteDance)</span>
+                <span class="font-mono text-[10px] text-amber font-medium">&gt;100%</span>
+              </div>
+              <div class="h-5 bg-line rounded-[2px] overflow-hidden">
+                <div class="h-full rounded-[2px]" style="width:100%;background:linear-gradient(90deg,#f5a524,#f5a52499);"></div>
+              </div>
+            </div>
+            <div>
+              <div class="flex justify-between items-baseline mb-1.5">
+                <span class="font-mono text-[10px] text-fg-mute">Alibaba Cloud / Baidu Cloud</span>
+                <span class="font-mono text-[10px] text-mint font-medium">&gt;25%</span>
+              </div>
+              <div class="h-5 bg-line rounded-[2px] overflow-hidden">
+                <div class="h-full rounded-[2px]" style="width:25%;background:#7fb88b;"></div>
+              </div>
+            </div>
+            <div>
+              <div class="flex justify-between items-baseline mb-1.5">
+                <span class="font-mono text-[10px] text-fg-mute">Tencent Cloud</span>
+                <span class="font-mono text-[10px] text-fg font-medium">First scale profitability</span>
+              </div>
+              <div class="h-5 bg-line rounded-[2px] overflow-hidden">
+                <div class="h-full flex items-center px-2">
+                  <span class="font-mono text-[9px] text-fg-mute">Profitability milestone, steady growth</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="mt-3 bg-bg-2 border-l-2 border-amber pl-4 py-3 text-[12px] text-fg font-light">
+            Volcengine's growth far outpaces peers, with clear synergy with ByteDance's Doubao enterprise AI capabilities—<strong class="text-fg font-normal">the integration of AI-native vendors and cloud pipelines is becoming a differentiating competitive factor</strong>. Tencent Cloud's profitability milestone means major cloud businesses are entering harvest phase, and AI services pricing power will strengthen.
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- § 03 LANDSCAPE -->
+<section class="max-w-wrap mx-auto px-[5vw] lg:px-12 relative z-[2] py-14 lg:py-28 border-b border-line">
+  <header class="grid grid-cols-1 lg:grid-cols-[120px_1fr] gap-4 lg:gap-12 items-baseline mb-10 lg:mb-[72px]">
+    <div class="cursor font-mono text-[10px] lg:text-[11px] tracking-[0.2em] text-amber pt-3 border-t border-amber uppercase">§ 03 / LANDSCAPE</div>
+    <h2 class="font-serif font-light text-[clamp(24px,7vw,68px)] leading-[1.05] tracking-tight">China Landscape<br/><em class="text-amber">Current Matrix</em></h2>
+  </header>
+
+  <div class="lg:ml-[168px] max-w-content">
+    <p class="text-[15px] text-fg-dim font-light leading-relaxed mb-8">Using Anthropic's three-layer structure as coordinates, evaluating the current positions of major Chinese players:</p>
+
+    <!-- Matrix table -->
+    <div class="border border-line font-mono text-xs overflow-x-auto">
+      <div class="grid grid-cols-[110px_1fr_1fr_1fr_1fr_1fr] border-b border-line bg-bg-2 min-w-[680px]">
+        <div class="p-3 text-fg-mute tracking-[0.1em] uppercase text-[10px]">Company</div>
+        <div class="p-3 text-fg-mute tracking-[0.1em] uppercase text-[10px]">Model Capability</div>
+        <div class="p-3 text-fg-mute tracking-[0.1em] uppercase text-[10px]">Enterprise Penetration</div>
+        <div class="p-3 text-fg-mute tracking-[0.1em] uppercase text-[10px]">Compliance Credit</div>
+        <div class="p-3 text-fg-mute tracking-[0.1em] uppercase text-[10px]">Distribution Pipeline</div>
+        <div class="p-3 text-fg-mute tracking-[0.1em] uppercase text-[10px]">Core Weakness</div>
+      </div>
+      <div class="grid grid-cols-[110px_1fr_1fr_1fr_1fr_1fr] border-b border-line min-w-[680px]">
+        <div class="p-3 text-amber font-medium">Zhipu AI</div>
+        <div class="p-3 text-fg">★★★★</div>
+        <div class="p-3 text-fg-dim">★★</div>
+        <div class="p-3 text-fg-dim">★★★<span class="text-fg-mute text-[10px] ml-1">Tsinghua lineage</span></div>
+        <div class="p-3 text

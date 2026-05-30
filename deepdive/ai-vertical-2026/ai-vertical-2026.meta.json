@@ -4,16 +4,25 @@
   "topic_dir": "ai-vertical-2026",
   "title": {
     "zh": "三大 AI 公司行业垂直产品线全景对比分析",
-    "en": null
+    "en": "Comprehensive Comparison of Three Major AI Companies' Industry-Vertical Product Lines · May 2026"
   },
   "current_version": 1,
   "first_published": "2026-05-30",
   "last_updated": "2026-05-30",
   "freshness_priority": "warm",
   "next_check": "2026-06-30",
-  "languages": ["zh"],
+  "languages": [
+    "zh",
+    "en"
+  ],
   "primary_language": "zh",
-  "translations": {},
+  "translations": {
+    "en": {
+      "synced_at_version": 1,
+      "last_translated": "2026-05-30",
+      "method": "auto:glm-5.1"
+    }
+  },
   "manual_only": false,
   "translation_provider_hint": "anthropic",
   "author": "冯小平",
@@ -25,6 +34,17 @@
       "summary": "首次发布：Anthropic / Google / OpenAI 六大行业（金融/医疗/法律/编程/安全/科学）垂直产品矩阵与竞争格局深度对比，截至 2026 年 5 月"
     }
   ],
-  "tags": ["LAB", "AI Tier1", "Anthropic", "Google", "OpenAI", "Enterprise AI", "Vertical", "Finance", "Healthcare", "Legal"],
+  "tags": [
+    "LAB",
+    "AI Tier1",
+    "Anthropic",
+    "Google",
+    "OpenAI",
+    "Enterprise AI",
+    "Vertical",
+    "Finance",
+    "Healthcare",
+    "Legal"
+  ],
   "category": "LAB · AI Tier1"
 }
