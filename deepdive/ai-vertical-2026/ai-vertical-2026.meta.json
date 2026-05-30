@@ -34,17 +34,8 @@
       "summary": "首次发布：Anthropic / Google / OpenAI 六大行业（金融/医疗/法律/编程/安全/科学）垂直产品矩阵与竞争格局深度对比，截至 2026 年 5 月"
     }
   ],
-  "tags": [
-    "LAB",
-    "AI Tier1",
-    "Anthropic",
-    "Google",
-    "OpenAI",
-    "Enterprise AI",
-    "Vertical",
-    "Finance",
-    "Healthcare",
-    "Legal"
-  ],
-  "category": "LAB · AI Tier1"
+  "tags": ["LAB", "AI Tier1", "Anthropic", "Google", "OpenAI", "Enterprise AI", "Vertical", "Finance", "Healthcare", "Legal"],
+  "category": "LAB · AI Tier1",
+  "is_index": true,
+  "is_panorama": true
 }
