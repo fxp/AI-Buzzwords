@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>三大 AI 公司行业垂直产品线全景对比 · 2026年5月</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#ffffff;--bg2:#f7f6f3;--bg3:#f0efe9;
+  --text:#1a1a18;--text2:#5a5a56;--text3:#9a9a94;
+  --border:rgba(0,0,0,.1);--border2:rgba(0,0,0,.18);
+  --purple:#534AB7;--purple-bg:#EEEDFE;--purple-text:#3C3489;
+  --teal:#0F6E56;--teal-bg:#E1F5EE;--teal-text:#085041;
+  --amber:#BA7517;--amber-bg:#FAEEDA;--amber-text:#633806;
+  --red:#A32D2D;--gray:#888780;
+  --radius:8px;--radius-lg:12px;
+}
+@media(prefers-color-scheme:dark){
+  :root{
+    --bg:#1c1c1a;--bg2:#242422;--bg3:#2e2e2a;
+    --text:#f0efe9;--text2:#b4b2a9;--text3:#72706a;
+    --border:rgba(255,255,255,.1);--border2:rgba(255,255,255,.2);
+    --purple:#AFA9EC;--purple-bg:#26215C;--purple-text:#CECBF6;
+    --teal:#5DCAA5;--teal-bg:#04342C;--teal-text:#9FE1CB;
+    --amber:#EF9F27;--amber-bg:#412402;--amber-text:#FAC775;
+    --red:#E24B4A;
+  }
+}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg3);color:var(--text);line-height:1.6;font-size:15px}
+.container{max-width:900px;margin:0 auto;padding:2rem 1.5rem}
+a{color:inherit;text-decoration:none}
+.lnk{color:var(--purple);text-decoration:underline;text-underline-offset:2px;text-decoration-thickness:1px;opacity:.85}
+.lnk:hover{opacity:1}
+.lnk-g{color:var(--teal)}
+.lnk-o{color:var(--amber)}
+.lnk-dim{color:var(--text3);text-decoration:underline;text-underline-offset:2px;text-decoration-thickness:1px}
+.lnk-dim:hover{color:var(--text2)}
+.src-links{display:flex;flex-wrap:wrap;gap:6px;margin-top:.5rem}
+.src-pill{font-size:10px;padding:2px 8px;border-radius:20px;background:var(--bg2);border:0.5px solid var(--border);color:var(--text3);text-decoration:none;display:inline-flex;align-items:center;gap:3px}
+.src-pill:hover{background:var(--bg3);color:var(--text2)}
+.src-pill::before{content:'↗';font-size:9px}
+
+/* Header */
+.hero{background:var(--bg);border-radius:var(--radius-lg);padding:2rem 2rem 1.5rem;margin-bottom:1.25rem;border:0.5px solid var(--border)}
+.eyebrow{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--text3);margin-bottom:.4rem;font-weight:500}
+h1{font-size:26px;font-weight:500;line-height:1.25;margin-bottom:.6rem;color:var(--text)}
+.hero-sub{font-size:14px;color:var(--text2);line-height:1.6;max-width:600px;margin-bottom:.75rem}
+.tags{display:flex;flex-wrap:wrap;gap:6px}
+.tag{font-size:11px;padding:3px 10px;border-radius:var(--radius);font-weight:500;display:inline-block;text-decoration:none}
+.tag-a{background:var(--purple-bg);color:var(--purple-text)}
+.tag-g{background:var(--teal-bg);color:var(--teal-text)}
+.tag-o{background:var(--amber-bg);color:var(--amber-text)}
+.tag-n{background:var(--bg2);color:var(--text2);border:0.5px solid var(--border)}
+.tag-a:hover{opacity:.85}
+.tag-g:hover{opacity:.85}
+.tag-o:hover{opacity:.85}
+.date-badge{font-size:11px;color:var(--text3);margin-top:.75rem}
+
+/* Metric Cards */
+.metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:1.25rem}
+.metric{background:var(--bg2);border-radius:var(--radius);padding:1rem}
+.metric-label{font-size:12px;color:var(--text2);margin-bottom:.2rem}
+.metric-value{font-size:24px;font-weight:500;line-height:1.1}
+.metric-value.a{color:var(--purple)}
+.metric-value.g{color:var(--teal)}
+.metric-value.o{color:var(--amber)}
+.metric-sub{font-size:11px;color:var(--text3);margin-top:.15rem}
+.metric-src{font-size:10px;margin-top:.35rem}
+
+/* Market Share */
+.mkt-section{background:var(--bg);border-radius:var(--radius-lg);padding:1.25rem 1.5rem;margin-bottom:1.25rem;border:0.5px solid var(--border)}
+.section-heading{font-size:11px;text-transform:uppercase;letter-spacing:.07em;color:var(--text3);font-weight:500;margin-bottom:1rem}
+.mkt-row{display:flex;align-items:center;gap:10px;margin-bottom:.6rem}
+.mkt-name{font-size:13px;font-weight:500;width:80px;flex-shrink:0}
+.mkt-name.a{color:var(--purple)}
+.mkt-name.g{color:var(--teal)}
+.mkt-name.o{color:var(--amber)}
+.mkt-track{flex:1;height:22px;background:var(--bg3);border-radius:var(--radius);overflow:hidden}
+.mkt-fill{height:22px;display:flex;align-items:center;padding:0 8px;font-size:12px;font-weight:500;color:#fff;border-radius:var(--radius)}
+.fill-a{background:var(--purple)}
+.fill-g{background:var(--teal)}
+.fill-o{background:var(--amber)}
+.mkt-pct{font-size:12px;color:var(--text3);width:36px;text-align:right;flex-shrink:0}
+.footnote{font-size:11px;color:var(--text3);line-height:1.5;margin-top:.4rem}
+
+/* Tabs */
+.tab-wrap{background:var(--bg);border-radius:var(--radius-lg);border:0.5px solid var(--border);overflow:hidden;margin-bottom:1.25rem}
+.tab-header{display:flex;gap:2px;padding:6px;background:var(--bg2);border-bottom:0.5px solid var(--border)}
+.tab-btn{flex:1;padding:.4rem .5rem;font-size:12px;font-weight:500;border-radius:var(--radius);border:none;background:transparent;color:var(--text2);cursor:pointer;transition:all .15s;white-space:nowrap}
+.tab-btn.active{background:var(--bg);color:var(--text);border:0.5px solid var(--border)}
+.tab-panel{display:none;padding:1.25rem 1.5rem}
+.tab-panel.active{display:block}
+
+/* Strategy Cards */
+.strategy-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:1rem}
+.strat-card{background:var(--bg2);border-radius:var(--radius-lg);padding:1rem;border-top:3px solid}
+.strat-card.a{border-color:var(--purple)}
+.strat-card.g{border-color:var(--teal)}
+.strat-card.o{border-color:var(--amber)}
+.strat-title{font-size:14px;font-weight:500;margin-bottom:.4rem}
+.strat-title.a{color:var(--purple)}
+.strat-title.g{color:var(--teal)}
+.strat-title.o{color:var(--amber)}
+.strat-desc{font-size:12px;color:var(--text2);line-height:1.55}
+
+/* Info Rows */
+.info-card{background:var(--bg2);border-radius:var(--radius-lg);padding:.25rem 1rem;margin-bottom:.75rem}
+.info-row{display:flex;align-items:flex-start;gap:10px;padding:.6rem 0;border-bottom:0.5px solid var(--border)}
+.info-row:last-child{border-bottom:none}
+.info-key{font-size:12px;color:var(--text3);width:110px;flex-shrink:0;padding-top:2px}
+.info-val{font-size:13px;color:var(--text);flex:1;line-height:1.5}
+.badge{display:inline-block;font-size:10px;padding:2px 7px;border-radius:5px;font-weight:500;margin-right:3px;vertical-align:1px}
+.ba{background:var(--purple-bg);color:var(--purple-text)}
+.bg{background:var(--teal-bg);color:var(--teal-text)}
+.bo{background:var(--amber-bg);color:var(--amber-text)}
+.bn{background:var(--bg3);color:var(--text2);border:0.5px solid var(--border)}
+
+/* Exclusive Grid */
+.excl-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.excl-card{background:var(--bg2);border-radius:var(--radius);padding:.75rem 1rem}
+.excl-title{font-size:12px;font-weight:500;margin-bottom:.3rem}
+.excl-title.a{color:var(--purple)}
+.excl-title.g{color:var(--teal)}
+.excl-title.o{color:var(--amber)}
+.excl-desc{font-size:12px;color:var(--text2);line-height:1.5}
+
+/* Benchmarks */
+.bench-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.bench-card{background:var(--bg2);border-radius:var(--radius-lg);padding:1rem}
+.bench-title{font-size:13px;font-weight:500;color:var(--text);margin-bottom:.7rem}
+.bench-row{display:flex;align-items:center;gap:8px;margin-bottom:.35rem}
+.bench-name{font-size:12px;color:var(--text2);width:72px;flex-shrink:0}
+.bench-name.a{color:var(--purple)}
+.bench-name.g{color:var(--teal)}
+.bench-name.o{color:var(--amber)}
+.bench-track{flex:1;height:6px;background:var(--bg3);border-radius:3px;overflow:hidden}
+.bench-fill{height:6px;border-radius:3px}
+.fa{background:var(--purple)}
+.fg{background:var(--teal)}
+.fo{background:var(--amber)}
+.fgray{background:var(--gray)}
+.bench-score{font-size:11px;color:var(--text3);width:36px;text-align:right}
+.bench-note{font-size:11px;color:var(--text3);margin-top:.4rem;border-top:0.5px solid var(--border);padding-top:.4rem}
+
+/* Products */
+.filter-row{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:1rem}
+.filter-btn{padding:.3rem .75rem;font-size:12px;border-radius:var(--radius);border:0.5px solid var(--border);background:var(--bg2);color:var(--text2);cursor:pointer;font-weight:500}
+.filter-btn.active{background:var(--text);color:var(--bg)}
+.prod-card{background:var(--bg2);border-radius:var(--radius-lg);padding:.9rem 1.1rem;margin-bottom:.65rem;border-left:3px solid}
+.prod-card.a{border-color:var(--purple)}
+.prod-card.g{border-color:var(--teal)}
+.prod-card.o{border-color:var(--amber)}
+.prod-head{display:flex;align-items:center;gap:8px;margin-bottom:.4rem;flex-wrap:wrap}
+.prod-name{font-size:14px;font-weight:500;color:var(--text)}
+.prod-name a{color:var(--text)}
+.prod-name a:hover{text-decoration:underline;text-underline-offset:2px}
+.prod-desc{font-size:13px;color:var(--text2);line-height:1.5;margin-bottom:.35rem}
+.prod-clients{font-size:11px;color:var(--text3)}
+.prod-link{font-size:10px;padding:2px 7px;border-radius:20px;background:var(--bg3);border:0.5px solid var(--border);color:var(--text3);text-decoration:none;display:inline-flex;align-items:center;gap:2px;margin-left:auto}
+.prod-link:hover{color:var(--text2);background:var(--bg2)}
+.prod-link::before{content:'↗';font-size:9px}
+
+/* Threats */
+.threat-list{list-style:none}
+.threat-item{display:flex;align-items:center;gap:12px;padding:.55rem 0;border-bottom:0.5px solid var(--border)}
+.threat-item:last-child{border-bottom:none}
+.threat-name{font-size:13px;font-weight:500;color:var(--text);flex:1}
+.threat-drop{font-size:13px;font-weight:500;color:var(--red);min-width:90px;text-align:right}
+.threat-ctx{font-size:11px;color:var(--text3);flex:2;text-align:right}
+
+/* China Grid */
+.china-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.china-card{background:var(--bg2);border-radius:var(--radius);padding:.75rem 1rem}
+.china-card.star{border-left:3px solid var(--purple);background:var(--purple-bg)}
+.china-name{font-size:13px;font-weight:500;color:var(--text);margin-bottom:.2rem}
+.china-name a{color:inherit}
+.china-name a:hover{text-decoration:underline;text-underline-offset:2px}
+.china-name.star{color:var(--purple-text)}
+.china-desc{font-size:12px;color:var(--text2);line-height:1.5}
+
+/* Insights */
+.insight{background:var(--bg2);border-radius:0 var(--radius) var(--radius) 0;padding:.75rem 1rem;margin-bottom:.65rem}
+.insight.a{border-left:3px solid var(--purple)}
+.insight.g{border-left:3px solid var(--teal)}
+.insight.o{border-left:3px solid var(--amber)}
+.insight-title{font-size:12px;font-weight:500;color:var(--text);margin-bottom:.2rem}
+.insight-text{font-size:13px;color:var(--text2);line-height:1.55}
+
+/* Footer */
+.footer{font-size:11px;color:var(--text3);padding:1.5rem 0 .5rem;line-height:1.6}
+.footer-src{display:flex;flex-wrap:wrap;gap:6px;margin-top:.75rem}
+
+@media(max-width:600px){
+  .metrics{grid-template-columns:1fr}
+  .strategy-grid{grid-template-columns:1fr}
+  .bench-grid{grid-template-columns:1fr}
+  .excl-grid{grid-template-columns:1fr}
+  .china-grid{grid-template-columns:1fr}
+  .tab-btn{font-size:11px;padding:.35rem .3rem}
+  .threat-ctx{display:none}
+}
+</style>
+</head>
+<body>
+<div class="container">
+
+<div class="hero">
+  <div class="eyebrow">深度研究报告 · Agent for Industry</div>
+  <h1>三大 AI 公司行业垂直产品线<br>全景对比分析</h1>
+  <p class="hero-sub">Anthropic、Google Gemini、OpenAI 在金融、医疗、法律、编程、安全、科学等核心行业的战略布局、产品矩阵与竞争格局深度解析</p>
+  <div class="tags">
+    <a href="https://www.anthropic.com" target="_blank" rel="noopener" class="tag tag-a">Anthropic Claude</a>
+    <a href="https://gemini.google.com" target="_blank" rel="noopener" class="tag tag-g">Google Gemini</a>
+    <a href="https://openai.com" target="_blank" rel="noopener" class="tag tag-o">OpenAI ChatGPT</a>
+    <span class="tag tag-n">6 大行业战场</span>
+    <span class="tag tag-n">企业 LLM 市场</span>
+    <span class="tag tag-n">中国视角</span>
+  </div>
+  <div class="date-badge">截至 2026年5月22日 · 数据来源：<a href="https://www.bloomberg.com" target="_blank" rel="noopener" class="lnk-dim">Bloomberg</a>、<a href="https://fortune.com" target="_blank" rel="noopener" class="lnk-dim">Fortune</a>、<a href="https://venturebeat.com" target="_blank" rel="noopener" class="lnk-dim">VentureBeat</a>、<a href="https://www.cnbc.com" target="_blank" rel="noopener" class="lnk-dim">CNBC</a>、<a href="https://www.globenewswire.com/news-release/2025/12/09/3202258/0/en/Menlo-Ventures-2025-State-of-Generative-AI-Report-Enterprise-Investment-Hit-37B-in-2025-Tripling-in-One-Year.html" target="_blank" rel="noopener" class="lnk-dim">Menlo Ventures 2025</a>、<a href="https://sacra.com/c/anthropic/" target="_blank" rel="noopener" class="lnk-dim">Sacra</a> 等</div>
+</div>
+
+<div class="metrics">
+  <div class="metric">
+    <div class="metric-label">Anthropic 营收 run rate</div>
+    <div class="metric-value a">$30B</div>
+    <div class="metric-sub">YoY 80× 增长 · 80% 企业占比 · 估值 $380B</div>
+    <div class="metric-src"><a href="https://venturebeat.com/technology/anthropic-says-it-hit-a-30-billion-revenue-run-rate-after-crazy-80x-growth" target="_blank" rel="noopener" class="lnk">VentureBeat 报道 ↗</a> · <a href="https://www.anthropic.com/news/anthropic-raises-30-billion-series-g-funding-380-billion-post-money-valuation" target="_blank" rel="noopener" class="lnk">Series G 公告 ↗</a></div>
+  </div>
+  <div class="metric">
+    <div class="metric-label">OpenAI 营收 run rate</div>
+    <div class="metric-value o">$25B</div>
+    <div class="metric-sub">900M 周活 · 1M+ 企业客户 · 估值 $852B</div>
+    <div class="metric-src"><a href="https://finance.yahoo.com/news/openai-tops-25-billion-annualized-033836274.html" target="_blank" rel="noopener" class="lnk-o">The Information via Yahoo ↗</a></div>
+  </div>
+  <div class="metric">
+    <div class="metric-label">Google Cloud 增速（Q1 2026）</div>
+    <div class="metric-value g">+46%</div>
+    <div class="metric-sub">YoY · Gemini 数字未单独拆解披露</div>
+    <div class="metric-src"><a href="https://cloud.google.com/blog/topics/google-cloud-next/welcome-to-google-cloud-next26" target="_blank" rel="noopener" class="lnk-g">Google Cloud Next '26 ↗</a></div>
+  </div>
+</div>
+
+<div class="mkt-section">
+  <div class="section-heading">企业 LLM API 市场份额 · <a href="https://www.globenewswire.com/news-release/2025/12/09/3202258/0/en/Menlo-Ventures-2025-State-of-Generative-AI-Report-Enterprise-Investment-Hit-37B-in-2025-Tripling-in-One-Year.html" target="_blank" rel="noopener" class="lnk-dim">Menlo Ventures 2025年报告</a>，约500名美国企业决策者</div>
+  <div class="mkt-row">
+    <span class="mkt-name a">Anthropic</span>
+    <div class="mkt-track"><div class="mkt-fill fill-a" style="width:40%">40%</div></div>
+    <span class="mkt-pct">40%</span>
+  </div>
+  <div class="mkt-row">
+    <span class="mkt-name o">OpenAI</span>
+    <div class="mkt-track"><div class="mkt-fill fill-o" style="width:27%">27%</div></div>
+    <span class="mkt-pct">27%</span>
+  </div>
+  <div class="mkt-row" style="margin-bottom:0">
+    <span class="mkt-name g">Google</span>
+    <div class="mkt-track"><div class="mkt-fill fill-g" style="width:21%">21%</div></div>
+    <span class="mkt-pct">21%</span>
+  </div>
+  <div class="footnote">vs 2023年：Anthropic 12%→40%（↑3×）&nbsp;&nbsp;OpenAI 50%→27%（↓腰斩）&nbsp;&nbsp;Google 7%→21%（↑3×）</div>
+</div>
+
+<div class="tab-wrap">
+  <div class="tab-header">
+    <button class="tab-btn active" onclick="switchTab(this,'t1')">战略对比</button>
+    <button class="tab-btn" onclick="switchTab(this,'t2')">行业产品</button>
+    <button class="tab-btn" onclick="switchTab(this,'t3')">基准成绩</button>
+    <button class="tab-btn" onclick="switchTab(this,'t4')">中国视角</button>
+  </div>
+
+  <!-- TAB 1: STRATEGY -->
+  <div id="t1" class="tab-panel active">
+    <div class="strategy-grid">
+      <div class="strat-card a">
+        <div class="strat-title a"><a href="https://www.anthropic.com" target="_blank" rel="noopener" class="lnk">Anthropic ↗</a></div>
+        <div class="strat-desc">窄而深路线：plugin + 数据合作伙伴 + PE 渠道。<a href="https://techsy.io/en/blog/claude-cowork-guide" target="_blank" rel="noopener" class="lnk">Claude Cowork</a> 统一架构，Moody's/S&P/FactSet 原生接入，<a href="https://www.cnbc.com/2026/05/04/anthropic-goldman-blackstone-ai-venture.html" target="_blank" rel="noopener" class="lnk">Blackstone-Goldman $1.5B JV</a>，<a href="https://www.anthropic.com/news/claude-partner-network" target="_blank" rel="noopener" class="lnk">$100M Partner Network</a></div>
+      </div>
+      <div class="strat-card g">
+        <div class="strat-title g"><a href="https://cloud.google.com" target="_blank" rel="noopener" class="lnk-g">Google Gemini ↗</a></div>
+        <div class="strat-desc">横向平台 + Workspace + 政府渠道。<a href="https://www.gsa.gov/about-us/newsroom/news-releases/gsa-google-announce-gemini-onegov-agreement-08212025" target="_blank" rel="noopener" class="lnk-g">GSA OneGov $0.47/agency</a>，DoW 300万军民，<a href="https://cloud.google.com/blog/products/ai-machine-learning/introducing-gemini-enterprise-agent-platform" target="_blank" rel="noopener" class="lnk-g">Gemini Enterprise Agent Platform</a>，<a href="https://ai.google/science/" target="_blank" rel="noopener" class="lnk-g">Co-Scientist</a> 独占科学赛道</div>
+      </div>
+      <div class="strat-card o">
+        <div class="strat-title o"><a href="https://openai.com" target="_blank" rel="noopener" class="lnk-o">OpenAI ↗</a></div>
+        <div class="strat-desc">消费者飞轮 → 行业产品 → DeployCo PE 三层漏斗。900M 周活反向渗透企业，<a href="https://www.macrumors.com/2026/05/15/chatgpt-personal-finance/" target="_blank" rel="noopener" class="lnk-o">Plaid 独家接入个人理财</a>，<a href="https://openai.com/index/openai-launches-the-deployment-company/" target="_blank" rel="noopener" class="lnk-o">DeployCo</a> 17.5% 保底锁定 2000+ PE 组合</div>
+      </div>
+    </div>
+
+    <div class="section-heading" style="margin-top:1.25rem">核心渠道与生态合作对比</div>
+    <div class="info-card">
+      <div class="info-row">
+        <span class="info-key">云分销</span>
+        <span class="info-val">
+          <span class="badge ba">Anthropic</span>唯一同时上线 <a href="https://aws.amazon.com/marketplace/pp/prodview-nnvi6wff6ef6m" target="_blank" rel="noopener" class="lnk">AWS Bedrock</a> + <a href="https://cloud.google.com/vertex-ai" target="_blank" rel="noopener" class="lnk-g">GCP Vertex AI</a> + <a href="https://technosports.co.in/anthropic-claude-platform-on-aws/" target="_blank" rel="noopener" class="lnk">Azure Foundry</a> 的前沿模型<br>
+          <span class="badge bg">Google</span>Vertex AI 独家分发 Gemini&nbsp;&nbsp;<span class="badge bo">OpenAI</span>Azure OpenAI 为主
+        </span>
+      </div>
+      <div class="info-row">
+        <span class="info-key">咨询渠道</span>
+        <span class="info-val">
+          <span class="badge ba">Anthropic</span>Deloitte 47万人、KPMG 28万人、PwC 47万人、Accenture、<a href="https://news.cognizant.com/2025-11-04-Cognizant-Adopts-Anthropics-Claude-to-Accelerate-Enterprise-AI-Adoption-at-Scale-and-Deploys-Claude-to-Drive-Internal-AI-Transformation" target="_blank" rel="noopener" class="lnk">Cognizant 35万人 ↗</a><br>
+          <span class="badge bo">OpenAI</span>McKinsey、Capgemini（DeployCo 出资人兼合作方）· <a href="https://investors.intuit.com/news-events/press-releases/detail/1284/intuit-and-openai-join-forces-to-revolutionize-financial-intelligence-powering-every-person-business-and-dream-with-personalized-experiences" target="_blank" rel="noopener" class="lnk-o">PwC 10万工位 ↗</a>
+        </span>
+      </div>
+      <div class="info-row">
+        <span class="info-key">PE/资管 JV</span>
+        <span class="info-val">
+          <span class="badge ba">Anthropic</span><a href="https://www.cnbc.com/2026/05/04/anthropic-goldman-blackstone-ai-venture.html" target="_blank" rel="noopener" class="lnk">Blackstone + H&F + Goldman $1.5B JV（2026/5/4）↗</a>，Claude 工程师直接嵌入 PE 投资组合<br>
+          <span class="badge bo">OpenAI</span><a href="https://openai.com/index/openai-launches-the-deployment-company/" target="_blank" rel="noopener" class="lnk-o">DeployCo $10B（TPG + Bain + Brookfield，17.5%/5年年化保底回报）↗</a>
+        </span>
+      </div>
+      <div class="info-row">
+        <span class="info-key">政府渠道</span>
+        <span class="info-val">
+          <span class="badge bg">Google</span><a href="https://www.gsa.gov/about-us/newsroom/news-releases/gsa-google-announce-gemini-onegov-agreement-08212025" target="_blank" rel="noopener" class="lnk-g">DoW 300万人、FDA、DOT、GSA OneGov $0.47/agency ↗</a><br>
+          <span class="badge ba">Anthropic</span><span class="badge bo">OpenAI</span>各约 $1/agency 推广价
+        </span>
+      </div>
+      <div class="info-row" style="border:none">
+        <span class="info-key">数据合作伙伴</span>
+        <span class="info-val">
+          <span class="badge ba">Anthropic</span><a href="https://www.anthropic.com/news/claude-for-financial-services" target="_blank" rel="noopener" class="lnk">Moody's（6亿公司）、LSEG、S&P、FactSet、PitchBook、Morningstar ↗</a>，Verisk、ClinicalTrials.gov、Medidata<br>
+          <span class="badge bo">OpenAI</span><a href="https://www.macrumors.com/2026/05/15/chatgpt-personal-finance/" target="_blank" rel="noopener" class="lnk-o">Plaid（12,000+金融机构，独家）↗</a>、b.well（220万医疗服务者）
+        </span>
+      </div>
+    </div>
+
+    <div class="section-heading">各家独占行业领域</div>
+    <div class="excl-grid">
+      <div class="excl-card">
+        <div class="excl-title a">Anthropic 独占</div>
+        <div class="excl-desc"><a href="https://www.cnbc.com/2026/05/04/anthropic-goldman-blackstone-ai-venture.html" target="_blank" rel="noopener" class="lnk">PE/投行 JV 渠道 ↗</a>（Blackstone/H&F/Goldman）· <a href="https://www.anthropic.com/news/claude-for-financial-services" target="_blank" rel="noopener" class="lnk">Moody's 原生 App ↗</a> · Life Sciences 深度（AstraZeneca/Sanofi/Novo Nordisk）· <a href="https://www.artificiallawyer.com/2026/05/12/claude-for-legal-launches-may-reshape-the-legal-tech-world/" target="_blank" rel="noopener" class="lnk">Harvey BigLaw Bench 90.9% ↗</a></div>
+      </div>
+      <div class="excl-card">
+        <div class="excl-title g">Google 独占</div>
+        <div class="excl-desc"><a href="https://ai.google/science/" target="_blank" rel="noopener" class="lnk-g">Co-Scientist 科学假设生成 ↗</a>（Nature 论文）· <a href="https://fedscoop.com/google-gemini-for-government-ai-platform-47-cents-federal-agencies-onegov-strategy/" target="_blank" rel="noopener" class="lnk-g">美国联邦政府 DoW 300万人 ↗</a> · Workspace 6M+ 企业嵌入 · <a href="https://developers.google.com/health-ai-developer-foundations/medgemma/model-card" target="_blank" rel="noopener" class="lnk-g">MedGemma 27B 开源底座 ↗</a></div>
+      </div>
+      <div class="excl-card">
+        <div class="excl-title o">OpenAI 独占</div>
+        <div class="excl-desc"><a href="https://www.macrumors.com/2026/05/15/chatgpt-personal-finance/" target="_blank" rel="noopener" class="lnk-o">消费级个人理财（Plaid 独家）↗</a> · <a href="https://openai.com/index/introducing-chatgpt-health/" target="_blank" rel="noopener" class="lnk-o">ChatGPT Health C端 ↗</a>（2.3亿周活）· <a href="https://openai.com/index/openai-launches-the-deployment-company/" target="_blank" rel="noopener" class="lnk-o">DeployCo PE 强制部署 ↗</a>（2000+组合公司）</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB 2: PRODUCTS -->
+  <div id="t2" class="tab-panel">
+    <div class="filter-row" id="frow">
+      <button class="filter-btn active" onclick="doFilter(this,'all')">全部</button>
+      <button class="filter-btn" onclick="doFilter(this,'finance')">💰 金融</button>
+      <button class="filter-btn" onclick="doFilter(this,'health')">🏥 医疗</button>
+      <button class="filter-btn" onclick="doFilter(this,'legal')">⚖️ 法律</button>
+      <button class="filter-btn" onclick="doFilter(this,'code')">💻 编程</button>
+      <button class="filter-btn" onclick="doFilter(this,'security')">🔒 安全</button>
+      <button class="filter-btn" onclick="doFilter(this,'science')">🔬 科学</button>
+      <button class="filter-btn" onclick="doFilter(this,'gov')">🏛️ 政府</button>
+    </div>
+    <div id="plist"></div>
+  </div>
+
+  <!-- TAB 3: BENCHMARKS -->
+  <div id="t3" class="tab-panel">
+    <div class="section-heading">关键行业基准成绩对比（⚠ 部分为厂商自报数据，应参考独立评测）</div>
+    <div class="bench-grid">
+      <div class="bench-card">
+        <div class="bench-title"><a href="https://www.anthropic.com/news/claude-for-financial-services" target="_blank" rel="noopener" class="lnk">金融 · Vals AI Finance Agent ↗</a></div>
+        <div class="bench-row"><span class="bench-name a">Anthropic</span><div class="bench-track"><div class="bench-fill fa" style="width:64.4%"></div></div><span class="bench-score">64.4</span></div>
+        <div class="bench-row"><span class="bench-name o">OpenAI</span><div class="bench-track"><div class="bench-fill fo" style="width:44.5%"></div></div><span class="bench-score">~44</span></div>
+        <div class="bench-row"><span class="bench-name" style="color:var(--gray)">Google</span><div class="bench-track"><div class="bench-fill fgray" style="width:28%"></div></div><span class="bench-score">~28</span></div>
+        <div class="bench-note">Claude Opus 4.7；o3 同水平；其他模型多&lt;30%</div>
+      </div>
+      <div class="bench-card">
+        <div class="bench-title"><a href="https://developers.google.com/health-ai-developer-foundations/medgemma/model-card" target="_blank" rel="noopener" class="lnk-g">医疗 · MedQA（MedGemma 27B）↗</a></div>
+        <div class="bench-row"><span class="bench-name g">Google</span><div class="bench-track"><div class="bench-fill fg" style="width:87.7%"></div></div><span class="bench-score">87.7</span></div>
+        <div class="bench-row"><span class="bench-name" style="color:var(--gray)">百川 M3</span><div class="bench-track"><div class="bench-fill fgray" style="width:65.1%"></div></div><span class="bench-score">65.1</span></div>
+        <div class="bench-row"><span class="bench-name" style="color:var(--gray)">百川 M2</span><div class="bench-track"><div class="bench-fill fgray" style="width:60.1%"></div></div><span class="bench-score">60.1</span></div>
+        <div class="bench-note">MedGemma 开源底座；<a href="https://www.ithome.com/0/874/488.htm" target="_blank" rel="noopener" class="lnk-dim">百川聚焦中文医疗场景 ↗</a></div>
+      </div>
+      <div class="bench-card">
+        <div class="bench-title"><a href="https://www.securityweek.com/anthropic-unveils-claude-security-to-counter-ai-powered-exploit-surge/" target="_blank" rel="noopener" class="lnk">安全 · CyberGym（厂商自报）↗</a></div>
+        <div class="bench-row"><span class="bench-name o">GPT-5.5</span><div class="bench-track"><div class="bench-fill fo" style="width:81.8%"></div></div><span class="bench-score">81.8</span></div>
+        <div class="bench-row"><span class="bench-name o">GPT-5.4</span><div class="bench-track"><div class="bench-fill fo" style="width:79%"></div></div><span class="bench-score">79.0</span></div>
+        <div class="bench-row"><span class="bench-name a">Anthropic</span><div class="bench-track"><div class="bench-fill fa" style="width:73.1%"></div></div><span class="bench-score">73.1</span></div>
+        <div class="bench-note">⚠ <a href="https://www.anthropic.com/project/glasswing" target="_blank" rel="noopener" class="lnk">Mythos 因"能力过强"受限未发布 ↗</a>，真实能力或更高</div>
+      </div>
+      <div class="bench-card">
+        <div class="bench-title">编程 · <a href="https://www.swebench.com" target="_blank" rel="noopener" class="lnk">SWE-Bench ↗</a> / Terminal-Bench</div>
+        <div class="bench-row"><span class="bench-name a">Claude SWE</span><div class="bench-track"><div class="bench-fill fa" style="width:79.6%"></div></div><span class="bench-score">79.6</span></div>
+        <div class="bench-row"><span class="bench-name o">GPT-5.5 TB</span><div class="bench-track"><div class="bench-fill fo" style="width:82.7%"></div></div><span class="bench-score">82.7</span></div>
+        <div class="bench-row"><span class="bench-name o">GPT-5.5 SW</span><div class="bench-track"><div class="bench-fill fo" style="width:58.6%"></div></div><span class="bench-score">58.6</span></div>
+        <div class="bench-note"><a href="https://venturebeat.com/technology/anthropic-says-it-hit-a-30-billion-revenue-run-rate-after-crazy-80x-growth" target="_blank" rel="noopener" class="lnk">Claude Code $2.5B run rate ↗</a>；Codex 2M 周活</div>
+      </div>
+      <div class="bench-card">
+        <div class="bench-title"><a href="https://www.artificiallawyer.com/2026/05/12/claude-for-legal-launches-may-reshape-the-legal-tech-world/" target="_blank" rel="noopener" class="lnk">法律 · Harvey BigLaw Bench ↗</a></div>
+        <div class="bench-row"><span class="bench-name a">Anthropic</span><div class="bench-track"><div class="bench-fill fa" style="width:90.9%"></div></div><span class="bench-score">90.9</span></div>
+        <div class="bench-row"><span class="bench-name" style="color:var(--gray)">Google</span><div class="bench-track"><div class="bench-fill fgray" style="width:10%"></div></div><span class="bench-score">—</span></div>
+        <div class="bench-note">Google 无垂直法律产品；<a href="https://sacra.com/c/harvey/" target="_blank" rel="noopener" class="lnk-dim">Harvey 主用 Claude，已放弃自有微调模型 ↗</a></div>
+      </div>
+      <div class="bench-card">
+        <div class="bench-title"><a href="https://www.ghacks.net/2026/05/18/openai-launches-personal-finance-experience-in-chatgpt-for-pro-users-in-the-us/" target="_blank" rel="noopener" class="lnk-o">个人理财 · OpenAI 内部 benchmark ↗</a></div>
+        <div class="bench-row"><span class="bench-name o">GPT-5.5 Pro</span><div class="bench-track"><div class="bench-fill fo" style="width:82.5%"></div></div><span class="bench-score">82.5</span></div>
+        <div class="bench-row"><span class="bench-name o">GPT-5.5 T</span><div class="bench-track"><div class="bench-fill fo" style="width:79%"></div></div><span class="bench-score">79.0</span></div>
+        <div class="bench-note">OpenAI 独占；Plaid 独家接入；2026/5/15 上线</div>
+      </div>
+    </div>
+
+    <div class="section-heading" style="margin-top:1.5rem">传统软件公司股价冲击（AI发布事件驱动）</div>
+    <div class="info-card">
+      <ul class="threat-list">
+        <li class="threat-item">
+          <span class="threat-name">FactSet</span>
+          <span class="threat-drop">-8.1%</span>
+          <span class="threat-ctx"><a href="https://fortune.com/2026/05/05/anthropic-wall-street-financial-services-agents-jamie-dimon/" target="_blank" rel="noopener" class="lnk-dim">Anthropic 5/5 金融 Agent 发布当天 · Fortune ↗</a></span>
+        </li>
+        <li class="threat-item">
+          <span class="threat-name">ServiceNow</span>
+          <span class="threat-drop">-18% / -51% ATH</span>
+          <span class="threat-ctx"><a href="https://www.cnbc.com/2026/04/23/software-stocks-plunge-on-servicenow-ibm-results-ai-fears-escalate.html" target="_blank" rel="noopener" class="lnk-dim">4/23 创上市最大单日跌幅 · CNBC ↗</a></span>
+        </li>
+        <li class="threat-item">
+          <span class="threat-name">Thomson Reuters</span>
+          <span class="threat-drop">-48% YoY</span>
+          <span class="threat-ctx"><a href="https://www.lawnext.com/2026/05/anthropic-goes-all-in-on-legal-releasing-more-than-20-connectors-and-12-practice-area-plugins-for-claude.html" target="_blank" rel="noopener" class="lnk-dim">CoCounsel 价值被 Claude for Legal 重构 · LawSites ↗</a></span>
+        </li>
+        <li class="threat-item">
+          <span class="threat-name">Okta / Cloudflare</span>
+          <span class="threat-drop">-9.2% / -8.1%</span>
+          <span class="threat-ctx"><a href="https://www.cnbc.com/2026/02/23/cybersecurity-stocks-anthropic-ai-crowdstrike.html" target="_blank" rel="noopener" class="lnk-dim">Anthropic Code Security 2/20 · CNBC ↗</a></span>
+        </li>
+        <li class="threat-item">
+          <span class="threat-name">印度 IT 三巨头</span>
+          <span class="threat-drop">-3~4%</span>
+          <span class="threat-ctx"><a href="https://www.techtimes.com/articles/316726/20260516/openai-launches-4-billion-enterprise-ai-deployment-venture-recruits-mckinsey-capgemini.htm" target="_blank" rel="noopener" class="lnk-dim">OpenAI DeployCo 发布次日 · TechTimes ↗</a></span>
+        </li>
+        <li class="threat-item">
+          <span class="threat-name">Salesforce / Intuit</span>
+          <span class="threat-drop">-32% / -35% YoY</span>
+          <span class="threat-ctx">"SaaS 公司不跟进将破产"—— Dario Amodei</span>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- TAB 4: CHINA -->
+  <div id="t4" class="tab-panel">
+    <div class="section-heading">中国头部大模型公司垂直产品布局（2025–26）</div>
+    <div class="china-grid">
+      <div class="china-card">
+        <div class="china-name"><a href="https://yiyan.baidu.com" target="_blank" rel="noopener">百度 ERNIE 5.0</a></div>
+        <div class="china-desc">2.4T参数 · 千帆平台 76万+企业 · 法行宝（法律）· <a href="https://comate.baidu.com" target="_blank" rel="noopener" class="lnk-dim">Comate（编程，10M+开发者）</a>· 200M MAU</div>
+      </div>
+      <div class="china-card">
+        <div class="china-name"><a href="https://tongyi.aliyun.com" target="_blank" rel="noopener">阿里 通义千问 Qwen3</a></div>
+        <div class="china-desc">百炼平台 · <a href="https://tongyi.aliyun.com/faren" target="_blank" rel="noopener" class="lnk-dim">通义法睿</a>（引用基准 64.26 超 OpenAI 57.56）· 通义仁心（健康）· 通义灵码 · <a href="https://huggingface.co/Qwen" target="_blank" rel="noopener" class="lnk-dim">HF 200,000+ 模型变体 ↗</a></div>
+      </div>
+      <div class="china-card">
+        <div class="china-name"><a href="https://hunyuan.tencent.com" target="_blank" rel="noopener">腾讯 混元 Hunyuan</a></div>
+        <div class="china-desc">金融 AI 100+ 场景（上交所/深交所/ICBC/中金）· <a href="https://www.yicaiglobal.com/news/alibaba-tencents-medical-ai-models-break-into-critical-care" target="_blank" rel="noopener" class="lnk-dim">与迈瑞联合 ICU 重症模型（Nature Medicine）↗</a> · 海外客户 YoY 翻倍</div>
+      </div>
+      <div class="china-card">
+        <div class="china-name"><a href="https://www.volcengine.com" target="_blank" rel="noopener">字节 火山引擎 Doubao</a></div>
+        <div class="china-desc"><a href="https://kr-asia.com/how-bytedances-volcano-engine-holds-nearly-half-of-chinas-maas-market" target="_blank" rel="noopener" class="lnk-dim">MaaS 市占 49.5% ↗</a> · HiAgent 中国 Agent 合同 #1 · DAU 1亿+ · Token 用量 16T→120T/日</div>
+      </div>
+      <div class="china-card">
+        <div class="china-name"><a href="https://www.zhipuai.cn" target="_blank" rel="noopener">智谱 GLM-4.6（HKEX 02513）</a></div>
+        <div class="china-desc">LiveCodeBench v6 #1 · HLE #1 · 85% ToG 营收 · AutoGLM 移动 Agent · <a href="https://llm-stats.com/blog/research/glm-4-6-launch" target="_blank" rel="noopener" class="lnk-dim">GLM-4.6 介绍 ↗</a></div>
+      </div>
+      <div class="china-card star">
+        <div class="china-name star"><a href="https://www.baichuan-ai.com" target="_blank" rel="noopener" style="color:inherit">百川智能 M3 ⭐ 最像 Claude for Healthcare</a></div>
+        <div class="china-desc">ALL-IN 医疗 · <a href="https://www.ithome.com/0/874/488.htm" target="_blank" rel="noopener" class="lnk-dim">HealthBench M3 65.1 ↗</a> · 幻觉率 3.5% · 北京儿童医院合作 · 估值 ¥200亿（~$2.9B）· 王小川明确对标</div>
+      </div>
+      <div class="china-card">
+        <div class="china-name"><a href="https://kimi.ai" target="_blank" rel="noopener">Moonshot Kimi K2.6</a></div>
+        <div class="china-desc"><a href="https://chinaunread.substack.com/p/breaking-moonshot-ai-kimi-is-closing" target="_blank" rel="noopener" class="lnk-dim">ARR $200M · 估值 $20B+ ↗</a> · 300 sub-agent 并行 · 13小时连续编码 · 定位金融研究 + 软件开发</div>
+      </div>
+      <div class="china-card">
+        <div class="china-name"><a href="https://www.deepseek.com" target="_blank" rel="noopener">DeepSeek</a></div>
+        <div class="china-desc">开源横向 · 无品牌垂直 SKU · 洽谈 $30–40B 估值 · 通过合作伙伴（Tesla/各云）间接部署</div>
+      </div>
+    </div>
+
+    <div class="section-heading" style="margin-top:1.25rem">中国 AI 公司面临的结构性差距与机会</div>
+    <div class="insight a">
+      <div class="insight-title">品牌化垂直 SKU 是最大空白</div>
+      <div class="insight-text">除百川在医疗 ALL-IN 外，没有一家做出"ERNIE for Finance"或"通义 for Healthcare"的清晰品牌化四合一打包（模型 + 连接器 + Agent 库 + JV 渠道）。多数仍停留在"MaaS 平台 + 行业 App"两层结构。</div>
+    </div>
+    <div class="insight g">
+      <div class="insight-title">开源是中国式打法，MedGemma 是近期回应</div>
+      <div class="insight-text">百川 M2/M3、GLM-4.6（MIT）、Qwen3、<a href="https://venturebeat.com/ai/the-deepseek-moment-for-ai-agents-is-here-meet-alibabas-open-source-tongyi" target="_blank" rel="noopener" class="lnk-g">DeepResearch（Apache 2.0）↗</a> 都以开源驱动本地化部署，与 Anthropic 闭源完全相反。<a href="https://developers.google.com/health-ai-developer-foundations/medgemma/model-card" target="_blank" rel="noopener" class="lnk-g">Google MedGemma 开源策略 ↗</a> 最像中国 vendor 路径。</div>
+    </div>
+    <div class="insight o">
+      <div class="insight-title">顾问 + PE 渠道范式在中国尚不存在</div>
+      <div class="insight-text"><a href="https://openai.com/index/openai-launches-the-deployment-company/" target="_blank" rel="noopener" class="lnk-o">OpenAI DeployCo（17.5%保底回报 + 2000+组合）↗</a>、<a href="https://www.cnbc.com/2026/05/04/anthropic-goldman-blackstone-ai-venture.html" target="_blank" rel="noopener" class="lnk">Anthropic-Blackstone JV ↗</a> 这种结构目前无法在中国复制。当前以国资基金 + 战略投资为主，行业打法仍偏项目制交付。</div>
+    </div>
+  </div>
+</div>
+
+<div class="footer">
+  <div>数据来源：Bloomberg · Fortune · VentureBeat · CNBC · TechCrunch · Menlo Ventures 2025 Report · Sacra · Google Cloud Blog · OpenAI · Anthropic 官方公告</div>
+  <div>本报告为研究整理，所有市场数据与基准数字均应结合原始来源核实</div>
+  <div class="footer-src">
+    <a href="https://www.anthropic.com/news/anthropic-raises-30-billion-series-g-funding-380-billion-post-money-valuation" target="_blank" rel="noopener" class="src-pill">Anthropic Series G</a>
+    <a href="https://venturebeat.com/technology/anthropic-says-it-hit-a-30-billion-revenue-run-rate-after-crazy-80x-growth" target="_blank" rel="noopener" class="src-pill">VentureBeat $30B</a>
+    <a href="https://fortune.com/2026/05/05/anthropic-wall-street-financial-services-agents-jamie-dimon/" target="_blank" rel="noopener" class="src-pill">Fortune Financial</a>
+    <a href="https://fortune.com/2026/05/12/anthropic-legal-plug-in-release-claude-cowork-big-law/" target="_blank" rel="noopener" class="src-pill">Fortune Legal</a>
+    <a href="https://www.globenewswire.com/news-release/2025/12/09/3202258/0/en/Menlo-Ventures-2025-State-of-Generative-AI-Report-Enterprise-Investment-Hit-37B-in-2025-Tripling-in-One-Year.html" target="_blank" rel="noopener" class="src-pill">Menlo Ventures 2025</a>
+    <a href="https://cloud.google.com/blog/products/ai-machine-learning/introducing-gemini-enterprise-agent-platform" target="_blank" rel="noopener" class="src-pill">Google Gemini Enterprise</a>
+    <a href="https://www.gsa.gov/about-us/newsroom/news-releases/gsa-google-announce-gemini-onegov-agreement-08212025" target="_blank" rel="noopener" class="src-pill">GSA OneGov Agreement</a>
+    <a href="https://openai.com/index/openai-launches-the-deployment-company/" target="_blank" rel="noopener" class="src-pill">OpenAI DeployCo</a>
+    <a href="https://openai.com/index/introducing-chatgpt-health/" target="_blank" rel="noopener" class="src-pill">ChatGPT Health</a>
+    <a href="https://sacra.com/c/harvey/" target="_blank" rel="noopener" class="src-pill">Sacra Harvey</a>
+    <a href="https://www.cnbc.com/2026/04/23/software-stocks-plunge-on-servicenow-ibm-results-ai-fears-escalate.html" target="_blank" rel="noopener" class="src-pill">CNBC ServiceNow</a>
+    <a href="https://techcrunch.com/2026/04/30/legal-ai-startup-legora-hits-5-6-valuation-and-its-battle-with-harvey-just-got-hotter/" target="_blank" rel="noopener" class="src-pill">TechCrunch Legora</a>
+    <a href="https://www.lawnext.com/2026/05/anthropic-goes-all-in-on-legal-releasing-more-than-20-connectors-and-12-practice-area-plugins-for-claude.html" target="_blank" rel="noopener" class="src-pill">LawSites Claude for Legal</a>
+    <a href="https://developers.google.com/health-ai-developer-foundations/medgemma/model-card" target="_blank" rel="noopener" class="src-pill">MedGemma Model Card</a>
+    <a href="https://finovate.com/anthropic-launches-claude-for-financial-services/" target="_blank" rel="noopener" class="src-pill">Finovate Financial</a>
+  </div>
+</div>
+</div>
+
+<script>
+const products=[
+  {b:'a',tags:['finance'],name:'Claude for Financial Services',url:'https://www.anthropic.com/news/claude-for-financial-services',desc:'Claude Opus 4.7 + 10个预建金融Agent（信用备忘录/承销/KYC/AML/月末关账）+ Moody\'s原生App（6亿公司）+ <a href="https://finovate.com/anthropic-launches-claude-for-financial-services/" target="_blank" rel="noopener" class="lnk">Vals AI Finance Agent benchmark 64.4% ↗</a> + FIS AML investigator（BMO/Amalgamated Bank）',clients:'JPMorgan、Goldman Sachs、Citi、AIG、Visa、NBIM（节省213,000小时）、Commonwealth Bank of Australia'},
+  {b:'a',tags:['finance'],name:'Anthropic × Wall Street JV $1.5B',url:'https://www.cnbc.com/2026/05/04/anthropic-goldman-blackstone-ai-venture.html',desc:'与 Blackstone + H&F + Goldman Sachs 共同成立合资企业，<a href="https://thenextweb.com/news/anthropic-financial-services-agents-claude-opus-4-7-fis" target="_blank" rel="noopener" class="lnk">Claude工程师直接嵌入PE投资组合企业进行部署 ↗</a>',clients:'Blackstone、Hellman & Friedman、Goldman Sachs、Apollo、GIC、General Atlantic、Leonard Green、Sequoia'},
+  {b:'a',tags:['health'],name:'Claude for Life Sciences',url:'https://www.anthropic.com/news/healthcare-life-sciences',desc:'Claude Sonnet 4.5 在 Protocol QA 0.83 &gt; 人类基线 0.79；BixBench 显著提升；<a href="https://pharmaawards.ie/news/anthropic-launches-claude-for-life-sciences-to-accelerate-discovery" target="_blank" rel="noopener" class="lnk">Benchling/PubMed/ClinicalTrials.gov/Medidata/ChEMBL 连接器 ↗</a>',clients:'Novo Nordisk、Sanofi（50%+员工使用）、Bristol Myers Squibb（30,000+员工）、AstraZeneca、Genmab、AbbVie'},
+  {b:'a',tags:['health'],name:'Claude for Healthcare',url:'https://fortune.com/2026/01/11/anthropic-unveils-claude-for-healthcare-and-expands-life-science-features-partners-with-healthex-to-let-users-connect-medical-records/',desc:'HIPAA-ready 基础设施 + FHIR Agent Skills，CMS Coverage DB / ICD-10 / NPI Registry / PubMed 行业数据库，HealthEx 电子病历接入，<a href="https://fortune.com/2026/01/11/anthropic-unveils-claude-for-healthcare-and-expands-life-science-features-partners-with-healthex-to-let-users-connect-medical-records/" target="_blank" rel="noopener" class="lnk">Apple Health + Android Health Connect beta ↗</a>',clients:'Banner Health、Stanford Healthcare、Flatiron Health、Komodo Health、Veeva、Heidi Health'},
+  {b:'a',tags:['legal'],name:'Claude for Legal',url:'https://www.artificiallawyer.com/2026/05/12/claude-for-legal-launches-may-reshape-the-legal-tech-world/',desc:'<a href="https://www.lawnext.com/2026/05/anthropic-goes-all-in-on-legal-releasing-more-than-20-connectors-and-12-practice-area-plugins-for-claude.html" target="_blank" rel="noopener" class="lnk">20+ MCP连接器 ↗</a>（Thomson Reuters/LexisNexis/Harvey/iManage/NetDocuments/DocuSign/Ironclad）+ 12个实务领域Plugin（商业/公司/就业/隐私/诉讼/AI治理等），Harvey BigLaw Bench 90.9%',clients:'Freshfields（1000+用户）、Quinn Emanuel、Holland & Knight、CoCounsel（基于Claude重建）'},
+  {b:'a',tags:['code'],name:'Claude Code',url:'https://www.anthropic.com/claude-code',desc:'<a href="https://venturebeat.com/technology/anthropic-says-it-hit-a-30-billion-revenue-run-rate-after-crazy-80x-growth" target="_blank" rel="noopener" class="lnk">6个月达$1B ARR，2026年2月已$2.5B run rate ↗</a>；SWE-Bench Verified 80.8-80.9%；CLI/IDE-agnostic agentic编程；Opus 4.7 在 Terminal-Bench 2.0 等任务显著领先',clients:'Carlyle、KPMG全球（276,000员工）、Cognizant（350,000员工）'},
+  {b:'a',tags:['security'],name:'Claude Security / Project Glasswing / Mythos',url:'https://www.anthropic.com/project/glasswing',desc:'<a href="https://www.securityweek.com/anthropic-unveils-claude-security-to-counter-ai-powered-exploit-surge/" target="_blank" rel="noopener" class="lnk">Claude Opus 4.7；CyberGym 73.1% ↗</a>；在生产开源代码库发现500+此前未被发现漏洞；自主发现17年FreeBSD NFS RCE（CVE-2026-4747）；<a href="https://www.cnbc.com/2026/02/23/cybersecurity-stocks-anthropic-ai-crowdstrike.html" target="_blank" rel="noopener" class="lnk">发布日安全股大跌 ↗</a>',clients:'CrowdStrike、Microsoft Security（集成进SDL）、Palo Alto Networks、SentinelOne、Wiz；12家创始合作伙伴含Apple/Cisco/Google/JPMorgan'},
+  {b:'g',tags:['science'],name:'Google Co-Scientist',url:'https://ai.google/science/',desc:'<a href="https://oup.com/eurjcn/article/24/5/800/8205996" target="_blank" rel="noopener" class="lnk-g">多Agent系统，生成→评审→进化三阶段架构 ↗</a>，2025年2月19日发布，2026年2月 Nature 论文。Stanford Gary Peltz通过AI系统重新发现肝纤维化机制',clients:'Gary Peltz（Stanford）、Clare Bryant（Cambridge）、DOE Genesis Mission、17个国家实验室'},
+  {b:'g',tags:['health'],name:'MedGemma 1 / 1.5（开源）',url:'https://developers.google.com/health-ai-developer-foundations/medgemma/model-card',desc:'<a href="https://www.artificialintelligence-news.com/news/google-open-medgemma-ai-models-healthcare/" target="_blank" rel="noopener" class="lnk-g">4B多模态 + 27B文本 + 27B多模态三款模型 ↗</a>；MedQA 87.7%；MedASR X-ray错误率5.2% vs Whisper-v3 12.5%；2025年5月 Google I/O 首发，2026年1月 v1.5',clients:'Chang Gung Memorial Hospital、Tap Health（印度）、DeepHealth；Hugging Face 开放下载'},
+  {b:'g',tags:['gov'],name:'Gemini for Government',url:'https://cloud.google.com/blog/topics/public-sector/introducing-gemini-for-government-supporting-the-us-governments-transformation-with-ai',desc:'<a href="https://www.gsa.gov/about-us/newsroom/news-releases/gsa-google-announce-gemini-onegov-agreement-08212025" target="_blank" rel="noopener" class="lnk-g">FedRAMP High + IL5；GSA OneGov 协议价 $0.47/agency ↗</a>；<a href="https://www.prnewswire.com/news-releases/chief-digital-and-artificial-intelligence-office-selects-google-clouds-ai-to-power-genaimil-302636689.html" target="_blank" rel="noopener" class="lnk-g">GenAI.mil，上线一个月用户破百万 ↗</a>',clients:'美国国防部（DoW）300万军民职工、FDA、DOT、五大军种均将GenAI.mil设为首选企业AI'},
+  {b:'g',tags:['finance'],name:'Gemini in Workspace（Finance工作流）',url:'https://chatfin.ai/google-gemini-finance-teams-cfo-guide-2026/',desc:'1M token 超长上下文；Gemini in Sheets/Docs/Gmail 金融分析；<a href="https://workspaceupdates.googleblog.com/2025/12/google-ai-ultra-business-enhanced-notebooklm.html" target="_blank" rel="noopener" class="lnk-g">Google AI Ultra for Business 增强版 NotebookLM ↗</a>；Gartner 2026：美国财务部门使用第二',clients:'通过 Google Workspace 6M+ 美国企业客户基数分发；$20–30/seat/月'},
+  {b:'g',tags:['code'],name:'Gemini Code Assist / Antigravity Agent Platform',url:'https://cloud.google.com/blog/products/ai-machine-learning/introducing-gemini-enterprise-agent-platform',desc:'<a href="https://virtualizationreview.com/articles/2026/04/24/google-cloud-next-26-gemini-enterprise-agent-platform-leads-ai-centric-news.aspx" target="_blank" rel="noopener" class="lnk-g">每月通过 ADK 处理6T tokens；Cloud Next \'26 统一路线 ↗</a>，取代独立 Vertex AI；Agent Studio + Agent Garden',clients:'Cloud Next \'26 合作客户；Adobe、Salesforce、ServiceNow、Workday 接入 Agent Gallery'},
+  {b:'g',tags:['security'],name:'Google AI Triage + Wiz Cloud Security',url:'https://cloud.google.com/blog/topics/google-cloud-next/welcome-to-google-cloud-next26',desc:'已处理500万条安全警报（30分钟→60秒）；与Wiz整合；CodeMender 安全代码修复内测；Threat Intelligence 原生接入',clients:'Wiz、多家 Gemini Enterprise 客户（内测）'},
+  {b:'o',tags:['health'],name:'ChatGPT Health（C端）',url:'https://openai.com/index/introducing-chatgpt-health/',desc:'<a href="https://www.medicaleconomics.com/view/openai-launches-chatgpt-health-directly-linking-patient-portals-to-the-ai-chatbot" target="_blank" rel="noopener" class="lnk-o">b.well覆盖约220万美国医疗服务者；2.3亿周活健康提问 ↗</a>；Apple Health、MyFitnessPal、Function Health、Peloton、AllTrails 集成',clients:'260+医生合作验证；美国 ChatGPT Pro/Plus 用户'},
+  {b:'o',tags:['health'],name:'OpenAI for Healthcare / ChatGPT for Clinicians',url:'https://openai.com/index/openai-for-healthcare/',desc:'<a href="https://www.iatrox.com/blog/openai-healthcare-strategy-2026-chatgpt-health-healthcare-clinicians" target="_blank" rel="noopener" class="lnk-o">HIPAA-ready 临床工作流；ChatGPT for Clinicians（NPI验证，免费）↗</a>；HealthBench Professional 60万+反馈互动；⚠ <a href="https://www.nature.com/articles/s41591-026-04297-7" target="_blank" rel="noopener" class="lnk-o">Mount Sinai: emergency triage误判率52%（Nature Medicine）↗</a>',clients:'AdventHealth、Baylor Scott & White、Boston Children\'s Hospital、Cedars-Sinai、HCA Healthcare、Stanford Medicine、UCSF'},
+  {b:'o',tags:['finance'],name:'ChatGPT Personal Finance',url:'https://www.macrumors.com/2026/05/15/chatgpt-personal-finance/',desc:'<a href="https://www.ghacks.net/2026/05/18/openai-launches-personal-finance-experience-in-chatgpt-for-pro-users-in-the-us/" target="_blank" rel="noopener" class="lnk-o">2026年5月15日（Pro用户 preview）↗</a>；<a href="https://investors.intuit.com/news-events/press-releases/detail/1284/intuit-and-openai-join-forces-to-revolutionize-financial-intelligence-powering-every-person-business-and-dream-with-personalized-experiences" target="_blank" rel="noopener" class="lnk-o">Plaid 接入12,000+金融机构（独家）↗</a>；GPT-5.5 Pro Finance benchmark 82.5/100；4月收购Hiro',clients:'目标2亿月活理财提问用户；美国 Pro 用户首发'},
+  {b:'o',tags:['finance'],name:'PwC × OpenAI Finance Agents + DeployCo',url:'https://openai.com/index/openai-launches-the-deployment-company/',desc:'<a href="https://www.techtimes.com/articles/316726/20260516/openai-launches-4-billion-enterprise-ai-deployment-venture-recruits-mckinsey-capgemini.htm" target="_blank" rel="noopener" class="lnk-o">DeployCo $10B JV（TPG主投，McKinsey/Capgemini出资）↗</a>，锁定2000+ PE组合公司，承诺17.5%年化保底回报',clients:'PwC（10万+工位）、TPG、Advent、Bain Capital、Brookfield 及其2000+组合公司'},
+  {b:'o',tags:['security'],name:'GPT-5.4-Cyber / GPT-5.5-Cyber（Daybreak）',url:'https://kingy.ai/ai/openai-daybreak-explained-inside-gpt-5-5-cyber-codex-security-and-the-new-frontier-of-ai-cyber-defense/',desc:'<a href="https://fluidattacks.com/blog/gpt-5-4-cyber-gpt-5-5-ai-cybersecurity-future" target="_blank" rel="noopener" class="lnk-o">CyberGym 81.8%（5.5）vs 79.0%（5.4）↗</a>；Preparedness Framework 评级 "High"；已助修复3000+ critical/high CVE；Trusted Access for Cyber 受限准入',clients:'Daybreak 2026/5/10 发布；Hacker News 报道为 Anthropic Mythos 的直接回应'},
+  {b:'o',tags:['code'],name:'OpenAI Codex / Workspace Agents',url:'https://openai.com/index/next-phase-of-enterprise-ai/',desc:'<a href="https://www.reworked.co/digital-workplace/openai-launches-workspace-agents-for-enterprise-workflow-automation/" target="_blank" rel="noopener" class="lnk-o">2M周活（Codex）；Terminal-Bench 2.0 82.7%；Custom GPTs 已被 Workspace Agents 取代（4/22/2026）↗</a>；7M+ Enterprise 工位，YoY 9x 增长',clients:'Fortune 500 92–93% 部署；PwC 10万员工；Morgan Stanley、Coca-Cola'},
+  {b:'o',tags:['gov'],name:'ChatGPT Gov + OpenAI Deployment Company',url:'https://openai.com/index/openai-launches-the-deployment-company/',desc:'ChatGPT Gov $1/agency 推广价；<a href="https://thenextweb.com/news/openai-deployment-company-4bn-tpg-tomoro" target="_blank" rel="noopener" class="lnk-o">DeployCo $10B JV 强制 PE 组合公司部署 OpenAI 产品 ↗</a>，McKinsey/Capgemini/Bain 为出资人',clients:'TPG、Advent、Bain Capital、Brookfield 及 2000+ PE 组合公司'}
+];
+
+function renderProds(filter){
+  const el=document.getElementById('plist');
+  const list=filter==='all'?products:products.filter(p=>p.tags.includes(filter));
+  el.innerHTML=list.map(p=>`<div class="prod-card ${p.b}">
+    <div class="prod-head">
+      <span class="badge b${p.b}">${p.b==='a'?'Anthropic':p.b==='g'?'Google':'OpenAI'}</span>
+      <span class="prod-name">${p.url?`<a href="${p.url}" target="_blank" rel="noopener">${p.name}</a>`:p.name}</span>
+      ${p.url?`<a href="${p.url}" target="_blank" rel="noopener" class="prod-link">官方页面</a>`:''}
+    </div>
+    <div class="prod-desc">${p.desc}</div>
+    <div class="prod-clients">📋 ${p.clients}</div>
+  </div>`).join('');
+}
+renderProds('all');
+
+function doFilter(btn,f){
+  document.querySelectorAll('#frow .filter-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  renderProds(f);
+}
+
+function switchTab(btn,id){
+  document.querySelectorAll('.tab-header .tab-btn').forEach(b=>b.classList.remove('active'));
+  document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById(id).classList.add('active');
+}
+</script>
+</body>
+</html>
