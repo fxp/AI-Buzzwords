@@ -1,0 +1,40 @@
+{
+  "$schema": "../../config/meta.schema.json",
+  "slug": "l5-ghost-labor",
+  "topic_dir": "labor-day-2026",
+  "title": {
+    "zh": "幽灵劳工：AI 背后的人类",
+    "en": null
+  },
+  "current_version": 1,
+  "first_published": "2026-06-03",
+  "last_updated": "2026-06-03",
+  "freshness_priority": "warm",
+  "next_check": "2026-07-03",
+  "languages": [
+    "zh",
+    "en"
+  ],
+  "primary_language": "zh",
+  "translations": {},
+  "manual_only": false,
+  "author": "冯小平 + Claude (Opus 4.7)",
+  "version_log": [
+    {
+      "v": 1,
+      "date": "2026-06-03",
+      "git": "PENDING",
+      "summary": "首次发布：幽灵劳工：AI 背后的人类（L5 全球 · 个体 · 心理）"
+    }
+  ],
+  "tags": [
+    "LABOR-DAY-2026",
+    "L5 全球",
+    "个体·心理"
+  ],
+  "category": "LABOR · AI×就业 · L5 全球",
+  "translation_provider_hint": "anthropic",
+  "_notes": [
+    "translation_provider_hint=anthropic — long-form policy + technical content with arXiv citations and English source links; Anthropic preserves citation context and theoretical precision better than GLM."
+  ]
+}

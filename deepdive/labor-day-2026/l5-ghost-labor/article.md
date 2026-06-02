@@ -325,3 +325,30 @@ TIME Magazine 采访的内容审核员描述了观看儿童被虐待的视频后
 - Rahman, A.M. & Sultana, S. (2025, Dec). *Ghostcrafting AI: Under the Rug of Platform Labor.* UIUC. 8个月孟加拉国田野民族志：首次概念化"Ghostcrafting AI"现象——平台工人系统性掩盖AI使用以维持"人类劳工"身份，盗版工具成为生存策略，揭示平台经济结构性欺骗的政治经济学根源。[arXiv:2512.21649](https://arxiv.org/abs/2512.21649)
 - Williams, A. et al. (2025, Jan). *Data Enrichment Work and AI Labor in Latin America and the Caribbean.* MEXIHC 2024. 首个拉丁美洲AI数据标注劳工系统研究：100名工人跨16国调查，揭示报酬极低、劳动条件恶劣、与AI系统最终用益完全脱节的结构性剥削。[arXiv:2501.06981](https://arxiv.org/abs/2501.06981)
 - Rahman, A.M. & Sultana, S. (2025, Jun). *Digital Labor: Challenges, Ethical Insights, and Implications.* UIUC. 143篇2015-2024年数字零工研究系统综述：平台工人的不可见性、监控强化与议价权缺失构成"数字血汗工厂"的制度基础。[arXiv:2506.11788](https://arxiv.org/abs/2506.11788)
+## 最新动态（2026 年 5-6 月）
+
+幽灵劳工的处境，在 2026 年春末迎来了一连串集中爆发的节点——既不是孤立的丑闻，也不是哪一家公司的偶发失控，而是同一张全球供应链在不同环节同时震动。
+
+**1. Meta 与 Sama 在内罗毕的合作戛然终止，1,108 名工人六天后失业。** 4 月 30 日，Meta 通知肯尼亚外包商 Sama 终止 Ray-Ban Meta 智能眼镜的数据标注合同，1,108 名工人在六天通知期后被裁。导火索是 2 月间几名工人向瑞典《Svenska Dagbladet》和《Göteborgs-Posten》披露：他们日复一日在标注台前观看眼镜用户上传的素材，其中包含性行为、如厕、未成年人画面以及银行卡信息——而这些素材本应在用户毫不知情的情况下，被用于训练 Meta 的多模态模型。工人普遍认为合同终止是对他们公开发声的报复。事件已被 [OECD AI Incidents Monitor](https://oecd.ai/en/incidents/2026-04-30-7774) 单独立案，集体诉讼和英国、肯尼亚两国监管调查正在推进（[The Next Web 报道](https://thenextweb.com/news/meta-smart-glasses-sama-kenya-workers)）。
+
+**2. 内罗毕高等法院再次推迟对 Meta/Sama 两起标志性案件的判决。** 原定 2 月 12 日由 Nduma Nderi 法官宣读的判决——涉及 Daniel Motaung 案以及由 Kiana Monique Arendse、James Agada Mark 领衔的 181 名审核员集体诉讼——被法院以"另行通知"的方式无限期延期；与此同时，Meta 与原告之间的庭外调解在 5 月正式破裂。原告律师指控 Meta 拒绝就心理健康赔偿与"反工会黑名单"问题做出实质让步。两案累计指控涵盖人口贩运、不公正解雇、压制工会与隐私侵犯，是首批以平台所在国法律体系直接审理硅谷母公司的劳动诉讼之一（[Business & Human Rights Resource Centre](https://www.business-humanrights.org/en/latest-news/kenya-court-postpones-ruling-in-two-cases-against-meta-brought-by-former-content-moderators-delaying-trial-2/)）。
+
+**3. Data Labelers Association（DLA）成员突破 800 人，向跨国 AI 公司发出第一封集体信。** 2025 年 2 月由肯尼亚 AI 工人自发成立的数据标注师协会，到 2026 年 5 月已扩展至 800 余名注册成员，覆盖 Sama、Majorel、Remotasks（Scale AI 子品牌）及若干 Mercor 转包链上的零工。协会公开要求将本地最低时薪从约 1.5–2 美元提升至生活工资线、引入第三方心理健康支持，并要求委托方在合同里写明"反报复"条款。协会的策略是绕开外包商、直接对话 OpenAI/Anthropic/Meta——这是全球南方第一次出现一个跨平台、跨外包商的标注工人组织实体（[Computer Weekly 报道](https://www.computerweekly.com/news/366619321/Kenyan-AI-workers-form-Data-Labelers-Association)；[协会官网](https://datalabelers.org/)）。
+
+**4. Mercor 数据泄露案：四万承包商的生物特征被挂上暗网，AI 用工模式的"暗面合规债"集中爆发。** 3 月 27 日，Mercor 的承包商数据库经由 LiteLLM 软件供应链攻击被攻破；3 月 31 日，公司向 TechCrunch 确认事件。暴露的内容包括：4 万余名承包商的社安号、面试视频、面部生物识别数据，以及部分员工电脑屏幕截图——这些恰恰是 Mercor 用于"AI 评估 AI"的训练素材本身。Lapsus$ 在暗网拍卖 4TB 数据。4 月 1 日至 7 日，加州和德州法院受理了至少 7 起集体诉讼。Meta 暂停了与 Mercor 的全部合作，OpenAI、Google 介入调查。此事第一次把"高薪 AI 评估工"（Mercor 主打硕博级远程承包商，时薪可达 50–200 美元）拉进了与肯尼亚标注工同一张安全/隐私脆弱性图谱里（[PYMNTS 报道](https://www.pymnts.com/legal/2026/ai-startup-mercor-faces-lawsuit-over-data-breach/)；[Biometric Update](https://www.biometricupdate.com/202604/ai-companys-breached-biometrics-id-document-images-make-deepfake-fraud-easier)）。
+
+**5. 加州 AB 2013 挺过第一轮宪法挑战；欧盟 AI Act 高风险条款被提议延期至 2027。** 1 月 1 日生效的 AB 2013 要求所有面向加州居民的生成式 AI 产品公开"训练数据摘要"——包括来源、数据类型、是否含个人信息及处理流程。5 月，加州北区联邦法院驳回了行业协会提出的第一修正案预先禁制令请求，法律继续生效（[Norton Rose Fulbright 简报](https://www.nortonrosefulbright.com/en-us/knowledge/publications/c1df8419/california-district-court-upholds-transparency-requirements-for-generative-ai-training-data)）。与此同时，欧盟委员会在 2025 年 11 月提出将 AI Act 高风险条款（含训练数据"足够详细的摘要"义务，第 53(1)(d) 条）的适用日期从 2026 年 8 月推迟至最晚 2027 年 12 月，立法机关正在 2026 年内谈判修订（[Wilson Sonsini 2026 前瞻](https://www.wsgr.com/en/insights/2026-year-in-preview-ai-regulatory-developments-for-companies-to-watch-out-for.html)）。两条立法都在朝同一个方向收紧——但都没有强制披露训练数据**背后的人**：标注工是谁、在哪、被支付多少、是否签过保密协议。"训练数据透明"在 2026 年依然停留在数据集层面，幽灵劳工仍在数据之下。
+
+**6. 学术界：从孟加拉国到平台经济整体的"Ghostcrafting"概念扩展。** 伊利诺伊大学香槟分校的 ATM Mizanur Rahman 与 Sharifa Sultana 在 [arXiv:2512.21649](https://arxiv.org/abs/2512.21649)（《Ghostcrafting AI: Under the Rug of Platform Labor》）中描绘了一种新的劳动形态——工人租设备、共享模板、伪造身份、绕开平台抽成，在结构性不可见的位置上自创"应对术"。论文将这种适应称为 ghostcrafting，提出 AI 不只是依赖隐形劳工，而是依赖被迫"学会隐形"的劳工。这与同期 OECD AI Incidents 把肯尼亚-哥伦比亚的标注劳动正式编号为"已实现的 AI 事件"（而非潜在风险）形成了一组互文（[OECD AI 2025-10-16-2c8d 事件页](https://oecd.ai/en/incidents/2025-10-16-2c8d)）。
+
+把这六件事放在同一张时间线上看会发现：诉讼在拖延、合同在终止、工会在长大、数据在泄露、立法在收紧、学术在命名——而**真正改变标注工人时薪的事情，一件都没有发生**。智能眼镜让标注工第一次"看到了"客户的卧室，集体诉讼让他们第一次"听到了"Meta 的拒绝调解，Mercor 的泄露让他们第一次"被拍卖在了"暗网。透明度在上升，处境没有。
+
+---
+
+**链接验证（L5）**
+
+| URL | 状态 |
+|-----|------|
+| https://arxiv.org/abs/2512.21649 | alive — Ghostcrafting AI 论文页 |
+| https://oecd.ai/en/incidents/2025-10-16-2c8d | alive — OECD AIM 事件页 |
+| https://restofworld.org/2025/big-tech-ai-labor-supply-chain-african-workers/ | alive — Rest of World 调查 |

@@ -1,0 +1,40 @@
+{
+  "$schema": "../../config/meta.schema.json",
+  "slug": "l3-blue-collar-myth",
+  "topic_dir": "labor-day-2026",
+  "title": {
+    "zh": "蓝领神话的破裂：当体力劳动不再安全",
+    "en": null
+  },
+  "current_version": 1,
+  "first_published": "2026-06-03",
+  "last_updated": "2026-06-03",
+  "freshness_priority": "warm",
+  "next_check": "2026-07-03",
+  "languages": [
+    "zh",
+    "en"
+  ],
+  "primary_language": "zh",
+  "translations": {},
+  "manual_only": false,
+  "author": "冯小平 + Claude (Opus 4.7)",
+  "version_log": [
+    {
+      "v": 1,
+      "date": "2026-06-03",
+      "git": "PENDING",
+      "summary": "首次发布：蓝领神话的破裂：当体力劳动不再安全（L3 劳动市场 · 结构 · 权力）"
+    }
+  ],
+  "tags": [
+    "LABOR-DAY-2026",
+    "L3 劳动市场",
+    "结构·权力"
+  ],
+  "category": "LABOR · AI×就业 · L3 劳动市场",
+  "translation_provider_hint": "anthropic",
+  "_notes": [
+    "translation_provider_hint=anthropic — long-form policy + technical content with arXiv citations and English source links; Anthropic preserves citation context and theoretical precision better than GLM."
+  ]
+}

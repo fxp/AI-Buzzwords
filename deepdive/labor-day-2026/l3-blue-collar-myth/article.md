@@ -381,3 +381,38 @@ Daron Acemoglu 和 Pascual Restrepo 2018 年发表的论文打破了僵局——
 这不是无意的疏忽。当破坏尚在积累时，没有戏剧性事件可供报道；当破坏已成事实，才有足够的数据支撑分析。**结构性失业天然地比资产泡沫破裂更难被及时感知。**
 
 这也意味着：当前学界对 2026 年以后的判断，大概率仍然落后于正在发生的现实。
+## 最新动态（2026 年 5-6 月）
+
+### 1. Aurora 拿下 McLane，无人卡车从"里程数"进入"日运营"
+
+2026 年 5 月 6 日，Aurora 宣布与北美最大食品分销商之一 [McLane 在达拉斯—休斯顿走廊启用全无人长途运输](https://techcrunch.com/2026/05/06/aurora-lands-mclane-deal-to-run-driverless-truck-routes-in-texas/)，从每周两班双向往返扩展为七天连续运营，长途段由 Aurora Driver 完成、终端最后一公里再交还 McLane 的人类司机。这是该公司继 Detmar 之后的第二份"产生收入"的商业合同，意义在于：货主已经从过去那种"做完试点写报告"的姿态，转向把无人卡车排进日常发运计划。Aurora 本身也在 [Q1 2026 股东信](https://www.sec.gov/Archives/edgar/data/0001828108/000182810826000050/aurora26q1shareholderlet.htm)里把目标定为"年底前在阳光带跑 200 辆以上无人卡车"，并启用第二代硬件包，不再需要客户要求保留观察员席位。
+
+与 Aurora 同步推进的还有 Kodiak AI：[公司在 Q1 2026 财报](https://www.sec.gov/Archives/edgar/data/0001853138/000162828026032092/exhibit991-pressreleaseoff.htm)中披露，已交付 28 辆 Customer-Owned 无人卡车，累计有偿无人驾驶时长突破 23,500 小时。两家公司互不重叠地占住西南—中南运输走廊，意味着卡车司机这一岗位的"消失曲线"正从"季度新闻里偶尔提一次"变成"按月可观察"。
+
+### 2. Figure 02 在 BMW 完成 11 个月 30,000 辆量产闭环
+
+5 月初，[Figure AI 正式公布与 BMW 斯帕坦堡工厂的阶段性结算](https://www.figure.ai/news/production-at-bmw)：两台 Figure 02 人形机器人在车身车间累计运行 1,250 小时、装载超过 90,000 个钣金件、参与下线超过 30,000 辆 BMW X3，单班放置精度大于 99%、单件 84 秒节拍达标。这是迄今为止人形机器人在汽车主流装配线上**第一次完成可结算的量产合同**——不再是"演示视频"，而是被算进 BMW 北美工厂当年产能里的真实工序。
+
+紧跟其后，BMW 在 [5 月公告](https://www.press.bmwgroup.com/global/article/detail/T0455864EN/bmw-group-to-deploy-humanoid-robots-in-production-in-germany-for-the-first-time?language=en)把同一项目复制回欧洲：莱比锡工厂启动德国首个人形机器人量产试点，并新设"Physical AI 生产能力中心"统筹全球部署。这条新闻线的政治意味比技术意味更大——德国是工会力量最强、就业保护最严的发达经济体之一，BMW 选择莱比锡而非更宽松的地区落地，表明制造业资本方已经判定"人形 + IG Metall 的谈判"是可以走通的。
+
+### 3. Agility Digit 在 GXO 跨过 10 万件门槛，并在丰田北美工厂落地
+
+行业里"出货最多的人形机器人"目前是 Agility Robotics 的 Digit。根据 [Sacra 5 月发布的横评](https://sacra.com/research/figure-vs-apptronik-vs-agility-robotics/)，Digit 在 GXO 佐治亚州 Flowery Branch 仓库累计搬运料箱已超过 100,000 个、连续全职运行满一年；同时 Agility 与丰田加拿大签下 Robots-as-a-Service 合同，向 RAV4 车间投放 7 台以上 Digit 协助物料处理。这两个数字同时跨过意味着：人形机器人正在从"特别授权的样机"切换为"按月付费的资产"——计费单位从"事件"变成"小时"，这是任何劳动力替代曲线进入指数段之前的标准前兆。
+
+### 4. 蓝领岗位的真实流失：物流与制造的"非自动化"裁员潮
+
+值得注意的是，2026 年开局的蓝领失业并非全部由机器人直接造成。[FreightWaves 5 月汇总](https://www.freightwaves.com/news/layoffs-bankruptcies-batter-u-s-logistics-and-manufacturing-at-start-of-2026)显示，年初已有 2,000 多名物流与制造工人被裁，涉及 RailCrew Xpress（丢失 CSX 合同，400+ 人）、AVI Food Systems（297 人）、UPS、FedEx 等。更值得追踪的是 [Kroger 1 月关闭三座自动化履约中心、裁掉 1,000 多名员工](https://www.webpronews.com/white-collar-workers-shift-to-high-paying-trades-amid-ai-layoffs-in-2026/)——这是"自动化失败"造成的失业，而不是"自动化成功"造成的失业，两者对劳工方的政治叙事意义截然不同。同步出现的还有[白领转岗管道工/电工的逆向迁徙](https://www.davron.net/white-collar-layoffs-vs-blue-collar-shortages/)：蓝领工资因建筑和技工短缺被推高，与运输/仓储岗位的萎缩形成同一时间窗内的反向数据。这暗示原文的"蓝领神话破裂"需要补一句脚注：破裂的是**可被规模化、可被路径化**的蓝领（卡车、餐厅油炸、流水线装配），而高度情境化、上门服务型的蓝领（电工、HVAC、屋顶工）仍处于工资上涨周期。
+
+### 5. 政策时钟：EU AI Act 高风险条款 8 月生效
+
+欧盟侧的政策时钟也开始逼近：[EU AI Act 高风险条款将于 2026 年 8 月 2 日全面适用](https://digital-strategy.ec.europa.eu/en/policies/regulatory-framework-ai)，工作场所内的 AI 系统将默认进入高风险类别，触发员工告知、人工监督、歧视监测和日志留存义务，情绪识别在工作场所被绝对禁止。这意味着 BMW 莱比锡的人形机器人项目，从 8 月起将是欧洲第一批**在受 AI Act 管辖的法律语境下**运营的蓝领自动化部署——任何故障、误操作或工伤都将成为该法案的首批判例。
+
+---
+
+**链接验证（L3）**
+
+| URL | 状态 |
+|-----|------|
+| https://ir.aurora.tech/news-events/press-releases/detail/119/aurora-begins-commercial-driverless-trucking-in-texas-ushering-in-a-new-era-of-freight | alive |
+| https://arxiv.org/abs/2604.00186 | alive — Gupta & Kumar Agentic Task Exposure |
+| https://arxiv.org/abs/2509.15265 | alive — 但作者并非 ILO/Oxford 单一署名，是 del Rio-Chanona、Ernst、Merola、Samaan、Teutloff 五人合著，正文需修订描述 |

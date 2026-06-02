@@ -366,3 +366,28 @@ Falk & Tsoukalas（arXiv:2603.20617）的理论模型做出了迄今最强硬的
 当第四代政策框架（庇古税）在 2026 年获得理论支撑时，进入 AI 暴露型岗位的应届毕业生比例已经连续数年下滑。政策落地，将在这之后的多少年？
 
 这是分配制度重构最真实的时间代价：我们永远在已经太晚之后才真正开始行动。
+## 最新动态（2026 年 5-6 月）
+
+进入 2026 年 5-6 月，分配制度的讨论从学术与提案层面快速上升到主流立法议程。一个月内，至少出现五个值得长文重点回应的新坐标——它们彼此并不收敛，但共同标记出一件事：本文所讨论的"庇古自动化税 / 主权 AI 基金 / Universal High Income"三条路径，已经分别在不同体制下落到了具体的立法草案、行政内部文件与可被市场定价的提案上。
+
+**1. Sanders 提出《美国 AI 主权财富基金法案》：50% 股权一次性社会化**。2026 年 6 月 1 日，参议员 Bernie Sanders 在《纽约时报》刊登署名文章，提出一项名为 [American AI Sovereign Wealth Fund Act](https://www.commondreams.org/news/bernies-sanders-ai-sovereign-wealth-fund) 的联邦立法草案，提议对 OpenAI、Anthropic、xAI 等头部 AI 公司施加一次性 50% 股权转让，纳入一个由联邦管理的主权财富基金；基金获得相应席位的董事投票权，收益先以现金红利形式分发给美国公民，再逐步转入公共产品支出。这与本文正文所讨论的 [OpenAI Public Wealth Fund 提案](https://www.realclearpolitics.com/video/2026/06/02/bernie_sanders_introduces_bill_to_give_the_public_50_stake_in_ai_companies.html) 在精神上同源，但激进得多——它绕过了"AI 公司主动让渡股权"的合意路径，直接走征用立法的方向，并把"训练数据由公共知识构成因此公共应享有股权"作为正当性基础。短期内国会通过希望渺茫，但它把"公共所有权"从智库语汇变成了具名法案的 marker。
+
+**2. 韩国"公民分红"提案：用税收盈余而非新税重新分配 AI 红利**。2026 年 5 月 12 日，韩国总统首席政策顾问 Kim Yong-beom 在一篇 Facebook 帖文中提议，将三星、SK 海力士等 AI/半导体巨头超额企业税收益的一部分用于设立"[citizen's dividend](https://www.koreaherald.com/article/10736418)"——以基本收入形式支付给农渔民、年轻创业者与艺术家，并加强老年人养老金。两家公司预计 2026 年合计缴纳的企业税接近 100 兆韩元，已逼近政府全年企业税总收入。这一提案当日导致 [KOSPI 一度暴跌 5.1%](https://www.tomshardware.com/tech-industry/south-korean-official-proposes-citizen-dividend-from-samsung-and-sk-hynix-tax-windfall-spooking-markets)，迫使青瓦台事后澄清属"个人意见"。其理论意义在于：它没有引入新税种或庇古税，而是用既有税收盈余的再分配制度化，绕开了"打击投资"的常规反对意见——这是阿拉斯加永久基金模型在东亚科技密集型经济体的一次结构改写。
+
+**3. Falk & Tsoukalas 的 follow-up：庇古自动化税成为唯一通过模型检验的解**。本文已引用的 [arXiv 2603.20617 "The AI Layoff Trap"](https://arxiv.org/abs/2603.20617) 在 2026 年 4-5 月引发了一轮政策侧讨论，作者结论被反复转述：在他们的竞争性模型里，工资调整、资本所得税、工人持股、UBI、再培训乃至 Coasian 协商**均不能**消除过度替代外部性，唯独按任务计征的庇古自动化税可以。该论文已被 [Windfall Trust 的 Policy Atlas](https://windfalltrust.org/policy-atlas/automation-robot-taxes)（页面更新于 2026-06-02）作为庇古路径的主要理论依据收录。Bill Buchanan 等技术政策学者在 [Medium 长文](https://medium.com/asecuritysite-when-bob-met-alice/the-pigouvian-automation-tax-4d01a42c7717) 中进一步追问的是同一个老问题：当 AI 与自动化的边界本身不可数学化定义时，"per-task charge"的征税对象如何界定。这一空白也正是本文建议的"AI 代币税"作为操作化方案的位置所在。
+
+**4. Nayebi 的 UBI 阈值模型更新：公共所得份额是关键杠杆**。同样为本文已引用的 [arXiv 2505.18687](https://arxiv.org/abs/2505.18687)（Aran Nayebi），在 5 月更新版本中给出了一个更明确的政策旋钮：若将 AI 资本的政府所得份额从当前约 15% 提高到 33%，那么"用 AI 租金为 UBI 融资"所需的 AI 能力阈值可减半——即从约 5-7 倍当前自动化生产率，降至约 3 倍。换言之，UBI 是否可行不是一个等待技术成熟的问题，而是一个**所有权与税基**问题。这条结论恰好在 Sanders 法案与韩国分红提案之间架起了一座桥：两者本质都是在提升"公共所得份额"这一数字。
+
+**5. 欧盟主权 AI 基础设施成型，但仍回避所有权问题**。2026 年 5 月，欧洲投资基金（EIF）正式启动 [总规模 €15B 的基金中基金，瞄准撬动 €80B 欧洲规模化资本](https://vfuturemedia.com/ai/europe-ai-playbook-2026-mistral-eif-sovereign-tech/)；Mistral 巴黎数据中心、Deutsche Telekom 工业 AI 云、EURO-3C 联邦云组成 [欧盟主权 AI 基础设施栈](https://techplustrends.com/eu-sovereign-ai-infrastructure-stack-2026-guide/)。值得注意的是：与英国 5 亿英镑 Sovereign AI Unit、沙特 PIF Humain 一脉相承，欧盟的方案仍主要走"国家作为 LP 投资 AI 公司"路线，而非"国家作为公共信托代表全民持股"。这恰恰是 Sanders、Kim、Nayebi 三条线索共同尝试越过的天花板——也是本文核心论点的现实意义：当主权基金都在做财务投资人时，谁去做主权所有权人？
+
+综合来看，本文所讨论的三条分配路径（公共所有权 / 庇古税 / 资本份额再分配）正在不同政体下分头实验：美国走司法挑战激进的征用路径，韩国走存量盈余路径，欧洲走国家 LP 路径，学术界则把"AI 能力阈值"重新框架为"公共所得份额"问题。下一个 12 个月观察窗口是：Sanders 法案是否走到委员会听证、韩国 Kim 提案是否被纳入 2027 年税改、Falk-Tsoukalas 模型是否被任一财政部模型组采纳为 baseline。
+
+---
+
+**链接验证（L4）**
+
+| URL | 状态 |
+|-----|------|
+| https://arxiv.org/abs/2505.18687 | alive — Nayebi 2026-05 有更新版本 |
+| https://arxiv.org/abs/2603.20617 | alive — Falk & Tsoukalas 全文可访问 |
+| https://taxproject.org/universal-high-income/ | alive — Tax Project Institute UHI 解释页 |
