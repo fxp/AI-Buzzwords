@@ -4,7 +4,7 @@
   "topic_dir": "labor-day-2026",
   "title": {
     "zh": "幽灵劳工：AI 背后的人类",
-    "en": null
+    "en": "Ghost Workers: The Humans Behind AI — L5 Global · Individual · Psychology"
   },
   "current_version": 1,
   "first_published": "2026-06-03",
@@ -16,7 +16,13 @@
     "en"
   ],
   "primary_language": "zh",
-  "translations": {},
+  "translations": {
+    "en": {
+      "synced_at_version": 1,
+      "last_translated": "2026-06-03",
+      "method": "auto:claude-sonnet-4-6"
+    }
+  },
   "manual_only": false,
   "author": "冯小平 + Claude (Opus 4.7)",
   "version_log": [

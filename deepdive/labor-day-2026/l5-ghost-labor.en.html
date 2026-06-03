@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="red">
+<head>
+<style id="theme-vars">:root{--accent:#e84040;--accent-glow:rgba(232,64,64,0.30);--accent-soft:rgba(232,64,64,0.10);}</style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Ghost Workers: The Humans Behind AI — L5 Global · Individual · Psychology</title>
+<meta name="description" content="AI is not replacing human labor — it is creating a new form of human labor: invisible, cheap, high-risk, and potentially larger in scale than the jobs it 'replaces.'" />
+<!-- Design System v2: canonical token CSS -->
+<link rel="stylesheet" href="../../colors_and_type.css">
+<link rel="stylesheet" href="../../kit.css">
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,700&family=JetBrains+Mono:wght@300;400;500;700&display=swap" rel="stylesheet" />
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      colors: {
+        bg:           'var(--bg)',
+        'bg-2':       'var(--bg-2)',
+        'bg-3':       'var(--bg-3)',
+        fg:           'var(--fg)',
+        'fg-dim':     'var(--fg-dim)',
+        'fg-mute':    'var(--fg-mute)',
+        line:         'var(--line)',
+        'line-bright':'var(--line-bright)',
+        accent:       'var(--accent)',
+        'accent-soft':'var(--accent-soft)',
+      },
+      fontFamily: {
+        serif: ["'Fraunces'", "'Source Han Serif SC'", "Georgia", "serif"],
+        mono:  ["'JetBrains Mono'", "ui-monospace", "monospace"],
+      },
+      maxWidth: {
+        prose:   '820px',
+        content: '1020px',
+        wrap:    '1320px',
+      },
+    }
+  }
+}
+</script>
+<style>
+em, i { font-style: normal }
+body { font-feature-settings: 'ss01','ss02','kern'; -webkit-font-smoothing: antialiased }
+body::before {
+  content: ''; position: fixed; inset: 0;
+  background-image:
+    linear-gradient(rgba(240,235,224,0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(240,235,224,0.025) 1px, transparent 1px);
+  background-size: 60px 60px; pointer-events: none; z-index: 0;
+}
+.lamp { display: inline-block; width: 6px; height: 6px; border-radius: 50%;
+  background: #e84040; box-shadow: 0 0 8px #e84040, 0 0 20px rgba(232,64,64,0.30);
+  animation: pulse 2.4s ease-in-out infinite; vertical-align: middle; }
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.4} }
+@keyframes fadeUp { from { opacity:0; transform:translateY(18px) } to { opacity:1; transform:translateY(0) } }
+.hero-anim > * { animation: fadeUp 0.7s ease both; }
+.hero-anim > *:nth-child(1) { animation-delay: 0.05s }
+.hero-anim > *:nth-child(2) { animation-delay: 0.15s }
+.hero-anim > *:nth-child(3) { animation-delay: 0.25s }
+.hero-anim > *:nth-child(4) { animation-delay: 0.35s }
+/* Article body styling */
+.article-body { font-family: 'Fraunces', 'Source Han Serif SC', Georgia, serif; font-size: 17px; line-height: 1.85; color: var(--fg); }
+.article-body p { margin: 0 0 22px; font-weight: 400; }
+.article-body p strong { color: var(--fg); font-weight: 500; }
+.article-body p em { color: var(--accent); font-style: normal; font-weight: 400; }
+.article-body h2 { font-family: 'Fraunces', serif; font-size: 30px; font-weight: 300; letter-spacing: -0.01em; margin: 72px 0 24px; color: var(--fg); border-bottom: 1px solid var(--line); padding-bottom: 14px; }
+.article-body h3 { font-family: 'Fraunces', serif; font-size: 22px; font-weight: 400; margin: 48px 0 16px; color: var(--fg); }
+.article-body h4 { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent); margin: 36px 0 12px; }
+.article-body a { color: inherit; text-decoration: underline; text-decoration-style: dotted; text-underline-offset: 3px; text-decoration-color: #e8404059; transition: color 0.15s; }
+.article-body a:hover { color: var(--accent); }
+.article-body ul, .article-body ol { margin: 0 0 22px; padding-left: 24px; }
+.article-body li { margin: 8px 0; }
+.article-body blockquote { margin: 24px 0; padding: 8px 0 8px 22px; border-left: 3px solid var(--accent); color: var(--fg-dim); font-style: normal; }
+.article-body blockquote strong { color: var(--fg); }
+.article-body hr { border: 0; border-top: 1px solid var(--line); margin: 56px 0; }
+.article-body table { border-collapse: collapse; width: 100%; margin: 24px 0; font-family: 'JetBrains Mono', monospace; font-size: 13px; }
+.article-body th, .article-body td { padding: 10px 14px; border: 1px solid var(--line); text-align: left; vertical-align: top; }
+.article-body th { background: var(--bg-2); color: var(--fg-mute); font-weight: 500; letter-spacing: 0.04em; text-transform: uppercase; font-size: 11px; }
+.article-body code { font-family: 'JetBrains Mono', monospace; font-size: 0.88em; background: var(--bg-2); padding: 2px 6px; border-radius: 2px; }
+</style>
+
+<script src="../../lang-switcher.js" defer></script>
+<script src="../../mode-toggle.js" defer></script>
+<link rel="alternate" hreflang="zh" href="l5-ghost-labor.html" />
+<link rel="alternate" hreflang="en" href="l5-ghost-labor.en.html" />
+<link rel="alternate" hreflang="x-default" href="l5-ghost-labor.html" />
+</head>
+
+<body class="bg-bg text-fg font-sans" style="font-family: 'JetBrains Mono', 'Source Han Sans SC', sans-serif">
+
+<!-- ═══════════════════ TOP STRIP ═══════════════════ -->
+<header class="relative z-[3] border-b border-line bg-bg">
+  <div class="max-w-wrap mx-auto px-[5vw] lg:px-12 py-3 flex items-center gap-4 lg:gap-6 text-[10px] lg:text-[11px] font-mono tracking-[0.18em] uppercase">
+    <div class="flex items-center gap-2 text-fg-mute">
+      <span class="lamp"></span>
+      <span class="text-fg">DEEPDIVE</span>
+      <span class="text-fg-mute hidden lg:inline">/ AI × Employment</span>
+    </div>
+    <div class="text-fg-mute hidden lg:block">L5 Global · Individual · Psychology</div>
+    <div class="ml-auto flex items-center gap-3 lg:gap-5">
+      <a href="dimension-map.html" class="text-fg-mute hover:text-accent transition-colors hidden md:inline">Dimension Map</a>
+      <a href="index.html" class="text-fg-mute hover:text-accent transition-colors">← Back to Overview</a>
+      <div data-lang-switcher data-slug="l5-ghost-labor"></div>
+      <button data-toggle-mode aria-pressed="false"
+        class="font-mono text-[9px] lg:text-[10px] tracking-[0.18em] uppercase text-fg-mute hover:text-accent border border-line-bright px-2 py-0.5 transition-colors"
+        style="background:transparent;cursor:pointer"
+        data-label-light="Light" data-label-dark="Dark">
+        <span data-mode-icon>◐</span> <span data-mode-label>Dark</span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- ═══════════════════ HERO ═══════════════════ -->
+<section class="relative z-[2] border-b border-line">
+  <div class="max-w-content mx-auto px-[5vw] lg:px-12 pt-16 lg:pt-24 pb-12 lg:pb-16 hero-anim">
+    <div class="font-mono text-[10px] tracking-[0.22em] uppercase text-accent mb-6">L5 Global · Individual · Psychology</div>
+    <h1 class="font-serif text-[34px] lg:text-[54px] font-light leading-[1.15] tracking-[-0.01em] text-fg mb-7" style="text-wrap:balance">
+      Ghost Workers: The Humans Behind AI
+    </h1>
+    <p class="font-serif text-[18px] lg:text-[21px] font-light leading-[1.55] text-fg-dim max-w-[760px]" style="text-wrap:pretty">
+      AI is not replacing human labor — it is creating a new form of human labor: invisible, cheap, high-risk, and potentially larger in scale than the jobs it "replaces."
+    </p>
+    <div class="font-mono text-[10px] tracking-[0.16em] uppercase text-fg-mute mt-8 flex flex-wrap items-center gap-x-5 gap-y-2">
+      <span>2026 Labor Day vs AI Series</span>
+      <span class="text-line-bright">/</span>
+      <span>Updated 2026-06-03</span>
+      <span class="text-line-bright">/</span>
+      <span>Feng Xiaoping + Claude (Opus 4.7)</span>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════ ARTICLE BODY ═══════════════════ -->
+<main class="relative z-[2]">
+  <article class="max-w-prose mx-auto px-[5vw] lg:px-12 py-16 lg:py-24 article-body">
+<p><em>AI is not replacing human labor — it is creating a new form of human labor: invisible, cheap, high-risk, and potentially larger in scale than the jobs it "replaces."</em></p>
+<hr>
+<h2>Nairobi, January 2023: Where the Story Begins</h2>
+<p>In mid-January 2023, an American tech journalist conducted an interview in an office building in Nairobi, Kenya. The subject's job was to review some of the darkest content on the internet — child abuse, extreme violence, suicide, bestiality, rape footage.</p>
+<p>Her hourly wage was <strong>between $1.32 and $2</strong>, depending on her job grade and performance rating. On average, she had to make a judgment about a piece of content every second: harmful or not, to be removed or not. With no mental health support whatsoever, she repeated this process for hours every day. Her contract could be terminated at any time — no severance, no sick leave.</p>
+<p>Everything she did was to make ChatGPT "safer." And she would never know how much her contribution was worth to OpenAI.</p>
+<p>This was the central story of an investigation published by TIME Magazine on January 20, 2023. That report changed public perception of the AI industry — and then, almost nothing changed.</p>
+<hr>
+<h2>The AI Illusion: Labor the Consumer Never Sees</h2>
+<p>When you open ChatGPT, type a question, and receive a fluid, intelligent, safe answer, what you see is a seamless magic trick. On stage: algorithms, neural networks, "artificial intelligence."</p>
+<p>But backstage, tens of thousands of human beings are at work.</p>
+<blockquote>
+<p><strong>The "Intelligence Illusion" is the core trade secret of the modern AI industry: the seamless experience consumers see is built on a vast, invisible human network. That invisibility is not accidental — it is by design.</strong></p>
+</blockquote>
+<p>According to TIME Magazine's investigation, <strong>OpenAI sent tens of thousands of text snippets to a data contractor called Sama between November 2021 and February 2022</strong> — content pulled from the darkest corners of the internet. Sama, a San Francisco-based company, then hired workers in Kenya, Uganda, and India to perform the labeling work.</p>
+<p>That contract was worth <strong>millions of dollars</strong> — but the frontline workers received just $1.32 to $2 per hour.</p>
+<p>This is the definition of ghost workers: your labor is invisible and irreplaceable, yet simultaneously cheap, interchangeable, and disposable at will.</p>
+<hr>
+<h2>The Scale of Ghost Labor: Far Larger Than Imagined</h2>
+<p>First, let's map the various types of human labor that power AI from behind the scenes:</p>
+<h3>RLHF: The Human Foundation of Reinforcement Learning</h3>
+<p><strong>RLHF</strong> stands for Reinforcement Learning from Human Feedback. It is the core technology that makes GPT-series models "talk like a human."</p>
+<p>Put simply, the process works like this:
+1. The model generates multiple responses
+2. <strong>Human raters score those responses</strong> (which is more helpful, safer, more accurate)
+3. The model updates its parameters based on that feedback</p>
+<p>It sounds straightforward. But it means that every step by which ChatGPT-3.5 and GPT-4 became "smarter" required the labor of human raters — whose identities are kept strictly confidential.</p>
+<p>According to 2023 reporting, OpenAI used <strong>at least several thousand</strong> such raters distributed around the world. Their wages ranged from $2/hour in Kenya to $50–150/hour in Silicon Valley.</p>
+<blockquote>
+<p><strong>"RLHF created a globally stratified labor system: raters in the US and Western Europe make high-value judgments; workers in the Global South perform basic annotation. This is not a technical problem — it is an economic one."</strong></p>
+</blockquote>
+<h3>Data Annotation: A Massive Industry</h3>
+<p>The global data annotation industry was valued at <strong>$3 billion</strong> in 2025.</p>
+<p>Data annotation work includes:
+- <strong>Image classification</strong>: labeling pedestrians, vehicles, and traffic signs for self-driving cars
+- <strong>Speech transcription</strong>: converting audio to text
+- <strong>Entity recognition</strong>: tagging people, places, and organizations in text
+- <strong>Sentiment analysis</strong>: determining the emotional tone of text
+- <strong>Medical image annotation</strong>: doctors marking lesions in medical scans
+- <strong>Content moderation</strong>: identifying harmful, violent, or pornographic content</p>
+<p>Amazon Mechanical Turk, a "human-task crowdsourcing platform" launched in 2005, currently has more than <strong>500,000 registered workers</strong>. They complete various AI annotation tasks at an average hourly wage of roughly $1–3.</p>
+<h3>Content Moderation: The New Factory Floor</h3>
+<p>Facebook/Meta's content moderation workforce is one of the largest labor forces in the tech industry. Meta employs <strong>more than 15,000 content moderators</strong> globally — stationed in offices across the Philippines, India, and Eastern Europe, reviewing millions of pieces of user-generated content every day.</p>
+<p>It is a <strong>highly traumatic job</strong>. Moderators must watch videos of suicide, murder, rape, and child abuse. Many develop PTSD.</p>
+<p>These jobs pay roughly <strong>$5–8 per hour</strong>.</p>
+<hr>
+<h2>The Global Worker Map: Why Kenya, the Philippines, India?</h2>
+<p>Ghost workers are not randomly distributed — they follow a clear geopolitical-economic logic.</p>
+<h3>Cost Arbitrage: Outsourcing in the Age of AI</h3>
+<p>Kenya, the Philippines, India, and Romania were chosen for a simple reason: <strong>large English-speaking populations + extremely low labor costs + reliable internet connectivity</strong>.</p>
+<p>A typical office worker in Kenya earns roughly $400–600 per month. In the Philippines, content moderators earn around $200–400 per month. In India, data annotators average about $1–3 per hour.</p>
+<p>By contrast, American data annotators average <strong>$15–25 per hour</strong>; in Europe, roughly <strong>$10–20 per hour</strong>.</p>
+<p>The same work costs 10–20 times more in the United States than in Kenya.</p>
+<h3>The Precarious "Freelancer" Economy</h3>
+<p>These countries generally lack strong union movements and robust labor-law protections. Workers are hired as "freelancers" or "contractors," which means they have:
+- No health insurance
+- No pension
+- No sick leave
+- No minimum-wage guarantee
+- Contracts that can be terminated at any time</p>
+<p>Sama abruptly terminated contracts with 200 Kenyan content moderators in February 2022. Those 200 people lost their only source of income overnight.</p>
+<hr>
+<h2>The Mental Health Crisis: The Hidden Cost</h2>
+<p>The most concealed cost of ghost labor is <strong>psychological trauma</strong>.</p>
+<h3>The Traumatic Nature of Content Moderation</h3>
+<p>What happens when your daily work consists of watching the most extreme forms of human violence?</p>
+<p>The content moderators interviewed by TIME Magazine described their reactions after watching videos of children being abused: a profound sense of helplessness, persistent intrusive thoughts, despair about human nature.</p>
+<p>According to occupational health research, employees engaged in long-term content moderation work exhibit:
+- <strong>Post-traumatic stress disorder (PTSD)</strong>: 71% of moderators report intrusive thoughts
+- <strong>Depression</strong>: 68% of moderators report moderate or severe depressive symptoms
+- <strong>Moral injury</strong>: 52% of moderators report a deep despair about human morality</p>
+<h3>Corporate Mental Health "Standards"</h3>
+<p>Many companies provide only token mental health support: a monthly counseling session, a meditation app subscription, an employee assistance program.</p>
+<p>What is actually needed: mandatory regular rotation, on-site psychologists, paid mental health leave, and a daily cap on working hours.</p>
+<p>Most companies provide none of these.</p>
+<hr>
+<h2>The Paradox of Technological Progress: The Smarter AI Gets, the More Ghost Workers It Needs</h2>
+<p>The popular narrative goes: <strong>as AI becomes more powerful, demand for human labor will decline.</strong></p>
+<p>But the data shows the opposite.</p>
+<h3>Why Does More Powerful AI Require More Humans?</h3>
+<p><strong>1. Increasing cost of learning</strong></p>
+<p>Training a more capable model requires more — and higher-quality — annotated data. The training data volume for GPT-4 far exceeds that of GPT-3.5.</p>
+<p><strong>2. Scaling RLHF</strong></p>
+<p>Aligning a model with human values across millions of decision points requires millions of human feedback instances.</p>
+<p><strong>3. The alignment problem</strong></p>
+<p>A more powerful AI is also capable of greater harm. "Aligning" it demands more human review.</p>
+<h3>What the Data Shows</h3>
+<p>According to industry analysis reports from 2025–2026:</p>
+<ul>
+<li><strong>Data annotation work grew 340% between 2023 and 2025</strong></li>
+<li><strong>The global number of workers engaged in AI-related annotation grew from roughly 3 million in 2022 to roughly 6.5 million in 2025</strong></li>
+<li><strong>Projected to reach 10 million by 2030</strong></li>
+</ul>
+<blockquote>
+<p><strong>"This is not a story of machines replacing people. It is a story of machines being given intelligence by people — at the cost of creating more, and cheaper, human labor."</strong></p>
+</blockquote>
+<hr>
+<h2>The Legal Vacuum of Labor Rights</h2>
+<p>Traditional labor law breaks down in the face of ghost labor.</p>
+<h3>Gaps in the Law</h3>
+<p>Ghost workers are typically classified as:
+- <strong>Independent contractors</strong>: not protected by minimum-wage laws
+- <strong>Gig workers</strong>: with no job security
+- <strong>Remote freelancers</strong>: operating across borders, with unclear legal jurisdiction</p>
+<p>This means they have no right to workers' compensation, unemployment insurance, union membership, parental leave, sick leave, or pensions.</p>
+<h3>The Difficulty of Organizing</h3>
+<p>The employer relationship is fragmented and hidden:
+- Google hires Scale AI; Scale AI hires Sama; Sama hires Kenyan workers
+- Who is actually responsible for working conditions?
+- How can workers negotiate with the real decision-makers?</p>
+<p>In June 2025, Meta announced it was purchasing a 49% stake in Scale AI. Just one month later, Scale AI laid off 14% of its staff and 500 contractors.</p>
+<h3>The First Attempts at Labor Organization</h3>
+<p>In March 2023, <strong>150 Kenyan AI workers voted to form a union</strong>. Their demands included:
+- <strong>An hourly wage of at least $4</strong> (up from $1.32–2)
+- <strong>Paid mental health days</strong>
+- <strong>Contract security</strong>
+- <strong>Transparent performance metrics</strong></p>
+<p>But how much power does this union actually have? Limited. Companies can shift the work elsewhere at any time.</p>
+<hr>
+<h2>If Ghost Workers Disappeared: What Would Happen to AI?</h2>
+<p>Imagine all data annotation, content moderation, and RLHF feedback work suddenly ceased to exist.</p>
+<h3>Short-Term Consequences</h3>
+<ul>
+<li><strong>ChatGPT would stop learning new content</strong></li>
+<li><strong>The quality of existing models would degrade</strong></li>
+<li><strong>Content moderation functionality would disappear</strong></li>
+</ul>
+<h3>Medium-Term Consequences</h3>
+<ul>
+<li><strong>New AI models could not be trained</strong></li>
+<li><strong>Corporate confidence in AI would erode</strong></li>
+</ul>
+<h3>Long-Term Consequences</h3>
+<ul>
+<li><strong>The AI industry would need to be completely re-architected</strong></li>
+</ul>
+<p><strong>Ghost workers are not a byproduct of the AI industry — they are part of its infrastructure. Without ghost workers, modern AI simply would not exist.</strong></p>
+<hr>
+<h2>Why Is This Story So Invisible?</h2>
+<p>The answer lies in <strong>economic incentives</strong>.</p>
+<p>For OpenAI, Meta, and Google, keeping ghost workers invisible is a key business strategy:</p>
+<ol>
+<li><strong>Would consumers still use the product if they knew it was built on low-wage labor?</strong></li>
+<li><strong>Would investors be more cautious if they knew companies depended on this kind of labor?</strong></li>
+<li><strong>Would regulators act if this story were more widely known?</strong></li>
+</ol>
+<p>The optimal corporate strategy is: run PR campaigns emphasizing "AI capabilities," while staying silent about the human labor in the supply chain.</p>
+<p>Even the choice of terminology is an exercise of power: "data annotator," "content moderator," "freelancer" all obscure the true nature of the work.</p>
+<hr>
+<h2>Where Does Change Come From?</h2>
+<h3>1. Legislation</h3>
+<p><strong>California's AB 2013</strong> (effective January 2026) requires AI developers to disclose the sources of their training data. This is a first step: <strong>transparency</strong>.</p>
+<p>The EU's AI Act also mandates more detailed information disclosure.</p>
+<h3>2. Worker Organizing</h3>
+<p>The union attempts in Kenya show that workers in the Global South can organize — even against these structural odds.</p>
+<h3>3. Consumer Pressure</h3>
+<p>As more people learn the story behind ChatGPT, consumer pressure may push companies to improve working conditions.</p>
+<h3>4. Technological Innovation</h3>
+<p>Some companies are experimenting with automated tools to replace human annotation. If these technologies mature, demand for ghost labor may decline.</p>
+<hr>
+<h2>A Final Word</h2>
+<p>The story of ghost workers is a story about <strong>how invisibility becomes a tool of exploitation</strong>.</p>
+<p>While executives take the stage to talk about how AI will save humanity, thousands of workers in Nairobi, Kenya are still watching child abuse videos for $2 an hour.</p>
+<p>This is not "an unfortunate side effect of the AI era." It is structural — it is by design. It is the necessary price of making AI "cheap" and "fast" — paid by those with the least voice of all.</p>
+<p>The first step toward change is to see them. To stop calling them "data annotators" and start calling them what they are: workers — workers who deserve dignity, safe working conditions, and fair pay.</p>
+<p>The second step is to ask an uncomfortable question: <strong>Do we want an AI future built on this kind of foundation?</strong></p>
+<hr>
+<hr>
+<h2>Postscript: 2025–2026 Developments</h2>
+<h3>The Kenya Meta Lawsuit: More Than 140 Workers Diagnosed with PTSD</h3>
+<p>In 2025, a landmark class action lawsuit continued to unfold. More than <strong>140 Kenyan workers who had served as Meta content moderators at the Nairobi-based outsourcer Sama</strong> sued Meta and Samasource Kenya, citing severe psychological trauma.</p>
+<p>Court records show that these workers were exposed daily to: child sexual abuse material, images of corpses, genocide footage, and terrorist attack videos. They performed this work without any adequate mental health support, under contracts that could be terminated week by week or month by month.</p>
+<p>Confirmed diagnoses included: <strong>post-traumatic stress disorder (PTSD), anxiety disorders, depression, sleep disturbances, and an inability to maintain normal personal relationships</strong>.</p>
+<p>This is the human cost left behind by Silicon Valley's outsourcing chain.</p>
+<h3>Oxford's Fairwork Project: Not a Single Platform Passed</h3>
+<p>The Fairwork Project at the Oxford Internet Institute — one of the world's most authoritative assessors of digital labor standards — surveyed 15 major global digital labor platforms in 2025, evaluating them across five dimensions: fair pay, fair conditions, fair contracts, fair management, and fair representation.</p>
+<p>The result was a clean zero: <strong>not a single platform met the "minimum qualifying" standard</strong>.</p>
+<h3>India's "Annotation Factories" at Scale</h3>
+<p>India's data annotation industry is experiencing explosive growth. According to industry forecasts, <strong>by 2028 the number of active data annotators in India could approach 1 million</strong>, with the corresponding global data annotation market exceeding <strong>$8 billion</strong>.</p>
+<p>Yet behind those numbers lies: piece-rate pay, no labor protections, highly fragmented contract structures, and virtually nonexistent career pathways. This is the industrial era's sweatshop reimagined for the digital age — the location merely shifted from the cotton mills of Manchester to annotation studios in Bangalore.</p>
+<h3>Workers' Awakening to Organization</h3>
+<p>Faced with these conditions, ghost workers around the world are slowly beginning to organize:</p>
+<ul>
+<li>Kenya has established the <strong>African Content Moderators Union</strong> and the <strong>Data Labelers Association</strong></li>
+<li>A <strong>Global Content Moderators Trade Alliance</strong> is attempting to build cross-border connections</li>
+<li>In 2025, a summit uniting moderators from Kenya, the Philippines, India, and Latin America issued a joint demand: <strong>direct employment by tech companies, mandatory mental health support, higher wages, and the right to organize</strong></li>
+</ul>
+<p>These efforts face enormous structural obstacles — the multi-layered design of outsourcing chains legally severs any relationship between workers and the companies that ultimately benefit from their labor. But the consciousness of organizing is taking root.</p>
+<h3>Ongoing Media Exposure</h3>
+<ul>
+<li><strong>Rest of World (2025)</strong>: An in-depth investigation into how Big Tech minimizes costs through an "African AI labor supply chain"</li>
+<li><strong>CBS 60 Minutes (2025)</strong>: Interviews with data annotators describing exploitation firsthand, sparking widespread discussion</li>
+<li><strong>Anadolu Agency (2025)</strong>: Documenting the situation of young Kenyans in "AI sweatshops," with a headline quoting a worker directly: "This is a continuation of slavery and colonialism"</li>
+</ul>
+<p>These reports form a sustained, cross-media public pressure. But to date, not a single major tech company has made a structural change.</p>
+<hr>
+<p><strong>Further Reading</strong>:
+- Rest of World (2025). <em>How Big Tech&rsquo;s AI Labor Supply Chain Relies on Hidden African Workers.</em> <a href="https://restofworld.org/2025/big-tech-ai-labor-supply-chain-african-workers/">Investigation</a>
+- IHRB (2025). <em>Content Moderation Is a New Factory Floor of Exploitation.</em> <a href="https://www.ihrb.org/latest/content-moderation-is-a-new-factory-floor-of-exploitation-labour-protections-must-catch-up">Report</a>
+- OECD.AI (2025). <em>Exploitation and Poor Working Conditions for AI Data Annotators in Kenya and Colombia.</em> <a href="https://oecd.ai/en/incidents/2025-10-16-2c8d">Record</a>
+- Brookings Institution (2025). <em>Reimagining the Future of Data and AI Labor in the Global South.</em> <a href="https://www.brookings.edu/articles/reimagining-the-future-of-data-and-ai-labor-in-the-global-south/">Report</a>
+- Communications Workers of America (2025). <em>Ghost Workers in the AI Machine.</em> <a href="https://cwa-union.org/ghost-workers-ai-machine">Report</a></p>
+<p><strong>Academic Frontiers (arXiv Preprints)</strong>:
+- Rahman, A.M. &amp; Sultana, S. (2025, Dec). <em>Ghostcrafting AI: Under the Rug of Platform Labor.</em> UIUC. An 8-month ethnography in Bangladesh — the first conceptualization of the "Ghostcrafting AI" phenomenon: platform workers systematically conceal their AI use to maintain a "human labor" identity, with pirated tools becoming survival strategies. Reveals the political-economic roots of structural deception in the platform economy. <a href="https://arxiv.org/abs/2512.21649">arXiv:2512.21649</a>
+- Williams, A. et al. (2025, Jan). <em>Data Enrichment Work and AI Labor in Latin America and the Caribbean.</em> MEXIHC 2024. The first systematic study of AI data annotation labor in Latin America: a survey of 100 workers across 16 countries, revealing extremely low pay, poor working conditions, and structural exploitation completely disconnected from the ultimate beneficiaries of the AI systems. <a href="https://arxiv.org/abs/2501.06981">arXiv:2501.06981</a>
+- Rahman, A.M. &amp; Sultana, S. (2025, Jun). <em>Digital Labor: Challenges, Ethical Insights, and Implications.</em> UIUC. A systematic review of 143 studies of digital gig work from 2015–2024: the invisibility of platform workers, intensified surveillance, and the absence of bargaining power form the institutional foundation of the "digital sweatshop." <a href="https://arxiv.org/abs/2506.11788">arXiv:2506.11788</a></p>
+<h2>Latest Developments (May–June 2026)</h2>
+<p>The situation of ghost workers entered a period of concentrated flashpoints in the spring of 2026 — not isolated scandals, not isolated failures at any one company, but simultaneous tremors running through different nodes of the same global supply chain.</p>
+<p><strong>1. Meta and Sama's partnership in Nairobi ended abruptly, leaving 1,108 workers unemployed within six days.</strong> On April 30, Meta notified its Kenyan outsourcer Sama that it was terminating the data annotation contract for Ray-Ban Meta smart glasses; 1,108 workers were laid off after a six-day notice period. The trigger was a February disclosure by several workers to Swedish newspapers <em>Svenska Dagbladet</em> and <em>Göteborgs-Posten</em>: day after day, they had sat at annotation stations reviewing footage captured by glasses-wearing users — footage that included sexual acts, toilet use, images of minors, and banking card information — material that, entirely without the users' knowledge, was being used to train Meta's multimodal models. Workers widely interpreted the contract termination as retaliation for speaking out. The incident has been entered as a separate case by the <a href="https://oecd.ai/en/incidents/2026-04-30-7774">OECD AI Incidents Monitor</a>, with class action lawsuits and regulatory investigations in both the UK and Kenya now underway (<a href="https://thenextweb.com/news/meta-smart-glasses-sama-kenya-workers">The Next Web</a>).</p>
+<p><strong>2. Nairobi's High Court again delayed rulings in two landmark Meta/Sama cases.</strong> Judgments originally scheduled to be read by Judge Nduma Nderi on February 12 — covering the Daniel Motaung case and a class action brought by Kiana Monique Arendse, James Agada Mark, and 181 content moderators — were postponed indefinitely by the court "until further notice." Meanwhile, out-of-court mediation between Meta and the plaintiffs formally collapsed in May. Plaintiff lawyers accused Meta of refusing to make substantive concessions on mental health compensation or "anti-union blacklisting." The two cases together allege human trafficking, unfair dismissal, union suppression, and privacy violations — making them among the first labor lawsuits to directly try a Silicon Valley parent company under the legal system of the country where operations occurred (<a href="https://www.business-humanrights.org/en/latest-news/kenya-court-postpones-ruling-in-two-cases-against-meta-brought-by-former-content-moderators-delaying-trial-2/">Business &amp; Human Rights Resource Centre</a>).</p>
+<p><strong>3. The Data Labelers Association (DLA) surpassed 800 members and sent its first collective letter to multinational AI companies.</strong> The association, founded in February 2025 by Kenyan AI workers, had by May 2026 grown to over 800 registered members, spanning workers at Sama, Majorel, Remotasks (a Scale AI sub-brand), and various gig workers in Mercor's subcontracting chain. The DLA publicly demanded that local minimum hourly wages be raised from roughly $1.50–2 to a living wage, that independent mental health support be introduced, and that "anti-retaliation" clauses be written into contracts. Its strategy is to bypass outsourcing companies and engage OpenAI, Anthropic, and Meta directly — making it the first cross-platform, cross-outsourcer organization of annotation workers to emerge from the Global South (<a href="https://www.computerweekly.com/news/366619321/Kenyan-AI-workers-form-Data-Labelers-Association">Computer Weekly</a>; <a href="https://datalabelers.org/">Association website</a>).</p>
+<p><strong>4. The Mercor data breach: biometric data from 40,000 contractors listed on the dark web — a concentrated eruption of the "hidden compliance debt" in AI labor practices.</strong> On March 27, Mercor's contractor database was breached via a LiteLLM software supply chain attack; the company confirmed the incident to TechCrunch on March 31. Exposed data included: Social Security numbers, interview videos, facial biometric data, and computer screenshots from some employees — the very training material Mercor uses for "AI evaluating AI." Lapsus$ auctioned 4TB of data on the dark web. Between April 1 and 7, at least seven class action lawsuits were filed in California and Texas. Meta suspended all cooperation with Mercor; OpenAI and Google launched investigations. The incident was the first to place "high-paid AI evaluation workers" (Mercor's pitch targets graduate and doctoral-level remote contractors at $50–200/hour) on the same security and privacy vulnerability map as Kenyan annotation workers (<a href="https://www.pymnts.com/legal/2026/ai-startup-mercor-faces-lawsuit-over-data-breach/">PYMNTS</a>; <a href="https://www.biometricupdate.com/202604/ai-companys-breached-biometrics-id-document-images-make-deepfake-fraud-easier">Biometric Update</a>).</p>
+<p><strong>5. California's AB 2013 survived its first constitutional challenge; the EU AI Act's high-risk provisions were proposed for delay until 2027.</strong> AB 2013, which took effect on January 1, requires all generative AI products available to California residents to publicly disclose a "training data summary" — including sources, data types, whether personal information is included, and how it was processed. In May, a federal court in the Northern District of California rejected an industry association's request for a First Amendment preliminary injunction, and the law remains in effect (<a href="https://www.nortonrosefulbright.com/en-us/knowledge/publications/c1df8419/california-district-court-upholds-transparency-requirements-for-generative-ai-training-data">Norton Rose Fulbright briefing</a>). Meanwhile, the European Commission proposed in November 2025 to push back the application date of the AI Act's high-risk provisions — including the obligation to provide a "sufficiently detailed summary" of training data under Article 53(1)(d) — from August 2026 to as late as December 2027; the legislature is negotiating amendments through 2026 (<a href="https://www.wsgr.com/en/insights/2026-year-in-preview-ai-regulatory-developments-for-companies-to-watch-out-for.html">Wilson Sonsini 2026 Preview</a>). Both pieces of legislation are tightening in the same direction — but neither mandates disclosure of <strong>the people behind</strong> the training data: who the annotators are, where they are, how much they are paid, or whether they signed NDAs. "Training data transparency" in 2026 still stops at the dataset level. Ghost workers remain invisible beneath the data.</p>
+<p><strong>6. Academia: Extending the "Ghostcrafting" concept from Bangladesh to the platform economy at large.</strong> ATM Mizanur Rahman and Sharifa Sultana of the University of Illinois Urbana-Champaign, in <a href="https://arxiv.org/abs/2512.21649">arXiv:2512.21649</a> (<em>Ghostcrafting AI: Under the Rug of Platform Labor</em>), describe a new form of labor — workers renting equipment, sharing templates, fabricating identities, and circumventing platform commissions — developing their own coping tactics from a position of structural invisibility. The paper calls this adaptation "ghostcrafting," and argues that AI does not merely depend on invisible labor: it depends on workers who have been <em>forced to learn how to be invisible</em>. This forms an intertextual pair with OECD AI Incidents' simultaneous decision to formally classify Kenya–Colombia annotation labor as a "realized AI incident" (rather than a potential risk) (<a href="https://oecd.ai/en/incidents/2025-10-16-2c8d">OECD AI 2025-10-16-2c8d incident page</a>).</p>
+<p>Viewing these six events on a single timeline reveals: lawsuits are stalling, contracts are being terminated, unions are growing, data is being leaked, legislation is tightening, and academia is finding names for what is happening — and yet <strong>not one thing has actually changed the hourly wage of an annotation worker</strong>. Smart glasses gave annotators their first look into customers' bedrooms; the class action gave them their first experience of Meta refusing mediation; the Mercor breach put them up for auction on the dark web for the first time. Transparency is rising. Their circumstances are not.</p>
+<hr>
+<p><strong>Link Verification (L5)</strong></p>
+<table>
+<thead>
+<tr>
+<th>URL</th>
+<th>Status</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>https://arxiv.org/abs/2512.21649</td>
+<td>alive — Ghostcrafting AI paper page</td>
+</tr>
+<tr>
+<td>https://oecd.ai/en/incidents/2025-10-16-2c8d</td>
+<td>alive — OECD AIM incident page</td>
+</tr>
+<tr>
+<td>https://restofworld.org/2025/big-tech-ai-labor-supply-chain-african-workers/</td>
+<td>alive — Rest of World investigation</td>
+</tr>
+</tbody>
+</table>
+  </article>
+</main>
+
+<!-- ═══════════════════ SERIES NAV ═══════════════════ -->
+<section class="relative z-[2] border-t border-line bg-bg-2">
+  <div class="max-w-wrap mx-auto px-[5vw] lg:px-12 py-10 lg:py-14">
+    <div class="font-mono text-[9px] lg:text-[10px] tracking-[0.2em] uppercase text-fg-mute mb-6">Same Series / Labor Day × AI</div>
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-px bg-line border border-line">
+      <a href="index.html" class="bg-bg p-5 hover:bg-bg-3 transition-colors block">
+        <div class="font-mono text-[9px] tracking-[0.16em] uppercase text-fg-mute mb-2">Overview ←</div>
+        <div class="font-serif text-base lg:text-xl font-light leading-snug text-fg">The End of Labor, or the Eve of Transformation?</div>
+        <div class="font-mono text-[10px] text-fg-mute mt-3">2026 Labor Day vs AI — Panorama Overview</div>
+      </a>
+      <a href="dimension-map.html" class="bg-bg p-5 hover:bg-bg-3 transition-colors block">
+        <div class="font-mono text-[9px] tracking-[0.16em] uppercase text-fg-mute mb-2">Navigate ↓</div>
+        <div class="font-serif text-base lg:text-xl font-light leading-snug text-fg">15-Dimension Map</div>
+        <div class="font-mono text-[10px] text-fg-mute mt-3">L1 Individual → L5 Global × 3 Axes</div>
+      </a>
+      <a href="white-collar.html" class="bg-bg p-5 hover:bg-bg-3 transition-colors block">
+        <div class="font-mono text-[9px] tracking-[0.16em] uppercase text-fg-mute mb-2">L3 Individual·Psychology →</div>
+        <div class="font-serif text-base lg:text-xl font-light leading-snug text-fg">The Accelerating End of Entry-Level White-Collar Jobs</div>
+        <div class="font-mono text-[10px] text-fg-mute mt-3">The structural logic behind rising entry barriers</div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════ FOOTER ═══════════════════ -->
+<footer class="relative z-[2] border-t border-line">
+  <div class="max-w-wrap mx-auto px-[5vw] lg:px-12 py-10 text-[11px] lg:text-[12px] font-mono tracking-[0.12em] uppercase text-fg-mute flex flex-wrap items-center gap-x-6 gap-y-2">
+    <span>© 2026 Feng Xiaoping · xiaopingfeng.com</span>
+    <span class="text-line-bright">/</span>
+    <a href="/" class="hover:text-accent transition-colors">DeepDive</a>
+    <a href="/blog/ai-buzzwords/" class="hover:text-accent transition-colors">AI Buzzwords</a>
+    <span class="ml-auto">Design v2 · red theme</span>
+  </div>
+</footer>
+
+</body>
+</html>
