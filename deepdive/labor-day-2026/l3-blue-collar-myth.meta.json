@@ -4,7 +4,7 @@
   "topic_dir": "labor-day-2026",
   "title": {
     "zh": "蓝领神话的破裂：当体力劳动不再安全",
-    "en": null
+    "en": "The Shattering of the Blue-Collar Myth: When Physical Labor Is No Longer Safe — L3 Labor Market · Structure · Power"
   },
   "current_version": 1,
   "first_published": "2026-06-03",
@@ -16,7 +16,13 @@
     "en"
   ],
   "primary_language": "zh",
-  "translations": {},
+  "translations": {
+    "en": {
+      "synced_at_version": 1,
+      "last_translated": "2026-06-03",
+      "method": "auto:glm-5.1"
+    }
+  },
   "manual_only": false,
   "author": "冯小平 + Claude (Opus 4.7)",
   "version_log": [
