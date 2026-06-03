@@ -18,7 +18,7 @@
   "primary_language": "zh",
   "translations": {
     "en": {
-      "synced_at_version": 1,
+      "synced_at_version": 2,
       "last_translated": "2026-06-03",
       "method": "auto:glm-5.1"
     }
