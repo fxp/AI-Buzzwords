@@ -4,7 +4,7 @@
   "topic_dir": "labor-day-2026",
   "title": {
     "zh": "超越 UBI：重新想象分配制度——谁拥有 AI 创造的价值",
-    "en": null
+    "en": "Beyond UBI: Reimagining the Distribution System—Who Owns the Value Created by AI — L4 Nation · Distribution · Institution"
   },
   "current_version": 1,
   "first_published": "2026-06-03",
@@ -16,7 +16,13 @@
     "en"
   ],
   "primary_language": "zh",
-  "translations": {},
+  "translations": {
+    "en": {
+      "synced_at_version": 1,
+      "last_translated": "2026-06-03",
+      "method": "auto:glm-5.1"
+    }
+  },
   "manual_only": false,
   "author": "冯小平 + Claude (Opus 4.7)",
   "version_log": [

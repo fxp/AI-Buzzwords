@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="amber">
+<head>
+<style id="theme-vars">:root{--accent:#c4850a;--accent-glow:rgba(196,133,10,0.30);--accent-soft:rgba(196,133,10,0.10);}</style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Beyond UBI: Reimagining the Distribution System—Who Owns the Value Created by AI — L4 Nation · Distribution · Institution</title>
+<meta name="description" content="UBI is a misleading solution—it reduces the distribution question to &quot;how much money to give,&quot; while ignoring the real question: who owns the assets that generate AI value?" />
+<!-- Design System v2: canonical token CSS -->
+<link rel="stylesheet" href="../../colors_and_type.css">
+<link rel="stylesheet" href="../../kit.css">
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,700&family=JetBrains+Mono:wght@300;400;500;700&display=swap" rel="stylesheet" />
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      colors: {
+        bg:           'var(--bg)',
+        'bg-2':       'var(--bg-2)',
+        'bg-3':       'var(--bg-3)',
+        fg:           'var(--fg)',
+        'fg-dim':     'var(--fg-dim)',
+        'fg-mute':    'var(--fg-mute)',
+        line:         'var(--line)',
+        'line-bright':'var(--line-bright)',
+        accent:       'var(--accent)',
+        'accent-soft':'var(--accent-soft)',
+      },
+      fontFamily: {
+        serif: ["'Fraunces'", "'Source Han Serif SC'", "Georgia", "serif"],
+        mono:  ["'JetBrains Mono'", "ui-monospace", "monospace"],
+      },
+      maxWidth: {
+        prose:   '820px',
+        content: '1020px',
+        wrap:    '1320px',
+      },
+    }
+  }
+}
+</script>
+<style>
+em, i { font-style: normal }
+body { font-feature-settings: 'ss01','ss02','kern'; -webkit-font-smoothing: antialiased }
+body::before {
+  content: ''; position: fixed; inset: 0;
+  background-image:
+    linear-gradient(rgba(240,235,224,0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(240,235,224,0.025) 1px, transparent 1px);
+  background-size: 60px 60px; pointer-events: none; z-index: 0;
+}
+.lamp { display: inline-block; width: 6px; height: 6px; border-radius: 50%;
+  background: #c4850a; box-shadow: 0 0 8px #c4850a, 0 0 20px rgba(196,133,10,0.30);
+  animation: pulse 2.4s ease-in-out infinite; vertical-align: middle; }
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.4} }
+@keyframes fadeUp { from { opacity:0; transform:translateY(18px) } to { opacity:1; transform:translateY(0) } }
+.hero-anim > * { animation: fadeUp 0.7s ease both; }
+.hero-anim > *:nth-child(1) { animation-delay: 0.05s }
+.hero-anim > *:nth-child(2) { animation-delay: 0.15s }
+.hero-anim > *:nth-child(3) { animation-delay: 0.25s }
+.hero-anim > *:nth-child(4) { animation-delay: 0.35s }
+/* Article body styling */
+.article-body { font-family: 'Fraunces', 'Source Han Serif SC', Georgia, serif; font-size: 17px; line-height: 1.85; color: var(--fg); }
+.article-body p { margin: 0 0 22px; font-weight: 400; }
+.article-body p strong { color: var(--fg); font-weight: 500; }
+.article-body p em { color: var(--accent); font-style: normal; font-weight: 400; }
+.article-body h2 { font-family: 'Fraunces', serif; font-size: 30px; font-weight: 300; letter-spacing: -0.01em; margin: 72px 0 24px; color: var(--fg); border-bottom: 1px solid var(--line); padding-bottom: 14px; }
+.article-body h3 { font-family: 'Fraunces', serif; font-size: 22px; font-weight: 400; margin: 48px 0 16px; color: var(--fg); }
+.article-body h4 { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent); margin: 36px 0 12px; }
+.article-body a { color: inherit; text-decoration: underline; text-decoration-style: dotted; text-underline-offset: 3px; text-decoration-color: #c4850a59; transition: color 0.15s; }
+.article-body a:hover { color: var(--accent); }
+.article-body ul, .article-body ol { margin: 0 0 22px; padding-left: 24px; }
+.article-body li { margin: 8px 0; }
+.article-body blockquote { margin: 24px 0; padding: 8px 0 8px 22px; border-left: 3px solid var(--accent); color: var(--fg-dim); font-style: normal; }
+.article-body blockquote strong { color: var(--fg); }
+.article-body hr { border: 0; border-top: 1px solid var(--line); margin: 56px 0; }
+.article-body table { border-collapse: collapse; width: 100%; margin: 24px 0; font-family: 'JetBrains Mono', monospace; font-size: 13px; }
+.article-body th, .article-body td { padding: 10px 14px; border: 1px solid var(--line); text-align: left; vertical-align: top; }
+.article-body th { background: var(--bg-2); color: var(--fg-mute); font-weight: 500; letter-spacing: 0.04em; text-transform: uppercase; font-size: 11px; }
+.article-body code { font-family: 'JetBrains Mono', monospace; font-size: 0.88em; background: var(--bg-2); padding: 2px 6px; border-radius: 2px; }
+</style>
+
+<script src="../../lang-switcher.js" defer></script>
+<script src="../../mode-toggle.js" defer></script>
+<link rel="alternate" hreflang="zh" href="l4-beyond-ubi.html" />
+<link rel="alternate" hreflang="en" href="l4-beyond-ubi.en.html" />
+<link rel="alternate" hreflang="x-default" href="l4-beyond-ubi.html" />
+</head>
+
+<body class="bg-bg text-fg font-sans" style="font-family: 'JetBrains Mono', 'Source Han Sans SC', sans-serif">
+
+<!-- ═══════════════════ TOP STRIP ═══════════════════ -->
+<header class="relative z-[3] border-b border-line bg-bg">
+  <div class="max-w-wrap mx-auto px-[5vw] lg:px-12 py-3 flex items-center gap-4 lg:gap-6 text-[10px] lg:text-[11px] font-mono tracking-[0.18em] uppercase">
+    <div class="flex items-center gap-2 text-fg-mute">
+      <span class="lamp"></span>
+      <span class="text-fg">DEEPDIVE</span>
+      <span class="text-fg-mute hidden lg:inline">/ AI × Employment</span>
+    </div>
+    <div class="text-fg-mute hidden lg:block">L4 Nation · Distribution · Institution</div>
+    <div class="ml-auto flex items-center gap-3 lg:gap-5">
+      <a href="dimension-map.html" class="text-fg-mute hover:text-accent transition-colors hidden md:inline">Dimension Map</a>
+      <a href="index.html" class="text-fg-mute hover:text-accent transition-colors">← Back to Panorama</a>
+      <div data-lang-switcher data-slug="l4-beyond-ubi"></div>
+      <button data-toggle-mode aria-pressed="false"
+        class="font-mono text-[9px] lg:text-[10px] tracking-[0.18em] uppercase text-fg-mute hover:text-accent border border-line-bright px-2 py-0.5 transition-colors"
+        style="background:transparent;cursor:pointer"
+        data-label-light="Light" data-label-dark="Dark">
+        <span data-mode-icon>◐</span> <span data-mode-label>Dark</span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- ═══════════════════ HERO ═══════════════════ -->
+<section class="relative z-[2] border-b border-line">
+  <div class="max-w-content mx-auto px-[5vw] lg:px-12 pt-16 lg:pt-24 pb-12 lg:pb-16 hero-anim">
+    <div class="font-mono text-[10px] tracking-[0.22em] uppercase text-accent mb-6">L4 Nation · Distribution · Institution</div>
+    <h1 class="font-serif text-[34px] lg:text-[54px] font-light leading-[1.15] tracking-[-0.01em] text-fg mb-7" style="text-wrap:balance">
+      Beyond UBI: Reimagining the Distribution System—Who Owns the Value Created by AI
+    </h1>
+    <p class="font-serif text-[18px] lg:text-[21px] font-light leading-[1.55] text-fg-dim max-w-[760px]" style="text-wrap:pretty">
+      UBI is a misleading solution—it reduces the distribution question to "how much money to give," while ignoring the real question: who owns the assets that generate AI value?
+    </p>
+    <div class="font-mono text-[10px] tracking-[0.16em] uppercase text-fg-mute mt-8 flex flex-wrap items-center gap-x-5 gap-y-2">
+      <span>2026 May Day Labor vs AI Series</span>
+      <span class="text-line-bright">/</span>
+      <span>2026-06-03 Updated</span>
+      <span class="text-line-bright">/</span>
+      <span>Feng Xiaoping + Claude (Opus 4.7)</span>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════ ARTICLE BODY ═══════════════════ -->
+<main class="relative z-[2]">
+  <article class="max-w-prose mx-auto px-[5vw] lg:px-12 py-16 lg:py-24 article-body">
+<p><em>UBI (Universal Basic Income) is a misleading solution—it reduces the distribution question to "how much money to give," while ignoring the real question: who owns the assets that generate AI value?</em></p>
+<hr>
+<h2>Opening: Finland's Incomplete Experiment</h2>
+<p>From 2017 to 2018, Finland conducted a high-profile Universal Basic Income (UBI) experiment. 2,000 randomly selected unemployed individuals received <strong>€560</strong> (approximately $615) per month for two years, with no conditions attached.</p>
+<p>The results were interesting but puzzling. Basic income recipients reported higher well-being, lower stress, and better mental health. According to the report from Finland's Ministry of Social Affairs and Health, participants were "more satisfied with their lives, and experienced less psychological stress, depression, sadness, and loneliness." They also "trusted other people and social institutions more."</p>
+<p>But here is the puzzle: <strong>employment rates barely changed</strong>.</p>
+<p>In the first year of the trial, basic income recipients worked an average of 6 more days than the control group (78 days vs. 72 days). In the second year, when a new activation policy was simultaneously introduced, the difference became virtually undetectable. A subsequent international analysis found no lasting effect of basic income on labor market participation.</p>
+<p>Finland's UBI experiment neither proves UBI is a successful policy nor proves it a failure—because it neatly illustrates that UBI solves the <strong>wrong problem</strong>.</p>
+<p>It improved people's life satisfaction but did not change the distribution of economic power. It gave people more money but not more control—control over productive resources, income-generating assets, or economic decisions.</p>
+<hr>
+<h2>Part One: The Logic of UBI—Why Many Think It's the Answer</h2>
+<h3>The Smart Software Left's Favorite</h3>
+<p>Over the past decade, UBI has become the de facto solution for many tech executives, economists, and progressive politicians. The argument typically goes like this:</p>
+<p><strong>Times are changing:</strong> AI and automation will render many human jobs obsolete. Traditional employment is no longer a reliable source of income. Therefore, we need a new system that distributes basic income to everyone, regardless of whether they work.</p>
+<p><strong>Simplicity:</strong> UBI is cleaner than existing welfare bureaucracies. No need to check applicants' qualifications, income, or verify that they are "truly" unemployed. Everyone receives the same amount.</p>
+<p><strong>Respect:</strong> UBI gives people choices. Rather than forcing them into retraining programs or specific jobs, UBI lets them decide what they want to do—work, retire, start a business, create art, or something else.</p>
+<p><strong>Universality:</strong> UBI can be applied to everyone, not just the unemployed. This avoids stigmatizing the unemployed and acknowledges that economic security matters for everyone.</p>
+<p>Each of these arguments has merit. UBI is indeed better than existing welfare systems in many ways. But they all revolve around a fundamental assumption that is <strong>wrong</strong>:</p>
+<p>Namely, that from a social and economic perspective, the distribution problem can be solved by giving people more cash.</p>
+<hr>
+<h2>Part Two: The Core Problem UBI Cannot Solve</h2>
+<p>Suppose we implemented the "Freedom Dividend" that Andrew Yang championed in his 2020 presidential campaign—giving every American adult $1,000 per month. This would be the largest income transfer in history.</p>
+<p>What would happen under such a system?</p>
+<p><strong>Problem 1: Ownership Remains Unchanged</strong></p>
+<p><strong>Under the new system</strong>: All AI infrastructure, compute, databases, and models are still owned by a handful of companies (Google, OpenAI, Anthropic, Meta). The shareholders of these companies capture all the returns from the economic value generated by AI. The government collects a portion of AI-related revenue through taxes and distributes it as cash to everyone.</p>
+<p><strong>Result</strong>: The ownership structure remains entirely unchanged. Economic power remains highly concentrated. Shareholders of a few AI companies still hold decision-making power over how AI is used, what AI should do, who benefits from it, and who bears the harms. Ordinary people receive a check but have no say in the decisions that shape their economic destiny.</p>
+<p><strong>Problem 2: The Question of Data Ownership</strong></p>
+<p>UBI is often defended as "compensation for society's contribution to automation." But here's the problem: UBI does not compensate any particular contribution.</p>
+<p>For example, GPT-4 was trained using data from billions of people—their writing, their code, their web comments, their creative work. These people never consented to the use of their data. They were not compensated for it. OpenAI is now worth $80 billion, largely based on the unauthorized use of these people's intellectual labor.</p>
+<p>UBI would say: "Fine, distribute some money to everyone, including those whose data was used." But this is not compensation. What should an American author whose data was used to train GPT-4 receive? One month of $1,000 UBI? Meanwhile, OpenAI's investors earn billions per year. What should a Chinese engineer whose data was used to train models receive? China does not pay UBI, so he or she would get nothing.</p>
+<p>UBI "socializes" the costs but keeps the returns private.</p>
+<p><strong>Problem 3: Price Inflation</strong></p>
+<p>When everyone receives an additional $1,000 per month (assuming in the U.S.), landlords will realize they can now charge higher rents. Businesses will raise prices for goods. Healthcare and education providers will increase their fees. Economists call this "downward nominal rigidity"—when everyone gets more cash, prices for goods and services tend to rise accordingly, especially for goods with fixed supply (like housing).</p>
+<p>Many UBI advocates argue this problem can be controlled, but historical evidence suggests this is difficult to achieve. When new purchasing power suddenly appears in a society, prices tend to rise—especially in real estate markets, where supply is completely fixed.</p>
+<p><strong>Problem 4: International Inequality Worsens</strong></p>
+<p>UBI arguments are appealing in wealthy countries because they can afford $1,000 per month per citizen. But what about global inequality?</p>
+<p>The U.S. gives every citizen $1,000/month = $12,000/year per person. Bangladesh might not be able to afford $100/month per citizen (= $1,200/year). This means American workers receive 10 times the basic income while potentially contributing the same type of AI training data. This would exacerbate global wealth inequality.</p>
+<hr>
+<h2>Part Three: Alternative Ownership Models</h2>
+<p>If the distribution problem is not about "how much money to give" but about "who owns the assets that generate value," what would a more fundamental reform look like?</p>
+<h3>Case Study 1: The Alaska Permanent Fund</h3>
+<p>Alaska is a useful comparative case. Rather than giving residents direct cash (although that also happens, see below), the state established a system in which <strong>the state government, acting as agent for its residents, owns the oil resources</strong>.</p>
+<p>In 1976, Alaska established the Alaska Permanent Fund Corporation (APFC), investing a portion of the revenue from oil sales into an investment portfolio. The fund is now worth over <strong>$70 billion</strong>. Each year, the fund's investment returns (not principal) are distributed to eligible Alaska residents as an annual dividend of approximately <strong>$1,000–2,500</strong> per person (depending on the fund's performance).</p>
+<p><strong>Why this differs from UBI:</strong></p>
+<p>Under UBI, the government collects revenue through taxes and then distributes it as consumption spending. In the Alaska model, the government directly holds the income-generating assets. This means:</p>
+<ul>
+<li>
+<p><strong>Power retention:</strong> The state government, representing its residents, has decision-making power over how and where oil resources are developed. It doesn't merely collect tax revenue from development—it actually controls the asset itself.</p>
+</li>
+<li>
+<p><strong>Long-term value creation:</strong> The fund doesn't just distribute current-year income; it accumulates principal, creating a source of wealth that passes from generation to generation. This creates economic security for future generations—not just for this year, but permanently.</p>
+</li>
+<li>
+<p><strong>Democratic oversight:</strong> A committee of public representatives decides how to invest the fund. While imperfect (the APFC is actually quite independent and undemocratic), it at least allows some degree of social control over the asset's use.</p>
+</li>
+</ul>
+<p><strong>Implications for the AI era:</strong></p>
+<p>The concept of a "Sovereign AI Fund" is analogous to the Alaska model:</p>
+<p>The government, representing its citizens, would establish equity or control over ownership stakes in certain critical AI infrastructure (perhaps 20–50%). This could be achieved through:</p>
+<ul>
+<li>State-owned AI research institutions conducting basic research</li>
+<li>Government equity purchases in large AI companies</li>
+<li>Requiring AI companies to allocate a portion of their ownership to a government-managed fund</li>
+</ul>
+<p>The fund's returns would be distributed to citizens—but importantly, <strong>rights come with it</strong>. Citizens, through democratic processes, would have a say in how AI systems are used, who can access them, and how companies behave.</p>
+<p>The distinction from UBI is this: rather than simply distributing money, it distributes ownership stakes in the wealth-creating assets.</p>
+<h3>Case Study 2: Employee Stock Ownership Plans (ESOPs)</h3>
+<p>In the United States, a mechanism already exists for employees to directly own assets: Employee Stock Ownership Plans (ESOPs). These are corporate structures owned by employees, typically created through tax-advantaged arrangements that allow workers to purchase equity in their companies.</p>
+<p>According to the National ESOP Association, there are currently approximately <strong>10,000 ESOPs</strong> in the U.S., involving over <strong>14 million workers</strong>. These plans have shown positive results in economic stability—employees working in ESOPs have higher job retention rates than non-ESOP companies, higher average earnings, and better wealth accumulation.</p>
+<p><strong>How ESOPs work:</strong></p>
+<p>In an ESOP, the company sets up a retirement account for each employee and allocates company shares to that account (typically through a combination of payroll deductions or company contributions). Employees receive financial returns from holding shares, but also have a voice through ownership (via shareholder meetings, board representation, etc.).</p>
+<p><strong>Implications for the AI era:</strong></p>
+<p>For enterprises using AI technology for automation, they could be required to allocate a portion of shares to workers' ESOP accounts, compensating them for the job displacement caused by automation.</p>
+<p>For example: suppose a manufacturing enterprise deploys a robotic system that automates 100 jobs. As compensation, the company might be required to offer equivalent company shares (at some valuation) to the workers whose jobs were automated. The workers now own a share of the returns generated by the automation system that displaced them.</p>
+<p>This again is about ownership and power, not just cash.</p>
+<h3>Case Study 3: The Working Data Dividend</h3>
+<p>A relatively new idea is a "working data dividend"—a tax on enterprises that use workers' data (directly or indirectly) to train AI systems, with the tax proceeds distributed to those data contributors.</p>
+<p>The reasoning behind this idea is: <strong>data is a resource</strong>, just like oil or minerals. When companies use someone's data to train an AI system, they are using that person's intellectual property without compensation.</p>
+<p>Implementation might look like:</p>
+<ul>
+<li>A tax on every trained AI model, with rates tied to the volume of human data used and the wage levels of the source countries</li>
+<li>Distributing tax proceeds to the people who provided the data, either as individuals (if identifiable) or to their countries/regions of origin</li>
+<li>Workers or communities could opt out of having their data used (further incentivizing AI companies to obtain informed consent)</li>
+</ul>
+<p>This idea has gained some traction in the EU's AI Act, which includes requirements for enterprises using high-risk data for certain training, including worker data.</p>
+<hr>
+<h2>Part Four: Daron Acemoglu's Framework—Power and Progress</h2>
+<p>MIT economist Daron Acemoglu and Simon Johnson, in their 2023 book <em>Power and Progress</em>, proposed a framework directly applicable to this discussion.</p>
+<p>Their core argument is: <strong>the distribution of technology's benefits is not determined by economic laws, but by political and power relations</strong>.</p>
+<p>Historically, Acemoglu and Johnson argue, there have been two types of technological innovation:</p>
+<ol>
+<li>
+<p><strong>Power-friendly technologies</strong>: These are technologies that reinforce the power of existing power holders. For example, 19th-century factory automation machinery strengthened factory owners' power (by reducing dependence on workers) but weakened workers' power.</p>
+</li>
+<li>
+<p><strong>Democratizing technologies</strong>: These are technologies that disperse power, giving more people social and economic capability. For example, the printing press (by decentralizing knowledge) and the personal computer (by democratizing computing) both weakened experts' and elites' monopolies on specific skills.</p>
+</li>
+</ol>
+<p>In our current debate about AI, the question is: <strong>Is AI power-friendly or democratizing?</strong></p>
+<p>The current trajectory suggests AI is highly <strong>power-friendly</strong>. A handful of large companies (OpenAI, Google, Meta in the U.S.; Alibaba, Tencent in China) control the largest AI models and deployments. These companies have thereby acquired enormous power over knowledge work and decision-making. They decide what AI systems do, who can use them, and where the benefits flow.</p>
+<p><strong>UBI does not change this.</strong> It merely transfers some of the returns under existing power structures to ordinary people, while keeping power relations entirely unchanged.</p>
+<p>A genuine alternative needs to go further—it needs to change the power and ownership of AI-related assets.</p>
+<hr>
+<h2>Part Five: The Middle Path—What Can Be Done Now</h2>
+<p>While completely restructuring ownership relations may be politically difficult, there are intermediate paths that can move in this direction without full revolution.</p>
+<h3>1. Prescriptive Approval for AI Training Data</h3>
+<p>Governments could enact laws requiring AI companies to obtain explicit consent before using any personal, corporate, or public data to train large language models or other AI systems.</p>
+<p>This is already being pushed within the EU's GDPR framework (though enforcement is difficult). But the U.S., China, and elsewhere remain largely unregulated.</p>
+<p><strong>Benefit</strong>: This gives data owners some bargaining power. If you own your data, companies need to negotiate to use it—which could lead to compensation.</p>
+<p><strong>Challenge</strong>: Implementing this at scale is technically complex (identifying whose data was used) and politically difficult (corporate opposition).</p>
+<h3>2. Mandatory Worker Representation in AI Companies</h3>
+<p>Governments could require all AI companies with more than 500 employees to include worker representatives on their boards (similar to Germany's co-determination system).</p>
+<p>This would give employees involved in AI development some voice in corporate decisions, ensuring that AI use takes workers' interests into account, not just shareholders'.</p>
+<p><strong>Benefit</strong>: Gives workers power over decisions that affect their lives without requiring full ownership reform.</p>
+<p><strong>Challenge</strong>: Politically very difficult in countries like the U.S. with strong shareholder-primacy cultures.</p>
+<h3>3. AI-Related Taxation and Distribution</h3>
+<p>Governments could levy specific taxes on AI companies (e.g., licensing fees on high-value AI models or income taxes on AI-generated revenue) and distribute the proceeds to affected workers and communities.</p>
+<p>This doesn't change ownership, but it changes the distribution of returns.</p>
+<p><strong>Benefit</strong>: Relatively politically feasible (many countries are already exploring digital taxes). Can be implemented relatively quickly.</p>
+<p><strong>Challenge</strong>: Without accompanying power shifts, may produce the same problems as UBI (distributing cash but retaining ownership and power).</p>
+<hr>
+<h2>Part Six: China's Perspective—A Different Political Economy</h2>
+<p>When discussing UBI and ownership reform, it's worth noting China's different path.</p>
+<p>In China, large tech companies are subject to greater political control by the government. While this has other problems (censorship, surveillance-state control), it differs in one respect: the government can more directly require these companies to adopt socially beneficial behaviors, such as supporting training programs, distributing returns, or investing in projects not motivated by profit.</p>
+<p>The Chinese government recently required large tech companies to contribute billions of dollars to social public welfare—driven by political force, not market forces or voluntary corporate social responsibility.</p>
+<p>While this system has flaws in terms of democratic freedoms, it does demonstrate how ownership and political control can influence the distribution of technology's benefits.</p>
+<p>In Western democracies, the approach would differ, but the basic principle could be similar: <strong>use political power to change the ownership and control of AI-related assets</strong>, rather than trying to solve the problem through cash transfers.</p>
+<hr>
+<h2>Part Seven: Policy Recommendations—A Framework for Restructuring the Distribution System</h2>
+<p>Based on the analysis above, here is an actionable policy framework for rebuilding the distribution system in the AI era, beyond UBI:</p>
+<h3>Phase One: Data Rights and Transparency (2026–2027)</h3>
+<ol>
+<li>
+<p><strong>Data Ownership Law</strong>: Establish that individuals own data about themselves, and that enterprises must obtain explicit consent and provide compensation to use that data for AI training.</p>
+</li>
+<li>
+<p><strong>AI Training Data Registry</strong>: Require all major AI models to publish a public registry of the data sources they use, including geographic location and provenance. This enables social auditing of data use.</p>
+</li>
+<li>
+<p><strong>Data Contributor Rights</strong>: Create a mechanism through which data contributors (directly or indirectly) can make claims against and negotiate with companies that use their data.</p>
+</li>
+</ol>
+<h3>Phase Two: Asset and Ownership Reform (2027–2029)</h3>
+<ol>
+<li>
+<p><strong>Sovereign AI Fund</strong>: Establish a government-owned AI research and development fund that invests in basic AI research and small enterprises. The goal is to build government-owned AI capabilities that compete with the private sector and generate returns distributable to citizens.</p>
+</li>
+<li>
+<p><strong>Mandatory Worker Shares in AI Companies</strong>: Require all enterprises deploying automation technology to allocate company shares to affected workers, equivalent in value to the wages they lost due to automation.</p>
+</li>
+<li>
+<p><strong>Community Ownership Funds</strong>: Establish funds in communities experiencing high unemployment that purchase equity in local businesses and AI systems, making the community actual beneficiaries of AI-related wealth.</p>
+</li>
+</ol>
+<h3>Phase Three: Institutionalization and Democratization (2029–2031)</h3>
+<ol>
+<li>
+<p><strong>Worker Representation in AI Companies</strong>: Require all AI companies with 500+ employees to include worker representatives on their boards, giving them power over corporate strategy.</p>
+</li>
+<li>
+<p><strong>AI Regulatory Commissions</strong>: Establish commissions at national and regional levels, including worker representatives, community members, and citizens, to review and approve large-scale AI deployments.</p>
+</li>
+<li>
+<p><strong>AI Dividend Fund</strong>: Establish a fund that annually distributes profits and taxes from AI-related enterprises to all citizens. But unlike UBI, the distribution should come with democratic power—beneficiaries have voting rights over how the fund is invested and used.</p>
+</li>
+</ol>
+<h3>Long-Term Vision (2031+)</h3>
+<ul>
+<li><strong>Worker- and Community-Owned AI</strong>: The goal is for a meaningful proportion (perhaps 25–50%) of critical AI infrastructure to be owned and democratically controlled by workers, communities, or government.</li>
+<li><strong>Democratized AI</strong>: Support the development of open-source, open-access AI models and tools, reducing the monopoly power of large corporations.</li>
+<li><strong>Democratized AI Decision-Making</strong>: Require AI systems to undergo democratic review before deployment; deployments affecting work, privacy, or civil rights require social consent.</li>
+</ul>
+<hr>
+<h2>Conclusion: The Politics of Ownership</h2>
+<p>This all comes down to a fundamental political choice.</p>
+<p>UBI is a comfortable idea because it allows us to keep power relations unchanged while pretending we are solving inequality. We can declare that we're giving everyone $1,000 a month, as though we've done the job, while the power holders (corporations, the wealthy, political elites) retain complete control over the economy.</p>
+<p>But this is not a real solution. It is a band-aid that covers a deeper problem: <strong>in the AI era, who should own and control the assets that create the bulk of new wealth?</strong></p>
+<p>Acemoglu and Johnson say the distribution of technology's benefits is a political choice. So are ownership structures. We can choose to let AI-related assets be owned by a handful of corporations and the wealthy (the status quo), or we can choose to restructure so that these assets are owned by workers, communities, and the public.</p>
+<p>This will be more radical, more politically challenging, and require a fundamental shift in how we think about ownership, democracy, and economic power. But it is more likely than UBI to create genuine shared prosperity in the 21st century.</p>
+<p>The choice is in our hands. We need to start having the conversation about ownership, not just distribution.</p>
+<hr>
+<p><strong>A Final Note</strong></p>
+<p>This article's analysis is based on: the official evaluation report of Finland's UBI experiment (Finland's Ministry of Social Affairs and Health, 2020); data on the Alaska Permanent Fund (Alaska Permanent Fund Corporation, 2025); research on ESOPs (National ESOP Association, U.S.); Daron Acemoglu and Simon Johnson's <em>Power and Progress</em> (2023); and provisions of the EU AI Act (2024). Views on Chinese technology policy are drawn from the East Asia Forum and Chinese government announcements (2024–2025).</p>
+<hr>
+<h2>Postscript: 2025–2026 Global Policy Experiments</h2>
+<h3>Sovereign AI Wealth Funds: From Proposal to Action</h3>
+<p>Between 2025 and 2026, the concept of "AI sovereign wealth funds" moved from policy reports into real capital operations.</p>
+<ul>
+<li><strong>United Kingdom</strong>: In mid-2025, launched the £500 million "Sovereign AI Unit" as a national-level AI investment vehicle</li>
+<li><strong>Saudi Arabia</strong>: Sovereign wealth fund PIF established a dedicated AI subsidiary, <strong>Humain</strong>, concentrating AI-sector investments</li>
+<li><strong>Abu Dhabi</strong>: Multiple sovereign funds announced AI-specific investment plans</li>
+<li><strong>Globally</strong>: According to Titan Investors, by early 2026 sovereign wealth funds across countries had committed over <strong>$120 billion</strong> to AI infrastructure</li>
+</ul>
+<p>This marks the rise of a new policy logic: rather than waiting for AI companies to generate profits, then taxing and redistributing them, <strong>let the public directly hold equity in AI assets</strong>, participating at the value-creation stage.</p>
+<h3>OpenAI's "Public Wealth Fund" Proposal</h3>
+<p>In its 2025 economic policy white paper, OpenAI proposed a striking structure: a <strong>"Public Wealth Fund"</strong>—a national investment mechanism modeled on Norway's oil fund or the Alaska Permanent Fund, investing in AI companies and AI-adopting enterprises broadly, with returns distributed directly to citizens.</p>
+<p>The most notable thing about this proposal is not its design details but its proposer: one of the world's largest AI companies voluntarily proposing a public mechanism that would distribute funds from its own profits to the public. This signals that the distribution problem can no longer be evaded by technological optimism.</p>
+<h3>California's "AI Token Tax" Concept</h3>
+<p>A policy discussion in California proposed an innovative tax base design: <strong>taxing corporate AI compute usage per "token"</strong>—i.e., a small tax for every certain amount of data processed, with proceeds flowing into a "Golden State Sovereign Wealth Fund" that pays dividends to California residents.</p>
+<p>This concept is still in the discussion phase, but it embodies an important policy shift: <strong>from "taxing returns and redistributing" to "taxing the foundational resource of AI usage itself."</strong> The latter is institutionally harder to evade and can more directly track where value is generated.</p>
+<h3>"Universal High Income" vs. "Universal Basic Income"</h3>
+<p>A conceptual fork is emerging in academic policy circles. The "Universal High Income" (UHI) framework released by the Tax Project Institute in 2025 attempts to distinguish between two mechanisms:</p>
+<ul>
+<li><strong>UBI</strong> (Universal Basic Income): Fully tax-funded, universally distributed, "survival-level"</li>
+<li><strong>UHI</strong> (Universal High Income): Combines tax financing with social capital dividends, <strong>grounded in asset ownership</strong>, aiming for "shared prosperity" rather than merely a "safety net"</li>
+</ul>
+<p>This distinction is precisely the core argument of this article: <strong>the essence of the distribution problem is an ownership problem, not merely a cash transfer problem</strong>. An increasing number of policy designers are reaching the same conclusion.</p>
+<hr>
+<p><strong>Further Reading</strong>:
+- Convergence Analysis (2025). <em>Lead, Own, Share: Sovereign Wealth Funds for Transformative AI.</em> <a href="https://www.convergenceanalysis.org/fellowships/economics/lead-own-share-sovereign-wealth-funds-for-transformative-ai">Report</a>
+- Newsweek (2025). <em>AI Boom Risks a Universal Basic Income Trap.</em> <a href="https://www.newsweek.com/ai-universal-basic-income-trap-yang-trump-ubi-11307379">Article</a>
+- Tax Project Institute (2025). <em>Universal High Income: Explainer.</em> <a href="https://taxproject.org/universal-high-income/">Framework</a>
+- Gizmodo (2025). <em>This California Billionaire Wants to Tax AI Tokens to Create a Sovereign Wealth Fund.</em> <a href="https://gizmodo.com/this-california-billionaire-wants-to-tax-ai-tokens-to-create-a-sovereign-wealth-fund-2000741036">Report</a></p>
+<p><strong>Academic Frontier (arXiv Preprints)</strong>:
+- Nayebi, A. (2025, May/Nov). <em>An AI Capability Threshold for Rent-Funded Universal Basic Income in an AI-Automated Economy.</em> econ.GN / cs.AI. The first paper to derive closed-form analytical conditions under which AI capital profits can sustainably fund UBI: based on current U.S. economic parameters, AI productivity only needs to reach 5–7 times current automation levels to fund a universal basic income of 11% of GDP (approximately $12,000/year) without relying on new employment or additional taxation; raising the public revenue share of AI capital from 15% to 33% halves the required AI capability threshold. <a href="https://arxiv.org/abs/2505.18687">arXiv:2505.18687</a>
+- del Rio-Chanona, R.M. et al. (2025, Sep). <em>AI and jobs: A review of theory, estimates, and evidence.</em> International Labour Organization / University of Oxford. A macro employment impact review: AI-driven productivity gains (20–60% in RCT experiments) coexist with shrinking demand for entry-level positions; this tension constitutes the real-world pressure backdrop for restructuring distribution systems. <a href="https://arxiv.org/abs/2509.15265">arXiv:2509.15265</a>
+- Falk, B.H. &amp; Tsoukalas, G. (2026, Mar). <em>The AI Layoff Trap.</em> Wharton/Penn. econ.TH. The most important AI labor economics theory paper of 2026: in a competitive task model, <strong>demand externalities</strong> lock rational firms into an automation arms race, with layoffs far exceeding the collectively optimal level—and firms know this yet cannot stop. Key conclusion: capital gains taxes, employee stock ownership, UBI, skills retraining, and Coasian bargaining all fail to address the root cause—<strong>only a Pigouvian automation tax</strong> can correct the incentive structure, shifting the policy target from post-layoff safety nets to pre-layoff competitive incentives. <a href="https://arxiv.org/abs/2603.20617">arXiv:2603.20617</a></p>
+<hr>
+<h2>Policy Cognition Evolution: From "Redistribution Is Enough" to "We Must Change the Incentive Structure"</h2>
+<blockquote>
+<p>Discussions about distribution always begin only after unemployment has already occurred. This is a special variant of policy lag.</p>
+</blockquote>
+<h3>The Evolutionary Arc of Policy Proposals</h3>
+<p><strong>First-generation policy response (2016–2020)</strong>: The skills retraining thesis</p>
+<p>After the OECD's 9% revised figure emerged, the prevailing conclusion in policy circles was: the impact is limited and localized; the solution is to help affected workers transition and retrain. This framework sidestepped the core of the distribution problem, shifting responsibility onto individuals' "adaptability."</p>
+<p>This framework was later directly dismantled by another article in this L4 series ([L4 Individual·Psychology] The False Promise of Skills Retraining).</p>
+<p><strong>Second-generation policy response (2020–2023)</strong>: The UBI thesis</p>
+<p>As ChatGPT expanded the discussion to white-collar workers, policy circles began taking UBI seriously. Andrew Yang brought it into the mainstream during the 2020 U.S. presidential primaries; multiple European countries launched UBI pilot studies. The consensus at this stage was: if the efficiency dividend created by AI is large enough, it can be transferred through taxation to provide basic income security for all.</p>
+<p>But Nayebi's (2025, arXiv:2505.18687) model identified the problem: UBI's feasibility depends on the <strong>public share</strong> of AI capital profits—under a private-capital-dominated framework, even if AI boosts overall productivity 5–7 times, if profits are concentrated among a small number of owners, the tax base remains insufficient to support a genuinely universal guarantee.</p>
+<p><strong>Third-generation policy response (2024–2025)</strong>: The asset ownership thesis</p>
+<p>Policy discussion began shifting: rather than relying on redistribution, let the public directly hold equity in AI assets—sovereign wealth funds, AI token taxes, public wealth funds... The core logic of these proposals is: <strong>participate at the value-creation stage, rather than fighting for a tax share after profits have already accumulated</strong>.</p>
+<p><strong>Fourth-generation policy response (2026)</strong>: The Pigouvian tax thesis</p>
+<p>The theoretical model of Falk &amp; Tsoukalas (arXiv:2603.20617) produced the most forceful conclusion to date: the first three generations of policy tools—retraining, UBI, capital participation, industry negotiation—all fail to address the root cause of the problem, because none of them touch <strong>the distortion of competitive incentives themselves</strong>.</p>
+<p>Demand externalities create an automation arms race: when one firm automates, its competitors face pressure to follow; but industry-wide automation does not generate demand expansion, only collectively excessive layoffs. This is a structural market failure; only a Pigouvian automation tax—imposing a rate equal to the social marginal cost on automation behavior itself—can correct it at the root.</p>
+<table>
+<thead>
+<tr>
+<th>Policy Paradigm</th>
+<th>Period</th>
+<th>Core Logic</th>
+<th>Limitations</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Skills retraining</td>
+<td>2016–2020</td>
+<td>Help individuals adapt</td>
+<td>Does not address structural unemployment</td>
+</tr>
+<tr>
+<td>UBI approach</td>
+<td>2020–2023</td>
+<td>Redistribute from efficiency dividends</td>
+<td>Depends on publicizing private profits</td>
+</tr>
+<tr>
+<td>Asset ownership</td>
+<td>2024–2025</td>
+<td>Participate upstream in value creation</td>
+<td>Still incremental adjustment, not incentive correction</td>
+</tr>
+<tr>
+<td>Pigouvian automation tax</td>
+<td>2026–</td>
+<td>Correct the competitive incentive structure itself</td>
+<td>Political feasibility uncertain</td>
+</tr>
+</tbody>
+</table>
+<h3>The Cost of Time Lag</h3>
+<p>Every upgrade in policy cognition occurs only after damage has accumulated for years. Data from Frank et al. (arXiv:2601.02554) shows that employment quality in AI-exposed positions began declining as early as early 2022—at a time when policy circles were still debating "whether the AI threat is real."</p>
+<p>When the fourth-generation policy framework (Pigouvian tax) gained theoretical support in 2026, the proportion of new graduates entering AI-exposed positions had already been declining for several consecutive years. How many more years before policy is actually implemented?</p>
+<p>This is the true time cost of restructuring the distribution system: we always truly begin acting only after it is already too late.</p>
+<h2>Latest Developments (May–June 2026)</h2>
+<p>Entering May–June 2026, the distribution system discussion rapidly escalated from academic and proposal levels to mainstream legislative agendas. Within a single month, at least five new coordinates emerged that warrant extended response—they do not converge with one another, but collectively mark one thing: the three pathways discussed in this article—"Pigouvian automation tax / Sovereign AI Fund / Universal High Income"—have each landed on concrete legislative drafts, internal administrative documents, and market-priceable proposals under different political systems.</p>
+<p><strong>1. Sanders Introduces the American AI Sovereign Wealth Fund Act: One-Time Socialization of 50% Equity</strong>. On June 1, 2026, Senator Bernie Sanders published a signed article in <em>The New York Times</em> introducing a federal legislative draft called the <a href="https://www.commondreams.org/news/bernies-sanders-ai-sovereign-wealth-fund">American AI Sovereign Wealth Fund Act</a>, proposing a one-time 50% equity transfer from leading AI companies such as OpenAI, Anthropic, and xAI into a federally managed sovereign wealth fund; the fund would receive corresponding board voting seats, with returns first distributed to U.S. citizens as cash dividends, then gradually channeled into public goods spending. This shares intellectual roots with the <a href="https://www.realclearpolitics.com/video/2026/06/02/bernie_sanders_introduces_bill_to_give_the_public_50_stake_in_ai_companies.html">OpenAI Public Wealth Fund proposal</a> discussed in the main text, but is far more radical—it bypasses the consensual path of "AI companies voluntarily ceding equity" and goes directly toward expropriation legislation, grounding its legitimacy in the argument that "training data is composed of public knowledge, therefore the public should hold equity." Passage through Congress is unlikely in the near term, but it transformed "public ownership" from a think-tank vocabulary into a named bill marker.</p>
+<p><strong>2. South Korea's "Citizen's Dividend" Proposal: Redistributing AI Dividends Through Tax Windfalls Rather Than New Taxes</strong>. On May 12, 2026, South Korean President's chief policy advisor Kim Yong-beom proposed in a Facebook post that a portion of excess corporate tax revenue from AI/semiconductor giants like Samsung and SK Hynix be used to establish a "<a href="https://www.koreaherald.com/article/10736418">citizen's dividend</a>"—paid as basic income to farmers, fishermen, young entrepreneurs, and artists, with enhanced pensions for the elderly. The two companies are expected to pay a combined corporate tax approaching 100 trillion won in 2026, nearing the government's total annual corporate tax revenue. The proposal caused <a href="https://www.tomshardware.com/tech-industry/south-korean-official-proposes-citizen-dividend-from-samsung-and-sk-hynix-tax-windfall-spooking-markets">KOSPI to plunge 5.1% at one point</a>, forcing the presidential office to subsequently clarify it was a "personal opinion." Its theoretical significance lies in: it does not introduce new tax categories or Pigouvian taxes, but institutionalizes redistribution of existing tax windfalls, circumventing the standard objection of "discouraging investment"—this is a structural rewrite of the Alaska Permanent Fund model for an East Asian tech-intensive economy.</p>
+<p><strong>3. Falk &amp; Tsoukalas Follow-Up: Pigouvian Automation Tax as the Only Solution Passing Model Testing</strong>. The <a href="https://arxiv.org/abs/2603.20617">arXiv 2603.20617 "The AI Layoff Trap"</a> already cited in this article triggered a round of policy-side discussion in April–May 2026, with the authors' conclusion repeatedly cited: in their competitive model, wage adjustments, capital gains taxes, worker shareholding, UBI, retraining, and even Coasian bargaining <strong>cannot</strong> eliminate the excess substitution externality—only a per-task Pigouvian automation tax can. The paper has been incorporated by <a href="https://windfalltrust.org/policy-atlas/automation-robot-taxes">Windfall Trust's Policy Atlas</a> (page updated 2026-06-02) as the primary theoretical basis for the Pigouvian pathway. Technology policy scholars like Bill Buchanan, in a <a href="https://medium.com/asecuritysite-when-bob-met-alice/the-pigouvian-automation-tax-4d01a42c7717">long-form Medium article</a>, pursued the same perennial question: when the boundary between AI and automation itself cannot be mathematically defined, how do you delineate the taxable object for a "per-task charge"? This gap is precisely where the "AI token tax" suggested in this article fits as an operationalization scheme.</p>
+<p><strong>4. Nayebi's UBI Threshold Model Update: The Public Revenue Share Is the Key Lever</strong>. Also cited in this article, <a href="https://arxiv.org/abs/2505.18687">arXiv 2505.18687</a> (Aran Nayebi), in its May updated version, provided a more explicit policy dial: if the government's revenue share of AI capital is raised from the current approximately 15% to 33%, the AI capability threshold needed to "finance UBI with AI rents" can be halved—from approximately 5–7 times current automation productivity to approximately 3 times. In other words, whether UBI is feasible is not a question of waiting for technology to mature, but a question of <strong>ownership and tax base</strong>. This conclusion bridges the Sanders bill and the Korean dividend proposal: both are essentially about raising the "public revenue share" number.</p>
+<p><strong>5. EU Sovereign AI Infrastructure Takes Shape, But Still Avoids the Ownership Question</strong>. In May 2026, the European Investment Fund (EIF) officially launched a <a href="https://vfuturemedia.com/ai/europe-ai-playbook-2026-mistral-eif-sovereign-tech/">fund-of-funds totaling €15B, aiming to leverage €80B in European scale-up capital</a>; the Mistral Paris data center, Deutsche Telekom industrial AI cloud, and EURO-3C federated cloud form the <a href="https://techplustrends.com/eu-sovereign-ai-infrastructure-stack-2026-guide/">EU Sovereign AI Infrastructure Stack</a>. Notably: consistent with the UK's £500 million Sovereign AI Unit and Saudi PIF's Humain, the EU's approach still primarily follows the "state as LP investing in AI companies" route, rather than "state as public trust holding shares on behalf of all citizens." This is precisely the ceiling that the Sanders, Kim, and Nayebi threads are all trying to break through—and the practical significance of this article's core argument: when sovereign funds are all acting as financial investors, who acts as the sovereign owner?</p>
+<p>Taken together, the three distribution pathways discussed in this article (public ownership / Pigouvian tax / capital share redistribution) are being experimented with separately under different political systems: the U.S. is pursuing the aggressive expropriation path through legislative challenge, South Korea is pursuing the存量 windfall path, Europe is pursuing the state-as-LP path, and academia is reframing the "AI capability threshold" as a "public revenue share" problem. The next 12-month observation window is: whether the Sanders bill reaches committee hearings, whether the Korean Kim proposal is incorporated into the 2027 tax reform, and whether the Falk-Tsoukalas model is adopted as a baseline by any treasury modeling team.</p>
+<hr>
+<p><strong>Link Verification (L4)</strong></p>
+<table>
+<thead>
+<tr>
+<th>URL</th>
+<th>Status</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>https://arxiv.org/abs/2505.18687</td>
+<td>alive — Nayebi 2026-05 updated version available</td>
+</tr>
+<tr>
+<td>https://arxiv.org/abs/2603.20617</td>
+<td>alive — Falk &amp; Tsoukalas full text accessible</td>
+</tr>
+<tr>
+<td>https://taxproject.org/universal-high-income/</td>
+<td>alive — Tax Project Institute UHI explainer page</td>
+</tr>
+</tbody>
+</table>
+  </article>
+</main>
+
+<!-- ═══════════════════ SERIES NAV ═══════════════════ -->
+<section class="relative z-[2] border-t border-line bg-bg-2">
+  <div class="max-w-wrap mx-auto px-[5vw] lg:px-12 py-10 lg:py-14">
+    <div class="font-mono text-[9px] lg:text-[10px] tracking-[0.2em] uppercase text-fg-mute mb-6">Same Series / May Day Labor × AI</div>
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-px bg-line border border-line">
+      <a href="index.html" class="bg-bg p-5 hover:bg-bg-3 transition-colors block">
+        <div class="font-mono text-[9px] tracking-[0.16em] uppercase text-fg-mute mb-2">Panorama ←</div>
+        <div class="font-serif text-base lg:text-xl font-light leading-snug text-fg">The End of Labor, or the Eve of Transformation?</div>
+        <div class="font-mono text-[10px] text-fg-mute mt-3">2026 May Day Labor vs AI Panorama</div>
+      </a>
+      <a href="dimension-map.html" class="bg-bg p-5 hover:bg-bg-3 transition-colors block">
+        <div class="font-mono text-[9px] tracking-[0.16em] uppercase text-fg-mute mb-2">Navigate ↓</div>
+        <div class="font-serif text-base lg:text-xl font-light leading-snug text-fg">15 Dimension Map</div>
+        <div class="font-mono text-[10px] text-fg-mute mt-3">L1 Individual → L5 Global × 3 Axes</div>
+      </a>
+      <a href="white-collar.html" class="bg-bg p-5 hover:bg-bg-3 transition-colors block">
+        <div class="font-mono text-[9px] tracking-[0.16em] uppercase text-fg-mute mb-2">L3 Individual·Psychology →</div>
+        <div class="font-serif text-base lg:text-xl font-light leading-snug text-fg">The Accelerating End of Entry-Level White-Collar Jobs</div>
+        <div class="font-mono text-[10px] text-fg-mute mt-3">The Structural Logic of Rising Entry Barriers</div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════ FOOTER ═══════════════════ -->
+<footer class="relative z-[2] border-t border-line">
+  <div class="max-w-wrap mx-auto px-[5vw] lg:px-12 py-10 text-[11px] lg:text-[12px] font-mono tracking-[0.12em] uppercase text-fg-mute flex flex-wrap items-center gap-x-6 gap-y-2">
+    <span>© 2026 Feng Xiaoping · xiaopingfeng.com</span>
+    <span class="text-line-bright">/</span>
+    <a href="/" class="hover:text-accent transition-colors">DeepDive</a>
+    <a href="/blog/ai-buzzwords/" class="hover:text-accent transition-colors">AI Buzzwords</a>
+    <span class="ml-auto">Design v2 · amber theme</span>
+  </div>
+</footer>
+
+</body>
+</html>
