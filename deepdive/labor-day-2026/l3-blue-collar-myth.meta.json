@@ -6,7 +6,7 @@
     "zh": "蓝领神话的破裂：当体力劳动不再安全",
     "en": "The Shattering of the Blue-Collar Myth: When Physical Labor Is No Longer Safe — L3 Labor Market · Structure · Power"
   },
-  "current_version": 1,
+  "current_version": 2,
   "first_published": "2026-06-03",
   "last_updated": "2026-06-03",
   "freshness_priority": "warm",
@@ -31,6 +31,12 @@
       "date": "2026-06-03",
       "git": "PENDING",
       "summary": "首次发布：蓝领神话的破裂：当体力劳动不再安全（L3 劳动市场 · 结构 · 权力）"
+    },
+    {
+      "v": 2,
+      "date": "2026-06-03",
+      "git": "PENDING",
+      "summary": "v2 增加「反思与边界」对抗性 critique 小节：反向证据、数据来源核验、边界条件、对立框架 — 3 个 web research agent 并行产出，每条挑战带原始来源链接"
     }
   ],
   "tags": [
